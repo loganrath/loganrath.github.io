@@ -5,6 +5,10 @@ body {
   font-family: Garamond, Georgia, "Times New Roman", Times, serif; font-size:12pt;
 }
 
+div#content {background-color: white; width: 960px;}
+
+div#header {background-color: #006024; color: white;}
+
 div#page-context {
  margin: 0 auto; width: 960px; 
 }
