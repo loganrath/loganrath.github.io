@@ -1,0 +1,34 @@
+/* CSS file */
+
+body {
+  margin:0px; background-color:#515151; 
+  font-family: Garamond, Georgia, "Times New Roman", Times, serif; font-size:12pt;
+}
+
+div#page-context {
+ margin: 0 auto; width: 960px; 
+}
+
+ul.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #006024;
+}
+
+ul.nav li {
+    float: left;
+}
+
+ul.nav li a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+ul.nav li a:hover {
+    color: #ffc726;
+}
