@@ -5,9 +5,9 @@ body {
   font-family: Garamond, Georgia, "Times New Roman", Times, serif; font-size:12pt;
 }
 
-div#content {background-color: white; width: 960px;}
+div#content {margin-left: auto; margin-right: auto; background-color: white; width: 960px;}
 
-div#header {background-color: #006024; color: white;}
+div#header {background-color: #006024; color: white; padding-top: 1em;}
 
 div#page-context {
  margin: 0 auto; width: 960px; 
@@ -29,7 +29,7 @@ ul.nav li a {
     display: inline-block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 0.5em 1em;
     text-decoration: none;
 }
 
