@@ -12,7 +12,7 @@ div#header {background-color: #006024; color: white; padding-top: 1em;}
 h3 {background-color: #ffc726;}
 
 div#page-context {
- margin: 0 auto; width: 960px; 
+ margin: 1em 0;
 }
 
 ul.nav {
