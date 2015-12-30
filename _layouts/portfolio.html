@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Logan Rath &bull; Portfolio | {{page.name}}</title>
+  <title>Logan Rath &bull; Portfolio | {{ page.title }}</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -10,7 +10,7 @@
 <div id="header"><img src="name_logo.gif" /></div>
 <p style="text-align: center;"><img src="brockport_logo.jpg" style="margin: auto 0;" /></p>
 {% include portfolionav.html %}
-<h1 style="text-align: center;">{{page.title}}</h1>
+<h1 style="text-align: center;">{{ page.title }}</h1>
 <div id="page-context">{{content}}</div>
 </div>
 </body>
