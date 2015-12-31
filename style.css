@@ -12,7 +12,7 @@ div#header {background-color: #fafafa; color: black; height: 160px; box-shadow: 
 div#photo {float: left; width: 25%; text-align: center;}
 div#photo img {padding-top: 12px; height: 135px; width: 108px}
 div#name {float: left; width: 50%; text-align: center;}
-div#name h1 {font-family: Bitter, Georgia, "Times New Roman", serif; margin-top: 1.3em; font-size: 48px; }
+div#name h1 {font-family: Bitter, Georgia, "Times New Roman", serif; margin-top: 1.3em; font-size: 48px; text-shadow: 2px 2px #c0c0c0; }
 div#contact {float: left; width: 25%;}
 div#contact ul {margin-top: 1.8em;}
 div#header a:link, div#header a:visited, a.button:link, a.button:visited {color: #3685b5; text-decoration: none;}
