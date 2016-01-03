@@ -22,7 +22,10 @@ sass:
 author:
   name:              Logan Rath
   url:               https://twitter.com/loganrath
-  email:             
+  email:             loganrath@me.com
+  twitter:           loganrath
+  facebook:          loganrath
+  gplus:             105662729872119056865
 
 # Custom vars
 version:             2.0.0
