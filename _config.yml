@@ -5,9 +5,9 @@ permalink:           pretty
 relative_permalinks: true
 
 # Setup
-title:               Poole
-tagline:             The Jekyll Butler
-url:                 http://getpoole.com
+title:               Logan Rath
+tagline:             librarian. techie. problem solver.
+url:                 http://loganrath.github.io
 paginate:            1
 baseurl:             ""
 
@@ -20,9 +20,9 @@ sass:
 
 # About/contact
 author:
-  name:              Mark Otto
-  url:               https://twitter.com/mdo
-  email:             markdotto@gmail.com
+  name:              Logan Rath
+  url:               https://twitter.com/loganrath
+  email:             
 
 # Custom vars
 version:             2.0.0
