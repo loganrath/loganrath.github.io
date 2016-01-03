@@ -1,4 +1,6 @@
 ---
-layout: base
+layout: article
+title: LR Blog<
 ---
-<p>Testing</p>
+
+Testing
