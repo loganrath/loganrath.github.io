@@ -39,5 +39,6 @@ info:
 # Root URL where the site will be published
 url:    http://loganrath.github.io
 
+paginate_path: "/blog/page:num/"
 paginate:   10
 
