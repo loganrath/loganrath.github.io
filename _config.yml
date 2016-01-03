@@ -37,7 +37,7 @@ info:
   # Setup your fonts, colors etc at _assets/stylesheets/main.scss
 
 # Root URL where the site will be published
-url:         http://blog.logan.pw/
+url:         http://loganrath.github.io
 
 paginate:             10
 
