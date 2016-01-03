@@ -12,16 +12,13 @@
   margin-top: 0;
   margin-bottom: 0;
   color: #505050;
-  
-  h3 {
-  	display: inline-block;
-  	}
+  display: inline-block;
 
   a {
     color: #505050;
   }
   
-  img.logo {height:40px;margin-top:-2px;vertical-align:middle}
+  img.logo {height:40px; margin-top:-2px; vertical-align:middle; display: inline-block; margin-right: 1rem;}
 
   small {
     font-size: 75%;
