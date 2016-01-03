@@ -1,44 +1,30 @@
-info:
-  # Blog Information
-  title:        "Logan Rath"
-  subtitle:     "librarian. techie. problem solver."
-  cover_image:  pontdurennes.jpg
-  cover_image_caption: "Pont De Rennes Bridge, Rochester, NY"
-  # about_image:  goodale-park-columbus-oh.jpg
-  # about_image_caption: "Goodale Park, Columbus, OH. Photo: Dave K."
-  logo:         logo.png
-  
-  # Social links
-  facebook:     loganrath
-  twitter:      loganrath
-  github:       loganrath
-  gplus:        105662729872119056865
-  
-  # Comments
-  disqus:
-    # Eg. "exampleblog" Set to false to disable comments
-    shortname:  loganrath
-  
-  # Google Analytics tracking ID. Leave blank to disable tracking
-  #google-analytics-id: 'UA-54124306-1'
-  
-  # Sharing settings
-  sharing:
-    twitter:    true
-    facebook:   true
-    gplus:      false
-    hn:         false
-    reddit:     true
-    
-  # Google Fonts
-  # eg. 'Noto+Sans:400,700|Droid+Serif:400,700'
-  google_font: 'Noto+Sans:400,700'
-  
-  # Setup your fonts, colors etc at _assets/stylesheets/main.scss
+# Permalinks
+#
+# Use of `relative_permalinks` ensures post links from the index work properly.
+permalink:           pretty
+relative_permalinks: true
 
-# Root URL where the site will be published
-url:    http://loganrath.github.io
+# Setup
+title:               Poole
+tagline:             The Jekyll Butler
+url:                 http://getpoole.com
+paginate:            1
+baseurl:             ""
 
-paginate_path: "/blog/page:num/"
-paginate:   10
+# Assets
+#
+# We specify the directory for Jekyll so we can use @imports.
+sass:
+  sass_dir:          _sass
+  style:            :compressed
 
+# About/contact
+author:
+  name:              Mark Otto
+  url:               https://twitter.com/mdo
+  email:             markdotto@gmail.com
+
+# Custom vars
+version:             2.0.0
+github:
+  repo:              https://github.com/poole/poole
