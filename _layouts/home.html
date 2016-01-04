@@ -15,7 +15,7 @@
 {% if page.coverimage.caption %}<div class='cover-caption'>{{ page.coverimage.caption }}</div>{% endif %}
 {% endif %}
     <div class="container content">
-    <nav>{% include navigation.html %}</nav>
+    {% include header.html %}
 
       <main>
         {{ content }}
