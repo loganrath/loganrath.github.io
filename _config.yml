@@ -7,8 +7,11 @@ relative_permalinks: true
 # Setup
 title:               Logan Rath
 url:                 http://loganrath.github.io
-paginate:            1
 baseurl:             ""
+
+# Pagination
+paginate_path: "/blog/page:num/"
+paginate:   10
 
 # Assets
 #
