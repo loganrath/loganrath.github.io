@@ -1,7 +1,8 @@
 ---
 layout: default
-title: Blog Title Here
+title: Logan's Thoughts
 ---
+<h1 style="text-align:center;">{{ page.title }}</h1>
 <article>
   <div class="container">
     {% for post in paginator.posts %}
@@ -9,7 +10,7 @@ title: Blog Title Here
       <h2 class="title"><a href="{{ post.url }}" rel="prefetch">{{ post.title }}</a></h2>
       <p>{{ post.excerpt }}</p>
       <div class="meta">
-        <address>By {{ post.author.name }}</address> on <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%b %d, %Y" }}">{{ post.date | date: "%b %d, %Y" }}</time>
+        <address style="display: inline-block;">by {{ post.author.name }}</address> on <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%b %d, %Y" }}">{{ post.date | date: "%b %d, %Y" }}</time>
       </div>
       <hr>
     </section>
