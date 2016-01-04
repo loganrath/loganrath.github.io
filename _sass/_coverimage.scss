@@ -20,9 +20,9 @@
 
 .blog-cover .cover_overlay .content a:last-child{margin-right:0}
 
-.blog-cover .cover_overlay .content nav a:link, .blog-cover .cover_overlay .content nav a:visited {color:#fff; font-weight: 600; margin-right: 1rem;}
+.blog-cover .cover_overlay .content p a:link, .blog-cover .cover_overlay .content p a:visited {color:#fff; font-weight: 600; margin-right: 1rem;}
 
-.blog-cover .cover_overlay .content nav a:hover {color: #ffc726;}
+.blog-cover .cover_overlay .content p a:hover {color: #ffc726;}
 
 @media (max-width: 720px){body{font-size:16px}
 .blog-cover,.article-cover{height:200px}
