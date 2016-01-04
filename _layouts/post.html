@@ -4,7 +4,7 @@ layout: default
 {% assign author = site.data.authors[page.author] %}
 <article class="post">
   <h1 class="post-title">{{ page.title }}</h1>
-  <span>% if author %}by {{ author.display_name }} on {% endif %}</span><time datetime="{{ page.date | date_to_xmlschema }}" class="post-date">{{ page.date | date: "%b %d, %Y" }}</time>
+  <span>{% if author %}by {{ author.display_name }} on {% endif %}</span><time datetime="{{ page.date | date_to_xmlschema }}" class="post-date">{{ page.date | date: "%b %d, %Y" }}</time>
   {{ content }}
 </article>
 
