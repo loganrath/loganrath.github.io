@@ -6,7 +6,6 @@ relative_permalinks: true
 
 # Setup
 title:               Logan Rath
-tagline:             librarian. techie. problem solver.
 url:                 http://loganrath.github.io
 paginate:            1
 baseurl:             ""
