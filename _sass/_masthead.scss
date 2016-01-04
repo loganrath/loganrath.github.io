@@ -6,6 +6,11 @@
   padding-top:    1rem;
   padding-bottom: 1rem;
   margin-bottom: 1rem;
+  
+  nav {
+  	display: inline-block;
+  }
+}
 }
 
 .masthead-title {
@@ -27,9 +32,6 @@
     letter-spacing: 0;
   }
 
-  nav {
-  	display: inline-block;
-  }
 }
 
 div.socialicons {float: right; display: inline-block; font-size: 1rem;}
