@@ -4,19 +4,6 @@
   <body>
     <div class="container content">
  	{% include header.html %}
-{% if page.coverimage %}
-	</div>
-<div class="blog-cover" style="background-image:url(/images/{{ page.coverimage.url }});">
-  <div class='cover_overlay'>
-    <div class="content">
-      {% if page.coverimage.title %}<h1 style="text-shadow: 2px 2px #333;">{{ page.coverimage.title }}</h1>{% endif %}
-      {% if page.coverimage.subtitle %}<h3>{{ page.coverimage.subtitle }}</h3>{% endif %}
-    </div>
-  </div>
-</div>
-{% if page.coverimage.caption %}<div class='cover-caption'>{{ page.coverimage.caption }}</div>{% endif %}
-    <div class="container content">
-{% endif %}
       <main>
         {{ content }}
       </main>

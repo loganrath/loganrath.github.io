@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include head.html %}
+  <body>
+{% if page.coverimage %}
+<div class="blog-cover" style="background-image:url(/images/{{ page.coverimage.url }});">
+  <div class='cover_overlay'>
+    <div class="content">
+      {% if page.coverimage.title %}<h1 style="text-shadow: 2px 2px #333;">{{ page.coverimage.title }}</h1>{% endif %}
+      {% if page.coverimage.subtitle %}<h3>{{ page.coverimage.subtitle }}</h3>{% endif %}
+      <nav>{% include navigation.html %}</nav>
+    </div>
+  </div>
+</div>
+{% if page.coverimage.caption %}<div class='cover-caption'>{{ page.coverimage.caption }}</div>{% endif %}
+{% endif %}
+    <div class="container content">
+      <main>
+        {{ content }}
+      </main>
+
+      <footer class="footer">
+        <small>
+          &copy; <time datetime="{{ site.time | date_to_xmlschema }}">{{ site.time | date: '%Y' }}</time>. All rights reserved.
+        </small>
+      </footer>
+    </div>
+
+  </body>
+</html>
