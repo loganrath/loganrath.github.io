@@ -3,8 +3,8 @@ div.socialicons {float: right; display: inline-block; font-size: 1rem;}
 
 // Form
 
-form.nice label {float: left; width: 30%; margin-right: 1em; text-align: right; display:inline-block; margin-bottom: 1rem; }
-form.nice input,  form.nice select,  form.nice textarea {margin-left: 2px; display: block; margin-bottom: 1rem;}
+form.nice label {float: left; width: 30%; margin-right: 1em; text-align: right; display:inline-block;}
+form.nice input,  form.nice select,  form.nice textarea {margin-left: 2px; display: block; margin-bottom: 1rem; font-size: 125%;}
 form.nice input#submit,  form.nice input#reset {display:inline;}
 form.nice label.nostyle {display: block; width: 400px; margin: 0 auto 1em; }
 form.nice input.nostyle {display: inline;}	
