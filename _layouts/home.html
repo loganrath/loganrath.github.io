@@ -8,7 +8,6 @@
     <div class="content">
       {% if page.coverimage.title %}<h1 style="text-shadow: 2px 2px #333;">{{ page.coverimage.title }}</h1>{% endif %}
       {% if page.coverimage.subtitle %}<h3>{{ page.coverimage.subtitle }}</h3>{% endif %}
-      <p>{% include navigation.html %}</p>
       <p class="socialicons">{% include socialicons.html %}</p>
     </div>
   </div>
@@ -16,6 +15,8 @@
 {% if page.coverimage.caption %}<div class='cover-caption'>{{ page.coverimage.caption }}</div>{% endif %}
 {% endif %}
     <div class="container content">
+    <nav>{% include navigation.html %}</nav>
+
       <main>
         {{ content }}
       </main>
