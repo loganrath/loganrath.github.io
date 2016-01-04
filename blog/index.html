@@ -12,7 +12,6 @@ title: Blog Title Here
       <div class="meta">
         <address>{{ post.author.name }}</address> &mdash;
         <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%b %d, %Y" }}">{{ post.date | date: "%b %d, %Y" }}</time> &mdash;
-        {% include read_time_estimate.html content=post.content %}
       </div>
       <hr>
     </section>
