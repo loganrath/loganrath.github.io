@@ -9,6 +9,12 @@
   
   nav {
   	display: inline-block;
+  	vertical-align: top;
+	margin-top: 0.5em;
+  }
+  nav a {
+  	margin-right: 1rem;
+  	font-weight: 600;
   }
 }
 
@@ -32,5 +38,6 @@
   }
 
 }
+
 
 div.socialicons {float: right; display: inline-block; font-size: 1rem;}
