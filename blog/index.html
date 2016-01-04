@@ -11,7 +11,8 @@ title: Blog Posts
       <h2 class="title"><a href="{{ post.url }}" rel="prefetch">{{ post.title }}</a></h2>
       <p>{{ post.excerpt }}</p>
       <div class="meta">
-        <address style="display: inline-block;">by {{ post.author.display_name }}</address> on <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%b %d, %Y" }}">{{ post.date | date: "%b %d, %Y" }}</time>
+        <address style="display:inline-block;">{{ post.author.display_name }}</address> &mdash;
+        <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%b %d, %Y" }}">{{ post.date | date: "%b %d, %Y" }}</time> &mdash;
       </div>
       <hr>
     </section>
