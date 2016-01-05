@@ -58,7 +58,7 @@
 </div><div class="narrow">
 <div class="box"><h3>Presenter</h3>
 <div class="center" style="line-height: 1.3em;">
-<p><img src="../loganrath.jpg" alt="Logan Rath" /></p>
+<p><img src="/images/loganrath.jpg" alt="Logan Rath" /></p>
 <h2>Logan Rath, <span style="font-variant: small-caps;">ms, mls</span></h2>
 <p>Associate Librarian<br /><a href="http://www.brockport.edu" target="_blank">The College at Brockport</a></p>
 <p>lrath@brockport.edu</p>
