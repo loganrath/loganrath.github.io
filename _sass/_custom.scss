@@ -12,6 +12,8 @@ div.apa {
 	font-size: 85%;
 	}
 
+div.contactimage {float: left; width: 40%; margin-right: 5%;}
+
 div.contacticons i {margin-right: 0.5rem;}
 
 div.icons i {display: inline-block; margin-right: 1.5rem;}
@@ -25,7 +27,7 @@ div.socialicons {float: right; display: inline-block; font-size: 1rem;}
 
 div.socialicons a {text-decoration:none;}
 
-@media (min-width: 30em) {
+@media (max-width: 30em) {
 div.contacticons {display:block; margin: 0 auto;}
 div.contactimage {display: block; float:none; margin: 0 auto;}
 }
