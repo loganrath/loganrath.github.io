@@ -14,7 +14,8 @@
 </div>
 {% if page.coverimage.caption %}<div class='cover-caption'>{{ page.coverimage.caption }}</div>{% endif %}
 {% endif %}
-    {% include header.html %}
+    <div class="container content">
+     {%include header.html %}
       <main>
         {{ content }}
       </main>
