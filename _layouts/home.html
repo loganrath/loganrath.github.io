@@ -15,8 +15,14 @@
 {% if page.coverimage.caption %}<div class='cover-caption'>{{ page.coverimage.caption }}</div>{% endif %}
 {% endif %}
     <div class="container content">
-    {% include header.html %}
-
+     <header class="masthead">
+        <h3 class="masthead-title">
+          <img class="logo" src="/images/logo.png" alt="{{ site.author.name }}" />
+        </h3>
+        <nav>
+        {% include navigation.html %}
+        </nav>
+      </header>
       <main>
         {{ content }}
       </main>
