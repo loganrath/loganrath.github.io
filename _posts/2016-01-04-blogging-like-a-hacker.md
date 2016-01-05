@@ -1,8 +1,9 @@
 ---
 layout: post
 title: Blogging like a hacker?
+author: logan
 ---
-Every winter break I take on a personal coding project. This year I've decided to redesign my persoEvery winter break I take on a personal coding project. 
+Every winter break I take on a personal coding project. 
 
 This year I've decided to redesign my personal site.
 I've recently gotten involved with [GitHub](http://www.github.com) as a place to host code. It wasn't long before I found [GitHub Pages](http://pages.github.com) and was inspired by the post [Blogging Like a Hacker](http://tom.preston-werner.com/2008/11/17/blogging-like-a-hacker.html) by Tom Preston-Werner, a co-founder of GitHub. After that, I was sold on the newest challenge: get a GitHub hosted blog and site going ASAP.
