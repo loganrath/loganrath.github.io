@@ -1,30 +1,17 @@
 ---
 layout: page
-title: About
+title: About Logan
 ---
+First, hello. 
 
-<p class="message">
-  Hey there! This page is included as an example. Feel free to customize it for your own use upon downloading. Carry on!
-</p>
+Second, I expect you're on this page because you want to learn a bit about me and don't feel like reading my [CV](/rath_cv_web.pdf). I don't blame you. Here are my professional bios:
 
-In the novel, *The Strange Case of Dr. Jekyll and Mr. Hyde*, Mr. Poole is Dr. Jekyll's virtuous and loyal butler. Similarly, Poole is an upstanding and effective butler that helps you build Jekyll themes. It's made by [@mdo](https://twitter.com/mdo).
+Professional Bio
+================
+Logan Rath is an Associate Librarian at The College at Brockport, State University of New York where he focuses on information literacy instruction. Logan primarily supports students and faculty in the departments of Education and Human Development, Social Work, Modern Langauges and Cultures, and Criminal Justice in addition to other departments on campus.
 
-There are currently two themes built on Poole:
+Recently, Logan has become and adjunct instructor in the Literacy Master's program at The College at Brockport where he teaches EDI729: Critical Multiliteracies B-6 in a hybrid format. This course focuses on multiple literacy practices that contemporary children (B-6) are engaged in and out-of school beyond traditional print-based literacy practices. 
 
-* [Hyde](http://hyde.getpoole.com)
-* [Lanyon](http://lanyon.getpoole.com)
+Logan earned his Master of Library Science degree from the University at Buffalo in 2007 and a Master of Science in Information Design and Technology from SUNYIT in 2012 after graduating from SUNY Geneseo in 2005 with a Bachelor of Arts in Spanish-Adolescent Education Certification 7-12. 
 
-Learn more and contribute on [GitHub](https://github.com/poole).
-
-## Setup
-
-Some fun facts about the setup of this project include:
-
-* Built for [Jekyll](http://jekyllrb.com)
-* Developed on GitHub and hosted for free on [GitHub Pages](https://pages.github.com)
-* Coded with [Sublime Text 2](http://sublimetext.com), an amazing code editor
-* Designed and developed while listening to music like [Blood Bros Trilogy](https://soundcloud.com/maddecent/sets/blood-bros-series)
-
-Have questions or suggestions? Feel free to [open an issue on GitHub](https://github.com/poole/poole/issues/new) or [ask me on Twitter](https://twitter.com/mdo).
-
-Thanks for reading!
+Logan's current research interests include effective collaboration, student perceptions of embedded librarianship, user design, and user experience in libraries.
