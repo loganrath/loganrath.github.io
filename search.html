@@ -8,9 +8,9 @@ title: Library Search
 	<input type="text" name="queryString" /><input type="submit" value="Go" />
 </form>
 
-<form action="http://catalogplus.libraryweb.org/" method="get">
-<p>Irondequoit Library</p><input type="checkbox" name="branchFilters[]" value="209" />
-	<input type="hidden" name="db" value="ls2pac" /><input type="hidden" name="sortKey" value="Relevancy" />
+<form action="http://catalogplus.libraryweb.org/?" method="post" target="_blank">
+<p>Irondequoit Library</p><br /><--!input type="checkbox" name="branchFilters[]" value="209" /-->
+	<input type="hidden" name="db" value="ls2pac" /><input type="hidden" name="sortKey" value="Relevancy" /><input type="hidden" name="section" value="search" />
 	<input type="text" name="term" /><input type="submit" value="Go" />
 </form>
 </div>
