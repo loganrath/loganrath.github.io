@@ -8,9 +8,15 @@ title: Library Search
 	<input type="text" name="queryString" /><input type="submit" value="Go" />
 </form>
 
-<form action="http://catalogplus.libraryweb.org/?" method="post" target="_blank">
-<p>Irondequoit Library</p><br /><--!input type="checkbox" name="branchFilters[]" value="209" /-->
-	<input type="hidden" name="db" value="ls2pac" /><input type="hidden" name="sortKey" value="Relevancy" /><input type="hidden" name="section" value="search" />
-	<input type="text" name="term" /><input type="submit" value="Go" />
+<form action="http://catalogplus.libraryweb.org/" method="get" target="_blank">
+<p>Irondequoit Library</p><br />
+	<input type="hidden" name="section" value="search" />
+	<input type="text" name="term" />
+	<input type="submit" value="Go" />
 </form>
+
+<form method="get" action="http://brockport.summon.serialssolutions.com" />
+<p>Brockport Summon</p><br />
+	<input type="text" name="s.q" />
+	<input type="submit" value="Go" />
 </div>
