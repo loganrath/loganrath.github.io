@@ -3,15 +3,14 @@ layout: page
 title: Library Search
 ---
 <div class="searchForm">
-<p>WorldCat</p>
 <form action="http://brockport.on.worldcat.org/search" method="get">
+<p>WorldCat</p>
 	<input type="text" name="queryString" /><input type="submit" value="Go" />
 </form>
 
-<p>Irondequoit Library</p>
 <form action="http://catalogplus.libraryweb.org/" method="get">
+<p>Irondequoit Library</p><input type="checkbox" name="branchFilters[]" value="209" />
 	<input type="hidden" name="db" value="ls2pac" /><input type="hidden" name="sortKey" value="Relevancy" />
-	<input type="checkbox" name="branchFilters[]" value="209" />
 	<input type="text" name="term" /><input type="submit" value="Go" />
 </form>
 </div>
