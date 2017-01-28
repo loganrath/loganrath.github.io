@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About Logan
+title: Logan Rath, MS, MLS
 ---
 First, hello. 
 
