@@ -6,12 +6,12 @@ First, hello.
 
 Second, I expect you're on this page because you want to learn a bit about me and don't feel like reading my [CV](/rath_cv_web.pdf). I don't blame you. Here's my professional bio:
 
-The quick version
+What I Do
 ---
 I teach information literacy, library hacks, and technology tools to help students succeed. I forge relationships with colleagues to integrate all things library where appropriate. I write code and tweak library systems to improve the user experience and fix problems.
 
 
-The longer version
+My Official Bio
 ---
 Logan Rath is an Associate Librarian at The College at Brockport, State University of New York where he focuses on information literacy instruction. Logan primarily supports students and faculty in the departments of Education and Human Development, Social Work, Modern Langauges and Cultures, and Criminal Justice in addition to other departments on campus.
 
