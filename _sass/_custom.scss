@@ -29,7 +29,7 @@ div.socialicons {float: right; display: inline-block; font-size: 1rem;}
 div.socialicons a {text-decoration:none;}
 
 @media (max-width: 60em) {
-    main {max-width: 40rem;}
+    main {max-width: 40rem; margin:auto;}
 }
 
 @media (max-width: 30em) {
