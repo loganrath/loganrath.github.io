@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Logan Rath, MS, MLS
+title: "Logan Rath, MS, MLS"
 ---
 First, hello. 
 
