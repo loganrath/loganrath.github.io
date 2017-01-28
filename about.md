@@ -17,6 +17,6 @@ Logan Rath is an Associate Librarian at [The College at Brockport, State Univers
 
 Recently, Logan has become and adjunct instructor in the [Literacy Master's program](https://www.brockport.edu/academics/catalogs/2015/programs/ed_literacy_msed.html) at The College at Brockport where he teaches EDI729: Critical Multiliteracies B-6 in a hybrid format. This course focuses on multiple literacy practices that contemporary children (B-6) are engaged in and out-of school beyond traditional print-based literacy practices. 
 
-Logan earned his Master of Library Science degree from the [University at Buffalo](http://gse.buffalo.edu/lis) in 2007 and a Master of Science in Information Design and Technology from SUNYIT in 2012 after graduating from SUNY Geneseo in 2005 with a Bachelor of Arts in Spanish-Adolescent Education Certification 7-12. 
+Logan earned his [Master of Library Science](http://gse.buffalo.edu/lis) degree from the University at Buffalo in 2007 and a [Master of Science in Information Design and Technology](https://sunypoly.edu/graduate/idt/) from SUNYIT in 2012 after graduating from [SUNY Geneseo](http://www.geneseo.edu) in 2005 with a Bachelor of Arts in Spanish-Adolescent Education Certification 7-12. 
 
 Logan's current research interests include effective collaboration, student perceptions of embedded librarianship, the scalability of online library instruction, user design, and user experience in libraries.
