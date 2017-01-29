@@ -7,18 +7,20 @@ coverimage:
   subtitle: librarian. techie. problem solver.
   caption: How clean I wish my desk looked.
 ---
-<div style="float: left; width: 40%;" class="icons">
-<h3>About Me</h3>
-<span><a target="_blank" href="rath_cv_web.pdf"><i class="fa fa-file-pdf-o fa-2x"></i>C.V.</a></span>
-<span><a target="_blank" href="http://portfolio.loganrath.com"><i class="fa fa-folder-open fa-2x" style="font-size: 175%;"></i>Tenure Portfolio</a></span> 
-</div><div style="float: left; width: 58%; margin-right: 2%;">
-<h3>Current Projects &amp; Activities</h3>
-{% include projects.html %}
+<div class="row">
+	<div class="col-lg-5 col-lg-offset-2 icons">
+		<h3>About Me</h3>
+			<span><a target="_blank" href="rath_cv_web.pdf"><i class="fa fa-file-pdf-o fa-2x"></i>C.V.</a></span>
+			<span><a target="_blank" href="http://portfolio.loganrath.com"><i class="fa fa-folder-open fa-2x" style="font-size: 175%;"></i>Tenure Portfolio</a></span> 
+	</div>
+	<div class="col-lg-3">
+		<h3>Current Projects &amp; Activities</h3>
+		{% include projects.html %}
+	</div>
 </div>
-<div style="clear: both;"></div>
-<div class="apa">
+<div class="col-lg-10 col-lg-offset-1 apa">
 <h3>Presentations </h3>
 {% include presentations.html %}
 <h3>Publications</h3>
 {% include publications.html %}
- </div>
+</div>
