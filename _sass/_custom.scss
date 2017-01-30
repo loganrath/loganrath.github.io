@@ -10,8 +10,13 @@ article .meta {color: #848484; font-size: 80%; text-transform: uppercase; letter
 div.apa {
 	padding-left: 2rem;
 	text-indent: -2rem;
-	font-size: 85%;
+	
+	@media (max-width: 30em) {
+	    main p, main li {font-size: 16px !important;}
 	}
+	}
+	
+main p, main li {font-size: 18px !important;}
 	
 div.contactimage {float: left; width: 30%; margin-right: 5%;}
 
