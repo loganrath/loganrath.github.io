@@ -11,12 +11,15 @@ div.apa {
 	padding-left: 2rem;
 	text-indent: -2rem;
 	
-	@media (max-width: 30em) {
-	   main, main p, main li {font-size: 16px !important;}
-	}
 	}
 	
-main p, main li {font-size: 18px !important;}
+main p, main li, main a {font-size: 18px !important;
+    
+    @media (max-width: 30em) {
+	   main, main p, main li, main a {font-size: 16px !important;}
+	}
+    
+}
 	
 div.contactimage {float: left; width: 30%; margin-right: 5%;}
 
