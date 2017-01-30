@@ -12,7 +12,7 @@ div.apa {
 	text-indent: -2rem;
 	
 	@media (max-width: 30em) {
-	    main p, main li {font-size: 16px !important;}
+	   main, main p, main li {font-size: 16px !important;}
 	}
 	}
 	
