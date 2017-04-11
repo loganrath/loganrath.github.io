@@ -13,7 +13,7 @@ I teach information literacy, library hacks, and technology tools to help studen
 
 My Official Bio
 ---
-Logan Rath is an Associate Librarian at [The College at Brockport, State University of New York](https://brockport.edu/library) where he focuses on information literacy instruction. Logan primarily supports students and faculty in the departments of Education and Human Development, Social Work, Modern Langauges and Cultures, and Criminal Justice in addition to other departments on campus.
+Logan Rath is an Associate Librarian at [The College at Brockport, State University of New York](https://brockport.edu/library) where he focuses on information literacy instruction and assessment. Logan primarily supports students and faculty in the departments of Education and Human Development, Social Work, Criminal Justice, and Modern Languages and Cultures.
 
 Recently, Logan has become and adjunct instructor in the [Literacy Master's program](https://www.brockport.edu/academics/catalogs/2015/programs/ed_literacy_msed.html) at The College at Brockport where he teaches EDI729: Critical Multiliteracies B-6 in a hybrid format. This course focuses on multiple literacy practices that contemporary children (B-6) are engaged in and out-of school beyond traditional print-based literacy practices. 
 
