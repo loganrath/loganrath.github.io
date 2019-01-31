@@ -32,3 +32,9 @@ Templates
 
 2. [Modified APA Template for Brockport](http://library.brockport.edu/ld.php?content_id=28580900)
 : This is a template I modified from the default Microsoft template linked above.
+
+Activities
+---
+1. Have students search for their sources and use copy/paste to create a starter references list. Then, have students fix their references list in proper APA format.
+
+2. As a class, walk students through how to cite the specific sources they need for their assignment. This works particularly well if the whole class needs to cite the same source (e.g. the textbook).
