@@ -2,7 +2,7 @@
 layout: page
 title: "Sources for Teaching American Psychological Association Format"
 ---
-This page brings together content that I have used to teach about [APA Citation](https://owl.purdue.edu/owl/research_and_citation/apa_style/apa_style_introduction.html). This page is my own personal construction and does not r
+This page brings together content that I have used to teach about [APA Citation](https://owl.purdue.edu/owl/research_and_citation/apa_style/apa_style_introduction.html). The [standard disclaimer](/disclaimer.html) applies.
 
 Videos
 ---
