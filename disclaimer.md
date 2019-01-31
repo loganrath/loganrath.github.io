@@ -1,6 +1,6 @@
 ---
 layout: page
-title "Disclaimers for This website"
+title: "Disclaimers for this website"
 ---
 All the information on this website - loganrath.com - is published in good faith and for general information purpose only. This website does not make any warranties about the completeness, reliability and accuracy of this information. Any action you take upon the information you find on this website (This website), is strictly at your own risk. This website will not be liable for any losses and/or damages in connection with the use of my website. My Disclaimer was generated with the help of the Disclaimer Generator and the Disclaimer Template.
 
