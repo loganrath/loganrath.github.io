@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: module
 title: "Search Terms and Keywords"
 ---
 This page brings together content that I have used to teach about keywords. The [standard disclaimer](/disclaimer.html) applies.

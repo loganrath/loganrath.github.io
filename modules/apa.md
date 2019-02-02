@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: module
 title: "Sources for Teaching American Psychological Association Format"
 ---
 This page brings together content that I have used to teach about [APA Citation](https://owl.purdue.edu/owl/research_and_citation/apa_style/apa_style_introduction.html). The [standard disclaimer](/disclaimer/) applies.
