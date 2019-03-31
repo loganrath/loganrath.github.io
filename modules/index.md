@@ -6,3 +6,4 @@ Here is a list of modules I have put together to share with other instructors wh
 
 * [American Psychological Association Citation Module](/modules/apa/)
 * [Keywords](/modules/keywords/)
+* [Math Thesis Generator](/modules/math-thesis-generator/)
