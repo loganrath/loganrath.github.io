@@ -1,0 +1,105 @@
+<!-- this version will create a drop down menu for your search slots 
+that must be defined in the function at the the from option values -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Script that converts the query string into valid parameter -->
+<script type="text/javascript">
+
+function searchPrimo() {
+    document.getElementById("primoQuery").value = "any,contains," + document.getElementById("primoQueryTemp").value.replace(/[,]/g, " ");
+    document.forms["OnesearchForm"].submit();
+}
+
+function primoScopeSwitch(scope) {
+    document.forms["OnesearchForm"].action="https://suny-bro.primo.exlibrisgroup.com/discovery/search";
+
+    switch(scope.value) {
+        case "Everything":
+        document.getElementById("primoTab").value = "Everything";
+        document.getElementById("primoScope").value = "MyInst_and_CI";
+        document.getElementById("primoQueryTemp").placeholder = "Discover books, articles, videos, and more";
+        break;
+   
+		case "LibraryCatalog":
+        document.getElementById("primoTab").value = "LibraryCatalog";
+        document.getElementById("primoScope").value = "MyInstitution";
+        document.getElementById("primoQueryTemp").placeholder = "Discover books, articles, videos, and more";
+        break;
+		
+		case "CentralIndex":
+        document.getElementById("primoTab").value = "CentralIndex";
+        document.getElementById("primoScope").value = "CentralIndex";
+        document.getElementById("primoQueryTemp").placeholder = "Discover articles and more";
+        break;
+		
+        case "CourseReserves":
+        document.getElementById("primoTab").value = "CourseReserves";
+        document.getElementById("primoScope").value = "CourseReserves";
+        document.getElementById("primoQueryTemp").placeholder = "Find items on course reserve";
+        break;
+
+        case "SUNYCat":
+        document.getElementById("primoTab").value = "SUNY";
+        document.getElementById("primoScope").value = "DiscoveryNetwork";
+        document.getElementById("primoQueryTemp").placeholder = "Find items across SUNY";
+        break;
+
+        case "DigitalCommons":
+        document.getElementById("primoTab").value = "DigitalCommons";
+        document.getElementById("primoScope").value = "DiscoveryNetwork";
+        document.getElementById("primoQueryTemp").placeholder = "Search our respository";
+        break;
+
+        case "WorldCat":
+        document.getElementById("primoTab").value = "WorldCat";
+        document.getElementById("primoScope").value = "WorldCat";
+        document.getElementById("primoQueryTemp").placeholder = "Search WorldCat";
+        break;
+
+        case "Journals":
+        document.getElementById("primoTab").value = "jsearch_slot";
+        document.forms["OnesearchForm"].action = "https://suny-bro.primo.exlibrisgroup.com/discovery/jsearch";
+        document.getElementById("primoScope").value = "";
+        document.getElementById("primoQueryTemp").placeholder = "Search Journals by Title";
+        break;
+    }
+}
+
+//Windows on load function to load the intitial change
+window.onload = function() {
+ var scope = document.getElementById("scopeSelecter"); 
+          primoScopeSwitch(scope);
+};
+</script>
+<!-- Change target below to _blank if you want your results to open in a new window -->
+<form enctype="application/x-www-form-urlencoded; charset=utf-8" id="simple" method="get" name="OnesearchForm" onsubmit="searchPrimo()" target="_blank">
+<!-- Customizable Parameters -->
+	<input name="institution" type="hidden" value="01SUNY_BRO" /> 
+	<input name="vid" type="hidden" value="01SUNY_BRO:01SUNY_BRO" /> 
+	<input id="primoTab" name="tab" type="hidden" value="Everything" /> 
+	<input id="primoScope" name="search_scope" type="hidden" value="MyInst_and_CI" /> 
+	<input name="mode" type="hidden" value="Basic" /> 
+<!-- Fixed parameters --> 
+	<input name="displayMode" type="hidden" value="full" /> 
+	<input name="bulkSize" type="hidden" value="10" /> 
+	<input name="highlight" type="hidden" value="true" /> 
+	<input name="dum" type="hidden" value="true" /> 
+	<input id="primoQuery" name="query" type="hidden" /> 
+	<input name="displayField" type="hidden" value="all" /> 
+<!-- Select Statement with values from case  Fires onchange --> 
+	<select id="scopeSelecter" name="scopeSelecter" onchange="primoScopeSwitch(this)">
+	<option value="Everything">Everything</option>
+	<option value="LibraryCatalog">Library Catalog</option>
+	<option value="CentralIndex">Articles</option>
+    <option value="CourseReserves">Course Reserves</option>
+    <option value="SUNYCat">SUNY Catalog</option>
+    <option value="DigitalCommons">Digital Commons</option>
+	<option value="WorldCat">WorldCat</option> 
+    <option value="Journals">Journal Titles</option>
+	</select> 
+<!-- Enable this if "Expand My Results" is enabled by default in Views Wizard --> 
+	<input name="pcAvailabiltyMode" type="hidden" value="true" /> 
+	<input id="primoQueryTemp" size="35" type="text" value="" /> 
+<!-- Search Button --> 
+	<input alt="Search" id="go" onclick="searchPrimo()" style="height: 22px; font-size: 12px; font-weight: bold; background: #f1bc70; color: #ffffff; border: 1px solid;" title="Search" type="button" value="Go" />&nbsp;
+</form>
