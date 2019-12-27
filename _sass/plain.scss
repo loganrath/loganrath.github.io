@@ -27,7 +27,11 @@ img, embed, object, video {
 
 a {
 	color: $linkColor;
-}
+	text-decoration: none;
+	transition: border-bottom 0.4s;
+	&:hover {
+		border-bottom: 0.5px solid $linkColor;
+	}
 
 h2 {
 	margin: 0.7em 0;
