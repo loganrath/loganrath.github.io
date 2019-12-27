@@ -1,6 +1,6 @@
-title: Your awesome title
-author: GitHub User
-email: your-email@domain.com
+title: Logan Rath, MS, MLS
+author: Logan LoganRath
+email: LoganRath@me.com
 description: > # this means to ignore newlines until "show_exerpts:"
   Write an awesome description for your new site here. You can edit this
   line in _config.yml. It will appear in your document head meta (for
@@ -13,7 +13,7 @@ sass:
   sass_dir: _sass
 plainwhite:
   name: Logan Rath
-  tagline: 
+  tagline:
   date_format: "%b %-d, %Y"
   sitemap: true # set to true to generate sitemap.xml content
 
