@@ -33,6 +33,9 @@ a {
 		border-bottom: 0.5px solid $linkColor;
 	}
 }
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Lora", sans-serif;
+}
 
 h2 {
 	margin: 0.7em 0;
@@ -175,7 +178,7 @@ main {
 	padding-left: 30px;
 }
 .post {
-	font-family: 'Times New Roman', sans-serif;
+	font-family: Georgia, sans-serif;
 	font-weight: 300;
 	color: #222;
 	line-height: 1.9em;
