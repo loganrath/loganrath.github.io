@@ -2,7 +2,7 @@
 @import 'ext/normalize';
 @import 'syntax';
 
-$linkColor: #0A59B0;
+$linkColor: #2954d1;
 $mobileW: 768px;
 $smallMobileW: 480px;
 $bigScreenW: 1600px;
@@ -13,7 +13,7 @@ $leftWidth: 220px;
 }
 
 body {
-	font-family: 'Raleway', sans-serif;
+	font-family: Roboto, sans-serif;
 	font-size: 16px;
 	line-height: 1.2em;
 	margin: 0;
@@ -43,21 +43,21 @@ main {
 
 	@media screen and (min-width: $bigScreenW) {
 		margin: 0 auto;
-		max-width: 1440px;	
+		max-width: 1440px;
 	}
 	@media screen and (max-width: 1280px) {
-		margin: 0 75px;	
+		margin: 0 75px;
 	}
 	@media screen and (max-width: 1024px){
-		margin: 0 35px;	
+		margin: 0 35px;
 	}
 
 	@media screen and (max-width: $mobileW) {
 		margin: 0 10px;
-		flex-direction: column;	
+		flex-direction: column;
 	}
 	@media screen and (max-width: $smallMobileW) {
-		margin: 0;	
+		margin: 0;
 	}
 
 	.content {
@@ -72,7 +72,7 @@ main {
 		height: 100vh;
 		padding-bottom: 15vh;
 		@media screen and (max-width: $mobileW) {
-			height: auto;	
+			height: auto;
 			padding: 10vh 0;
 		}
 		@media screen and (min-width: $mobileW + 1) {
@@ -139,7 +139,7 @@ main {
 	align-items: center;
 	@media screen and (max-width: $mobileW){
 		flex-direction: column-reverse;
-		align-items: baseline;	
+		align-items: baseline;
 		.post-date {
 			margin-bottom: 16px;
 		}
@@ -161,7 +161,7 @@ main {
 		margin-right: 20px;
 	}
 	@media screen and (max-width: $mobileW){
-		padding: 0 !important;	
+		padding: 0 !important;
 		margin-top: 0;
 	}
 }
@@ -169,7 +169,7 @@ main {
 	padding-left: 30px;
 }
 .post {
-	font-family: 'Merriweather', sans-serif;
+	font-family: 'Times New Roman', sans-serif;
 	font-weight: 300;
 	color: #222;
 	line-height: 1.9em;
@@ -182,7 +182,7 @@ main {
 		}
 	}
 	h1, h2, h3, h4, h5, h6 {
-		font-family: Raleway, sans-serif;
+		font-family: Roboto, sans-serif;
 	}
 }
 
