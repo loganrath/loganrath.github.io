@@ -1,0 +1,9 @@
+base url: https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&sortby=rank&lang=en&query=any,contains,
+
+juv:	facet=location_code,exclude,4805–160973130004805–bkjuv
+video:	facet=rtype,include,videos
+books:	facet=rtype,include,books
+online: facet=tlevel,include,online_resources
+
+
+https://suny-bro.primo.exlibrisgroup.com/discovery/search?query=any,contains,test,AND&tab=Everything&search_scope=MyInst_and_CI&sortby=rank&vid=01SUNY_BRO:01SUNY_BRO&&facet=tlevel,include,online_resources&lang=en&mode=simple&offset=0

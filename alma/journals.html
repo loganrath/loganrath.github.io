@@ -1,0 +1,35 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Script that converts the query string into valid parameter -->
+<script type="text/javascript">
+function searchPrimo() {
+document.getElementById("primoQuery").value = "any,contains," + document.getElementById("primoQueryTemp").value.replace(/[,]/g, " ");
+document.forms["PrimoSearchForm"].submit();
+}
+</script>
+</head>
+<body>
+	<!-- https://suny-bro.primo.exlibrisgroup.com/discovery/jsearch?query=any,contains,journal%20of%20adolescent%20and%20adult%20literacy&tab=jsearch_slot&vid=01SUNY_BRO:01SUNY_BRO&offset=0&journals=any,journal%20of%20adolescent%20and%20adult%20literacy -->
+<form id="simple" name="PrimoSearchForm" method="get" target="_self" action="https://suny-XXX.primo.exlibrisgroup.com/discovery/jsearch" enctype="application/x-www-form-urlencoded; charset=utf-8" onsubmit="searchPrimo()">
+<!-- Customizable Parameters -->
+<input type="hidden" name="vid" value="01SUNY_BRO:01SUNY_BRO">
+<input type="hidden" name="tab" value="jsearch_slot">
+<!--input type="hidden" name="search_scope" value="Journal Search"-->
+<input type="hidden" name="mode" value="basic">
+<!-- Fixed parameters -->
+<input type="hidden" name="displayMode" value="full">
+<input type="hidden" name="bulkSize" value="10">
+<input type="hidden" name="highlight" value="true">
+<input type="hidden" name="dum" value="true">
+<input type="hidden" name="query" id="primoQuery">
+<input type="hidden" name="displayField" value="all">
+<!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
+<input type="hidden" name="pcAvailabiltyMode" value="true">
+<input type="text" id="primoQueryTemp" value="" size="35">
+<!-- Search Button -->
+<input id="go" title="Search" onclick="searchPrimo()" type="button" value="Search" alt="Search">
+</form>
+</body>
+</html>

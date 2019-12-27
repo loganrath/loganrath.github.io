@@ -1,0 +1,22 @@
+---
+layout: page
+title: Library Search
+---
+<div class="searchForm">
+<form action="http://brockport.on.worldcat.org/search" method="get">
+<p>WorldCat</p><br />
+	<input type="text" name="queryString" /><input type="submit" value="Go" />
+</form>
+
+<form action="http://catalogplus.libraryweb.org/" method="get" target="_blank">
+<p>Irondequoit Library</p><input type="checkbox" value="&#91;{&quot;facetDisplay&quot;:&quot;Blu-Ray&quot;,&quot;facetValue&quot;:&quot;Blu-Ray&quot;,&quot;facetName&quot;:&quot;Format&quot;}&#93;"/><br />
+	<input type="hidden" name="section" value="search" />
+	<input type="text" name="term" />
+	<input type="submit" value="Go" />
+</form>
+
+<form method="get" action="http://brockport.summon.serialssolutions.com" />
+<p>Brockport Summon</p><br />
+	<input type="text" name="s.q" />
+	<input type="submit" value="Go" />
+</div>

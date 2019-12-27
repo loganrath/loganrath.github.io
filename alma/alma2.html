@@ -1,0 +1,283 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script
+			  src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
+
+<!-- Script that converts the query string into valid parameter -->
+<script type="text/javascript">
+
+function searchPrimo(j) {
+document.getElementById("primoQuery"..j).value = "any,contains," + document.getElementById("primoQuery"..j).value.replace(/[,]/g, " ");
+document.forms["searchForm"..j].submit();
+}
+
+</script>
+</head>
+<body>
+
+<form id="searchselectorForm" style="color:#262626 !important;">
+    <label for="whichsearch">I am searching for:</label>
+	    <select id="whichsearch" style="color: #262626 !important">
+	    <option value="primo_everything" style="color: #262626">Everything</option>
+	    <option value="primo_books" style="color: #262626">Library Catalog</option>
+	    <option value="primo_articles" style="color: #262626">Articles</option>
+	    <option value="primo_reserves" style="color: #262626">Course Reserves</option>
+	    <option value="primo_suny" style="color: #262626">SUNY Catalog</option>
+		<option value="primo_digitalcommons" style="color: #262626">DigitalCommons</option>
+	    <option value="primo_worldcat" style="color: #262626">WorldCat</option>
+	    <option value="primo_journals" style="color: #262626">Journal Titles</option>
+    </select>
+</form>
+
+
+<div class="libsearch" id="primo_everything"><!-- EVERYTHING --> 
+	<form target="_blank" id="searchFormEverything" name="searchFormEverything" method="get" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" enctype="application/x-www-form-urlencoded; charset=utf-8" onsubmit="searchPrimoEverything()">
+	<!-- Customizable Parameters -->
+	<div class="large-6 medium-12 small-12 columns">
+		<input type="hidden" name="vid" value="01SUNY_BRO:01SUNY_BRO"/>
+		<input type="hidden" name="tab" value="Everything"/>
+		<input type="hidden" name="search_scope" value="MyInst_and_CI"/>
+		<input type="hidden" name="mode" value="basic"/>
+		<!-- Fixed parameters -->
+		<input type="hidden" name="displayMode" value="full"/>
+		<input type="hidden" name="bulkSize" value="10"/>
+		<input type="hidden" name="highlight" value="true"/>
+		<input type="hidden" name="dum" value="true"/>
+		<input type="hidden" name="query" id="primoQueryEverything"/>
+		<input type="hidden" name="displayField" value="all"/>
+		<!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
+		<input type="hidden" name="pcAvailabiltyMode" value="true"/>
+		<label for="primoQueryTempEverything">Search terms [Everything]:</label>
+		<input type="text" id="primoQueryTempEverything"/>
+      <!-- Search Button -->
+   	  </div>                                  
+      <div class="large-1 medium-6 small-6 columns left space-above">
+		<input id="goEverything" title="Search" onclick="searchPrimo('Everything')" type="button" value="Go" alt="Search" class="button small light text-left" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;"/>
+	</div>
+	<div class="large-2 medium-6 small-6 columns left text-centered space-above"><a target="_blank" href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&amp;lang=en&amp;sortby=rank&amp;mode=advanced" class="button small dark" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;">Advanced</a>
+	</div>
+	</form>
+</div>
+
+
+<div class="libsearch" id="primo_books">	<!-- BOOKS -->
+	<form target="_blank" id="searchFormBooks" name="searchFormBooks" method="get" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" enctype="application/x-www-form-urlencoded; charset=utf-8" onsubmit="searchPrimoBooks()">
+	<!-- Customizable Parameters -->
+	<div class="large-6 medium-12 small-12 columns">
+		<input type="hidden" name="vid" value="01SUNY_BRO:01SUNY_BRO"/>
+		<input type="hidden" name="tab" value="LibraryCatalog"/>
+		<input type="hidden" name="search_scope" value="MyInstitution"/>
+		<input type="hidden" name="mode" value="basic"/>
+		<!-- Fixed parameters -->
+		<input type="hidden" name="displayMode" value="full"/>
+		<input type="hidden" name="bulkSize" value="10"/>
+		<input type="hidden" name="highlight" value="true"/>
+		<input type="hidden" name="dum" value="true"/>
+		<input type="hidden" name="query" id="primoQueryBooks"/>
+		<input type="hidden" name="displayField" value="all"/>
+		<!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
+		<input type="hidden" name="pcAvailabiltyMode" value="true"/>
+		<label for="primoQueryTempBooks">Search terms [Books]:</label>
+		<input type="text" id="primoQueryTempBooks"/>
+    </div>                                  
+    <div class="large-1 medium-6 small-6 columns left space-above">
+	    <!-- Search Button -->
+		<input id="goBooks" title="Search" onclick="searchPrimo('Books')" type="button" value="Go" alt="Search" class="button small light text-left" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;"/>
+	</div>
+	<div class="large-2 medium-6 small-6 columns left text-centered space-above"><a target="_blank" href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&amp;lang=en&amp;sortby=rank&amp;mode=advanced" class="button small dark" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;">Advanced</a>
+	</div>
+	</form>
+</div>
+
+<div class="libsearch" id="primo_articles"><!-- Articles -->
+	<form target="_blank" id="searchFormArticles" name="searchFormArticles" method="get" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" enctype="application/x-www-form-urlencoded; charset=utf-8" onsubmit="searchPrimoArticles()">
+	<!-- Customizable Parameters -->
+	<div class="large-6 medium-12 small-12 columns">
+		<input type="hidden" name="vid" value="01SUNY_BRO:01SUNY_BRO"/>
+		<input type="hidden" name="tab" value="CentralIndex"/>
+		<input type="hidden" name="search_scope" value="CentralIndex"/>
+		<input type="hidden" name="mode" value="basic"/>
+		<!-- Fixed parameters -->
+		<input type="hidden" name="displayMode" value="full"/>
+		<input type="hidden" name="bulkSize" value="10"/>
+		<input type="hidden" name="highlight" value="true"/>
+		<input type="hidden" name="dum" value="true"/>
+		<input type="hidden" name="query" id="primoQueryArticles"/>
+		<input type="hidden" name="displayField" value="all"/>
+		<!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
+		<input type="hidden" name="pcAvailabiltyMode" value="true"/>
+		<label for="primoQueryTempArticles">Search terms [Articles]:</label>
+		<input type="text" id="primoQueryTempArticles"/>
+    </div>                                  
+    <div class="large-1 medium-6 small-6 columns left space-above">
+      <!-- Search Button -->
+	<input id="goArticles" title="Search" onclick="searchPrimoArticles()" type="button" value="Go" alt="Search" class="button small light text-left" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;"/>
+	</div>
+	<div class="large-2 medium-6 small-6 columns left text-centered space-above"><a target="_blank" href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&amp;lang=en&amp;sortby=rank&amp;mode=advanced" class="button small dark" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;">Advanced</a>
+	</div>
+	</form>
+</div>
+
+<div class="libsearch" id="primo_reserves"><!-- Course Reserves -->
+	<form target="_blank" id="searchFormReserves" name="searchFormReserves" method="get" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" enctype="application/x-www-form-urlencoded; charset=utf-8" onsubmit="searchPrimoReserves()">
+	<!-- Customizable Parameters -->
+	<div class="large-6 medium-12 small-12 columns">
+		<input type="hidden" name="vid" value="01SUNY_BRO:01SUNY_BRO"/>
+		<input type="hidden" name="tab" value="CourseReserves"/>
+		<input type="hidden" name="search_scope" value="CourseReserves"/>
+		<input type="hidden" name="mode" value="basic"/>
+		<!-- Fixed parameters -->
+		<input type="hidden" name="displayMode" value="full"/>
+		<input type="hidden" name="bulkSize" value="10"/>
+		<input type="hidden" name="highlight" value="true"/>
+		<input type="hidden" name="dum" value="true"/>
+		<input type="hidden" name="query" id="primoQueryReserves"/>
+		<input type="hidden" name="displayField" value="all"/>
+		<!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
+		<input type="hidden" name="pcAvailabiltyMode" value="true"/>
+		<label for="primoQueryTempReserves">Search terms [Reserves]:</label>
+		<input type="text" id="primoQueryTempReserves"/>
+	</div>                                  
+    <div class="large-1 medium-6 small-6 columns left space-above">
+      <!-- Search Button -->
+	<input id="goReserves" title="Search" onclick="searchPrimoReserves()" type="button" value="Go" alt="Search" class="button small light text-left" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;"/>
+	</div>
+	<div class="large-2 medium-6 small-6 columns left text-centered space-above"><a target="_blank" href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&amp;lang=en&amp;sortby=rank&amp;mode=advanced" class="button small dark" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;">Advanced</a>
+	</div>
+	</form>
+</div>
+
+<div class="libsearch" id="primo_suny"><!-- SUNY Catalog -->
+	<form target="_blank" id="searchFormSUNYCAT" name="searchFormSUNYCAT" method="get" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" enctype="application/x-www-form-urlencoded; charset=utf-8" onsubmit="searchPrimoSUNYCAT()">
+	<!-- Customizable Parameters -->
+	<div class="large-6 medium-12 small-12 columns">
+		<input type="hidden" name="vid" value="01SUNY_BRO:01SUNY_BRO"/>
+		<input type="hidden" name="tab" value="SUNY"/>
+		<input type="hidden" name="search_scope" value="DiscoveryNetwork"/>
+		<input type="hidden" name="mode" value="basic"/>
+		<!-- Fixed parameters -->
+		<input type="hidden" name="displayMode" value="full"/>
+		<input type="hidden" name="bulkSize" value="10"/>
+		<input type="hidden" name="highlight" value="true"/>
+		<input type="hidden" name="dum" value="true"/>
+		<input type="hidden" name="query" id="primoQuerySUNYCAT"/>
+		<input type="hidden" name="displayField" value="all"/>
+		<!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
+		<input type="hidden" name="pcAvailabiltyMode" value="true"/>
+		<label for="primoQueryTempSUNYCAT">Search terms [SUNY Catalog]:</label>
+		<input type="text" id="primoQueryTempSUNYCAT"/>
+    </div>                                  
+    <div class="large-1 medium-6 small-6 columns left space-above">
+	<!-- Search Button -->
+    	<input id="goSUNYCAT" title="Search" onclick="searchPrimoSUNYCAT()" type="button" value="Go" alt="Search" class="button small light text-left" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;"/>
+	</div>
+	<div class="large-2 medium-6 small-6 columns left text-centered space-above"><a target="_blank" href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&amp;lang=en&amp;sortby=rank&amp;mode=advanced" class="button small dark" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;">Advanced</a>
+	</div>
+	</form>
+</div>
+
+<div class="libsearch" id="primo_digitalcommons"><!-- Digital Commons -->
+	<form target="_blank" id="searchFormDigitalCommons" name="searchFormDigitalCommons" method="get" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" enctype="application/x-www-form-urlencoded; charset=utf-8" onsubmit="searchPrimoDigitalCommons()">
+	<!-- Customizable Parameters -->
+	<div class="large-6 medium-12 small-12 columns">
+		<input type="hidden" name="vid" value="01SUNY_BRO:01SUNY_BRO"/>
+		<input type="hidden" name="tab" value="DigitalCommons"/>
+		<input type="hidden" name="search_scope" value="DigitalCommons"/>
+		<input type="hidden" name="mode" value="basic"/>
+		<!-- Fixed parameters -->
+		<input type="hidden" name="displayMode" value="full"/>
+		<input type="hidden" name="bulkSize" value="10"/>
+		<input type="hidden" name="highlight" value="true"/>
+		<input type="hidden" name="dum" value="true"/>
+		<input type="hidden" name="query" id="primoQueryDigitalCommons"/>
+		<input type="hidden" name="displayField" value="all"/>
+		<!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
+		<input type="hidden" name="pcAvailabiltyMode" value="true"/>
+		<label for="primoQueryTempDigitalCommons">Search terms [DigitalCommons]:</label>
+		<input type="text" id="primoQueryTempDigitalCommons"/>
+    </div>                                  
+    <div class="large-1 medium-6 small-6 columns left space-above">
+    	<!-- Search Button -->
+		<input id="goDigitalCommons" title="Search" onclick="searchPrimoDigitalCommons()" type="button" value="Go" alt="Search" class="button small light text-left" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;"/>
+	</div>
+	<div class="large-2 medium-6 small-6 columns left text-centered space-above"><a target="_blank" href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&amp;lang=en&amp;sortby=rank&amp;mode=advanced" class="button small dark" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;">Advanced</a>
+	</div>
+	</form>
+</div>
+
+<div class="libsearch" id="primo_journals"><!-- Journals -->
+	<form target="_blank" id="searchFormJournals" name="searchFormJournals" method="get" action="https://suny-bro.primo.exlibrisgroup.com/discovery/jsearch" enctype="application/x-www-form-urlencoded; charset=utf-8" onsubmit="searchPrimoJournals()">
+	<!-- Customizable Parameters -->
+	<div class="large-6 medium-12 small-12 columns">
+		<input type="hidden" name="vid" value="01SUNY_BRO:01SUNY_BRO"/>
+		<input type="hidden" name="tab" value="jsearch_slot"/>
+		<input type="hidden" name="mode" value="basic"/>
+		<!-- Fixed parameters -->
+		<input type="hidden" name="displayMode" value="full"/>
+		<input type="hidden" name="bulkSize" value="10"/>
+		<input type="hidden" name="highlight" value="true"/>
+		<input type="hidden" name="dum" value="true"/>
+		<input type="hidden" name="query" id="primoQueryJournals"/>
+		<input type="hidden" name="displayField" value="all"/>
+		<!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
+		<input type="hidden" name="pcAvailabiltyMode" value="true"/>
+		<label for="primoQueryTempDigitalCommons">Search terms [Journals]:</label>
+		<input type="text" id="primoQueryTempJournals"/>
+    </div>                                  
+    <div class="large-1 medium-6 small-6 columns left space-above">
+    	<!-- Search Button -->
+		<input id="goJournals" title="Search" onclick="searchPrimoJournals()" type="button" value="Go" alt="Search" class="button small light text-left" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;"/>
+	</div>
+	<div class="large-2 medium-6 small-6 columns left text-centered space-above"><a target="_blank" href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&amp;lang=en&amp;sortby=rank&amp;mode=advanced" class="button small dark" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;">Advanced</a>
+	</div>
+	</form>
+</div>
+
+
+
+<div class="libsearch" id="primo_worldcat"><!-- WorldCat -->
+	<form target="_blank" id="searchFormWorldCat" name="searchFormWorldCat" method="get" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" enctype="application/x-www-form-urlencoded; charset=utf-8" onsubmit="searchPrimoWorldCat()">
+	<!-- Customizable Parameters -->
+	<div class="large-6 medium-12 small-12 columns">
+		<input type="hidden" name="vid" value="01SUNY_BRO:01SUNY_BRO"/>
+		<input type="hidden" name="tab" value="WorldCat"/>
+		<input type="hidden" name="search_scope" value="WorldCat"/>
+		<input type="hidden" name="mode" value="basic"/>
+		<!-- Fixed parameters -->
+		<input type="hidden" name="displayMode" value="full"/>
+		<input type="hidden" name="bulkSize" value="10"/>
+		<input type="hidden" name="highlight" value="true"/>
+		<input type="hidden" name="dum" value="true"/>
+		<input type="hidden" name="query" id="primoQueryWorldCat"/>
+		<input type="hidden" name="displayField" value="all"/>
+		<!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
+		<input type="hidden" name="pcAvailabiltyMode" value="true"/>
+		<label for="primoQueryTempWorldCat">Search terms [WorldCat]:</label>
+		<input type="text" id="primoQueryTempWorldCat"/>
+    </div>                                  
+    <div class="large-1 medium-6 small-6 columns left space-above">
+      	<!-- Search Button -->
+		<input id="goWorldCat" title="Search" onclick="searchPrimoWorldCat()" type="button" value="Go" alt="Search" class="button small light text-left" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;"/>
+	</div>
+	<div class="large-2 medium-6 small-6 columns left text-centered space-above"><a target="_blank" href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&amp;lang=en&amp;sortby=rank&amp;mode=advanced" class="button small dark" style="margin-top:.25rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;">Advanced</a>
+	</div>
+	</form>
+</div>
+
+<script>
+$(".libsearch").hide();
+$("#primo_everything").show();
+
+$( "#whichsearch").change(function() {
+  var selsearch = $( "#whichsearch option:selected" ).val();
+$(".libsearch").hide();
+$("#"+selsearch).show();
+});
+</script>
+
+</body>
+</html>

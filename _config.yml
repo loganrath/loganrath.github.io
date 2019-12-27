@@ -1,56 +1,35 @@
-title: Logan Rath, MS, MLS
-author: Logan LoganRath
-email: LoganRath@me.com
-description: > # this means to ignore newlines until "show_exerpts:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-show_excerpts: true # set to true to show excerpts on the homepage
+# Permalinks
+#
+# Use of `relative_permalinks` ensures post links from the index work properly.
+permalink:           pretty
 
-# Minima date format
-# refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
+# Setup
+title:               Logan Rath
+url:                 http://loganrath.github.io
+baseurl:             ""
+
+# Pagination
+paginate_path: "/blog/page:num/"
+paginate:   10
+
+# Assets
+#
+# We specify the directory for Jekyll so we can use @imports.
 sass:
-  sass_dir: _sass
-plainwhite:
-  name: Logan Rath
-  tagline:
-  date_format: "%b %-d, %Y"
-  sitemap: true # set to true to generate sitemap.xml content
+  sass_dir:          _sass
+  style:            :compressed
 
-  # generate social links in footer
-  social_links:
-    twitter: loganrath
-    github:  loganrath
-    linkedIn: in/loganrath
-    rss: rss
-    # dribbble: jekyll
-    # facebook: jekyll
-    # flickr:   jekyll
-    # instagram: jekyll
-    # linkedin: jekyll
-    # pinterest: jekyll
-    # youtube: jekyll
-    # youtube_channel: UC8CXR0-3I70i1tfPg1PAE1g
-    # youtube_channel_name: CloudCannon
-    # telegram: jekyll
-    # googleplus: +jekyll
-    # microdotblog: jekyll
+# About/contact
+author:
+  name:              Logan Rath
+  url:               https://twitter.com/loganrath
+  email:             loganrath@me.com
+  twitter:           loganrath
+#  facebook:          loganrath
+  linkedin:			 loganrath
+#  gplus:             105662729872119056865
 
-    # Mastodon instances
-    # mastodon:
-    # - username: jekyll
-    #   instance: example.com
-    # - username: jekyll2
-    #   instance: example.com
-
-# If you want to link only specific pages in your header, uncomment
-# this and add the path to the pages in order as they should show up
-#header_pages:
-# - about.md
-
-# Build settings
-# theme: plainwhite
-
-# plugins:
-#   - jekyll-seo-tag
-#  - jekyll-feed
+# Custom vars
+version:             2.0.0
+github:
+  repo:              https://github.com/poole/poole

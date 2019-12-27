@@ -1,68 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	{%- include head.html -%}
-</head>
-<body>
-	<main class="container">
-		<section class="about">
-			<img src="{{ "/images/loganrath2016a.jpg" | relative_url }}" alt="{{ site.plainwhite.name }}" style="border-radius: 2.5%;">
-			<h1>{{ site.plainwhite.name }}</h1>
-			<p>LoganRath {at} me {dot} com</p>
-			<ul class="social">
-                {%- if site.plainwhite.social_links.github -%}
-				<a href="https://github.com/{{ site.plainwhite.social_links.github }}"><li><i class="icon-github-circled"></i></li></a>
-                {%- endif -%}
-                {%- if site.plainwhite.social_links.linkedIn -%}
-				<a href="https://www.linkedin.com/{{ site.plainwhite.social_links.linkedIn }}"><li><i class="icon-linkedin-squared"></i></li></a>
-                {%- endif -%}
-                {%- if site.plainwhite.social_links.twitter -%}
-                <a href="https://twitter.com/{{ site.plainwhite.social_links.twitter }}"><li><i class="icon-twitter-squared"></i></li></a>
-                {%- endif -%}
-			</ul>
-			<p>&copy; 2019</p>
-		</section>
-		<section class="content">
-			{%- if page.title -%}
-			<h1 class="page-heading">{{ page.title }}</h1>
-			{%- endif -%}
-
-			{{ content }}
-
-			{%- if site.posts.size > 0 -%}
-			<ul class="posts">
-			  <li>
-			    <h2 id="posts-label">posts</h2>
-			  </li>
-
-			  {%- for post in site.posts -%}
-			  <li>
-			    {%- assign date_format = site.plainwhite.date_format | default: "%b %-d, %Y" -%}
-			    <a class="post-link" href="{{ post.url | relative_url }}">
-			      <h2 class="post-title">{{ post.title | escape }}</h2>
-			    </a>
-			    <div class="post-meta">
-			      <ul class="post-categories">
-			        {%- for tag in post.categories -%}
-			        <li>{{ tag }}</li>
-			        {%- endfor -%}
-			      </ul>
-			      <div class="post-date"><i class="icon-calendar"></i>{{ post.date | date: date_format }}</div>
-			    </div>
-			    <div class="post">
-			      {%- if site.show_excerpts -%}
-			      {{ post.excerpt }}
-			      {%- endif -%}
-			    </div>
-			  </li>
-			  {%- endfor -%}
-			</ul>
-
-			<!-- <p class="feed-subscribe"><svg class="svg-icon orange">
-					<use xlink:href="{{ '/assets/minima-social-icons.svg#rss' | relative_url }}"></use>
-				</svg><a href="{{ "/feed.xml" | relative_url }}">Subscribe</a></p> -->
-			{%- endif -%}
-				</section>
-	</main>
-</body>
+  {% include head.html %}
+  <body>
+{% if page.coverimage %}
+<div id="headerbg" class="blog-cover" style="background-image:url(/images/{{ page.coverimage.url }});">
+  <div class='cover_overlay'>
+    <div class="content">
+      {% if page.coverimage.title %}<h1 style="text-shadow: 2px 2px #333;">{{ page.coverimage.title }}</h1>{% endif %}
+      {% if page.coverimage.subtitle %}<h3>{{ page.coverimage.subtitle }}</h3>{% endif %}
+      <p class="socialicons">{% include socialicons.html %}</p>
+    </div>
+  </div>
+</div>
+{% if page.coverimage.caption %}<div class='cover-caption'>{{ page.coverimage.caption }}</div>{% endif %}
+{% endif %}
+    <div class="container content">
+     {%include header.html %}
+      <main>
+        {{ content }}
+      </main>
+	</div>
+    <footer class="footer">
+      <div class="container content">
+        <small>
+          &copy; <time datetime="{{ site.time | date_to_xmlschema }}">{{ site.time | date: '%Y' }}</time>. Logan Rath. All rights reserved unless stated otherwise. Some pages are CC-BY-SA-NC. <a href="/disclaimer/">See disclaimer for more information</a>. 
+        </small>
+      </div>
+    </footer>
+  </body>
 </html>
+<script>
+var headerNum = Math.floor((Math.random() * 5) + 1);
+headerBgURL = "/images/header" + headerNum + ".jpg";
+$('#headerbg').css('background-image', 'url('+headerBgURL+')');
+</script>

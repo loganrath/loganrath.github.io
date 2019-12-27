@@ -1,0 +1,57 @@
+<#INCLUDE filename="include_header_request.html">
+
+<div class="alert-box secondary">
+<h5>The form below will check your citation against our <a href="http://www.brockport.edu/library/lookup">Article Look up by Citation</a> tool.</h5>
+<p>1. Fill out what you know</p>
+<p>2. The resulting page will either give you the article, or a link to the full text of the journal online</p>
+<p>3. If content is not available, click "Get an electronic copy through Interlibrary Loan"</p></div>
+
+    <div class="requestform">
+    <form method="get" action="https://suny-bro.primo.exlibrisgroup.com/discovery/openurl?" name="refiner">
+                  <input value="Z39.88-2004" name="url_ver" type="hidden" />
+                  <input value="info:sid/alma:CitationLinker" name="rfr_id" type="hidden" />
+                  <input value="info:ofi/fmt:kev:mtx:journal" name="rft_val_fmt" type="hidden" />
+                  <input value="01SUNY_BRO" name="institution" type="hidden" />
+                  <input value="01SUNY_BRO:01SUNY_BRO" name="vid" type="hidden" />
+                  <input value="" name="rft.isbn" type="hidden" />
+                  <input value="article" name="rft.genre" type="hidden">
+                  <input value="" name="rft.pub" type="hidden" />
+                  <input value="" name="rft.pubdate" type="hidden" />
+                  <input value="" name="rft.place" type="hidden" />
+                  <input value="" name="rft.inst" type="hidden" />
+                  <input value="" name="rft.advisor" type="hidden" />
+                  <input value="" name="rft.number" type="hidden" />
+                  <input value="" name="rft.inventor" type="hidden" />
+                  <input value="" name="rft.invfirst" type="hidden" />
+                  <input value="" name="rft.invlast" type="hidden" />
+                    <label for="inputDOI">DOI (if you have a DOI, skip other fields): </label>
+                    <input id="inputDOI" type="text" name="SS_doi">
+                  	<label for="PhotoArticleTitle">Article Title</label>
+                    <input type="text" id="rft.atitle" name="rft.atitle" size="60">
+									
+                    <label for="rft.au">Author(s)</span></label>
+                    <input id="rft.au" name="rft.au" type="text" size="60">						
+			                    
+                    <label for="rft.title">Journal</label>
+						<input type="text" id="rft.title" name="rft.title" size="40" maxlength="1000" />
+                        
+                  <label for="rft.issn" class="short">ISxN</label>
+					<input id="rft.issn" name="rft.issn" type="text" size="9">  
+					
+                    <label for="rft.volume">Volume</label>
+					<input id="rft.volume" name="rft.volume" type="text" size="3" />
+					
+					<label for="rft.issue" class="short">Issue</label>
+					<input id="rft.issue" name="rft.issue" type="text" size="3"/>						
+
+					<label for="rft.date" class="short">Date</label>
+					<input id="rft.date" name="rft.date" type="text" size="10"/>
+                    <span>(YYYY-MM-DD)</span>
+					
+                   	<label for="rft.spage">Pages</label>
+					<input id="rft.spage" name="rft.spage" type="text" size="10" />
+                 
+                    <input id="submit" type="submit" value="Search for Full Text" style="margin-left: 200px" /> &nbsp; <input id="reset" type="reset" value="Reset" />
+<h4>If you'd prefer, you can always <a href="https://brockport.illiad.oclc.org/illiad/illiad.dll?Action=10&Form=22">proceed to the request form</a>.</h4>
+<p>&nbsp;</p>
+<#INCLUDE filename="include_footer.html">

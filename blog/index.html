@@ -1,0 +1,33 @@
+---
+layout: default
+title: BLOG
+---
+<h1 style="text-align:center; text-shadow: 2px 2px #ccc;">{{ page.title }}</h1>
+<hr />
+<article>
+  <div class="container">
+    {% for post in paginator.posts %}
+    <section class="post_summary">
+      <h2 class="title"><a href="{{ post.url }}" rel="prefetch">{{ post.title }}</a></h2>
+      <p>{{ post.excerpt }}</p>
+      <div class="meta">
+        <address>{{ post.author }}</address> &mdash;
+        <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%b %d, %Y" }}">{{ post.date | date: "%b %d, %Y" }}</time>
+      </div>
+      <hr>
+    </section>
+    {% endfor %}
+    <section class='pagination'>
+      {% if paginator.next_page %}
+      <a href="/page{{ paginator.next_page }}" class="button outline older">‹ Older</a>
+      {% endif %}
+      {% if paginator.previous_page %}
+      {% if paginator.previous_page == 1 %}
+      <a href="/" class="button outline newer">Newer ›</a>
+      {% else %}
+      <a href="/page{{ paginator.previous_page }}" class="button outline newer">Newer ›</a>
+      {% endif %}
+      {% endif %}
+    </section>
+  </div>
+</article>
