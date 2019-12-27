@@ -1,8 +1,10 @@
 // Typography
 //
 // Headings, body text, lists, and other misc typographic elements.
+* {font-family: "Open Sans", Verdana, sans-serif;}
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display", Georgia,
   margin-bottom: .5rem;
   font-weight: bold;
   line-height: 1.25;
