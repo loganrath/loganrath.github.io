@@ -26,11 +26,7 @@ img, embed, object, video {
 }
 
 a {
-	color: #000;
-	transition: color 0.3s;
-	&:hover {
-		color: $linkColor;
-	}
+	color: $linkColor;
 }
 
 h2 {
