@@ -1,4 +1,7 @@
 
+* {font-family: "Open Sans", Verdana, sans-serif;}
+h1,h2,h3,h4,h5,h6{font-family: "Playfair Display", Georgia;}
+
 article div.meta {margin-top: 1rem;}
 article .meta time, article .meta address {display: inline;}
 
@@ -10,17 +13,17 @@ article .meta {color: #848484; font-size: 80%; text-transform: uppercase; letter
 div.apa {
 	padding-left: 2rem;
 	text-indent: -2rem;
-	
+
 	}
-	
+
 main p, main li, main a, nav a {font-size: 18px !important;
-    
+
     @media (max-width: 30em) {
 	   main, main p, main li, main a, nav a {font-size: 16px !important;}
 	}
-    
+
 }
-	
+
 div.contactimage {float: left; width: 30%; margin-right: 5%;}
 
 div.contacticons i {margin-right: 0.5rem;}
@@ -46,7 +49,7 @@ form.nice input,  form.nice select,  form.nice textarea {margin-left: 2px; displ
 form.nice input,  form.nice textarea {line-height: 1.25em;}
 form.nice input#submit,  form.nice input#reset {display:inline; margin-left: 30%; display:block;}
 form.nice label.nostyle {display: block; width: 400px; margin: 0 auto 1em; }
-form.nice input.nostyle {display: inline;}	
+form.nice input.nostyle {display: inline;}
 
 // searchForm
 div.searchForm form input {display:inline-block; width: 80%; font-size: 120%;}
