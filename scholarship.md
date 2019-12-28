@@ -2,6 +2,7 @@
 layout: page
 title: Scholarship
 ---
+
 Publications
 ---
 {% include publications.html %}
