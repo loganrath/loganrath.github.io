@@ -6,12 +6,12 @@ title: "Logan Rath, MS, MLS"
 
 Curriculum Vitae
 ---
-* [CV](/rath_cv_web.pdf)
+[<i class="fas fa-file-pdf pr-1"></i>CV](/rath_cv_web.pdf)
 
 
 My Official Bio
 ---
-Logan Rath is an Associate Librarian at [The College at Brockport, State University of New York](https://brockport.edu/library) where he focuses on instruction and research consultations. He is a 2016 recipient of the [Chancellor's Award for Excellence in Librarianship](https://www.suny.edu/impact/education/faculty/chancellorsawards/) for his efforts in many different areas of librarianship including technology, interlibrary loan, research consultations, and instruction. Logan is pursuing his PhD at in [Curriculum, Instruction, &amp; the Science of Learning](https://ed.buffalo.edu/teaching/academics/doctorate/cisl.html) at  the University at Buffalo, SUNY. His current research interests include the intersection of information literacy and literacy as a social practice, effective library instruction, and effective integration of technology into collegiate learning.
+Logan Rath is an Associate Librarian at [The College at Brockport, State University of New York](https://brockport.edu/library) where he focuses on instruction and student research support. He is a 2016 recipient of the [Chancellor's Award for Excellence in Librarianship](https://www.suny.edu/impact/education/faculty/chancellorsawards/) for his efforts in many different areas of librarianship including technology, interlibrary loan, research consultations, and instruction. Logan is pursuing his PhD at in [Curriculum, Instruction, &amp; the Science of Learning](https://ed.buffalo.edu/teaching/academics/doctorate/cisl.html) at  the University at Buffalo, SUNY. His current research interests include the intersection of information literacy and literacy as a social practice, effective library instruction, and effective integration of technology into collegiate learning.
 
 
 Education
