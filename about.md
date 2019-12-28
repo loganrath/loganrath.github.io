@@ -16,12 +16,10 @@ Logan Rath is an Associate Librarian at [The College at Brockport, State Univers
 
 Education
 ---
-|     Date    | Program                                                	|
-|-------------|--------------------------------------------------------	|
-| in progress | PhD, Curriculum, Instruction & the Science of Learning 	|
-|     2012    | MS, Information Design & Technology, SUNYIT            	|
-|     2007    | MLS, University at Buffalo, SUNY                       	|
-|     2005    | BA, Spanish - Adolescent Education 7-12                	|
+* 2012 - [Master of Science in Information Design and Technology, SUNY IT](https://sunypoly.edu/graduate/idt/)
+* 2007 - [MLS, University at Buffalo](http://ed.buffalo.edu/information.html)
+* 2005 - [BA, Spanish-Adolescent Education Certification 7-12, SUNY Geneseo](https://www.geneseo.edu)
+* Anticipated 2022: [PhD, Curriculum, Instruction, &amp; the Science of Learning](https://ed.buffalo.edu/teaching/academics/doctorate/cisl.html)
 
 
 Professional Experience
