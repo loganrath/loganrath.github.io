@@ -13,3 +13,13 @@ Logan Rath is an Associate Librarian at [The College at Brockport, State Univers
 
 
 Logan earned his [Master of Library Science](http://ed.buffalo.edu/information.html) degree from the University at Buffalo in 2007 and a [Master of Science in Information Design and Technology](https://sunypoly.edu/graduate/idt/) from SUNYIT in 2012 after graduating from [SUNY Geneseo](https://www.geneseo.edu) in 2005 with a Bachelor of Arts in Spanish-Adolescent Education Certification 7-12. Logan is currently enrolled in the PhD program in [Curriculum, Instruction, &amp; the Science of Learning](https://ed.buffalo.edu/teaching/academics/doctorate/cisl.html) at  the University at Buffalo, SUNY.
+
+My Work
+---
+* [Promotion Portfolio](https://promotion.loganrath.com)
+* [Presentations and Publications](/publications/)
+
+Contact Me
+---
+Personal: Logan Rath at me dot com
+Work: LRath at Brockport dot edu
