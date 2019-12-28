@@ -32,16 +32,7 @@ Professional Experience
 
 Contract Work
 ---
-I am available for consultation on the following topics:
-* assessment &amp; evaluation
-* course design &amp; development
-* custom coding (html, php, css, and javascript)
-* instruction
-* instructional design
-* interlibrary loan &amp; document delivery
-* library systems
-* technology in libraries
-* website design
+If you think I would be a good fit to help with a project or program, please see my [consulting page](/consulting/).
 
 
 Contact Me
