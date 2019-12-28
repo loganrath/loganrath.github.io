@@ -22,4 +22,5 @@ My Work
 Contact Me
 ---
 Personal: Logan Rath at me dot com
+
 Work: LRath at Brockport dot edu
