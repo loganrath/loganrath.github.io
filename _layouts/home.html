@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-{% comment %}
   {% include head.html %}
-{% endcomment %}
   <body>
 {% if page.coverimage %}
 <div id="headerbg" class="blog-cover" style="background-image:url(/images/{{ page.coverimage.url }});">
@@ -17,7 +15,9 @@
 {% if page.coverimage.caption %}<div class='cover-caption'>{{ page.coverimage.caption }}</div>{% endif %}
 {% endif %}
     <div class="container content">
+{% comment %}
      {%include header.html %}
+{% endcomment %}
       <main>
         {{ content }}
       </main>
