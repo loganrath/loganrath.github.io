@@ -6,7 +6,7 @@ title: "Logan Rath, MS, MLS"
 
 Curriculum Vitae
 ---
-[<i class="fas fa-file-pdf fa-2x pr-2"></i>Download my CV](/rath_cv_web.pdf)
+[<i class="fas fa-file-pdf fa-2x pr-2 ml-3"></i>Download my CV](/rath_cv_web.pdf)
 
 
 My Official Bio
