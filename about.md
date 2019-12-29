@@ -3,10 +3,17 @@ layout: page
 title: "Logan Rath, MS, MLS"
 ---
 
-
+<div class="row">
+<div class="col-md-8" markdown="1">
 Curriculum Vitae
 ---
 [<i class="fas fa-file-pdf fa-2x pr-2 ml-3"></i>Download my CV](/rath_cv_web.pdf)
+</div>
+<div class="col-md-4" markdown="1">
+Consulting
+---
+If you think I would be a good fit to help with a project or program, please see my [consulting page](/consulting/) page.
+</div>
 
 
 My Official Bio
@@ -30,10 +37,6 @@ Professional Experience
   * [Publications &amp; Presentations](/scholarship/)
 * SUNY Oneonta 2007 - 2008
 </div></div>
-
-Contract Work
----
-If you think I would be a good fit to help with a project or program, please see my [consulting page](/consulting/) page.
 
 
 Contact Me
