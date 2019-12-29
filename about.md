@@ -14,7 +14,7 @@ Consulting
 ---
 If you think I would be a good fit to help with a project or program, please see my [consulting page](/consulting/) page.
 </div>
-
+</div>
 
 My Official Bio
 ---
