@@ -1,8 +1,7 @@
 ---
 layout: page
-title: Scholarship
+title: Publications and Presentations
 ---
-
 Publications
 ---
 {% include publications.html %}
