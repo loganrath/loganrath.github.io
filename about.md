@@ -12,7 +12,7 @@ Curriculum Vitae
 <div class="col-md-4" markdown="1">
 Consulting
 ---
-If you think I would be a good fit to help with a project or program, please see my [consulting page](/consulting/) page.
+If you think I would be a good fit to help with a project or program, please see my [consulting page](/consulting/).
 </div>
 </div>
 
