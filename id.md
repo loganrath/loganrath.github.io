@@ -4,7 +4,7 @@ layout: interview
 ---
 <p><a class="button" target="_blank" href="http://pollev.com/brockport">Poll Everywhere</a></p>
 
-<section style="border: 3px solid #fcc726">
+<section class="fieldset">
   <h2>Instructional Design models</h2>
 <ul class="buttons">
   <li><a href="https://lti.umuc.edu/contentadaptor/topics/byid/893e59c7-0ee9-4fad-b988-8c138a5e95ce" target="_blank">Dick &amp; Carey</a></li>
