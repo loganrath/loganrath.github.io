@@ -1,6 +1,6 @@
 ---
 layout: module
-title: "Sources for Teaching American Psychological Association Format"
+title: "Sources for Teaching American Psychological Association (6th) Format"
 ---
 This page brings together content that I have used to teach about [APA Citation](https://owl.purdue.edu/owl/research_and_citation/apa_style/apa_style_introduction.html). The [standard disclaimer](/disclaimer/) applies.
 
@@ -10,7 +10,7 @@ Videos
 : This video is made by [Joshua Vossler](http://joshuavossler.com/), and is of high quality. There is specific information at the end for UWF. I generally stop playing the video before the institution-specific information plays.
 
 2. [APA In Text Citations](https://www.youtube.com/watch?v=A7Efaqn6gGE)
-: I made this video to address common errors that students new to APA make when writing. 
+: I made this video to address common errors that students new to APA make when writing.
 
 PowerPoints
 ---
