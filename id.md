@@ -1,6 +1,7 @@
 ---
 title: Instructional Design Presentation
 layout: module
+cc: no
 ---
 <p><a class="button" target="_blank" href="http://pollev.com/brockport">Poll Everywhere</a></p>
 
