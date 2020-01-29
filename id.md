@@ -5,7 +5,7 @@ cc: no
 ---
 <p><a class="button" target="_blank" href="http://pollev.com/brockport">Poll Everywhere</a></p>
 <div class="row">
-<div class="col-md-5 boxoutline">
+<div class="col-md-5 col-sm-10 offset-sm-1 boxoutline">
 <h2><span>Instructional Design Models</span></h2>
 <ul class="buttons">
   <li><a href="https://lti.umuc.edu/contentadaptor/topics/byid/893e59c7-0ee9-4fad-b988-8c138a5e95ce" target="_blank">Dick &amp; Carey</a></li>
@@ -14,7 +14,7 @@ cc: no
   <li><a href="https://michaelhanley.ie/elearningcurve/discovering-instructional-design-11-kemp-model/" target="_blank">Kemp Model</a></li>
 </ul>
 </div>
-<div class="boxoutline col-md-5 offset-md-1">
+<div class="boxoutline col-md-5 offset-md-1 col-sm-10 offset-sm-1">
   <h2><span>Learning Theories</span></h2>
 <p>Test</p>
 </div>
