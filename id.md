@@ -16,7 +16,8 @@ cc: no
 </div>
 <div class="boxoutline col-md-5 offset-md-1 col-xs-10 offset-xs-1">
   <h2><span>Learning Theories</span></h2>
-<p><a class="button" href="https://www.instructionaldesign.org/theories/" target="_blank">List of theories</a></p>
+<p><a class="btn btn-success btn-block" href="https://www.instructionaldesign.org/theories/" target="_blank">List of theories</a></p>
+<p><a class="btn btn-info btn-block" href="https://brockportsuny-my.sharepoint.com/:o:/g/personal/lrath_brockport_edu/ElFoxh1k5h5KgThCK5LvlvoBCDirFmmC4mCT9-Yrt0K5sg?e=meMDn5" target="_blank">One Note</a></p>
 </div>
 </div>
 <div style="clear:both;"></div>
