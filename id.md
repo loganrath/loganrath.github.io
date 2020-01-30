@@ -16,7 +16,7 @@ cc: no
 </div>
 <div class="boxoutline col-md-5 offset-md-1 col-xs-10 offset-xs-1">
   <h2><span>Learning Theories</span></h2>
-<p>Test</p>
+<p><a class="button" href="https://www.instructionaldesign.org/theories/" target="_blank">List of theories</a></p>
 </div>
 </div>
 <div style="clear:both;"></div>
