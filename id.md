@@ -19,7 +19,6 @@ cc: no
 <p><a class="btn btn-primary btn-block" href="https://www.instructionaldesign.org/theories/" target="_blank">List of Theories</a></p>
 <p><a class="btn btn-primary btn-block" href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&lang=en&sortby=rank" target="_blank">Library Resources</a></p>
 <p><a class="btn btn-primary btn-block" href="https://docs.google.com/document/d/1AKfq3GIzdDQfb33iFvNfHWHQCsfiflEV5K9o5JKHBaU/edit?usp=sharing" target="_blank">Google Doc</a></p>
-<p><a class="btn btn-primary btn-block" href="https://brockportsuny-my.sharepoint.com/:o:/g/personal/lrath_brockport_edu/ElFoxh1k5h5KgThCK5LvlvoBCDirFmmC4mCT9-Yrt0K5sg?e=meMDn5" target="_blank">One Note</a></p>
 </div>
 </div>
 <div style="clear:both;"></div>
