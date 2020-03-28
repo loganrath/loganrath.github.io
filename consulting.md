@@ -5,7 +5,7 @@ keywords: ADA, librarian, accessibility, course design consultant, library web d
 ---
 About Me
 ---
-I'm an academic librarian with various experiences (listed below), that can help you achieve your goals. I invite you to [read more about me](/about/). If you'd like to see the types of things I do, see my [promotion portfolio](https://promotion.loganrath.com).
+I'm an academic librarian with various experiences (listed below) that can help you achieve your goals. I invite you to [read more about me](/about/). If you'd like to see the types of things I do, see my [promotion portfolio](https://promotion.loganrath.com).
 
 
 Areas of Expertise
@@ -25,4 +25,4 @@ Areas of Expertise
 
 Rates
 ---
-Rates are negotiable depending on the size of the project. Please contact me at LoganRath at me dot com to inquire.
+Rates are negotiable depending on the size of the project. Please contact me at LoganRath at me dot com.
