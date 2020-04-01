@@ -1,5 +1,5 @@
 ---
-title: Kaltura URL changer
+title: Get External URL for a Kaltura Video
 layout: page
 ---
 <p>This page will take a Kaltura media URL from <a href="https://brockport.mediaspace.kaltura.com" target="_blank">MediaSpace</a> and convert it to a URL that can be used outside of Blackboard. In order to find the Kaltura media URL:
@@ -27,6 +27,7 @@ layout: page
   var pathArray = kurl.split("/");
   var lastEl = pathArray[pathArray.length-1];
   var exturl = "https://www.kaltura.com/index.php/extwidget/preview/partner_id/573351/uiconf_id/42521101/entry_id/"+lastEl+"/embed/auto?&flashvars[streamerType]=auto";
-  document.getElementById("kudiv").innerHTML='<h2>External Kaltura URL</h2><p><a href="'+exturl+'">'+exturl+'</a></p>';
+  document.getElementById("kudiv").innerHTML='<h2>External Kaltura URL</h2><p style="font-size:24px !important;"><a href="'+exturl+'">'+exturl+'</a></p>';
+  $("#kudiv").
   }
 </script>
