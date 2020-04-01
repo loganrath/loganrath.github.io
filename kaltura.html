@@ -2,12 +2,24 @@
 title: Kaltura URL changer
 layout: page
 ---
+<p>This page will take a Kaltura media URL from <a href="https://brockport.mediaspace.kaltura.com" target="_blank">MediaSpace</a> and convert it to a URL that can be used outside of Blackboard. In order to find the Kaltura media URL:
+  <ol>
+    <li>Log into <a href="https://brockport.mediaspace.kaltura.com" target="_blank">MediaSpace</a> with your NetID and password.</li>
+    <li>Find the video you wish to use.</li>
+    <li>Click on the title to open the video on its own page.</li>
+    <li>Copy the URL from the address bar of your browser.</li>
+    <li>Paste the URL into the form below.</li>
+    <li>Press Submit and the new URL should load below the form.</li>
+  </ol>
+</p>
+
 <form action="javascript:void(0);" onsubmit="javascript:newurl();">
-<input type="text" id="kalturaUrl" name="kalturaUrl" />
-<input type="submit" value="go" />
+<label for="kalturaUrl">Mediaspace URL: </label>
+<input type="text" id="kalturaUrl" name="kalturaUrl" size="70" />
+<input type="submit" value="Submit" />
 </form>
 
-<div id="kudiv"></div>
+<div id="kudiv" style="margin-top:1em;"></div>
 
 <script>
   function newurl() {
@@ -15,6 +27,6 @@ layout: page
   var pathArray = kurl.split("/");
   var lastEl = pathArray[pathArray.length-1];
   var exturl = "https://www.kaltura.com/index.php/extwidget/preview/partner_id/573351/uiconf_id/42521101/entry_id/"+lastEl+"/embed/auto?&flashvars[streamerType]=auto";
-  document.getElementById("kudiv").innerHTML='<p>Your Kaltura URL is: <a href="'+exturl+'">'+exturl+'</a></p>';
+  document.getElementById("kudiv").innerHTML='<h2>External Kaltura URL</h2><p><a href="'+exturl+'">'+exturl+'</a></p>';
   }
 </script>
