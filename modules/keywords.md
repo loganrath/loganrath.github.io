@@ -25,7 +25,7 @@ Handouts
 
 2. [Concept Map](files/ConceptMap.pdf) - A concept mapping tool to help expand searching
 
-3. [Keywords 2 Up](files/Vossler_keywords_2up.pdf) - A handout that mimics the Video #1 listed above.
+3. [Keywords 2 Up](files/Vossler_Keywords_2up.pdf) - A handout that mimics the Video #1 listed above.
 
 
 Activities
