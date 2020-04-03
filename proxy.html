@@ -1,0 +1,22 @@
+---
+title: Proxy a URL
+layout: page
+---
+<p>This page will append the proxy prefix to the URL specified</p>
+
+<form action="javascript:void(0);" onsubmit="javascript:proxyit();">
+<label for="addr">Mediaspace URL: </label>
+<input type="text" id="addr" name="addr" size="70" />
+<input type="submit" value="Submit" />
+</form>
+
+<div id="pxyDiv" style="margin-top:1em;"></div>
+
+<script>
+  function proxyit() {
+  var addr = $("#addr").val();
+  var bptpxyUrl = "https://brockport.idm.oclc.org/login?url="+addr;
+  var ubpxyUrl = "https://gate.lib.buffalo.edu/login?url="+addr;
+  document.getElementById("pxyDiv").innerHTML='<table><tr><th>Place</th><th>URL</th></tr><tr><td>Brockport</td><td>'+bptpxyUrl+'</td></tr><tr><td>UB</td><td>'+ubpxyUrl+'</td></tr></table>';
+  }
+</script>
