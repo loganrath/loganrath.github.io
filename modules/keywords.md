@@ -12,8 +12,21 @@ Videos
 
 Websites
 ---
-1. [IUPUI Keyword Generator](http://ulib.iupui.edu/keywords/)
+1. [Auburn University Selecting Keywords to Search](https://www.lib.auburn.edu/aubieasks/tutorials/keywords/#/)
+: This self-paced module was also awarded a Primo award for library instruction. I prefer it to the Keyword Generator below.
+
+2. [IUPUI Keyword Generator](http://ulib.iupui.edu/keywords/)
 : This site was originally developed at UTAustin where it was awarded a Primo award for library instruction. I find it incredibly useful.
+
+
+Handouts
+---
+1. [ProCon list](files/ProCon.docx) - A handout with various Pro/Con keywords that might be useful to focus a search.
+
+2. [Concept Map](files/ConceptMap.pdf) - A concept mapping tool to help expand searching
+
+3. [Keywords 2 Up](files/Vossler_Keywords_2up.pdf) - A handout that mimics the Video #1 listed above.
+
 
 Activities
 ---
