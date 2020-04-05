@@ -10,16 +10,18 @@ var isILLiad = false;
 
 /* OpenURLbase is the URL for your institution's OpenURL resolver, stopping just before the "?" before the OpenURL fields */
 var OpenURLbase = 'https://suny-bro.primo.exlibrisgroup.com/discovery/openurl';
+var OpenURLbase2 = 'https://search.lib.buffalo.edu/discovery/openurl';
 
 /* OpenURL prefix is only required if your resolver requires instiution specific information to be included */
 var OpenURLprefix ='institution=01SUNY_BRO&vid=01SUNY_BRO:01SUNY_BRO';
+var OpenURLprefix2 = 'institution=01SUNY_BUF&vid=01SUNY_BUF:everything';
 
-/* OpenURLsuffix is only required if your resolver requires institutional authentication in a GET variable (EBSCO), as opposed to having the code in the host name (like 360Link). 
+/* OpenURLsuffix is only required if your resolver requires institutional authentication in a GET variable (EBSCO), as opposed to having the code in the host name (like 360Link).
 Change this value to '' if you're in the latter category. */
 var OpenURLsuffix = '';
 
 /* OpenURLbase is the label displayed for OpenURL links */
-var OpenURLbranding = 'Get an electronic copy';					
+var OpenURLbranding = 'Get an electronic copy';
 
 /* == Define function for testing whether the input field contains a properly formatted DOI == */
 function DOItest(DOItoTest) {
@@ -40,13 +42,13 @@ $(document).ready(function() {
 	}
 	$('#haveDOI').click(function() {
 		$('#doiSearchBox').show();
-		$('#doiSearchBox').dialog({ title: "DOI Search for Interlibrary Loan", modal: true, width: 350, position: 'middle', center: true, buttons: [ 
-		{ 
-		text: 'Close', 
-		click: function() { $(this).dialog("close");} 
-		} 
-		] }); 
-		
+		$('#doiSearchBox').dialog({ title: "DOI Search for Interlibrary Loan", modal: true, width: 350, position: 'middle', center: true, buttons: [
+		{
+		text: 'Close',
+		click: function() { $(this).dialog("close");}
+		}
+		] });
+
 	});
 	$('#checkDOI').click(function() {
 		$('#doiResponse').text('');
@@ -112,7 +114,7 @@ $(document).ready(function() {
 								if (k2 == 'date-parts'){
 									strPublishedPrint = v2.toString().split(',')[0];
 								}
-							});		
+							});
 							break;
 						case 'published-online':
 							/* Need nested loop to process array; also run logic later to prioritize published-print over published-online over created date */
@@ -175,11 +177,13 @@ $(document).ready(function() {
 				} else if (!(strCreated == '')) {
 					strDate = strCreated;
 				}
-				
+
 				if (!(isILLiad == true)) {
 					/* Since this isn't for ILLiad, Generate Output to the screen and create an OpenURL link */
 					var OpenURLLink = OpenURLbase + '?' + OpenURLprefix + '&sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&id=doi%3A%2F%2F' + encodeURIComponent(DOI) + OpenURLsuffix;
-					$('#doiResponse').append('<h4>Check for full text</h4><p><a href="' + OpenURLLink + '">Search for Full Text</a></p><h4>Information About this DOI</h4><div id="doiCitationData">');
+					var OpenURLLink2 = OpenURLbase2 + '?' + OpenURLprefix2 + '&sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&id=doi%3A%2F%2F' + encodeURIComponent(DOI) + OpenURLsuffix2;
+					$('#doiResponse').append('<h4>Check for full text</h4><p><a href="' + OpenURLLink + '">Find it at Brockport</a></p><h4>Information About this DOI</h4><div id="doiCitationData">');
+					$('#doiResponse').append('<h4>Check for full text</h4><p><a href="' + OpenURLLink2 + '">Find it at UB</a></p><h4>Information About this DOI</h4><div id="doiCitationData2">');
 					/* TBD: Add a function to display a structured citation
 					$('#doiResponse').append('<div id="apacitation">Citation: '+ getCitation(strAuthor,) + '<br />');
 					*/
