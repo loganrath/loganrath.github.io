@@ -19,6 +19,7 @@ var OpenURLprefix2 = 'institution=01SUNY_BUF&vid=01SUNY_BUF:everything';
 /* OpenURLsuffix is only required if your resolver requires institutional authentication in a GET variable (EBSCO), as opposed to having the code in the host name (like 360Link).
 Change this value to '' if you're in the latter category. */
 var OpenURLsuffix = '';
+var OpenURLsuffix2 = '';
 
 /* OpenURLbase is the label displayed for OpenURL links */
 var OpenURLbranding = 'Get an electronic copy';
