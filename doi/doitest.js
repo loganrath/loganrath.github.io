@@ -185,8 +185,8 @@ $(document).ready(function() {
 					var OpenURLLink2 = OpenURLbase2 + '?' + OpenURLprefix2 + '&sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&id=doi%3A%2F%2F' + encodeURIComponent(DOI) + OpenURLsuffix2;
 					/* Modified this part to display buttons in a second column */
 					$('#openUrlLinking').append('<h4>Check for full text</h4>');
-					$('#openUrlLinking').append('<p><a href="' + OpenURLLink + '">Find it at Brockport</a></p>');
-					$('#openUrlLinking').append('<h4>Check for full text</h4><p><a href="' + OpenURLLink2 + '">Find it at UB</a></p>');
+					$('#openUrlLinking').append('<button style="height: 2em; width:100%"><a href="' + OpenURLLink + '">Find it at Brockport</a></button>');
+					$('#openUrlLinking').append('<button style="height: 2em; width:100%"><a href="' + OpenURLLink2 + '">Find it at UB</a></button>');
 					$('#doiResponse').append('<h4>Information About this DOI</h4><div id="doiCitationData2">');
 					/* TBD: Add a function to display a structured citation
 					$('#doiResponse').append('<div id="apacitation">Citation: '+ getCitation(strAuthor,) + '<br />');
