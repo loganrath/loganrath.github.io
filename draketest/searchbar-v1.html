@@ -1,0 +1,156 @@
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:500,700|Droid+Serif:400,700" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://www.brockport.edu/_resources/css/style.css" media="all"/>
+    <link rel="stylesheet" href="https://www.brockport.edu/_resources/css/brockport.css" media="all">
+    <script src="https://www.brockport.edu/_resources/js/jquery.min.js"> </script>
+    <script src="https://www.brockport.edu/_resources/js/lib.min.js"> </script>
+    <script src="https://www.brockport.edu/_resources/js/legacy.js"> </script>
+</head>
+<body>
+<div class="photo fullbar">
+    <form action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" method="post"  id="searchSection">
+
+ <!-- Customizable Parameters -->
+    <input name="institution" type="hidden" value="01SUNY_BRO"> 
+    <input name="vid" type="hidden" value="01SUNY_BRO:01SUNY_BRO"> 
+    <input id="primoTab" name="tab" type="hidden" value="Everything"> 
+    <input id="primoScope" name="search_scope" type="hidden" value="MyInst_and_CI"> 
+    <input name="mode" type="hidden" value="Basic"> 
+    
+ <!-- Fixed parameters --> 
+    <input name="displayMode" type="hidden" value="full"> 
+    <input name="bulkSize" type="hidden" value="10"> 
+    <input name="highlight" type="hidden" value="true"> 
+    <input name="dum" type="hidden" value="true"> 
+    <input id="primoQuery" name="query" type="hidden"> 
+
+    <input name="displayField" type="hidden" value="all"> 
+                
+        <div class="row" id="topSearchInput">
+            <div class="search-holder">
+                <span id="showSearchDropDown" title="Advanced Library Search" >
+                    <span id="search-filter">filter</span>
+                    <span id="search-arrow"></span>
+                </span>
+                
+                <input type="submit" id="libSearchSubmit" />
+                <input type="text" placeholder="Search articles, books, videos, and more.."
+                    id="libSearch" name="search" />
+            </div>
+        </div>
+
+        <div id="SearchDropDown" class="row" style="" >
+            <div class="columns small-12 medium-3 large-4">
+                <div class="search-group">
+                    <h5>Item type:</h5>
+                    <div>
+                        <input type="radio" name="itemType" id="allType" value="all" checked >
+                        <label for="allType">All</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="itemType" id="articleType" value="articles">
+                        <label   for="articleType">Article</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="itemType" id="booksType" value="books">
+                        <label for="booksType">Books</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="itemType" id="reservesType" value="reserves">
+                        <label for="reservesType">Course Reserves</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="itemType" id="newspaperType" value="newspapers">
+                        <label for="newspaperType">Newspaper</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="itemType" id="videosType" value="videos">
+                        <label for="videosType">Videos</label>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="columns small-12 medium-3 large-4">
+                <div class="search-group">
+                    <h5>Sort By:</h5>
+                    <div>
+                        <input type="radio" name="searchSort" id="relSortBy" value="rank" checked>
+                        <label for="relSortBy">Relevance</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="searchSort" id="dateSortBy" value="date_d">
+                        <label for="dateSortBy">Date-newest</label>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="columns small-12 medium-6 large-4" >
+                <div class="search-group" id="searchCheckboxes">
+                    <h5>Show (multiple):</h5>
+                    
+                    <div>
+                        <input type="checkbox" name="searchPeerReview" id="searchPeerReview">
+                        <label for="searchPeerReview">Peer Reviewed/Scholarly</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="isPhysical" id="isPhysical">
+                        <label for="isPhysical">Available In Library</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="isOnline" id="isOnline">
+                        <label for="isOnline">Available Online</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="isReference" id="isReference">
+                        <label for="isReference">Dictionaries &amp; Encyclopedias</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="isRecent" id="isRecent">
+                        <label for="isRecent">Last Ten Years</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+    <span id="search-submitnow">display results</span>
+    <div id="results"></div>
+</body>
+
+<script>
+$("#SearchDropDown").hide();
+$(document).on('click','#search-filter',function(){
+    $("#SearchDropDown").toggle();
+});
+
+
+$(document).on('click','#search-submitnow',function(){
+    var primo_item_type = $('input[name=itemType]:checked', '#searchSection').val();
+    var primo_sort_type = $('input[name=searchSort]:checked', '#searchSection').val();
+    var primo_peer_review = "no";
+    var primo_peer_review = ($('#searchPeerReview').is(":checked")) ? 'PR' :'NOPR';
+    var primo_isPhysical = ($('#isPhysical').is(":checked")) ? 'yes Physical' :'no Physical';
+    var primo_isOnline = ($('#isOnline').is(":checked")) ? 'yes Online' :'no Online';
+    var primo_isReference = ($('#isReference').is(":checked")) ? 'yes Ref' :'no Ref';
+    var primo_isRecent = ($('#isRecent').is(":checked")) ? 'yes Recent' :'no Recent';
+
+    $("#results").html("");
+    $("#results").append(primo_item_type);
+    $("#results").append("<br />");
+    $("#results").append(primo_sort_type);
+    $("#results").append("<br />");
+    $("#results").append(primo_peer_review);
+    $("#results").append("<br />");
+    $("#results").append(primo_isPhysical);
+    $("#results").append("<br />");
+    $("#results").append(primo_isOnline);
+    $("#results").append("<br />");
+    $("#results").append(primo_isReference);
+    $("#results").append("<br />");
+    $("#results").append(primo_isRecent);
+
+});
+</script>
+
+</html>
