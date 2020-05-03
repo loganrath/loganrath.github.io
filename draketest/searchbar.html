@@ -94,6 +94,7 @@
 </style>
 </head>
 <body>
+<main>
 <div class="photo bleed bg-blue">
     <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo()" method="get"  id="libSearchForm" name="libSearchForm">
 
@@ -213,8 +214,6 @@
             </div>
         </div>
         <div style="clear: both;"></div>
-    <span id="search-submitnow">display results</span>
-    <div id="results"></div>
 </body>
 
 <script>
@@ -225,33 +224,6 @@ $(document).on('click','#showSearchDropDown',function(){
     $("#showSearchDropDown").toggleClass("filterOn");
 });
 
-
-$(document).on('click','#search-submitnow',function(){
-    var primo_item_type = $('input[name=itemType]:checked', '#SearchDropDown').val();
-    var primo_sort_type = $('input[name=searchSort]:checked', '#SearchDropDown').val();
-    var primo_peer_review = ($('#searchPeerReview').is(":checked")) ? 'PR' :'NOPR';
-    var primo_isPhysical = ($('#isPhysical').is(":checked")) ? 'yes Physical' :'no Physical';
-    var primo_isOnline = ($('#isOnline').is(":checked")) ? 'yes Online' :'no Online';
-    var primo_isReference = ($('#isReference').is(":checked")) ? 'yes Ref' :'no Ref';
-    var primo_isRecent = ($('#isRecent').is(":checked")) ? 'yes Recent' :'no Recent';
-
-    $("#results").html("");
-    $("#results").append(primo_item_type);
-    $("#results").append("<br />");
-    $("#results").append(primo_sort_type);
-    $("#results").append("<br />");
-    $("#results").append(primo_peer_review);
-    $("#results").append("<br />");
-    $("#results").append(primo_isPhysical);
-    $("#results").append("<br />");
-    $("#results").append(primo_isOnline);
-    $("#results").append("<br />");
-    $("#results").append(primo_isReference);
-    $("#results").append("<br />");
-    $("#results").append(primo_isRecent);
-    gatherFacets();
-
-});
 
 function gatherFacets() {
     var primo_item_type = $('input[name=itemType]:checked', '#SearchDropDown').val();
