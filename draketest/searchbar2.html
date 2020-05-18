@@ -133,61 +133,64 @@
     </form>
 </div>
         <div id="SearchDropDown" class="row" >
-            <div class="columns small-12 medium-3 large-4">
+            <div class="columns small-12 medium-3 large-3">
                 <div class="search-group">
                     <h5>Item type:</h5>
                     <div>
-                        <input type="radio" name="itemType" id="allType" onclick="primoScopeSwitch(this);" value="all" checked >
-                        <label for="allType">All</label>
+                        <input type="checkbox" name="isArticles" id="isPhysical">
+                        <label for="isArticles">Articles</label>
                     </div>
                     <div>
-                        <input type="radio" name="itemType" id="articleType" onclick="primoScopeSwitch(this);"  value="articles">
-                        <label   for="articleType">Articles</label>
+                        <input type="checkbox" name="isBooks" id="isBooks">
+                        <label for="isBooks">Books</label>
                     </div>
                     <div>
-                        <input type="radio" name="itemType" id="booksType" onclick="primoScopeSwitch(this);"  value="LibraryCatalog">
-                        <label for="booksType">Books</label>
+                        <input type="checkbox" name="isNews" id="isNews">
+                        <label for="isNews">Newspaper</label>
                     </div>
                     <div>
-                        <input type="radio" name="itemType" id="videosType" onclick="primoScopeSwitch(this);"  value="videos">
-                        <label for="videosType">Videos</label>
+                        <input type="checkbox" name="isVideos" id="isVideos">
+                        <label for="isVideos">Videos</label>
                     </div>
-                    <div>
-                        <input type="radio" name="itemType" id="reservesType" onclick="primoScopeSwitch(this);"  value="reserves">
-                        <label for="reservesType">Course Reserves</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="itemType" id="digitalcommonsType" onclick="primoScopeSwitch(this);"  value="DigitalCommons">
-                        <label for="digitalcommonsType">Digital Commons</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="itemType" id="newspaperType" onclick="primoScopeSwitch(this);"  value="newspapers">
-                        <label for="newspaperType">Newspaper</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="itemType" id="journalsType" onclick="primoScopeSwitch(this);"  value="journals">
-                        <label for="journalsType">Journal Titles</label>
-                    </div>
-
                 </div>
             </div>
-
-            <div class="columns small-12 medium-3 large-4">
+            <div class="columns small-12 medium-3 large-3">
                 <div class="search-group">
-                    <h5>Sort By:</h5>
-                    <div>
-                        <input type="radio" name="searchSort" id="relSortBy" value="rank" checked>
-                        <label for="relSortBy">Relevance</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="searchSort" id="dateSortBy" value="date_d">
-                        <label for="dateSortBy">Date-newest</label>
+                    <h5>Collection:</h5>
+                    <div class="row">
+                        <div>
+                            <input type="radio" name="itemType" id="allType" onclick="primoScopeSwitch(this);" value="all" checked >
+                            <label for="allType">All</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="itemType" id="articleType" onclick="primoScopeSwitch(this);"  value="articles">
+                            <label for="articleType">Articles</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="itemType" id="libcatType" onclick="primoScopeSwitch(this);" value="LibraryCatalog">
+                            <label for="libcatType">Library Catalog</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="itemType" id="SUNYcatType" onclick="primoScopeSwitch(this);" value="SUNYCat">
+                            <label for="SUNYcatType">SUNY Catalog</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="itemType" id="reservesType" onclick="primoScopeSwitch(this);"  value="reserves">
+                            <label for="reservesType">Course Reserves</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="itemType" id="digitalcommonsType" onclick="primoScopeSwitch(this);"  value="DigitalCommons">
+                            <label for="digitalcommonsType">Digital Commons</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="itemType" id="journalsType" onclick="primoScopeSwitch(this);"  value="journals">
+                            <label for="journalsType">Journal Titles</label>
+                        </div>
                     </div>
                 </div>
             </div>
-                
-            <div class="columns small-12 medium-6 large-4" >
-                <div class="search-group" id="searchCheckboxes">
+            <div class="columns small-12 medium-3 large-3" >
+                <div class="search-group">
                     <h5>Show (multiple):</h5>
                     
                     <div>
@@ -234,6 +237,14 @@ function gatherFacets() {
     var primo_isReference = ($('#isReference').is(":checked")) ? 'yes Ref' :'no Ref';
     var primo_isRecent = ($('#isRecent').is(":checked")) ? 'yes Recent' :'no Recent';
     $("#facets").empty();
+
+    $('#isArticles').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="" />') : '';
+    $('#isBooks').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="" />') : '';
+    $('#isNews').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="" />') : '';
+    $('#isVideos').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="" />') : '';
+
+
+
     $('#searchPeerReview').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,peer_reviewed" />') : '';
     $('#isPhysical').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="tlevel,include,online_resources,1" /><input type="hidden" name="mfacet" value="tlevel,include,available_p,1" />') : '';
     $('#isOnline').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
