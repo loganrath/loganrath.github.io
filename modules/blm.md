@@ -2,7 +2,7 @@
 layout: module
 title: "Black Lives Matter"
 ---
-This page brings together resources to help white people (like myself) learn more about the Black Lives Matter movement. This is not an exhaustive list.
+This page brings together resources to help white people (like myself) learn more about the Black Lives Matter movement. This is not an exhaustive list. The [standard disclaimer](/disclaimer.html) applies.
 
 Background Information on Black Lives Matter
 ---
