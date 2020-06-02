@@ -17,7 +17,7 @@ General Resources
 
 Teaching Resources
 ---
-1.  [TeachingTolerance.org](https://www.tolerance.org/the-moment/june-1-2020-black-lives-matter)
+1.  [Black Lives Matter at TeachingTolerance.org](https://www.tolerance.org/the-moment/june-1-2020-black-lives-matter)
 2.  [There is no apolitical classroom: Resources for teaching in these times (NCTE)](https://ncte.org/blog/2017/08/there-is-no-apolitical-classroom-resources-for-teaching-in-these-times/)
 3.  [BlackLivesMatterSyllabus.com](http://blacklivesmattersyllabus.com/)
 4.  [Black Lives Matter at School: Teaching Materials](https://blacklivesmatteratschool.com/teaching-materials/)
