@@ -4,6 +4,8 @@ title: "Black Lives Matter Resources"
 ---
 This page brings together resources to help white people (like myself) learn more about the Black Lives Matter movement. This is not an exhaustive list. The [standard disclaimer](/disclaimer.html) applies.
 
+<img src="blmheader.jpg" alt="Image of graffiti saying Black Lives Matter" />
+
 Background Information on Black Lives Matter
 ---
 1.  [What We Believe from BlackLivesMatter.com](https://blacklivesmatter.com/what-we-believe/)
