@@ -23,3 +23,4 @@ Teaching Resources
 4.  [Black Lives Matter at School: Teaching Materials](https://blacklivesmatteratschool.com/teaching-materials/)
 
 <img src="/learning/files/blmheader.jpg" alt="Image of graffiti saying Black Lives Matter" />
+Image from [bmartinseattle](https://pixabay.com/users/bmartinseattle-208305/) at Pixabay.com [source](https://pixabay.com/photos/black-lives-matter-african-american-1011597/)
