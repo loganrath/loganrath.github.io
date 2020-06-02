@@ -4,8 +4,6 @@ title: "Black Lives Matter Resources"
 ---
 This page brings together resources to help white people (like myself) learn more about the Black Lives Matter movement. This is not an exhaustive list. The [standard disclaimer](/disclaimer.html) applies.
 
-<img src="blmheader.jpg" alt="Image of graffiti saying Black Lives Matter" />
-
 Background Information on Black Lives Matter
 ---
 1.  [What We Believe from BlackLivesMatter.com](https://blacklivesmatter.com/what-we-believe/)
@@ -23,3 +21,5 @@ Teaching Resources
 2.  [There is no apolitical classroom: Resources for teaching in these times](https://ncte.org/blog/2017/08/there-is-no-apolitical-classroom-resources-for-teaching-in-these-times/)
 3.  [BlackLivesMatterSyllabus.com](http://blacklivesmattersyllabus.com/)
 4.  [Black Lives Matter at School: Teaching Materials](https://blacklivesmatteratschool.com/teaching-materials/)
+
+<img src="/learning/files/blmheader.jpg" alt="Image of graffiti saying Black Lives Matter" />
