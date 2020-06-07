@@ -14,6 +14,8 @@ General Resources
 1.  [Anti-Racism Resources](https://bit.ly/ANTIRACISMRESOURCES) (a Google doc with MANY, MANY resources)
 2.  [Goodreads - Black Lives Matter](https://www.goodreads.com/genres/black-lives-matter)
 3.  [Resources from the Anti-Racism Project](https://www.antiracismproject.org/resources)
+4.  [Anti-Racist Starter Pack](https://parade.com/1046031/breabaker/anti-racist-tv-movies-documentaries-ted-talks-books/)
+5.  [A Detailed List of Anti-Racism Resources](https://medium.com/wake-up-call/a-detailed-list-of-anti-racism-resources-a34b259a3eea)
 
 Teaching Resources
 ---
