@@ -91,6 +91,20 @@
     transform: rotate(0deg) !important;
     transition: .1s;
 }
+
+#searchDropDown input[type=radio] {
+    display: none;
+}
+#searchDropDown input[type=radio]:not(:checked) + label {
+    width: 200px;
+    padding: .25em 1em;
+}
+#searchDropDown input:checked + label {
+    width: 200px;
+    padding: .25em 1em;
+    background-color: #05533e;
+    color: white;
+}
 </style>
 </head>
 <body>
