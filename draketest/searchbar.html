@@ -91,6 +91,7 @@
     transform: rotate(0deg) !important;
     transition: .1s;
 }
+#searchDropDown {font-family: Raleway, sans-serif;}
 
 #searchDropDown input[type=radio] {
     display: none;
@@ -98,11 +99,17 @@
 #searchDropDown input[type=radio]:not(:checked) + label {
     width: 200px;
     padding: .25em 1em;
+    border: 1px solid #05533e;
+    border-radius: 5px;
+    margin-bottom: 0.55em;
 }
 #searchDropDown input:checked + label {
     width: 200px;
     padding: .25em 1em;
+    margin-bottom: 0.5em;
     background-color: #05533e;
+    border: 1px solid #05533e;
+    border-radius: 5px;
     color: white;
 }
 </style>
