@@ -93,18 +93,18 @@
 }
 #searchDropDown {font-family: Raleway, sans-serif;}
 
-#searchDropDown input[type=radio] {
+#searchDropDown input[type=radio], #searchDropDown input[type=checkbox] {
     display: none;
 }
-#searchDropDown input[type=radio]:not(:checked) + label {
-    width: 200px;
+#searchDropDown input[type=radio]:not(:checked) + label, #searchDropDown input[type=checkbox]:not(:checked) + label  {
+    width: 95%;
     padding: .25em 1em;
     border: 1px solid #05533e;
     border-radius: 5px;
     margin-bottom: 0.55em;
 }
 #searchDropDown input:checked + label {
-    width: 200px;
+    width: 95%;
     padding: .25em 1em;
     margin-bottom: 0.5em;
     background-color: #05533e;
@@ -155,9 +155,11 @@
 </div>
         <div id="SearchDropDown">
             <div class="row" id="SearchDropDownContent">
-            <div class="columns small-12 medium-3 large-4">
+            <div class="columns small-12 medium-6 large-5">
                 <div class="search-group">
                     <h5>Item type:</h5>
+                    <div class="row">
+                    <div class="small-12 medium-5 columns">
                     <div>
                         <input type="radio" name="itemType" id="allType" onclick="primoScopeSwitch(this);" value="all" checked >
                         <label for="allType">All</label>
@@ -174,6 +176,8 @@
                         <input type="radio" name="itemType" id="videosType" onclick="primoScopeSwitch(this);"  value="videos">
                         <label for="videosType">Videos</label>
                     </div>
+                    </div>
+                    <div class="small-12 medium-5 medium-pull-2 columns">
                     <div>
                         <input type="radio" name="itemType" id="reservesType" onclick="primoScopeSwitch(this);"  value="reserves">
                         <label for="reservesType">Course Reserves</label>
@@ -190,11 +194,13 @@
                         <input type="radio" name="itemType" id="journalsType" onclick="primoScopeSwitch(this);"  value="journals">
                         <label for="journalsType">Journal Titles</label>
                     </div>
+                </div>
+                </div>
 
                 </div>
             </div>
 
-            <div class="columns small-12 medium-3 large-4">
+            <div class="columns small-12 medium-2 large-3">
                 <div class="search-group">
                     <h5>Sort By:</h5>
                     <div>
@@ -208,7 +214,7 @@
                 </div>
             </div>
                 
-            <div class="columns small-12 medium-6 large-4" >
+            <div class="columns small-12 medium-4 large-4" >
                 <div class="search-group" id="searchCheckboxes">
                     <h5>Show (multiple):</h5>
                     
