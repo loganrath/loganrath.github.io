@@ -262,12 +262,13 @@ function gatherFacets() {
     var primo_isOnline = ($('#isOnline').is(":checked")) ? 'yes Online' :'no Online';
     var primo_isReference = ($('#isReference').is(":checked")) ? 'yes Ref' :'no Ref';
     var primo_isRecent = ($('#isRecent').is(":checked")) ? 'yes Recent' :'no Recent';
+    var current_year = new Date().getFullYear();
     $("#facets").empty();
     $('#searchPeerReview').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,peer_reviewed" />') : '';
     $('#isPhysical').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="tlevel,include,online_resources,1" /><input type="hidden" name="mfacet" value="tlevel,include,available_p,1" />') : '';
     $('#isOnline').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
     $('#isReference').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,reference_entrys" />') : '';
-    $('#isRecent').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="searchcreationdate,include,2010|,|2021,1" />') : '';
+    $('#isRecent').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="searchcreationdate,include,2010|,|'+current_year+',1" />') : '';
     (primo_item_type === "videos") ? $("#facets").append('<input type="hidden" name="mfacet" value="rtype,include,videos,1" /><input type="hidden" name="mfacet" value="rtype,include,dvd,1" />') : '';
     (primo_item_type === "newspapers") ? $("#facets").append('<input type="hidden" name="mfacet" value="rtype,include,videos,1" /><input type="hidden" name="mfacet" value="rtype,include,newspaper_articles,1" />') : '';
     (primo_sort_type === "date_d") ? $("#facets").append('<input type="hidden" name="sortby" value="date_d" />') : '';
