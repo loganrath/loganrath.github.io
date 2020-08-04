@@ -48,7 +48,7 @@
     top: 5px;
     padding-top:5px;
     cursor: pointer;
-    width: 100px;
+    width: 130px;
     position: absolute;
     right: 70px;
     height: 56px;
@@ -56,9 +56,9 @@
     border-right: 1px solid #4e8496;
 }
 #topSearchInput #showSearchDropDown #search-arrow {
-    background-image: url(https://library.stedwards.edu/assets/img/search-arrow.svg);
+    background-image: url(https://www.loganrath.com/draketest/search-arrow.svg);
     background-repeat: no-repeat;
-    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/assets/img/search-arrow.svg', sizingMethod='scale')";
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='search-arrow.svg', sizingMethod='scale')";
     -webkit-background-size: 18px;
     -moz-background-size: 18px;
     -o-background-size: 18px;
@@ -74,9 +74,9 @@
 }
 #topSearchInput #libSearchSubmit {
     background: transparent;
-    background-image: url(https://library.stedwards.edu/assets/img/magnifying-glass.svg);
+    background-image: url(https://www.loganrath.com/draketest/magnifying-glass.svg);
     background-repeat: no-repeat;
-    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='https://library.stedwards.edu/assets/img/magnifying-glass.svg', sizingMethod='scale')";
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='https://www.loganrath.com/draketest/magnifying-glass.svg', sizingMethod='scale')";
     background-size: 30px;
     background-position: center center;
     border: 0;
@@ -90,6 +90,27 @@
 #topSearchInput #showSearchDropDown.filterOn #search-arrow {
     transform: rotate(0deg) !important;
     transition: .1s;
+}
+#searchDropDown {font-family: Raleway, sans-serif;}
+
+#searchDropDown input[type=radio], #searchDropDown input[type=checkbox] {
+    display: none;
+}
+#searchDropDown input[type=radio]:not(:checked) + label, #searchDropDown input[type=checkbox]:not(:checked) + label  {
+    width: 95%;
+    padding: .25em 1em;
+    border: 1px solid #05533e;
+    border-radius: 5px;
+    margin-bottom: 0.55em;
+}
+#searchDropDown input:checked + label {
+    width: 95%;
+    padding: .25em 1em;
+    margin-bottom: 0.5em;
+    background-color: #05533e;
+    border: 1px solid #05533e;
+    border-radius: 5px;
+    color: white;
 }
 </style>
 </head>
@@ -119,7 +140,7 @@
         <div class="row" id="topSearchInput">
             <div class="search-holder">
                 <span id="showSearchDropDown" title="Advanced Library Search" >
-                    <span id="search-filter">filter</span>
+                    <span id="search-filter">filter by</span>
                     <span id="search-arrow"></span>
                 </span>
                 
@@ -132,10 +153,13 @@
         </div>
     </form>
 </div>
-        <div id="SearchDropDown" class="row" >
-            <div class="columns small-12 medium-3 large-4">
+        <div id="SearchDropDown">
+            <div class="row" id="SearchDropDownContent">
+            <div class="columns small-12 medium-6 large-5">
                 <div class="search-group">
                     <h5>Item type:</h5>
+                    <div class="row">
+                    <div class="small-12 medium-5 columns">
                     <div>
                         <input type="radio" name="itemType" id="allType" onclick="primoScopeSwitch(this);" value="all" checked >
                         <label for="allType">All</label>
@@ -152,6 +176,8 @@
                         <input type="radio" name="itemType" id="videosType" onclick="primoScopeSwitch(this);"  value="videos">
                         <label for="videosType">Videos</label>
                     </div>
+                    </div>
+                    <div class="small-12 medium-5 medium-pull-2 columns">
                     <div>
                         <input type="radio" name="itemType" id="reservesType" onclick="primoScopeSwitch(this);"  value="reserves">
                         <label for="reservesType">Course Reserves</label>
@@ -168,11 +194,13 @@
                         <input type="radio" name="itemType" id="journalsType" onclick="primoScopeSwitch(this);"  value="journals">
                         <label for="journalsType">Journal Titles</label>
                     </div>
+                </div>
+                </div>
 
                 </div>
             </div>
 
-            <div class="columns small-12 medium-3 large-4">
+            <div class="columns small-12 medium-2 large-3">
                 <div class="search-group">
                     <h5>Sort By:</h5>
                     <div>
@@ -186,7 +214,7 @@
                 </div>
             </div>
                 
-            <div class="columns small-12 medium-6 large-4" >
+            <div class="columns small-12 medium-4 large-4" >
                 <div class="search-group" id="searchCheckboxes">
                     <h5>Show (multiple):</h5>
                     
@@ -212,6 +240,7 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
         <div style="clear: both;"></div>
 </body>
@@ -233,12 +262,13 @@ function gatherFacets() {
     var primo_isOnline = ($('#isOnline').is(":checked")) ? 'yes Online' :'no Online';
     var primo_isReference = ($('#isReference').is(":checked")) ? 'yes Ref' :'no Ref';
     var primo_isRecent = ($('#isRecent').is(":checked")) ? 'yes Recent' :'no Recent';
+    var current_year = new Date().getFullYear();
     $("#facets").empty();
     $('#searchPeerReview').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,peer_reviewed" />') : '';
     $('#isPhysical').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="tlevel,include,online_resources,1" /><input type="hidden" name="mfacet" value="tlevel,include,available_p,1" />') : '';
     $('#isOnline').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
     $('#isReference').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,reference_entrys" />') : '';
-    $('#isRecent').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="searchcreationdate,include,2010|,|2016,1" />') : '';
+    $('#isRecent').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="searchcreationdate,include,2010|,|'+current_year+',1" />') : '';
     (primo_item_type === "videos") ? $("#facets").append('<input type="hidden" name="mfacet" value="rtype,include,videos,1" /><input type="hidden" name="mfacet" value="rtype,include,dvd,1" />') : '';
     (primo_item_type === "newspapers") ? $("#facets").append('<input type="hidden" name="mfacet" value="rtype,include,videos,1" /><input type="hidden" name="mfacet" value="rtype,include,newspaper_articles,1" />') : '';
     (primo_sort_type === "date_d") ? $("#facets").append('<input type="hidden" name="sortby" value="date_d" />') : '';

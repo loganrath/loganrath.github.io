@@ -1,0 +1,97 @@
+#searchSection {
+    max-width: 66em;
+    margin: auto;
+    padding: 1em;
+    background-color: white;
+    border-radius: 6px;
+    position: relative;
+    width: 90%;
+}
+#topSearchInput {
+    position: relative;
+}
+#topSearchInput #libSearch {
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-color: #EDF2F4;
+    border: 1px solid #F4F4F4;
+    font-size: larger;
+    min-height: 64px;
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+#topSearchInput #showSearchDropDown #search-filter {
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #004159;
+    padding: 1.25em 1em;
+}
+#topSearchInput #showSearchDropDown {
+    top: 5px;
+    padding-top:5px;
+    cursor: pointer;
+    width: 130px;
+    position: absolute;
+    right: 70px;
+    height: 56px;
+    border-left: 1px solid #4e8496;
+    border-right: 1px solid #4e8496;
+}
+#topSearchInput #showSearchDropDown #search-arrow {
+    background-image: url(https://www.loganrath.com/draketest/search-arrow.svg);
+    background-repeat: no-repeat;
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='search-arrow.svg', sizingMethod='scale')";
+    -webkit-background-size: 18px;
+    -moz-background-size: 18px;
+    -o-background-size: 18px;
+    background-position: center center;
+    background-size: 18px;
+    transform: rotate(-90deg);
+    transition: .1s;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    top: 4px;
+    position: relative;
+}
+#topSearchInput #libSearchSubmit {
+    background: transparent;
+    background-image: url(https://www.loganrath.com/draketest/magnifying-glass.svg);
+    background-repeat: no-repeat;
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='https://www.loganrath.com/draketest/magnifying-glass.svg', sizingMethod='scale')";
+    background-size: 30px;
+    background-position: center center;
+    border: 0;
+    height: 65px;
+    right: 15px;
+    top: 0;
+    position: absolute;
+    text-indent: -999999px;
+    width: 45px;
+}
+#topSearchInput #showSearchDropDown.filterOn #search-arrow {
+    transform: rotate(0deg) !important;
+    transition: .1s;
+}
+#searchDropDown {font-family: Raleway, sans-serif;}
+
+#searchDropDown input[type=radio], #searchDropDown input[type=checkbox] {
+    display: none;
+}
+#searchDropDown input[type=radio]:not(:checked) + label, #searchDropDown input[type=checkbox]:not(:checked) + label  {
+    width: 95%;
+    padding: .25em 1em;
+    border: 1px solid #05533e;
+    border-radius: 5px;
+    margin-bottom: 0.55em;
+}
+#searchDropDown input:checked + label {
+    width: 95%;
+    padding: .25em 1em;
+    margin-bottom: 0.5em;
+    background-color: #05533e;
+    border: 1px solid #05533e;
+    border-radius: 5px;
+    color: white;
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="484px" height="484px" viewBox="0 0 484 484" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Untitled</title>
+    <desc>Created with Sketch.</desc>
+    <defs/>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="magnifying-glass" transform="translate(242.000000, 242.000000) scale(-1, 1) translate(-242.000000, -242.000000) " fill-rule="nonzero" fill="#0F7D00">
+            <path d="M472.877,409.29 L357.239,293.652 C374.681,265.042 384.718,231.381 384.718,195.426 C384.718,90.866 294.111,0.29 189.551,0.29 C84.991,0.26 0.26,85.022 0.26,189.582 C0.26,294.111 90.867,384.719 195.396,384.719 C230.188,384.719 262.716,375.263 290.715,358.892 L406.965,475.204 C418.348,486.557 436.8,486.557 448.153,475.204 L477.008,446.348 C488.36,434.994 484.229,420.643 472.877,409.29 Z M58.522,189.582 C58.522,117.183 117.182,58.522 189.551,58.522 C261.95,58.522 326.455,122.996 326.455,195.426 C326.455,267.795 267.765,326.486 195.395,326.486 C122.997,326.456 58.522,261.951 58.522,189.582 Z" id="Shape"/>
+        </g>
+    </g>
+</svg>
