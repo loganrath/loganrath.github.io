@@ -45,7 +45,6 @@
     padding: 1.25em 1em;
 }
 #topSearchInput #showSearchDropDown {
-    margin-top: 1.2em;
     top: 5px;
     padding-top:5px;
     cursor: pointer;
@@ -74,7 +73,6 @@
     position: relative;
 }
 #topSearchInput #libSearchSubmit {
-    margin-top: 1.2em;
     background: transparent;
     background-image: url(https://www.loganrath.com/draketest/magnifying-glass.svg);
     background-repeat: no-repeat;
@@ -119,8 +117,6 @@
 <body>
 <main>
 <div class="photo bleed bg-blue">
-    <div class="row">
-        <div class="columns small-10 space-above">
     <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo()" method="get"  id="libSearchForm" name="libSearchForm">
 
      <!-- Customizable Parameters -->
@@ -149,7 +145,6 @@
                 </span>
                 
                 <input type="submit" id="libSearchSubmit" />
-                <label for "libSearch">Use Library Search</label>
                 <input type="text" placeholder="Search articles, books, videos, and more.."
                     id="libSearch" name="search" value="" />
             <!-- Hidden inputs -->
@@ -157,11 +152,6 @@
             </div>
         </div>
     </form>
-</div>
-<div class="columns small-2 space-above">
-<a target="_blank" href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&amp;lang=en&amp;sortby=rank&amp;mode=advanced" class="button small dark" style="margin-top:2rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;">Advanced</a>
-</div>
-</div>
 </div>
         <div id="SearchDropDown">
             <div class="row" id="SearchDropDownContent">
@@ -253,7 +243,6 @@
             </div>
         </div>
         <div style="clear: both;"></div>
-</main>
 </body>
 
 <script>
