@@ -280,6 +280,7 @@ function gatherFacets() {
     $('#isOnline').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
     $('#isReference').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,reference_entrys" />') : '';
     $('#isRecent').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="searchcreationdate,include,2010|,|'+current_year+',1" />') : '';
+    (primo_item_type === "articles") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,articles" />'): '';
     (primo_item_type === "books") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books" />') : '';
     (primo_item_type === "videos") ? $("#facets").append('<input type="hidden" name="mfacet" value="rtype,include,videos,1" /><input type="hidden" name="mfacet" value="rtype,include,dvd,1" />') : '';
     (primo_item_type === "newspapers") ? $("#facets").append('<input type="hidden" name="mfacet" value="rtype,include,newspaper_articles,1" />') : '';
@@ -309,6 +310,7 @@ function primoScopeSwitch(scope) {
         document.getElementById("primoTab").value = "CentralIndex";
         document.getElementById("primoScope").value = "CentralIndex";
         document.getElementById("searchPeerReview").disabled = false;
+
         break;
         
         case "reserves":

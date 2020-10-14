@@ -1,0 +1,42 @@
+---
+layout: page
+title: Prepopulate POS
+---
+		<div style="text-align:center;">
+					<h2>Enter Start of POS</h2>
+
+		<select name="startPhase1" id="startPhase1">
+			<option>Fall+2021</option>
+			<option>Spring+2022</option>
+			<option>Fall+2022</option>
+			<option>Spring+2023</option>
+			<option>Fall+2023</option>
+			<option>Spring+2024</option>
+			<option>Fall+2024</option>
+			<option>Spring+2025</option>
+      </select>
+      <button class="btn btn-default" id="makelinkbtn" onclick="makeLink();">Go</button>
+      </div>
+    <div id="linkresponse"></div>
+
+<script>
+function makeLink() {
+sem1=$("#startPhase1").val();
+
+if (sem1 == "Fall+2021") {sem2="Spring+2022"; sem3="Fall+2022"; sem4="Spring+2023";}
+if (sem1 == "Spring+2022") {sem2="Fall+2022"; sem3="Spring+2023"; sem4="Fall+2023";}
+if (sem1 == "Fall+2022") {sem2="Spring+2023"; sem3="Fall+2023"; sem4="Spring+2024";}
+if (sem1 == "Spring+2023") {sem2="Fall+2023"; sem3="Spring+2024"; sem4="Fall+2024";}
+if (sem1 == "Fall+2023") {sem2="Spring+2024"; sem3="Fall+2024"; sem4="Spring+2025";}
+if (sem1 == "Spring+2024") {sem2="Fall+2024"; sem3="Spring+2025"; sem4="Fall+2025";}
+if (sem1 == "Fall+2024") {sem2="Spring+2025"; sem3="Fall+2025"; sem4="Spring+2026";}
+if (sem1 == "Spring+2025") {sem2="Fall+2025"; sem3="Spring+2026"; sem4="Fall+2026";}
+
+linkString = "&element_13=" + sem1 + "&element_103=" + sem1 + "&element_80=" + sem1 + "&element_97=" + sem2 + "&element_101=" + sem2 + "&element_99=" + sem2 + "&element_98=" + sem2 + "&element_102=" + sem2 + "&element+108=" + sem3 + "&element_106=" + sem3 + "&element_109=" + sem3 + "&element_110=" + sem3 + "&element_119=" + sem3 + "&element_111=" + sem3 + "&element_113=" + sem3 + "&element_31=" + sem4 + "&element_83=" + sem4;
+
+fullLink = "https://forms.brockport.edu/view.php?id=3712109" + linkString;
+linkHref = "<a href='"+fullLink+"'>"+fullLink+"</a>";
+
+$("#linkresponse").append(linkHref);
+}
+</script>
