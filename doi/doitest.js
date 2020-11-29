@@ -28,7 +28,7 @@ var OpenURLbranding = 'Get an electronic copy';
 function DOItest(DOItoTest) {
 	/* DOI RegExp from https://github.com/regexhq/doi-regex/blob/master/index.js */
 	if (doiRegExp.test(DOItoTest)) {
-		$('#doiResponse').html('<!-- Valid DOI -->');
+		$('#doiResponse').html('<p>Searching...</p>');
 		return true;
 	} else {
 		$('#doiResponse').html('<p>Not a valid DOI</p>');
@@ -54,7 +54,7 @@ $(document).ready(function() {
 	$('#checkDOI').click(function() {
 		$('#doiResponse').text('');
 		if (!(isILLiad == true)) {
-			$('#doiResponse').css({"margin-top":"0.2em", "padding":"0.5em"});
+			$('#doiResponse').append('');
 		}
 		DOIval = $('#inputDOI').val();
 		if (DOItest(DOIval) == true){
@@ -78,16 +78,11 @@ $(document).ready(function() {
 				var strCreated = '';
 				var strPage = '';
 				var strISBN = '';
-				var strCitedIn = '';
-				if (isILLiad == true) {
-					strCitedIn = 'CrossRefLookupLR';
-				} else {
-					strCitedIn = 'CrossRefLookupLR';
-				}
+				var strCitedIn = 'Crossref DOI Lookup';
 				$.each(data, function() {
 				  $.each(this, function(k, v) {
 					/* Display all read data in key value pairs; note that nested arrays will show as "object Object" */
-					/* $('#doiResponse').append(k + ': ' + v + '<br />'); */
+					/* $('#doiResponse').append(k + ': ' + v + '</strong><br />'); */
 					switch(k){
 						case 'container-title':
 							strJournal = v;
@@ -150,7 +145,7 @@ $(document).ready(function() {
 								$.each(this, function() {
 									$.each(this, function(k2,v2) {
 										/* Display all read data in key value pairs; note that nested arrays will show as "object Object" */
-										/*$('#doiResponse').append(k2 + ': ' + v2 + '<br />');*/
+										/*$('#doiResponse').append(k2 + ': ' + v2 + '</strong><br />');*/
 										if (strAuthor == ''){
 											if (k2 == 'family'){
 												strFamily = v2;
@@ -185,28 +180,29 @@ $(document).ready(function() {
 					var OpenURLLink2 = OpenURLbase2 + '?' + OpenURLprefix2 + '&sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&doi=' + encodeURIComponent(DOI) + OpenURLsuffix2;
 					/* Modified this part to display buttons in a second column */
 					$('#openUrlLinking').empty();
-					$('#openUrlLinking').append('<h4>Check for full text</h4>');
-					$('#openUrlLinking').append('<button class="btn btn-default" style="height: 4em; margin-bottom: 2em; width:100%"><a target="_blank" href="' + OpenURLLink + '">Find it at Brockport</a></button>');
-					$('#openUrlLinking').append('<button class="btn btn-default" style="height: 4em; margin-bottom: 2em; width:100%"><a target="_blank" href="' + OpenURLLink2 + '">Find it at UB</a></button>');
-					$('#doiResponse').append('<h4>Information About this DOI</h4><div id="doiCitationData2">');
+					$('#openUrlLinking').append('<h3>Check for full text</h3>');
+					$('#openUrlLinking').append('<button class="btn btn-success m-3 p-2"><a target="_blank" href="' + OpenURLLink + '" class="text-white font-weight-bold">Find it at Brockport</a></button>');
+					$('#openUrlLinking').append('<button class="btn btn-success m-3 p-2"><a target="_blank" href="' + OpenURLLink2 + '" class="text-white font-weight-bold">Find it at UB</a></button>');
+					$('#doiResponse').empty();
+					$('#doiResponse').append('<h3>Information About this DOI</h3><div id="doiCitationData2">');
 					/* TBD: Add a function to display a structured citation
-					$('#doiResponse').append('<div id="apacitation">Citation: '+ getCitation(strAuthor,) + '<br />');
+					$('#doiResponse').append('<div id="apacitation">Citation: '+ getCitation(strAuthor,) + '</strong><br />');
 					*/
-					$('#doiResponse').append('Journal: ' + strJournal + '<br />');
-					$('#doiResponse').append('Title: ' + strTitle + '<br />');
-					$('#doiResponse').append('Author: ' + strAuthor + '<br />');
-					$('#doiResponse').append('Volume: ' + strVolume + '<br />');
-					$('#doiResponse').append('Issue: '  + strIssue + '<br />');
-					$('#doiResponse').append('Page: '  + strPage + '<br />');
-					$('#doiResponse').append('Type: '  + strType + '<br />');
-					$('#doiResponse').append('Published-Print: '  + strPublishedPrint + '<br />');
-					$('#doiResponse').append('Published-Online: '  + strPublishedOnline + '<br />');
-					$('#doiResponse').append('Created: '  + strCreated + '<br />');
-					$('#doiResponse').append('Date: '  + strDate + '<br />');
-					$('#doiResponse').append('ISSN: ' + strISSN + '<br />');
-					$('#doiResponse').append('ISBN: ' + strISBN + '<br />');
-					$('#doiResponse').append('CitedIn: ' + strCitedIn + '<br />');
-					$('#doiResponse').append('DOI: ' + DOI + '</div>');
+					$('#doiResponse').append('Journal: <strong> ' + strJournal + '</strong><br />');
+					$('#doiResponse').append('Title: <strong>' + strTitle + '</strong><br />');
+					$('#doiResponse').append('Author: <strong>' + strAuthor + '</strong><br />');
+					$('#doiResponse').append('Volume: <strong>' + strVolume + '</strong><br />');
+					$('#doiResponse').append('Issue: <strong>'  + strIssue + '</strong><br />');
+					$('#doiResponse').append('Page: <strong>'  + strPage + '</strong><br />');
+					$('#doiResponse').append('Type: <strong>'  + strType + '</strong><br />');
+					$('#doiResponse').append('Published-Print: <strong>'  + strPublishedPrint + '</strong><br />');
+					$('#doiResponse').append('Published-Online: <strong>'  + strPublishedOnline + '</strong><br />');
+					$('#doiResponse').append('Created: <strong>'  + strCreated + '</strong><br />');
+					$('#doiResponse').append('Date: <strong>'  + strDate + '</strong><br />');
+					$('#doiResponse').append('ISSN: <strong>' + strISSN + '</strong><br />');
+					$('#doiResponse').append('ISBN: <strong>' + strISBN + '</strong><br />');
+					$('#doiResponse').append('CitedIn: <strong>' + strCitedIn + '</strong><br />');
+					$('#doiResponse').append('DOI: <strong>' + DOI + '</strong></div>');
 				}
 				if (isILLiad == true) {
 					/* Populate data into ILLiad form */

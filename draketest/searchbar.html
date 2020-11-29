@@ -45,7 +45,6 @@
     padding: 1.25em 1em;
 }
 #topSearchInput #showSearchDropDown {
-    margin-top: 1.2em;
     top: 5px;
     padding-top:5px;
     cursor: pointer;
@@ -74,7 +73,6 @@
     position: relative;
 }
 #topSearchInput #libSearchSubmit {
-    margin-top: 1.2em;
     background: transparent;
     background-image: url(https://www.loganrath.com/draketest/magnifying-glass.svg);
     background-repeat: no-repeat;
@@ -119,8 +117,6 @@
 <body>
 <main>
 <div class="photo bleed bg-blue">
-    <div class="row">
-        <div class="columns small-10 space-above">
     <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo()" method="get"  id="libSearchForm" name="libSearchForm">
 
      <!-- Customizable Parameters -->
@@ -149,7 +145,6 @@
                 </span>
                 
                 <input type="submit" id="libSearchSubmit" />
-                <label for "libSearch">Use Library Search</label>
                 <input type="text" placeholder="Search articles, books, videos, and more.."
                     id="libSearch" name="search" value="" />
             <!-- Hidden inputs -->
@@ -157,11 +152,6 @@
             </div>
         </div>
     </form>
-</div>
-<div class="columns small-2 space-above">
-<a target="_blank" href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&amp;lang=en&amp;sortby=rank&amp;mode=advanced" class="button small dark" style="margin-top:2rem; padding: 0.75rem 1.75rem 0.75rem 1.75rem;">Advanced</a>
-</div>
-</div>
 </div>
         <div id="SearchDropDown">
             <div class="row" id="SearchDropDownContent">
@@ -179,7 +169,7 @@
                         <label   for="articleType">Articles</label>
                     </div>
                     <div>
-                        <input type="radio" name="itemType" id="booksType" onclick="primoScopeSwitch(this);"  value="books">
+                        <input type="radio" name="itemType" id="booksType" onclick="primoScopeSwitch(this);"  value="LibraryCatalog">
                         <label for="booksType">Books</label>
                     </div>
                     <div>
@@ -253,7 +243,6 @@
             </div>
         </div>
         <div style="clear: both;"></div>
-</main>
 </body>
 
 <script>
@@ -280,10 +269,8 @@ function gatherFacets() {
     $('#isOnline').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
     $('#isReference').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,reference_entrys" />') : '';
     $('#isRecent').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="searchcreationdate,include,2010|,|'+current_year+',1" />') : '';
-    (primo_item_type === "articles") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,articles" />'): '';
-    (primo_item_type === "books") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books" />') : '';
     (primo_item_type === "videos") ? $("#facets").append('<input type="hidden" name="mfacet" value="rtype,include,videos,1" /><input type="hidden" name="mfacet" value="rtype,include,dvd,1" />') : '';
-    (primo_item_type === "newspapers") ? $("#facets").append('<input type="hidden" name="mfacet" value="rtype,include,newspaper_articles,1" />') : '';
+    (primo_item_type === "newspapers") ? $("#facets").append('<input type="hidden" name="mfacet" value="rtype,include,videos,1" /><input type="hidden" name="mfacet" value="rtype,include,newspaper_articles,1" />') : '';
     (primo_sort_type === "date_d") ? $("#facets").append('<input type="hidden" name="sortby" value="date_d" />') : '';
    
 }
@@ -299,7 +286,7 @@ function primoScopeSwitch(scope) {
 
         break;
    
-        case "books":
+        case "LibraryCatalog":
         document.getElementById("primoTab").value = "LibraryCatalog";
         document.getElementById("primoScope").value = "MyInstitution";
         document.getElementById("searchPeerReview").checked = false;
@@ -310,7 +297,6 @@ function primoScopeSwitch(scope) {
         document.getElementById("primoTab").value = "CentralIndex";
         document.getElementById("primoScope").value = "CentralIndex";
         document.getElementById("searchPeerReview").disabled = false;
-
         break;
         
         case "reserves":

@@ -1,8 +1,9 @@
 ---
 title: Get External URL for a Kaltura Video
-layout: page
+layout: main
 ---
-<p>This page will take a Kaltura media URL from <a href="https://brockport.mediaspace.kaltura.com" target="_blank">MediaSpace</a> and convert it to a URL that can be used outside of Blackboard. In order to find the Kaltura media URL:
+<div class="container">
+<p>This page will take a Kaltura media URL from <a href="https://brockport.mediaspace.kaltura.com" target="_blank">MediaSpace</a> and convert it to a URL that can be used outside of Blackboard. In order to find the Kaltura media URL:</p>
   <ol>
     <li>Log into <a href="https://brockport.mediaspace.kaltura.com" target="_blank">MediaSpace</a> with your NetID and password.</li>
     <li>Find the video you wish to use.</li>
@@ -11,7 +12,7 @@ layout: page
     <li>Paste the URL into the form below.</li>
     <li>Press Submit and the new URL should load below the form.</li>
   </ol>
-</p>
+
 
 <form action="javascript:void(0);" onsubmit="javascript:newurl();">
 <label for="kalturaUrl">Mediaspace URL: </label>
@@ -20,7 +21,7 @@ layout: page
 </form>
 
 <div id="kudiv" style="margin-top:1em;"></div>
-
+</div>
 <script>
   function newurl() {
   var kurl = $("#kalturaUrl").val();

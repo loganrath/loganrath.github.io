@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: main
 title: Logan Rath, Academic Librarian and Consultant
 keywords: ADA, librarian, accessibility, course design consultant, library web design consultant, library technology, consultant, interlibrary loan consultant, interlibrary loan librarian
 ---

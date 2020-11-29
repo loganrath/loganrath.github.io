@@ -1,13 +1,16 @@
 ---
-layout: page
-title: "List of Modules"
+layout: main
+title: "Modules <em>&</em> Tools"
 ---
 Here is a list of modules I have put together to share with other instructors who may find them useful. Use at your own risk.
 
 * [American Psychological Association 7th Edition Citation Module](/learning/apa7/)
 * [Keywords](/learning/keywords/)
-* [Math Thesis Generator](/learning/math-thesis-generator/)
 
-Social Justice Resources
+Here are tools I've built for fun
+* [Math Thesis Generator](/learning/math-thesis-generator/)
+* [Proxy Tool](/proxy/)
+
+And here are social justice resources
 ---
 * [Black Lives Matter Resources](/learning/blm/)
