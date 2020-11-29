@@ -10,13 +10,13 @@ layout: main
 <input type="submit" value="Submit" />
 </form>
 
-<div id="pxyDiv" style="margin-top:1em;"></div>
+<div id="pxyDiv" class="mt-4"></div>
 
 <script>
   function proxyit() {
   var addr = $("#addr").val();
   var bptpxyUrl = "https://brockport.idm.oclc.org/login?url="+addr;
   var ubpxyUrl = "https://gate.lib.buffalo.edu/login?url="+addr;
-  document.getElementById("pxyDiv").innerHTML='<h2 style="margin-top: 2em;">Proxy URLs Below</h2><table><tr><th>Place</th><th>URL</th></tr><tr><td>Brockport</td><td>'+bptpxyUrl+'</td></tr><tr><td>UB</td><td>'+ubpxyUrl+'</td></tr></table>';
+  document.getElementById("pxyDiv").innerHTML='<h2 class="mt-4">Proxy URLs Below</h2><table class="table table-striped"><tr><th>Place</th><th>URL</th></tr><tr><td>Brockport</td><td>'+bptpxyUrl+'</td></tr><tr><td>UB</td><td>'+ubpxyUrl+'</td></tr></table>';
   }
 </script>
