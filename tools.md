@@ -1,6 +1,6 @@
 ---
 layout: main
-title: "Modules <em>&</em> Tools"
+title: "Modules & Tools"
 ---
 Here is a list of modules I have put together to share with other instructors who may find them useful. Use at your own risk.
 
