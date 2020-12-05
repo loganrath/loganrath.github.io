@@ -10,6 +10,7 @@ Here is a list of modules I have put together to share with other instructors wh
 Here are tools I've built for fun
 * [Math Thesis Generator](/learning/math-thesis-generator/)
 * [Proxy Tool](/proxy/)
+* [Kaltura External URL](/kaltura)
 
 And here are social justice resources
 ---
