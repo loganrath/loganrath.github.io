@@ -1,6 +1,7 @@
 ---
 layout: main
-title: "Modules & Tools"
+title: Modules & Tools
+titlepretty: Modules <em>&</em> Tools
 ---
 Here is a list of modules I have put together to share with other instructors who may find them useful. Use at your own risk.
 
@@ -16,5 +17,3 @@ Here are tools I've built for fun
 And here are social justice resources
 ---
 * [Black Lives Matter Resources](/learning/blm/)
-
-<script>document.getElementById("pagename").innerHTML='Modules <em>&</em> Tools';</script>

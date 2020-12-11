@@ -9,4 +9,7 @@
 
 <!--  { include analytics.html }-->
 </body>
+{% if page.prettyname %}
+<script>document.getElementById("pagename").innerHTML='{{ page.titlepretty }}';</script>
+{% endif %}
 </html>
