@@ -15,7 +15,7 @@ layout: default
       <div id="home" class="col-4 col-md-12 mb-1"><a href="/"><i class="fa fa-user fa-2x fa-fw mr-2"></i>Home</a></div>
       <div id="scholarship" class="col-4 col-md-12 mt-1 mb-1"><a href="/scholarship/"><i class="fa fa-edit fa-2x fa-fw mr-2"></i>Publications</a></div>
       <div id="teaching" class="col-4 col-md-12 mt-1 mb-1"><a href="/teaching/"><i class="fas fa-chalkboard-teacher fa-2x fa-fw mr-2"></i>Teaching</a></div>
-      <div id="tools" class="col-4 col-md-12 mt-1"><a href="/tools/"><i class="fa fa-graduation-cap fa-2x fa-fw mr-2"></i>Modules &amp; Tools</a></div>
+      <div id="tools" class="col-4 col-md-12 mt-1"><a href="/tools/"><i class="fas fa-tools fa-2x fa-fw mr-2"></i>Modules &amp; Tools</a></div>
       <div id="cv" class="col-4 col-md-12 mt-1 mb-1"><a href="/rath_cv_web.pdf"><i class="fa fa-download fa-2x fa-fw mr-2"></i>Download C.V.</a></div>
     </div>
   </header> <!-- End Header -->
@@ -42,13 +42,14 @@ layout: default
       </ul>
     </section> <!-- End Section Contact -->
     <div class="copyright">
-      <p>{{site.time | date: '%Y'}} &copy; {{site.author}}</p>
+      <p>&copy;{{site.time | date: '%Y'}} {{site.author}}</p>
     </div>
   </footer> <!-- End Footer -->
 </aside> <!-- End Sidebar -->
 <div class="content-box clearfix">
   <main class="mx-auto w-100">
-    {% if page.title %}<h1 class="text-center">{{page.title}}</h1>{% endif %}
+    {% if page.titlepretty %}<h1 class="text-center" id="pagename">{{page.titlepretty}}</h1>
+    {% elsif page.title %}<h1 class="text-center" id="pagename">{{page.title}}</h1>{% endif %}
   {{ content }}
   </main>
   {% if page.cc == nil %}
