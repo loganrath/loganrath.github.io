@@ -15,5 +15,4 @@ Here are tools I've built for fun
 * [Kaltura External URL](/kaltura)
 
 And here are social justice resources
----
 * [Black Lives Matter Resources](/learning/blm/)
