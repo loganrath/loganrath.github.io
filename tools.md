@@ -16,3 +16,5 @@ Here are tools I've built for fun
 And here are social justice resources
 ---
 * [Black Lives Matter Resources](/learning/blm/)
+
+<script>document.getElementById("pagename").innerHTML='Modules <em>&</em> Tools';</script>
