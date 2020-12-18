@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noimageindex, nofollow, nosnippet" />
+  <title>Moe's Home Page</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="moe.css" />
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+  a:hover {text-decoration: none;}
+  </style>
+</head>
+<body onload="javascript:doDate();">
+<div class="container mt-4">
+  <div id="todaysDate" class="jumbotron text-center h1 mb-5"></div>
+<div class="row">
+<div class="col-sm-6 col-md-3 mb-5 text-center"><a target="_blank" style="font-size: 18px;" href="https://www.facebook.com"><img src="img/facebook.jpg" width="150" alt="Facebook" /><br />Facebook</a></div>
+<div class="col-sm-6 col-md-3 mb-5 text-center"><a target="_blank" style="font-size: 18px;" href="https://www.brockportfcu.org"><img src="img/brockportfcu.jpg" width="175" class="px-0" alt="Banking" /><br />Banking</a></div>
+<div class="col-sm-6 col-md-3 mb-5 text-center"><a target="_blank" style="font-size: 18px;" href="https://www.rochester-ny-aa.org/meetings/"><img src="img/aa.jpg" width="150" alt="AA logo" /><br />AA meetings list</a></div>
+<div class="col-sm-6 col-md-3 mb-5 text-center"><a target="_blank" style="font-size: 18px;" href="https://www.gmail.com"><img src="img/gmail.png" width="150" alt="gmail logo" /><br/>Gmail</a></div>
+</div>
+<div class="row">
+  <div class="col-sm-6 col-md-3 mx-auto text-center mb-5" style="font-size: 28px;"><a target="_blank" class="border border-dark d-block bg-info text-white" href="https://zoom.us/join">Join Zoom</a></div>
+  <div class="col-sm-6 col-md-3 mx-auto text-center mb-5" style="font-size: 28px;"><a target="_blank" class="border border-dark d-block bg-warning text-dark" href="https://brockport-edu.zoom.us/j/92640334122">Logan's Zoom</a></div>
+  <div class="col-sm-6 col-md-3 mx-auto text-center mb-5" style="font-size: 28px;"><a target="_blank" class="border border-dark d-block bg-secondary text-white" href="https://doxy.me/pacallahan">Doxy.me Counseling</a></div>
+</div>
+</div>
+<script>
+function doDate()
+{
+    var str = "";
+
+    var days = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+    var months = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+
+    var now = new Date();
+
+    str += "<span class='text-secondary'>Today is:</span> " + days[now.getDay()] + ", " + months[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear() + "<br /><span class='text-primary'>The current time is:</span> " + now.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });;
+    document.getElementById("todaysDate").innerHTML = str;
+
+
+}
+
+setInterval(doDate, 1000);
+</script>
+</body>
+</html>
