@@ -14,13 +14,22 @@
   a:hover {text-decoration: none;}
   </style>
 </head>
-<body onload="javascript:doDate();">
+<body onload="javascript:makeDate();">
 <div class="container mt-4">
   <div class="row">
-    <div class="col-sm-4 col-md-3 mt-2 text-left"><a target="_blank" href="https://remotedesktop.google.com/support/"><img src="img/remotedesktop.jpg" alt="remotedesktop" width="100" style="float:left;">Get Help<br/>Remote<br/>Desktop</a></div>
-    <div class="col-sm-8 col-md-9"><div id="todaysDate" class="jumbotron text-center h1 mb-5"></div></div>
+    <div class="col-sm-4 col-md-3 mt-2 text-leftsdf"><a target="_blank" href="https://remotedesktop.google.com/support/"><img src="img/remotedesktop.jpg" alt="remotedesktop" width="100" style="float:left;">Chrome<br/>Remote<br/>Desktop</a></div>
+    <div class="col-sm-8 col-md-9"><div id="todaysDate" class="jumbotron text-center text-light bg-primary h2 mb-3 p-3"></div></div>
     </div>
-<div class="row">
+  <form action="https://www.google.com/search" method="get" target="_blank">
+    <div class="form-group row p-2 rounded my-4" style="background-color:#FFE34C">
+      <label for="q" class="col-sm-4 col-form-label h3 text-right">Search for something:</label>
+      <div class="col-sm-7">
+        <input type="text" class="form-control form-control-lg" id="q" name="q" placeholder="">
+      </div>
+      <div class="col-sm-1"><input type="submit" class="form-control form-control-lg" value="Go!"/></div>
+    </div>
+  </form>
+<div class="row mt-5">
 <div class="col-sm-6 col-md-3 mb-5 text-center"><a target="_blank" style="font-size: 18px;" href="https://www.facebook.com"><img src="img/facebook.jpg" width="150" alt="Facebook" /><br />Facebook</a></div>
 <div class="col-sm-6 col-md-3 mb-5 text-center"><a target="_blank" style="font-size: 18px;" href="https://www.brockportfcu.org"><img src="img/brockportfcu.jpg" width="175" class="px-0" alt="Banking" /><br />Banking</a></div>
 <div class="col-sm-6 col-md-3 mb-5 text-center"><a target="_blank" style="font-size: 18px;" href="https://www.rochester-ny-aa.org/meetings/"><img src="img/aa.jpg" width="150" alt="AA logo" /><br />AA meetings list</a></div>
@@ -32,22 +41,16 @@
 </div>
 
 <script>
-function doDate()
+function makeDate()
 {
     var str = "";
-
     var days = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
     var months = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-
     var now = new Date();
-
-    str += "<span class='text-secondary'>Today is:</span> " + days[now.getDay()] + ", " + months[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear() + "<br /><span class='text-primary'>The current time is:</span> " + now.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });;
+    str += "Today is: " + days[now.getDay()] + ", " + months[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear() + "<br />The current time is: " + now.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });;
     document.getElementById("todaysDate").innerHTML = str;
-
-
 }
-
-setInterval(doDate, 1000);
+setInterval(makeDate, 1000);
 </script>
 </body>
 </html>
