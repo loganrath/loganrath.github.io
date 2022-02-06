@@ -9,17 +9,18 @@ var doiRegExp = new RegExp('(10[.][0-9]{4,}(?:[.][0-9]+)*/(?:(?![%"#? ])\\S)+)')
 var isILLiad = false;
 
 /* OpenURLbase is the URL for your institution's OpenURL resolver, stopping just before the "?" before the OpenURL fields */
-var OpenURLbase = 'https://suny-bro.primo.exlibrisgroup.com/discovery/openurl';
-var OpenURLbase2 = 'https://search.lib.buffalo.edu/discovery/openurl';
+var OpenURLbase_BRO_primo = 'https://suny-bro.primo.exlibrisgroup.com/discovery/openurl';
+var OpenURLbase_BUF_primo = 'https://search.lib.buffalo.edu/discovery/openurl';
+var OpenURLbase_BRO_ILL = 'https://brockport.idm.oclc.org/login?url=https://brockport.illiad.oclc.org/illiad/illiad.dll/OpenURL';
 
 /* OpenURL prefix is only required if your resolver requires instiution specific information to be included */
-var OpenURLprefix ='institution=01SUNY_BRO&vid=01SUNY_BRO:01SUNY_BRO';
-var OpenURLprefix2 = 'institution=01SUNY_BUF&vid=01SUNY_BUF:everything';
+var OpenURLprefix_BRO_primo ='institution=01SUNY_BRO&vid=01SUNY_BRO:01SUNY_BRO';
+var OpenURLprefix_BUF_primo = 'institution=01SUNY_BUF&vid=01SUNY_BUF:everything';
 
 /* OpenURLsuffix is only required if your resolver requires institutional authentication in a GET variable (EBSCO), as opposed to having the code in the host name (like 360Link).
 Change this value to '' if you're in the latter category. */
-var OpenURLsuffix = '';
-var OpenURLsuffix2 = '';
+var OpenURLsuffix_BRO = '';
+var OpenURLsuffix_BUF = '';
 
 /* OpenURLbase is the label displayed for OpenURL links */
 var OpenURLbranding = 'Get an electronic copy';
@@ -176,13 +177,16 @@ $(document).ready(function() {
 
 				if (!(isILLiad == true)) {
 					/* Since this isn't for ILLiad, Generate Output to the screen and create an OpenURL link */
-					var OpenURLLink = OpenURLbase + '?' + OpenURLprefix + '&sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&doi=' + encodeURIComponent(DOI) + OpenURLsuffix;
-					var OpenURLLink2 = OpenURLbase2 + '?' + OpenURLprefix2 + '&sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&doi=' + encodeURIComponent(DOI) + OpenURLsuffix2;
+					var OpenURLstring = '&sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&doi=' + encodeURIComponent(DOI);
+					var OpenURLLink_BRO_primo = OpenURLbase_BRO_primo + '?' + OpenURLprefix_BRO_primo + OpenURLstring;
+					var OpenURLLink_BUF_primo = OpenURLbase_BUF_primo + '?' + OpenURLprefix_BUF_primo + OpenURLstring;
+					var OpenURLLink_BRO_illiad = OpenURLbase_BRO_ILL + '?' + OpenURLstring;
 					/* Modified this part to display buttons in a second column */
 					$('#openUrlLinking').empty();
 					$('#openUrlLinking').append('<h3>Check for full text</h3>');
-					$('#openUrlLinking').append('<button class="btn btn-success m-3 p-2"><a target="_blank" href="' + OpenURLLink + '" class="text-white font-weight-bold">Find it at Brockport</a></button>');
-					$('#openUrlLinking').append('<button class="btn btn-success m-3 p-2"><a target="_blank" href="' + OpenURLLink2 + '" class="text-white font-weight-bold">Find it at UB</a></button>');
+					$('#openUrlLinking').append('<button class="btn btn-success m-3 p-2"><a target="_blank" href="' + OpenURLLink_BRO_primo + '" class="text-white font-weight-bold">Find it at Brockport</a></button>');
+					$('#openUrlLinking').append('<button class="btn btn-success m-3 p-2"><a target="_blank" href="' + OpenURLLink_BUF_primo + '" class="text-white font-weight-bold">Find it at UB</a></button>');
+					$('#openUrlLinking').append('<br /><button class="btn btn-success m-3 p-2"><a target="_blank" href="' + OpenURLLink_BRO_illiad + '" class="text-white font-weight-bold">Brockport ILLiad</a></button>');
 					$('#doiResponse').empty();
 					$('#doiResponse').append('<h3>Information About this DOI</h3><div id="doiCitationData2">');
 					/* TBD: Add a function to display a structured citation
