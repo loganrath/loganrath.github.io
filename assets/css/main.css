@@ -1506,20 +1506,21 @@ a.newer-posts:hover {
 
 /* More Custom */
 div.apa {
-	padding-left: 2rem;
-	text-indent: -2rem;
+	padding-left: 2em;
+	text-indent: -2em;
   font-size: 16px;
 	}
 
 @media only screen and (max-width: 768px) {
   div.apa {word-wrap: break-word;}
 }
+body {font-size: 1em;}
 h1 {font-size: 2em; font-weight: bold; font-family: "Source Serif Pro", serif;}
 h2 {font-size: 1.5em; font-weight: bold;}
 h3 {font-size: 1.25em; font-weight: bold;}
 h4 {font-size: 1em; font-weight: bold;}
 h5 {font-size: 1em; font-weight: bold;}
 main {font-size: 18px;}
-#sidebar {font-size: 14px;}
-#sidebar i {font-size: 12px;}
-#sidebar border {border-collapse:collapse; color:#efefef}
+#sidebar {font-size: 14px !important;}
+#sidebar i {font-size: 12px !important;}
+#sidebar .border-top {border-collapse:collapse; color:#efefef}
