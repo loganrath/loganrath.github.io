@@ -1522,3 +1522,4 @@ h5 {font-size: 1em; font-weight: bold;}
 main {font-size: 18px;}
 #sidebar {font-size: 14px;}
 #sidebar i {font-size: 12px;}
+#sidebar border {border-collapse:collapse; color:#efefef}
