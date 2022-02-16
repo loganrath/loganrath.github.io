@@ -1514,9 +1514,9 @@ div.apa {
 @media only screen and (max-width: 768px) {
   div.apa {word-wrap: break-word;}
 }
-h1 {font-size: 2rem; font-weight: bold; font-family: "Source Serif Pro", serif;}
-h2 {font-size: 1.5rem; font-weight: bold;}
-h3 {font-size: 1.25rem; font-weight: bold;}
-h4 {font-size: 1rem; font-weight: bold;}
-h5 {font-size: 1rem; font-weight: bold;}
+h1 {font-size: 2em; font-weight: bold; font-family: "Source Serif Pro", serif;}
+h2 {font-size: 1.5em; font-weight: bold;}
+h3 {font-size: 1.25em; font-weight: bold;}
+h4 {font-size: 1em; font-weight: bold;}
+h5 {font-size: 1em; font-weight: bold;}
 main {font-size: 18px;}
