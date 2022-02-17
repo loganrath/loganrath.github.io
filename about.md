@@ -1,4 +1,5 @@
 ---
+title: "About Logan"
 layout: main
 ---
 <div class="container" markdown="1">
