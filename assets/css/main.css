@@ -1523,7 +1523,7 @@ h5 {font-size: 1em; font-weight: bold;}
 main {font-size: 18px;}
 .sidebar a {font-size: 16px !important;}
 .sidebar ai {font-size:20px;}
-.border-top {border-top: solid;}
-.border-right {border-right: solid;}
-.border-left {border-right: solid;}
-.border-bottom {border-bottom: solid;}
+.border-top {border-top: 0.5px solid;}
+.border-right {border-right: 0.5px solid;}
+.border-left {border-right: 0.5px solid;}
+.border-bottom {border-bottom: 0.5px solid;}
