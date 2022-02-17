@@ -7,7 +7,7 @@ Logan Rath is a full rank Librarian at SUNY Brockport where he focuses on instru
 
 Contact Info
 -----------
-<i class="fa-solid fa-map-marker mr-2"></i>Drake Memorial Library, Rm. 118
+<i class="fa-solid fa-location-dot mr-2"></i>Drake Memorial Library, Rm. 118
 SUNY Brockport
 585.395.2568
 lrath at brockport dot edu
