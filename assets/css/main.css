@@ -1524,4 +1524,5 @@ main {font-size: 18px;}
 .sidebar a {font-size: 16px !important;}
 .sidebar ai {font-size:20px;}
 /* .sidebar a i {font-size: 14px !important;} */
-.border-top {border-collapse:collapse; color:#efefef}
+.border-top {border-collapse:collapse; border-top: 1px; }
+.border-left {border-collapse:collapse; border-left: 1px;}
