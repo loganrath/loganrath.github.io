@@ -2,11 +2,6 @@
 title: "About Logan"
 layout: main
 ---
-<div class="container" markdown="1">
-About Me
----------
-I'm an academic librarian and scuba diver living in update NY with
-
 
 
 Professional Bio
@@ -20,7 +15,7 @@ Contact Info
 <i class="fa-solid fa-building-columns mr-2"></i>[118 Drake Memorial Library](https://brockport.edu/library){:target=
   _blank"}, [SUNY Brockport](https://brockport.edu){:target="_blank"}
 
-<i class="fa-solid fa-phone mr-2"></i>585.395.2568
+<i class="fa-solid fa-phone mr-2"></i>585.395.2568 or <i class="fa-solid fa-message mr-2"></i>716-245-5599
 
 <i class="fa-solid fa-envelope mr-2"></i>lrath at brockport dot edu
 
