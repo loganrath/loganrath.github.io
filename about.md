@@ -22,11 +22,15 @@ Contact Info
 <a href="https://library.brockport.edu/prf.php?account_id=456" target="_blank"><i class="fa-solid fa-globe mr-2"></i>LibGuides Profile</a>
 </div>
 <div class="col-md" markdown="1">
-Personal interests
+Professional Positions
 ------------------
- * Scuba ([SSI Dive Professional](https://www.divessi.com){:target="_blank"})
- * Photography
- * Languages (Spanish, French, ASL)
+ * Director of Online Learning, [IDS Project](https://idsproject.org/About/ContactUs.aspx){:target="_blank"}
+ * [SUNYLA](https://www.sunyla.org){:target="_blank"} Conference Registrar
 
 </div>
+
+Personal Interests
+------------------
+I am a certified scuba diver and [SSI Dive Professional](https://www.divessi.com){:target="_blank"}. When I'm not busy with doctoral work or research, I enjoy traveling and taking photos. I also speak four languages (at varying fluencies): English (native), Spanish (Bachelor's degree), French (minored) and ASL (novice). I currently live in Rochester, NY with my husband and our three cats: Sage, Cinnamon &amp; Ginger
+
 </div>
