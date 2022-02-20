@@ -4,13 +4,15 @@ layout: main
 ---
 <div class="container">
 <div class="row" markdown="1">
+<div class="col">
 
 Professional Bio
 ----------------------
 Logan Rath is a full rank Librarian at SUNY Brockport where he focuses on instruction and student research support. He is a 2016 recipient of the Chancellor’s Award for Excellence in Librarianship for his efforts in many different areas of librarianship including technology, interlibrary loan, research consultations, and instruction. Logan is pursuing his PhD in Curriculum, Instruction, & the Science of Learning at the University at Buffalo, SUNY. His current research interests include the intersection of information literacy and literacy as a social practice, effective library instruction, and effective integration of technology into collegiate learning.
 </div>
+</div>
 <div class="row" class="mt-3">
-<div class="col" markdown="1">
+<div class="col-md-6" markdown="1">
 Contact Info
 -----------
 <i class="fa-solid fa-building-columns mr-2"></i>[118 Drake Memorial Library](https://brockport.edu/library){:target=
@@ -22,7 +24,7 @@ Contact Info
 
 <a href="https://library.brockport.edu/prf.php?account_id=456" target="_blank"><i class="fa-solid fa-globe mr-2"></i>LibGuides Profile</a>
 </div>
-<div class="col" markdown="1">
+<div class="col-md-6" markdown="1">
 Professional Positions
 ------------------
  * Director of Online Learning, [IDS Project](https://idsproject.org/About/ContactUs.aspx){:target="_blank"}
