@@ -36,7 +36,7 @@ Professional Positions
 <div class="col-12" markdown="1">
 Personal Interests
 ------------------
-I am a certified scuba diver and [SSI Dive Professional](https://www.divessi.com){:target="_blank"}. When I'm not busy with doctoral work or research, I enjoy traveling and taking photos. I also speak four languages (at varying fluencies): English (native), Spanish (Bachelor's degree), French (minored) and ASL (novice). I currently live in Rochester, NY with my husband and our three cats: Sage, Cinnamon &amp; Ginger
+I am a certified scuba diver and [SSI Dive Professional](https://www.divessi.com){:target="_blank"}. When I'm not busy with doctoral work or research, I enjoy traveling and taking photos. I also speak four languages (at varying fluencies): English (native), Spanish (Bachelor's degree), French (minored) and ASL (novice). I currently live in Rochester, NY with my husband and our three cats: Sage, Cinnamon &amp; Ginger.
 </div>
 </div>
 </div>
