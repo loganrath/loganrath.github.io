@@ -3,8 +3,8 @@ title: "About Me"
 layout: main
 ---
 <div class="container">
-<div class="row" markdown="1">
-<div class="col">
+<div class="row">
+<div class="col" markdown="1">
 
 Professional Bio
 ----------------------
