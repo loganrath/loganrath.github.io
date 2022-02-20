@@ -5,7 +5,7 @@ keywords: ADA, librarian, accessibility, course design consultant, library web d
 ---
 About Me
 ---
-I'm an academic librarian with various experiences (listed below) that can help you achieve your goals. I invite you to [read more about me](/about/). If you'd like to see the types of things I do, see my [promotion portfolio](https://promotion.loganrath.com).
+I'm an academic librarian with various experiences (listed below) that can help you achieve your goals. I invite you to [read more about me](/about/). If you think we're a match, send me an email.
 
 
 Areas of Expertise
