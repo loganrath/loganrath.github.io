@@ -26,10 +26,14 @@ Contact Info
 </div>
 <div class="col-md-6" markdown="1">
 Professional Positions
-------------------
+----------------------
  * Director of Online Learning, [IDS Project](https://idsproject.org/About/ContactUs.aspx){:target="_blank"}
  * [SUNYLA](https://www.sunyla.org){:target="_blank"} Conference Registrar
 
+
+Consulting
+-----------
+I am available for [consulting opportunities](/consulting/) if my expertise aligns with your project.
 </div>
 </div>
 <div class="row mt-3">
