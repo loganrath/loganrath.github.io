@@ -9,7 +9,7 @@ Here is a list of modules I have put together to share with other instructors wh
 * [Keywords](/learning/keywords/)
 
 Here are tools I've built for fun
-* [DOI Lookup](/doi/)
+* [DOI Lookup for Brockport and UB](/doi/)
 * [Math Thesis Generator](/learning/math-thesis-generator/)
 * [Proxy Tool](/proxy/)
 * [Kaltura External URL](/kaltura)
