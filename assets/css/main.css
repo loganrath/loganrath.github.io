@@ -781,6 +781,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.sidebar {font-family: 'darkmode-off','Lato', sans-serif;}
+
 h1 {
   font-family: "PT Serif", serif;
   font-weight: 400;
