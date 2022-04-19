@@ -773,7 +773,7 @@ html {
 }
 
 body {
-  font-family: 'darkmode-off','Lato', sans-serif;
+  font-family: 'Lato', sans-serif;
   color: #515151;
   background-color: #fbfbfb;
   margin: 0;
@@ -785,6 +785,8 @@ h1 {
   font-family: "PT Serif", serif;
   font-weight: 400;
 }
+
+h2, h3 {font-family: 'darkmode-off', 'Lato';}
 
 img {
   max-width: 100%;
