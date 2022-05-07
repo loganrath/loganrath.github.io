@@ -1,15 +1,15 @@
-title: Logan Rath
+title: Logan Rath, PhD
 description: > # this means to ignore newlines until "baseurl:"
   This is my personal webpage
 permalink: pretty
 baseurl: "/" # the subpath of your site, e.g. /blog
-url: "https://www.loganrath.com" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://www.loganrath.info" # the base hostname & protocol for your site, e.g. http://example.com
 site-twitter: #if your site has a twitter account, enter it here
 
 # Author Settings
 author: Logan Rath # add your name
 author-img: logan-rath.jpg # add your photo
-about-author: Academic librarian and doctoral student. # add description
+about-author: Academic librarian and researcher. # add description
 social-twitter: loganrath # add your Twitter handle
 social-facebook: # add your Facebook handle
 social-github:  # add your Github handle
