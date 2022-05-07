@@ -1517,8 +1517,7 @@ div.apa {
 
 @media only screen and (max-width: 768px) {
   div.apa {word-wrap: break-word;}
-  h1 {font-size: 1.5em;}
-  h2 {font-size: 1.3em;}
+  .display-3 {font-size: 2em;}
 }
 body {font-size: 1em;}
 h1 {font-size: 2em; font-weight: bold; font-family: "Source Serif Pro", serif;}
