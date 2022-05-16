@@ -25,4 +25,4 @@ Areas of Expertise
 
 Rates
 ---
-Rates are negotiable depending on the size of the project. Please contact me at LoganRath at me dot com.
+Rates are negotiable depending on the size of the project. Please contact me at Logan at lrphd dot xyz.
