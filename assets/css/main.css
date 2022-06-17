@@ -781,10 +781,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.sidebar {font-family: 'Source Sans Pro','darkmode-off','Lato', sans-serif;}
+
 h1 {
   font-family: "PT Serif", serif;
   font-weight: 400;
 }
+
+h2, h3 {font-family: 'darkmode-off', 'Lato';}
 
 img {
   max-width: 100%;
@@ -1513,6 +1517,7 @@ div.apa {
 
 @media only screen and (max-width: 768px) {
   div.apa {word-wrap: break-word;}
+  .display-3 {font-size: 2em;}
 }
 body {font-size: 1em;}
 h1 {font-size: 2em; font-weight: bold; font-family: "Source Serif Pro", serif;}
@@ -1526,4 +1531,4 @@ main {font-size: 18px;}
 .border-top {border-top: 0.5px solid;}
 .border-right {border-right: 0.5px solid;}
 .border-left {border-left: 0.5px solid;}
-.border-bottom {border-bottom: 0.5px solid; padding-left:0.5px;}
+.border-bottom {border-bottom: 0.5px solid; padding-left:0.5px;})
