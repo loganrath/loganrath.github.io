@@ -11,7 +11,7 @@ var isILLiad = false;
 var OpenURLbase_BRO = 'https://suny-bro.primo.exlibrisgroup.com/openurl/01SJFC_INST/01SJFC_SP';
 
 /* OpenURLbase is the label displayed for OpenURL links; the icon displays next to the label */
-var OpenURLbranding = 'Get It @ Fisher';
+var OpenURLbranding = 'Get It @ Brockport';
 var OpenURLicon = 'https://s3.amazonaws.com/libapps/customers/1780/images/logo16.png';
 
 /* == Define function for testing whether the input field contains a properly formatted DOI == */
