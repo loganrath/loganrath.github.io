@@ -11,16 +11,19 @@ var isILLiad = false;
 /* OpenURLbase is the URL for your institution's OpenURL resolver, stopping just before the "?" before the OpenURL fields */
 var OpenURLbase_BRO_primo = 'https://suny-bro.primo.exlibrisgroup.com/discovery/openurl';
 var OpenURLbase_BUF_primo = 'https://search.lib.buffalo.edu/discovery/openurl';
+var OpenURLbase_ALB_primo = 'https://search.library.albany.edu/discovery/openurl'
 var OpenURLbase_BRO_ILL = 'https://brockport.idm.oclc.org/login?url=https://brockport.illiad.oclc.org/illiad/illiad.dll/OpenURL';
 
 /* OpenURL prefix is only required if your resolver requires instiution specific information to be included */
 var OpenURLprefix_BRO_primo ='institution=01SUNY_BRO&vid=01SUNY_BRO:01SUNY_BRO';
 var OpenURLprefix_BUF_primo = 'institution=01SUNY_BUF&vid=01SUNY_BUF:everything';
+var OpenURLprefix_ALB_primo = 'institution=suny-alb&vid=01SUNY_ALB:01SUNY_ALB';
 
 /* OpenURLsuffix is only required if your resolver requires institutional authentication in a GET variable (EBSCO), as opposed to having the code in the host name (like 360Link).
 Change this value to '' if you're in the latter category. */
 var OpenURLsuffix_BRO = '';
 var OpenURLsuffix_BUF = '';
+var OpenURLsuffix_ALB = '';
 
 /* OpenURLbase is the label displayed for OpenURL links */
 var OpenURLbranding = 'Get an electronic copy';
@@ -60,7 +63,7 @@ $(document).ready(function() {
 		DOIval = $('#inputDOI').val();
 		if (DOItest(DOIval) == true){
 			DOI = DOIval.match(doiRegExp)[0];
-			DOIurl = 'https://api.crossref.org/works/' + DOI;
+			DOIurl = 'https://api.crossref.org/works/' + DOI + "/";
 			$('#doiResponse').append('<!--Loading and testing ' + DOIurl + '-->');
 			/* need error handling for cases with no CrossRef DOI record found, i.e. http://api.crossref.org/works/10.1016/j.iree.2016.07.002 */
 			$.getJSON( DOIurl, function( data ) {
@@ -181,6 +184,7 @@ $(document).ready(function() {
 					var OpenURLLink_BRO_primo = OpenURLbase_BRO_primo + '?' + OpenURLprefix_BRO_primo + OpenURLstring;
 					var OpenURLLink_BUF_primo = OpenURLbase_BUF_primo + '?' + OpenURLprefix_BUF_primo + OpenURLstring;
 					var OpenURLLink_BRO_illiad = OpenURLbase_BRO_ILL + '?' + OpenURLstring;
+					var OpenURLLink_ALB_primo = OpenURLbase_ALB_primo + '?' + OpenURLprefix_ALB_primo + OpenURLstring;
 					/* Modified this part to display buttons in a second column */
 					$('#openUrlLinking').empty();
 					$('#openUrlLinking').append('<h3>Check for full text</h3>');
