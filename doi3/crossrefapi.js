@@ -181,8 +181,10 @@ $(document).ready(function() {
 
 				if (!(isILLiad == true)) {
 					/* Since this isn't for ILLiad, Generate Output to the screen and create an OpenURL link */
-					var OpenURLLink_BRO = OpenURLbase_BRO + '?sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&id=doi%3A' + encodeURIComponent(DOI);
-					$('#openUrlLinking').append('<p>Brockport: <a href="' + OpenURLLink_BRO + '"> ' + OpenURLbranding + '</a></p>');
+					var OpenURL_suffix ='?sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&id=doi%3A' + encodeURIComponent(DOI);
+					var OpenURLLink_BRO = OpenURLbase_BRO + OpenURL_suffix;
+					var OpenURLLink_BUF = OpenURLbase_BUF + OpenURL_suffix;
+					$('#openUrlLinking').append('<a class="btn btn-success btn-lg" href="' + OpenURLLink_BRO + '"> ' + OpenURLbranding + '</a>');
 
 
 					$('#doiResponse').append('<h4>Information About this DOI</h4><div id="doiCitationData">');
