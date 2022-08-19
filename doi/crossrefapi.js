@@ -10,7 +10,7 @@ var isILLiad = false;
 /* OpenURLbase is the URL for your institution's OpenURL resolver, stopping just before the "?" before the OpenURL fields */
 var OpenURLbase_BRO = 'https://suny-bro.primo.exlibrisgroup.com/openurl/01SUNY_BRO/01SUNY_BRO:01SUNY_BRO';
 var OpenURLbase_BUF = 'https://search.lib.buffalo.edu/openurl/01SUNY_BUF/01SUNY_BUF:everything';
-var OpenURLbase_ALB = 'https://search.library.albany.edu/openurl/01SUNY_ALB/ALB:01SUNY_ALB';
+var OpenURLbase_ALB = 'https://suny-alb.primo.exlibrisgroup.com/openurl/01SUNY_ALB/01SUNY_ALB:01SUNY_ALB';
 
 /* OpenURLbase is the label displayed for OpenURL links; the icon displays next to the label */
 var OpenURLbranding_BRO = 'Brockport';
@@ -190,7 +190,7 @@ $(document).ready(function() {
 					$('#openUrlLinking').append('<a style="display: block;margin: 1em 3em;font-size: 24px;" class="btn btn-success" href="' + OpenURLLink_BUF + '"> ' + OpenURLbranding_BUF + '</a>');
 					$('#openUrlLinking').append('<a style="display: block;margin: 1em 3em;font-size: 24px;" class="btn btn-success" href="' + OpenURLLink_ALB + '"> ' + OpenURLbranding_ALB + '</a>');
 
-					$('#doiResponse').append('<h4>Information About this DOI</h4><div id="doiCitationData">');
+					$('#doiResponse').append('<h2>Information About this DOI</h2><div id="doiCitationData">');
 					$('#doiResponse').append('Journal: ' + strJournal + '<br />');
 					$('#doiResponse').append('Title: ' + strTitle + '<br />');
 					$('#doiResponse').append('Author: ' + strAuthor + '<br />');
