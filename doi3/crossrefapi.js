@@ -8,12 +8,11 @@ var doiRegExp = new RegExp('(10[.][0-9]{4,}(?:[.][0-9]+)*/(?:(?![%"#? ])\\S)+)')
 var isILLiad = false;
 
 /* OpenURLbase is the URL for your institution's OpenURL resolver, stopping just before the "?" before the OpenURL fields */
-var OpenURLbase_BRO = 'https://suny-bro.primo.exlibrisgroup.com/openurl/01SUNY_BRO/01SUNY_BRO:01SUNY_BRO';
-
+var OpenURLbase_BRO = 'https://suny-bro.primo.exlibrisgroup.com/openurl/01SUNY_BRO/01SUNY_BRO';
 
 /* OpenURLbase is the label displayed for OpenURL links; the icon displays next to the label */
-var OpenURLbranding = 'Get It @ Brockport ';
-var OpenURLicon = '';
+var OpenURLbranding = 'Get It @ Brockport';
+var OpenURLicon = 'https://s3.amazonaws.com/libapps/customers/1780/images/logo16.png';
 
 /* == Define function for testing whether the input field contains a properly formatted DOI == */
 function DOItest(DOItoTest) {
