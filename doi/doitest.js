@@ -11,7 +11,7 @@ var isILLiad = false;
 /* OpenURLbase is the URL for your institution's OpenURL resolver, stopping just before the "?" before the OpenURL fields */
 var OpenURLbase_BRO_primo = 'https://suny-bro.primo.exlibrisgroup.com/discovery/openurl';
 var OpenURLbase_BUF_primo = 'https://search.lib.buffalo.edu/discovery/openurl';
-var OpenURLbase_ALB_primo = 'https://search.library.albany.edu/discovery/openurl'
+var OpenURLbase_ALB_primo = 'https://search.library.albany.edu/discovery/openurl';
 var OpenURLbase_BRO_ILL = 'https://brockport.idm.oclc.org/login?url=https://brockport.illiad.oclc.org/illiad/illiad.dll/OpenURL';
 
 /* OpenURL prefix is only required if your resolver requires instiution specific information to be included */
@@ -63,7 +63,7 @@ $(document).ready(function() {
 		DOIval = $('#inputDOI').val();
 		if (DOItest(DOIval) == true){
 			DOI = DOIval.match(doiRegExp)[0];
-			DOIurl = 'https://api.crossref.org/works/' + DOI + "/";
+			DOIurl = 'https://api.crossref.org/works/' + DOI;
 			$('#doiResponse').append('<!--Loading and testing ' + DOIurl + '-->');
 			/* need error handling for cases with no CrossRef DOI record found, i.e. http://api.crossref.org/works/10.1016/j.iree.2016.07.002 */
 			$.getJSON( DOIurl, function( data ) {
