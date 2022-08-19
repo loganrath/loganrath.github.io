@@ -9,7 +9,7 @@ var isILLiad = false;
 
 /* OpenURLbase is the URL for your institution's OpenURL resolver, stopping just before the "?" before the OpenURL fields */
 var OpenURLbase_BRO = 'https://suny-bro.primo.exlibrisgroup.com/openurl/01SUNY_BRO/01SUNY_BRO:01SUNY_BRO';
-var OpenURLbase_BUF = 'https://search.lib.buffalo.edu/openurl/01SUNY_BUF/01SUNY_BRO:everything';
+var OpenURLbase_BUF = 'https://suny-buf.alma.exlibrisgroup.com/view/uresolver/01SUNY_BUF/openurl';
 var OpenURLbase_ALB = 'https://search.library.albany.edu/openurl/01SUNY_ALB/ALB:01SUNY_ALB';
 
 /* OpenURLbase is the label displayed for OpenURL links; the icon displays next to the label */
