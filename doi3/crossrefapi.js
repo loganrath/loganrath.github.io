@@ -10,6 +10,7 @@ var isILLiad = false;
 /* OpenURLbase is the URL for your institution's OpenURL resolver, stopping just before the "?" before the OpenURL fields */
 var OpenURLbase_BRO = 'https://suny-bro.primo.exlibrisgroup.com/openurl/01SUNY_BRO/01SUNY_BRO:01SUNY_BRO';
 var OpenURLbase_BUF = 'https://search.lib.buffalo.edu/openurl/01SUNY_BUF/01SUNY_BRO:everything';
+var OpenURLbase_ALB = 'https://search.library.albany.edu/openurl/01SUNY_ALB/ALB:01SUNY_ALB';
 
 /* OpenURLbase is the label displayed for OpenURL links; the icon displays next to the label */
 var OpenURLbranding = 'Get It @ Brockport';
@@ -181,7 +182,10 @@ $(document).ready(function() {
 				if (!(isILLiad == true)) {
 					/* Since this isn't for ILLiad, Generate Output to the screen and create an OpenURL link */
 					var OpenURLLink_BRO = OpenURLbase_BRO + '?sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&id=doi%3A' + encodeURIComponent(DOI);
-					$('#doiResponse').append('<h4>Check for full text</h4><p><a href="' + OpenURLLink_BRO + '"><img src="' + OpenURLicon + '" /> ' + OpenURLbranding + '</a></p><h4>Information About this DOI</h4><div id="doiCitationData">');
+					$('#openUrlLinking').append('<p>Brockport: <a href="' + OpenURLLink_BRO + '"> ' + OpenURLbranding + '</a></p>');
+
+
+					$('#doiResponse').append('<h4>Information About this DOI</h4><div id="doiCitationData">');
 					$('#doiResponse').append('Journal: ' + strJournal + '<br />');
 					$('#doiResponse').append('Title: ' + strTitle + '<br />');
 					$('#doiResponse').append('Author: ' + strAuthor + '<br />');
