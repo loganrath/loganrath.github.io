@@ -8,10 +8,10 @@ var doiRegExp = new RegExp('(10[.][0-9]{4,}(?:[.][0-9]+)*/(?:(?![%"#? ])\\S)+)')
 var isILLiad = false;
 
 /* OpenURLbase is the URL for your institution's OpenURL resolver, stopping just before the "?" before the OpenURL fields */
-var OpenURLbase_BRO = 'https://suny-bro.primo.exlibrisgroup.com/openurl/01SUNY_BRO/01SUNY_BRO';
+var OpenURLbase_BRO = 'https://suny-bro.primo.exlibrisgroup.com/openurl/01SJFC_INST/01SJFC_SP';
 
 /* OpenURLbase is the label displayed for OpenURL links; the icon displays next to the label */
-var OpenURLbranding = 'Get It @ Brockport';
+var OpenURLbranding = 'Get It @ Fisher';
 var OpenURLicon = 'https://s3.amazonaws.com/libapps/customers/1780/images/logo16.png';
 
 /* == Define function for testing whether the input field contains a properly formatted DOI == */
@@ -179,8 +179,8 @@ $(document).ready(function() {
 
 				if (!(isILLiad == true)) {
 					/* Since this isn't for ILLiad, Generate Output to the screen and create an OpenURL link */
-					var OpenURLLink = OpenURLbase + '?sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&id=doi%3A' + encodeURIComponent(DOI);
-					$('#doiResponse').append('<h4>Check for full text</h4><p><a href="' + OpenURLLink + '"><img src="' + OpenURLicon + '" /> ' + OpenURLbranding + '</a></p><h4>Information About this DOI</h4><div id="doiCitationData">');
+					var OpenURLLink_BRO = OpenURLbase_BRO + '?sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&id=doi%3A' + encodeURIComponent(DOI);
+					$('#doiResponse').append('<h4>Check for full text</h4><p><a href="' + OpenURLLink_BRO + '"><img src="' + OpenURLicon + '" /> ' + OpenURLbranding + '</a></p><h4>Information About this DOI</h4><div id="doiCitationData">');
 					$('#doiResponse').append('Journal: ' + strJournal + '<br />');
 					$('#doiResponse').append('Title: ' + strTitle + '<br />');
 					$('#doiResponse').append('Author: ' + strAuthor + '<br />');
