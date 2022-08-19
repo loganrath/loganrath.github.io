@@ -63,7 +63,7 @@ $(document).ready(function() {
 		DOIval = $('#inputDOI').val();
 		if (DOItest(DOIval) == true){
 			DOI = DOIval.match(doiRegExp)[0];
-			DOIurl = 'https://api.crossref.org/works/' + DOI;
+			DOIurl = 'https://api.crossref.org/works/' + DOI + 'callback=?';
 			$('#doiResponse').append('<!--Loading and testing ' + DOIurl + '-->');
 			/* need error handling for cases with no CrossRef DOI record found, i.e. http://api.crossref.org/works/10.1016/j.iree.2016.07.002 */
 			$.getJSON( DOIurl, function( data ) {
