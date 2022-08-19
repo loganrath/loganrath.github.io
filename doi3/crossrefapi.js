@@ -1,5 +1,4 @@
-/*This is doitest.js */
-
+/*This is doitest-nonilliad.js */
 /* == Define global variables == */
 
 /* doiRegExp is a regular expression to determine if a string is a valid DOI (Digital Object Identifier) */
@@ -9,14 +8,11 @@ var doiRegExp = new RegExp('(10[.][0-9]{4,}(?:[.][0-9]+)*/(?:(?![%"#? ])\\S)+)')
 var isILLiad = false;
 
 /* OpenURLbase is the URL for your institution's OpenURL resolver, stopping just before the "?" before the OpenURL fields */
-var OpenURLbase = 'http://resolver.ebscohost.com/openurl';
+var OpenURLbase = 'https://sjfc-primo.hosted.exlibrisgroup.com/openurl/01SJFC_INST/01SJFC_SP';
 
-/* OpenURLsuffix is only required if your resolver requires institutional authentication in a GET variable (EBSCO), as opposed to having the code in the host name (like 360Link).
-Change this value to '' if you're in the latter category. */
-var OpenURLsuffix = '&site=ftf-live&authtype=guest&custid=s9000206&groupid=main';
-
-/* OpenURLbase is the label displayed for OpenURL links */
+/* OpenURLbase is the label displayed for OpenURL links; the icon displays next to the label */
 var OpenURLbranding = 'Get It @ Fisher';
+var OpenURLicon = 'https://s3.amazonaws.com/libapps/customers/1780/images/logo16.png';
 
 /* == Define function for testing whether the input field contains a properly formatted DOI == */
 function DOItest(DOItoTest) {
@@ -30,7 +26,7 @@ function DOItest(DOItoTest) {
 	}
 }
 
-/* == Get things done once the document is ready == */
+/* == Call the functions when the document is ready == */
 $(document).ready(function() {
 	if (isILLiad == true) {
 		$('#doiSearchBox').hide();
@@ -53,9 +49,9 @@ $(document).ready(function() {
 		DOIval = $('#inputDOI').val();
 		if (DOItest(DOIval) == true){
 			DOI = DOIval.match(doiRegExp)[0];
-			DOIurl = 'http://api.crossref.org/works/' + DOI;
+			DOIurl = 'https://api.crossref.org/works/' + DOI;
 			$('#doiResponse').append('<!--Loading and testing ' + DOIurl + '-->');
-			/* need error handling for cases with no CrossRef DOI record found, i.e. http://api.crossref.org/works/10.1016/j.iree.2016.07.002 */
+			/* need error handling for cases with no CrossRef DOI record found, i.e. https://api.crossref.org/works/10.1016/j.iree.2016.07.002 */
 			$.getJSON( DOIurl, function( data ) {
 			})
 			.success(function(data) {
@@ -72,6 +68,7 @@ $(document).ready(function() {
 				var strCreated = '';
 				var strPage = '';
 				var strISBN = '';
+				var strISSN = '';
 				var strCitedIn = '';
 				if (isILLiad == true) {
 					strCitedIn = 'Library DOI Resolver in ILLiad';
@@ -100,7 +97,14 @@ $(document).ready(function() {
 							break;
 						case 'type':
 							/* TBD: nest conditionals to convert types into ILLiad/OpenURL values. Perhaps apply that logic separately to make code usable for both resolution systems? */
-							strType = v;
+							switch(v){
+								case 'journal-article':
+									strType = 'article';
+									break;
+								default:
+									strType = v;
+									break;
+							}
 							break;
 						case 'published-print':
 							/* Need nested loop to process array; also run logic later to prioritize published-print over published-online over created date */
@@ -134,7 +138,7 @@ $(document).ready(function() {
 							strISSN = v.toString().split(',')[0];
 							break;
 						case 'ISBN':
-							strISBN = v;
+							strISBN = v.toString().split(',')[0];
 							break;
 						case 'author':
 							/* exists in a nested array for articles with multiple authors. Check for functionality if not an array: checked 2016/8/5 16:54 EDT */
@@ -175,11 +179,8 @@ $(document).ready(function() {
 
 				if (!(isILLiad == true)) {
 					/* Since this isn't for ILLiad, Generate Output to the screen and create an OpenURL link */
-					var OpenURLLink = OpenURLbase + '?sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&id=doi%3A%2F%2F' + encodeURIComponent(DOI) + OpenURLsuffix;
-					$('#doiResponse').append('<h4>Check for full text</h4><p><a href="' + OpenURLLink + '"><img src="http://www.sjfc.edu/library/images/logo16.png" /> Get It @ Fisher</a></p><h4>Information About this DOI</h4><div id="doiCitationData">');
-					/* TBD: Add a function to display a structured citation
-					$('#doiResponse').append('<div id="apacitation">Citation: '+ getCitation(strAuthor,) + '<br />');
-					*/
+					var OpenURLLink = OpenURLbase + '?sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&id=doi%3A' + encodeURIComponent(DOI);
+					$('#doiResponse').append('<h4>Check for full text</h4><p><a href="' + OpenURLLink + '"><img src="' + OpenURLicon + '" /> ' + OpenURLbranding + '</a></p><h4>Information About this DOI</h4><div id="doiCitationData">');
 					$('#doiResponse').append('Journal: ' + strJournal + '<br />');
 					$('#doiResponse').append('Title: ' + strTitle + '<br />');
 					$('#doiResponse').append('Author: ' + strAuthor + '<br />');
