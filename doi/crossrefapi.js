@@ -190,6 +190,7 @@ $(document).ready(function() {
 					$('#openUrlLinking').append('<a style="display: block;margin: 1em 3em;font-size: 24px;" class="btn btn-primary" target="_blank" href="' + OpenURLLink_BUF + '"> ' + OpenURLbranding_BUF + '</a>');
 					$('#openUrlLinking').append('<a style="display: block;margin: 1em 3em;font-size: 24px;" class="btn btn-warning" target="_blank" href="' + OpenURLLink_ALB + '"> ' + OpenURLbranding_ALB + '</a>');
 
+					$('#doiResponse').empty();
 					$('#doiResponse').append('<h2>Information About this DOI</h2><div id="doiCitationData">');
 					$('#doiResponse').append('Journal: ' + strJournal + '<br />');
 					$('#doiResponse').append('Title: ' + strTitle + '<br />');
