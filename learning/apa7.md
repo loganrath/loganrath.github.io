@@ -2,7 +2,7 @@
 layout: module
 title: "Sources for Teaching American Psychological Association (7th) Format"
 ---
-This page brings together content that I have used to teach about [APA Citation](https://owl.purdue.edu/owl/research_and_citation/apa_style/apa_style_introduction.html). The [standard disclaimer](/disclaimer/) applies.
+This page brings together content that I have used to teach about APA citation. The [standard disclaimer](/disclaimer/) applies.
 
 
 Websites
@@ -13,7 +13,7 @@ Websites
 2. [Reference Examples from APA Style](https://apastyle.apa.org/style-grammar-guidelines/references/examples/)
 : This page walks through how to cite many common examples, including YouTube and social media.
 
-3. [Santa Fe Collge](https://sfcollege.libguides.com/apa7/new)
+3. [Santa Fe Collge](https://sfcollege.libguides.com/apa7/)
 : This guide is comprehensive yet simple and provides accurate information on APA.
 
 Activities

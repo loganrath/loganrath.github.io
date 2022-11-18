@@ -13,6 +13,3 @@ Here are tools I've built for fun
 * [Math Thesis Generator](/learning/math-thesis-generator/)
 * [Proxy Tool](/proxy/)
 * [Kaltura External URL](/kaltura)
-
-And here are social justice resources
-* [Black Lives Matter Resources](/learning/blm/)
