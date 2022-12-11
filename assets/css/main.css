@@ -1515,6 +1515,8 @@ div.apa {
   font-size: 16px;
 	}
 
+div.apa p {font-weight: bold;}
+
 @media only screen and (max-width: 768px) {
   div.apa {word-wrap: break-word;}
   .display-3 {font-size: 2em;}

@@ -15,7 +15,7 @@ Websites
 1. [Auburn University Selecting Keywords to Search](https://www.lib.auburn.edu/aubieasks/tutorials/keywords/#/)
 : This self-paced module was also awarded a Primo award for library instruction. I prefer it to the Keyword Generator below.
 
-2. [IUPUI Keyword Generator](https://apps.lib.utexas.edu/apps/libraries/key/nlogon/)
+2. [UT Libraries Keyword Generator](https://apps.lib.utexas.edu/apps/libraries/key/nlogon/)
 : This site was originally developed at UTAustin where it was awarded a Primo award for library instruction. I find it incredibly useful.
 
 
