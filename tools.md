@@ -1,5 +1,5 @@
 ---
-layout: main
+layout: page
 title: Modules & Tools
 titlepretty: Modules <em>&</em> Tools
 ---
