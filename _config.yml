@@ -10,7 +10,7 @@ site-twitter: #if your site has a twitter account, enter it here
 author: Logan Rath # add your name
 author-img: logan-rath.jpg # add your photo
 about-author: Academic librarian and researcher. # add description
-social-mastodon: @logan@scholar.social # add your Mastodon handle
+social-mastodon: https://scholar.social/@logan # add your Mastodon handle
 social-facebook: # add your Facebook handle
 social-github:  # add your Github handle
 social-linkedin: loganrath # add your Linkedin handle
