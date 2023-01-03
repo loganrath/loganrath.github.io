@@ -1516,10 +1516,13 @@ div.apa {
 	}
 
 div.apa p {font-weight: bold;}
+h1.profile-heading {text-align:center;}
 
 @media only screen and (max-width: 768px) {
   div.apa {word-wrap: break-word;}
   .display-3 {font-size: 2em;}
+  h1.profile-heading {text-align:left;}
+
 }
 body {font-size: 1em;}
 h1 {font-size: 2em; font-weight: bold; font-family: "Source Serif Pro", serif;}
