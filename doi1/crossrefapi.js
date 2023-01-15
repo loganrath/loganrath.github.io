@@ -186,6 +186,7 @@ $(document).ready(function() {
 					var OpenURLLink_BRO = OpenURLbase_BRO + OpenURL_suffix;
 					var OpenURLLink_BUF = OpenURLbase_BUF + OpenURL_suffix;
 					var OpenURLLink_ALB = OpenURLbase_ALB + OpenURL_suffix;
+					$('#openUrlLinking').empty();
 					$('#openUrlLinking').append('<a style="display: block;margin: 1em 3em;font-size: 24px;" class="btn btn-success" target="_blank" href="' + OpenURLLink_BRO + '"> ' + OpenURLbranding_BRO + '</a>');
 					$('#openUrlLinking').append('<a style="display: block;margin: 1em 3em;font-size: 24px;" class="btn btn-primary" target="_blank" href="' + OpenURLLink_BUF + '"> ' + OpenURLbranding_BUF + '</a>');
 					$('#openUrlLinking').append('<a style="display: block;margin: 1em 3em;font-size: 24px;" class="btn btn-warning" target="_blank" href="' + OpenURLLink_ALB + '"> ' + OpenURLbranding_ALB + '</a>');
