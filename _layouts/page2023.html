@@ -32,44 +32,17 @@
   <div class="cover-bg p-3 p-lg-4 text-white mb-3">
     <div class="row">
       <div class="col-12 text-center">
-        <h1 class="h1 mt-2" data-aos="fade-left" data-aos-delay="0">Title</h1>
+        <h1 class="h1 mt-2" data-aos="fade-left" data-aos-delay="0">{{ page.title }}</h1>
         </div>
       </div>
     </div>
     <div class="container">
-      <p>Page Content</p>
+      {{ content }}
     </div>
   </div>
 
 </div></div>
     </div>
-    <footer class="pt-4 pb-4 text-muted text-center d-print-none">
-      <div class="container">
-        <div class="my-3">
-          <div class="h4">Logan Rath, PhD</div>
-          <div class="footer-nav">
-            <nav role="navigation">
-              <ul class="nav justify-content-center">
-                <li class="nav-item"><a class="nav-link" href="https://scholar.social/@logan@scholar.social" title="Mastodon"><i class="fab fab fa-mastodon"></i><span class="menu-title sr-only">Twitter</span></a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="https://orcid.org/0000-0002-6221-4536" title="ORCid"><i class="fab fa-orcid"></i><span class="menu-title sr-only">ORCid</span></a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="https://scholar.google.com/citations?user=sfO-kFAAAAAJ&hl=en" title="Instagram"><i class="fa fa-graduation-cap"></i><span class="menu-title sr-only">Google Scholar</span></a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="https://www.linkedin.com/in/loganrath/" title="LinkedIn"><i class="fab fa-linkedin"></i><span class="menu-title sr-only">LinkedIn</span></a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-        <div class="text-small">
-          <div class="mb-1">&copy; Right Resume. All rights reserved.</div>
-          <div>Design - <a href="https://templateflip.com/" target="_blank">TemplateFlip</a></div>
-        </div>
-      </div>
-    </footer>
-    <script src="scripts/bootstrap.bundle.min.js?ver=1.2.0"></script>
-    <script src="scripts/aos.js?ver=1.2.0"></script>
-    <script src="scripts/main.js?ver=1.2.0"></script>
+    {% include footer2023.html %}
   </body>
 </html>
