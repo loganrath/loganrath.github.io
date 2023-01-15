@@ -7,6 +7,8 @@ About Me
 ---
 I'm an academic librarian and researcher with various experiences (listed below) that can help you achieve your goals. I invite you to [read more about me](/about/). If you think we're a match, send me an email.
 
+I'm also available to provide external review for promotion and tenure applications of academic librarians. Please use my Brockport email for these requests.
+
 
 Areas of Expertise
 ---
