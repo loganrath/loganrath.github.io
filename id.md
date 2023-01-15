@@ -1,6 +1,6 @@
 ---
 title: Instructional Design Presentation
-layout: module
+layout: page2023
 cc: no
 ---
 <div class="row">
