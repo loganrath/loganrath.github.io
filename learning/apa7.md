@@ -1,5 +1,5 @@
 ---
-layout: module
+layout: page
 title: "Sources for Teaching American Psychological Association (7th) Format"
 ---
 This page brings together content that I have used to teach about APA citation. The [standard disclaimer](/disclaimer/) applies.
