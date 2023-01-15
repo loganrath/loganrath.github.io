@@ -1,11 +1,11 @@
 ---
-layout: main
+layout: page
 title: Logan Rath, Academic Librarian and Consultant
 keywords: ADA, librarian, accessibility, course design consultant, library web design consultant, library technology, consultant, interlibrary loan consultant, interlibrary loan librarian
 ---
 About Me
 ---
-I'm an academic librarian with various experiences (listed below) that can help you achieve your goals. I invite you to [read more about me](/about/). If you think we're a match, send me an email.
+I'm an academic librarian and researcher with various experiences (listed below) that can help you achieve your goals. I invite you to [read more about me](/about/). If you think we're a match, send me an email.
 
 
 Areas of Expertise
