@@ -72,6 +72,15 @@ div.apa {
 .timeline-card-warning:after {
   background-color: #f6bb42; }
 
+.timeline-card-info {
+  border-left-color: #3bafda; }
+
+.timeline-card-info:before {
+  border-color: #3bafda; }
+
+.timeline-card-info:after {
+  background-color: #3bafda; }
+
 html {
   scroll-behavior: smooth; }
 
