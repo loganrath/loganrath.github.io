@@ -1,15 +1,19 @@
 ---
 layout: page
-title: Bookmarklet
+title: Brockport &amp; UB Library Search Bookmarklet
 ---
 <div class="container" markdown="1">
 
 Instructions
 ---
-To use this bookmarklet, drag the icon into your browser's bookmarks toolbar. Then, when you are on the page with the form, click the bookmark to have it fill out the form for you.
+This bookmarklet will allow you to swap between Brockport and UB's library discovery layers.
+ 1. Drag this icon into your bookmarks bar.
+ 2. Accept the addition of the bookmark.
+ 3. Search in either discovery layer.
+ 4. Click the bookmarklet to go to the other institution.
 
 <div class="row">
-<h2>Brockport &amp; UB Library Search</h2>
+<h2></h2>
 <p class="text-center"><a href='javascript:!function(){
 var x = window.location.href;
 var p = window.location.hostname;
@@ -18,16 +22,21 @@ if (p == "search.lib.buffalo.edu") {
   var r2 = "suny-bro.primo.exlibrisgroup.com";
   var r3 = "01SUNY_BUF:everything";
   var r4 = "01SUNY_BRO:01SUNY_BRO";
+	var r5 = "01SUNY_BUF";
+	var r6 = "01SUNY_BRO";
   }
 if (p == "suny-bro.primo.exlibrisgroup.com") {
   var r1 = p;
   var r2 = "search.lib.buffalo.edu";
   var r3 = "01SUNY_BRO:01SUNY_BRO";
   var r4 = "01SUNY_BUF:everything";
+	var r5 = "01SUNY_BRO";
+	var r6 = "01SUNY_BUF";
 }
 var y = x.replace(r1,r2);
 var z = y.replace(r3,r4);
-window.location.href = z
+var a = z.replace(r5,r6);
+window.location.href = a
 }();
 '><i class="fa fa-search-plus fa-6x" aria-hidden="true"></i><span style="display:none;">BPT <--> UB</span></a></p>
 </div>
@@ -46,16 +55,20 @@ if (p == "search.lib.buffalo.edu") {
   var r2 = "suny-bro.primo.exlibrisgroup.com";
   var r3 = "01SUNY_BUF:everything";
   var r4 = "01SUNY_BRO:01SUNY_BRO";
+	var r5 = "01SUNY_BUF";
+	var r6 = "01SUNY_BRO";
   }
 if (p == "suny-bro.primo.exlibrisgroup.com") {
   var r1 = p;
   var r2 = "search.lib.buffalo.edu";
   var r3 = "01SUNY_BRO:01SUNY_BRO";
   var r4 = "01SUNY_BUF:everything";
+	var r5 = "01SUNY_BRO";
+	var r6 = "01SUNY_BUF";
 }
 var y = x.replace(r1,r2);
 var z = y.replace(r3,r4);
-window.location.href = z
+var a = z.replace(r5,r6);
+window.location.href = a
 }();
 </textarea>
-</div>
