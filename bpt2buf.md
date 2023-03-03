@@ -9,8 +9,8 @@ Instructions
 To use this bookmarklet, drag the icon into your browser's bookmarks toolbar. Then, when you are on the page with the form, click the bookmark to have it fill out the form for you.
 
 <div class="row">
-<h2>Brockport &amp: UB Library Search</h2>
-<p><a href='javascript:!function(){
+<h2>Brockport &amp; UB Library Search</h2>
+<p class="text-center"><a href='javascript:!function(){
 var x = window.location.href;
 var p = window.location.hostname;
 if (p == "search.lib.buffalo.edu") {
@@ -29,7 +29,7 @@ var y = x.replace(r1,r2);
 var z = y.replace(r3,r4);
 window.location.href = z
 }();
-'><i class="fa fa-check fa-6x" aria-hidden="true"></i><span style="display:none;">BPT <--> UB</span></a></p>
+'><i class="fa fa-search-plus fa-6x" aria-hidden="true"></i><span style="display:none;">BPT <--> UB</span></a></p>
 </div>
 
 </div>
