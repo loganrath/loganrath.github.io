@@ -34,7 +34,7 @@ else if (p == "suny-bro.primo.exlibrisgroup.com") {
 	var r6 = "suny-alb";
 }
 else {
-	alert ("This bookmarklet only works for Brockport and Albany's library pages.")
+	alert (escape("This bookmarklet only works for Brockport and Albany's library pages."))
 }
 var y = x.replace(r1,r2);
 var z = y.replace(r3,r4);
