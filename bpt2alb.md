@@ -41,7 +41,7 @@ var z = y.replace(r3,r4);
 var a = z.replace(r5,r6);
 window.location.href = a
 }();
-'><i class="fa fa-search-plus fa-6x" aria-hidden="true"></i><span style="display:none;">BPT <--> UB</span></a></p>
+'><i class="fa fa-search-plus fa-6x" aria-hidden="true"></i><span style="display:none;">BPT <--> ALB</span></a></p>
 </div>
 
 </div>
