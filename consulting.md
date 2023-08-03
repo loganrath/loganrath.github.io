@@ -7,7 +7,9 @@ About Me
 ---
 I'm an academic librarian and researcher with various experiences (listed below) that can help you achieve your goals. I invite you to [read more about me](/about/). If you think we're a match, send me an email.
 
-I'm also available to provide external review for promotion and tenure applications of academic librarians. Please use my Brockport email for these requests.
+External Review
+---
+Please contact me via my Brockport email if you would like me to serve as an external reviewer for promotion and tenure applications of academic librarians. I'm generally happy to do this as long as there's sufficient time.
 
 
 Areas of Expertise
@@ -24,7 +26,3 @@ Areas of Expertise
 * online learning
 * technology in libraries
 * website design
-
-Rates
----
-Rates are negotiable depending on the size of the project. Please contact me at Logan at lrphd dot xyz.
