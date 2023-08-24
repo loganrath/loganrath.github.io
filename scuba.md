@@ -7,7 +7,7 @@ Scuba Diving Instructor
 I am currently an open water instructor with [RU4Scuba](https://www.ru4scubaa.com){:target="_blank"}, based out of Williamson, NY. We provide training in the Rochester area. Our shop schedules classes at times that are convenient for you. Currently, I can teach:
 
 <div class="row mb-2">
-  <div class="col-sm-12 col-md-6 text-center" markdown="1">
+  <div class="col-sm-12 col-md-6" markdown="1">
   * Open Water Diver
   * Deep Diving
   * Marine Ecology
