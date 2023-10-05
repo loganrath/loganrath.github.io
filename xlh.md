@@ -9,6 +9,10 @@ Academic Resources for XLH
 
 I'm an academic librarian with XLH. I will be using this page to catalog significant scholarly articles and resources on XLH to enable discovery of these works. Links to open access versions of articles will be provided when possible. I will also attempt to tag sources in ways that help them be more discoverable.
 
+Dental
+======
+* Duplan, M.B., Le Norcy, E., Courson, F., & Chaussain, C. (2021). [Dental and periodontal features and management in XLH children and adults](https://www.journalbonefragility.com/article/2021/1/2/74/dental-and-periodontal-features-and-management-in-xlh-children-and-adults/){:target="_blank"} (2021). *International Journal of Bone Fragility 1*(2), 77-79.
+
 Websites for XLH
 ================
 * [Endocrine Society](https://www.endocrine.org/patient-engagement/endocrine-library/x-linked-hypophosphatemia){:target="_blank"}
