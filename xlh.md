@@ -1,6 +1,6 @@
 ---
 layout: page
-title: XLH Resources by Logan Rath
+title: XLH Resources by Logan Rath, PhD
 keywords: xlh, x-linked hypophosphatemia, ricketts, resources, academic, XLH
 ---
 Academic Resources for XLH
