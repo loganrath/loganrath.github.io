@@ -9,11 +9,13 @@ var isILLiad = false;
 
 /* OpenURLbase is the URL for your institution's OpenURL resolver, stopping just before the "?" before the OpenURL fields */
 var OpenURLbase_BRO = 'https://suny-bro.primo.exlibrisgroup.com/openurl/01SUNY_BRO/01SUNY_BRO:01SUNY_BRO';
+var OpenURLbase_XBM = 'https://brockport.idm.oclc.org/illiad/illiad.dll/OpenURL';
 var OpenURLbase_BUF = 'https://search.lib.buffalo.edu/openurl/01SUNY_BUF/01SUNY_BUF:everything';
 var OpenURLbase_ALB = 'https://suny-alb.primo.exlibrisgroup.com/openurl/01SUNY_ALB/01SUNY_ALB:01SUNY_ALB';
 
 /* OpenURLbase is the label displayed for OpenURL links; the icon displays next to the label */
 var OpenURLbranding_BRO = 'Brockport';
+var OpenURLbranding_XBM = 'Brockport ILLiad';
 var OpenURLbranding_BUF = 'Buffalo';
 var OpenURLbranding_ALB = 'Albany';
 
@@ -184,10 +186,12 @@ $(document).ready(function() {
 					/* Since this isn't for ILLiad, Generate Output to the screen and create an OpenURL link */
 					var OpenURL_suffix ='?sid=' + encodeURIComponent(strCitedIn) + '&genre=' + encodeURIComponent(strType) + '&issn=' + strISSN + '&ISBN=' + strISBN + '&volume=' + strVolume + '&issue=' + strIssue + '&date=' + encodeURIComponent(strDate) + '&spage=' + strPage + '&pages=' + strPage + '&title=' + encodeURIComponent(strJournal) + '&atitle=' + encodeURIComponent(strTitle) + '&aulast=' + encodeURIComponent(strAuthor) + '&id=doi%3A' + encodeURIComponent(DOI);
 					var OpenURLLink_BRO = OpenURLbase_BRO + OpenURL_suffix;
+					var OpenURLLink_XBM = OpenURLbase_XBM + OpenURL_suffix;
 					var OpenURLLink_BUF = OpenURLbase_BUF + OpenURL_suffix;
 					var OpenURLLink_ALB = OpenURLbase_ALB + OpenURL_suffix;
 					$('#openUrlLinking').empty();
 					$('#openUrlLinking').append('<a style="display: block;margin: 1em 3em;font-size: 24px;" class="btn btn-success" target="_blank" href="' + OpenURLLink_BRO + '"> ' + OpenURLbranding_BRO + '</a>');
+					$('#openUrlLinking').append('<a style="display: block;margin: 1em 3em;font-size: 24px;" class="btn btn-success" target="_blank" href="' + OpenURLLink_XBM + '"> ' + OpenURLbranding_XBM + '</a>');
 					$('#openUrlLinking').append('<a style="display: block;margin: 1em 3em;font-size: 24px;" class="btn btn-primary" target="_blank" href="' + OpenURLLink_BUF + '"> ' + OpenURLbranding_BUF + '</a>');
 					$('#openUrlLinking').append('<a style="display: block;margin: 1em 3em;font-size: 24px;" class="btn btn-warning" target="_blank" href="' + OpenURLLink_ALB + '"> ' + OpenURLbranding_ALB + '</a>');
 
