@@ -1,0 +1,24 @@
+---
+layout: page
+title: Find Item by DOI
+---
+<h1 class="text-center"> {{ page.title }}</h1>
+<div class="container">
+	<div class="row">
+	<div id="doiSearchBox" class="col-12 mb-4">
+		<div class="text-center">
+					<p>If you enter a DOI on this page (only the numbers following 10.), this tool will resolve the DOI and provide links to find the item in three different universities.</p>
+		<input type="text" id="inputDOI" placeholder="Ex.: 10.1016/j.jspi.2016.06.003" class="w-75 h4" /> <button class="btn btn-primary btn-lg mt-n2" id="checkDOI">Check DOI</button>
+		</div>
+		</div>
+
+		<div id="doiResponse" class="col-12 col-md-8 col-lg-6" style="font-size: 16px;"></div>
+		<div id="openUrlLinking" class="col-12 col-md-4 col-lg-6" style="font-size: 18px;"></div>
+</div>
+</div>
+		<!--
+	/*	Add in jQuery UI if you want dialog lightboxes
+	/*	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+		-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="crossrefapi.js"></script>
