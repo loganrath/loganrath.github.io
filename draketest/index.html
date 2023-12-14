@@ -27,7 +27,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
 
-              <p class="text-center h4 mb-3">Use Library Search to discover books, articles, media and more.</p>
+              <p class="text-center h4 mb-3" id="searchDescription">Use Library Search to discover books, articles, media and more.</p>
 
                 <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo()" method="get"  id="libSearchForm" name="libSearchForm">
                    <!-- Customizable Parameters -->
@@ -55,10 +55,11 @@
                           </div>
                       </div>
                     <div class="d-flex justify-content-center">
-                        <label class="radio-icon"><input type="radio" name="searchOptionsRadio" class="d-none" id="prart10" value="articles"><i class="fas fa-file-alt"></i><span class="h6 pl-2">Articles</span></label>
-                        <label class="radio-icon"><input type="radio" name="searchOptionsRadio" class="d-none" id="books" value="books"><i class="fas fa-book"></i><span class="h6 pl-2">Books</span></label>
-                        <label class="radio-icon"><input type="radio" name="searchOptionsRadio" class="d-none" id="ebooks" value="ebooks"><i class="fas fa-atlas"></i><span class="h6 pl-2">eBooks</span></label>
-                        <label class="radio-icon"><input type="radio" name="searchOptionsRadio" class="d-none" id="reserves" value="reserves"><i class="fas fa-chalkboard-teacher"></i><span class="h6 pl-2">Reserves</span></label>
+                        <label class="radio-icon"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="everything" value="everything"><i class="fas fa-search-plus"></i><span class="h6 pl-2">Everything</span></label>
+                        <label class="radio-icon"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="prart10" value="prart10"><i class="fas fa-file-alt"></i><span class="h6 pl-2">Articles<br/></span></label>
+                        <label class="radio-icon"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="books" value="books"><i class="fas fa-book"></i><span class="h6 pl-2">Books</span></label>
+                        <label class="radio-icon"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="ebooks" value="ebooks"><i class="fas fa-atlas"></i><span class="h6 pl-2">eBooks</span></label>
+                        <label class="radio-icon"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="reserves" value="reserves"><i class="fas fa-chalkboard-teacher"></i><span class="h6 pl-2">Reserves</span></label>
                     </div>
                 </form>
             </div>
@@ -77,15 +78,15 @@
                 this.classList.add('selected');
             });
         });
+
         function setFacets() {
+          var yearTenYearsAgo = new Date().getFullYear() - 10;
+          var yearCurrent = new Date().getFullYear()+1;
           $("#facets").empty();
-          $('#rpart10').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,peer_reviewed" /><input type="hidden" name="facet" value="rtype,include,articles" />') : '';
-          // <input type="hidden" name="mfacet" value="searchcreationdate,include,2012|,|'+current_year+',1" />
+          $('#prart10').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" /><input type="hidden" name="facet" value="rtype,include,articles,lk" /><input type="hidden" name="facet" value="searchcreationdate,include,'+yearTenYearsAgo+'|,|'+yearCurrent+',lk" />') : '';
           $('#books').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" />') : '';
           $('#ebooks').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
           $('#reserves').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" /><input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />') : '';
-
-
         }
 
         function searchPrimo() {
@@ -94,6 +95,29 @@
              event.stopPropogation();
              document.forms["libSearchForm"].submit();
         }
+        function updateDescription(radio) {
+    var descriptionDiv = document.getElementById('searchDescription');
+    var text = "";
+
+    switch (radio.value) {
+        case "prart10":
+            text = "You are searching peer reviewed articles from the past 10 years.";
+            break;
+        case "books":
+            text = "You are searching print books in our catalog.";
+            break;
+        case "ebooks":
+            text = "You are searching eBooks in our catalog.";
+            break;
+        case "reserves":
+            text = "You are searching items available with shorter loans.";
+            break;
+        default:
+            text = "Use Library Search to discover books, articles, media and more.";
+    }
+
+    descriptionDiv.textContent = text;
+}
     </script>
 </body>
 </html>
