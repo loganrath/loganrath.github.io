@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Search Form</title>
+<title>Drake Memorial Library Search Box</title>
 <!-- Bootstrap CSS CDN -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <!-- Font Awesome CDN -->
@@ -26,7 +26,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-          <p class="text-center h4 mb-3" id="searchDescription">Use Library Search to discover books, articles, media and more.</p>
+          <p class="text-center h4 mb-3" id="searchDescription">Use Library Search to discover <span class="text-success">books, articles, media</span> and more.</p>
 
             <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo()" method="get"  id="libSearchForm" name="libSearchForm">
                <!-- Customizable Parameters -->
@@ -50,13 +50,14 @@
                       <input type="text" class="form-control" placeholder="Search articles, books, videos, and more.." id="libSearch" name="search">
                       <div id="facets"></div>
                       <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" id="button-addon2"><i class="fas fa-search"></i></button>
+                          <button class="btn btn-outline-secondary bg-warning" id="button-addon2"><i class="fas fa-search text-default"></i></button>
                       </div>
                   </div>
                 <div class="d-flex justify-content-center">
+                  <span class="pt-3 d-none">Limit to:</span>
                     <label class="radio-icon"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="everything" value="everything"><i class="fas fa-search-plus"></i><span class="h6 pl-2">Everything</span></label>
                     <label class="radio-icon"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="prart10" value="prart10"><i class="fas fa-file-alt"></i><span class="h6 pl-2">Articles<br/></span></label>
-                    <label class="radio-icon"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="books" value="books"><i class="fas fa-book"></i><span class="h6 pl-2">Books</span></label>
+                    <label class="radio-icon"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="books" value="books"><i class="fas fa-book-open"></i><span class="h6 pl-2">Books</span></label>
                     <label class="radio-icon"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="ebooks" value="ebooks"><i class="fas fa-atlas"></i><span class="h6 pl-2">eBooks</span></label>
                     <label class="radio-icon"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="reserves" value="reserves"><i class="fas fa-chalkboard-teacher"></i><span class="h6 pl-2">Reserves</span></label>
                 </div>
@@ -73,9 +74,9 @@
     document.querySelectorAll('.radio-icon').forEach(function(element) {
         element.addEventListener('click', function() {
             document.querySelectorAll('.radio-icon').forEach(function(el) {
-                el.classList.remove('selected');
+                el.classList.remove('bg-warning');
             });
-            this.classList.add('selected');
+            this.classList.add('bg-warning');
         });
     });
 
@@ -101,22 +102,22 @@
 
       switch (radio.value) {
           case "prart10":
-              text = "Search peer-reviewed articles from the past 10 years.";
+              text = "Search <span class='text-success'>peer-reviewed articles</span> from the past 10 years.";
               break;
           case "books":
-              text = "Search books (print & electronic) in our library.";
+              text = "Search <span class='text-success'>books</span> (print & electronic) in our library.";
               break;
           case "ebooks":
-              text = "Search eBooks you can access from anywhere.";
+              text = "Search <span class='text-success'>eBooks</span> you can access from anywhere.";
               break;
           case "reserves":
-              text = "Search items that are on course reserve for specific classes.";
+              text = "Search <span class='text-success'>items that are on reserve</span> for specific classes.";
               break;
           default:
-              text = "Use Library Search to discover books, articles, media and more.";
+              text = "Use Library Search to discover <span class='text-success'>books, articles, media</span> and more.";
     }
 
-    descriptionDiv.textContent = text;
+    descriptionDiv.innerHTML = text;
 }
 </script>
 </body>
