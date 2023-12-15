@@ -79,7 +79,7 @@ $(document).ready(function() {
 
       // Perform the lookup
       // Displaying the URL for demonstration purposes
-      $('#result').text(openUrl);
+      $('#result').innerHTML('<a href="'+openUrl+'">'+openUrl+'</a>');
       // window.open(openUrl, '_blank');
   });
 });
