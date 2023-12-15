@@ -20,7 +20,7 @@
       <div class="form-inline justify-content-center">
           <label for="universitySelect" class="mr-2">University</label>
           <select id="universitySelect" class="form-control mr-2"></select>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" id="lookup-button" class="btn btn-primary">Go</button>
       </div>
   </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
@@ -79,7 +79,7 @@ $(document).ready(function() {
       // Perform the lookup
       // Displaying the URL for demonstration purposes
       $('#result').text(openUrl);
-      window.open(openUrl, '_blank');
+      // window.open(openUrl, '_blank');
   });
 });
 
