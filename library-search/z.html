@@ -73,7 +73,8 @@ $(document).ready(function() {
 
       // Perform the lookup
       // Displaying the URL for demonstration purposes
-      $('#result').text("OpenURL: " + openUrl);
+      $('#result').text(openUrl);
+      window.open(openUrl, '_blank');
   });
 });
 
