@@ -1,27 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Dropdown from YAML</title>
-    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <title>University Dropdown</title>
 </head>
 <body>
-    <select id="dropdown"></select>
+  <label for="universitySelect">Select a University:</label>
+  <select id="universitySelect"></select>
 
-    <script>
-        fetch('sunyopenurl.yaml')
-            .then(response => response.text())
-            .then(yaml => {
-                let data = jsyaml.load(yaml);
-                let dropdown = document.getElementById('dropdown');
-                data.forEach(item => {
-                    let option = document.createElement('option');
-                    option.value = item.URL;
-                    option.textContent = item.Name;
-                    dropdown.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-    </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Replace with the actual path to your YAML file
+      const yamlFilePath = 'sunyopenurl.yaml';
+
+      // Function to populate the select dropdown
+      function populateDropdown(data) {
+        const selectElement = $('#universitySelect');
+        data.forEach(entry => {
+          const option = $('<option>');
+          option.val(entry.URL);
+          option.text(entry.University);
+          selectElement.append(option);
+        });
+      }
+
+      // Fetch and parse the YAML file
+      fetch(yamlFilePath)
+        .then(response => response.text())
+        .then(yamlData => {
+          const data = jsyaml.load(yamlData);
+          populateDropdown(data);
+
+          // Function to filter options based on URL parameters
+          function filterOptions() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const filterValue = urlParams.get('university');
+
+            if (filterValue) {
+              $('#universitySelect').val(filterValue);
+            }
+          }
+
+          // Call the filterOptions function
+          filterOptions();
+        })
+        .catch(error => {
+          console.error('Error fetching or parsing data:', error);
+        });
+    });
+  </script>
 </body>
 </html>
