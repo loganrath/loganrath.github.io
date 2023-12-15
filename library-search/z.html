@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dropdown from YAML</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+</head>
+<body>
+    <select id="dropdown"></select>
+
+    <script>
+        fetch('sunyopenurl.yaml')
+            .then(response => response.text())
+            .then(yaml => {
+                let data = jsyaml.load(yaml);
+                let dropdown = document.getElementById('dropdown');
+                data.forEach(item => {
+                    let option = document.createElement('option');
+                    option.value = item.URL;
+                    option.textContent = item.Name;
+                    dropdown.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
