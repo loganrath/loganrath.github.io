@@ -64,12 +64,12 @@ $(document).ready(function() {
 
   // Lookup function
   $('#lookup-button').click(function() {
-      var selectedUniversity = $('#university-select').val();
+      var selectedUniversity = $('#universitySelect').val();
       var params = getURLParams();
       var queryString = $.param(params); // Convert params object to query string
 
       // Construct the OpenURL
-      var openUrl = selectedUniversity + queryString;
+      var openUrl = selectedUniversity + "?" + queryString;
 
       // Perform the lookup
       // Displaying the URL for demonstration purposes
