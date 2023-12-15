@@ -12,26 +12,17 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 </head>
 
+
+
 <body class="bg-light">
   <div class="container mt-5">
-       <div class="row">
-           <div class="col-md-6 offset-md-3">
-               <h1 class="text-center mb-4">Select Your University</h1>
-               <form>
-                   <div class="form-group">
-                       <label for="universitySelect">University</label>
-                       <select id="universitySelect" class="form-control">
-                           <option value="">Select an option</option>
-                           <!-- Additional options can be added here -->
-                       </select>
-                   </div>
-                   <button type="submit" class="btn btn-primary btn-block">Submit</button>
-               </form>
-               <p id="result"></p>
-           </div>
-       </div>
-   </div>
-</div>
+      <h1 class="text-center mb-4">Select Your University</h1>
+      <div class="form-inline justify-content-center">
+          <label for="universitySelect" class="mr-2">University</label>
+          <select id="universitySelect" class="form-control mr-2"></select>
+          <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+  </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
 <script>
 $(document).ready(function() {
