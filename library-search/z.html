@@ -1,54 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>University Dropdown</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drake Memorial Library Search Box</title>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap CSS CDN -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 </head>
-<body>
+<body class="bg-light">
+  <h1>Select Your University</h1>
+
+  <select id="university-select">
+      <!-- Options will be populated here -->
+  </select>
+  <button id="lookup-button">Lookup</button>
+  <p id="result"></p>
   <label for="universitySelect">Select a University:</label>
-  <select id="universitySelect"></select>
+<select id="universitySelect"></select>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      // Replace with the actual path to your YAML file
-      const yamlFilePath = 'sunyopenurl.yaml';
+<script>
+$(document).ready(function() {
 
-      // Function to populate the select dropdown
-      function populateDropdown(data) {
-        const selectElement = $('#universitySelect');
-        data.forEach(entry => {
-          const option = $('<option>');
-          option.val(entry.URL);
-          option.text(entry.University);
-          selectElement.append(option);
-        });
+  // Replace with the actual path to your YAML file
+   const yamlFilePath = 'sunyopenurl.yaml';
+
+   // Function to populate the select dropdown
+   function populateDropdown(data) {
+     const selectElement = $('#universitySelect');
+     data.forEach(entry => {
+       const option = $('<option>');
+       option.val(entry.URL);
+       option.text(entry.University);
+       selectElement.append(option);
+     });
+   }
+
+   // Fetch and parse the YAML file
+   fetch(yamlFilePath)
+     .then(response => response.text())
+     .then(yamlData => {
+       const data = jsyaml.load(yamlData);
+       populateDropdown(data);
+     })
+     .catch(error => {
+       console.error('Error fetching or parsing data:', error);
+     });
+
+  // Function to parse URL parameters
+  function getURLParams() {
+      var params = {};
+      var parser = document.createElement('a');
+      parser.href = window.location.href;
+      var query = parser.search.substring(1);
+      var vars = query.split('&');
+      for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split('=');
+          params[pair[0]] = decodeURIComponent(pair[1]);
       }
+      return params;
+  }
 
-      // Fetch and parse the YAML file
-      fetch(yamlFilePath)
-        .then(response => response.text())
-        .then(yamlData => {
-          const data = jsyaml.load(yamlData);
-          populateDropdown(data);
 
-          // Function to filter options based on URL parameters
-          function filterOptions() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const filterValue = urlParams.get('university');
+  // Lookup function
+  $('#lookup-button').click(function() {
+      var selectedUniversity = $('#university-select').val();
+      var params = getURLParams();
+      var queryString = $.param(params); // Convert params object to query string
 
-            if (filterValue) {
-              $('#universitySelect').val(filterValue);
-            }
-          }
+      // Construct the OpenURL
+      var openUrl = selectedUniversity + queryString;
 
-          // Call the filterOptions function
-          filterOptions();
-        })
-        .catch(error => {
-          console.error('Error fetching or parsing data:', error);
-        });
-    });
-  </script>
+      // Perform the lookup
+      // Displaying the URL for demonstration purposes
+      $('#result').text("OpenURL: " + openUrl);
+  });
+});
+
+</script>
+
 </body>
 </html>
