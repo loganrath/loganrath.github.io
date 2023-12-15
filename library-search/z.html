@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Drake Memorial Library Search Box</title>
+<title>Logan Rath's Open URL chooser</title>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 <!-- Bootstrap CSS CDN -->
@@ -11,14 +11,28 @@
 <!-- Font Awesome CDN -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 </head>
-<body class="bg-light">
-  <h1>Select Your University</h1>
-  <label for="universitySelect">Select a University:</label>
-<select id="universitySelect"></select>
-<button id="lookup-button">Lookup</button>
-<p id="result"></p>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
 
+<body class="bg-light">
+  <div class="container mt-5">
+       <div class="row">
+           <div class="col-md-6 offset-md-3">
+               <h1 class="text-center mb-4">Select Your University</h1>
+               <form>
+                   <div class="form-group">
+                       <label for="universitySelect">University</label>
+                       <select id="universitySelect" class="form-control">
+                           <option value="">Select an option</option>
+                           <!-- Additional options can be added here -->
+                       </select>
+                   </div>
+                   <button type="submit" class="btn btn-primary btn-block">Submit</button>
+               </form>
+               <p id="result"></p>
+           </div>
+       </div>
+   </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
 <script>
 $(document).ready(function() {
 
