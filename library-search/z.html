@@ -79,8 +79,8 @@ $(document).ready(function() {
 
       // Perform the lookup
       // Displaying the URL for demonstration purposes
-      $('#result').innerHTML('<a href="'+openUrl+'">'+openUrl+'</a>');
-      // window.open(openUrl, '_blank');
+      $('#result').text(openUrl);
+      window.open(openUrl, '_blank');
   });
 });
 
