@@ -18,7 +18,8 @@
   <div class="container mt-5">
       <h1 class="text-center mb-4">Select Your University</h1>
       <div class="form-inline justify-content-center">
-          <div id="universitySelect"></div>
+          <div id="universityRadioButtons">
+          </div>
           <button type="button" id="lookup-button" class="btn btn-primary">Go</button>
       </div>
       <p id="result"></p>
@@ -32,7 +33,7 @@ $(document).ready(function() {
 
    // Function to populate the select dropdown
    function populateRadioButtons(data) {
-       const container = $('#universitySelect');
+       const container = $('#universityRadioButtons');
        container.empty(); // Clear any existing content in the div
 
        data.forEach((entry, index) => {
