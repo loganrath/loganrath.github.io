@@ -67,6 +67,9 @@
       <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
           <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="ebooks" value="ebooks"><i class="fas fa-atlas"></i><span class="h6 pl-2">eBooks</span></label>
       </div>
+      <!--div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
+          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="streaming" value="streaming"><i class="fas fa-play-circle"></i><span class="h6 pl-2">Streaming</span></label>
+      </div-->
       <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
           <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="reserves" value="reserves"><i class="fas fa-chalkboard-teacher"></i><span class="h6 pl-2">Reserves</span></label>
       </div>
@@ -97,6 +100,7 @@
       $('#prart10').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" /><input type="hidden" name="facet" value="rtype,include,articles,lk" /><input type="hidden" name="facet" value="searchcreationdate,include,'+yearTenYearsAgo+'|,|'+yearCurrent+',lk" />') : '';
       $('#books').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" />') : '';
       $('#ebooks').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
+      $('#streaming').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,videos,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
       $('#reserves').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" /><input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />') : '';
     }
 
