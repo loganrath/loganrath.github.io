@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drake Memorial Library Search Box</title>
+<!-- Bootstrap CSS CDN -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+<style>
+    .radio-icon {
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin: 5px;
+    }
+    .radio-icon.selected {
+        background-color: #ffc726;
+    }
+</style>
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+          <p class="text-center h4 mb-3" id="searchDescription">Use Library Search to discover <span class="text-success">books, articles, media</span> and more.</p>
+
+            <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo()" method="get"  id="libSearchForm" name="libSearchForm">
+              <div class="form-group">
+                <label for="primoinstance" class="sr-only">Choose instance:</label>
+                <select name="instance" id="primoinstance" class="form-control">
+                  <option value="suny-bro">Production</option>
+                  <option value="suny-bro-psb">Sandbox</optino>
+                  </select>
+                </div>
+               <!-- Customizable Parameters -->
+                  <input name="institution" type="hidden" value="01SUNY_BRO" />
+                  <input name="vid" type="hidden" value="01SUNY_BRO:01SUNY_BRO" />
+                  <input id="primoTab" name="tab" type="hidden" value="Everything" />
+                  <input id="primoScope" name="search_scope" type="hidden" value="MyInst_and_CI" />
+                  <input name="mode" type="hidden" value="Basic" />
+
+               <!-- Fixed parameters -->
+                  <input name="displayMode" type="hidden" value="full" />
+                  <input name="bulkSize" type="hidden" value="10" />
+                  <input name="highlight" type="hidden" value="true" />
+                  <input name="dum" type="hidden" value="true" />
+                  <input id="primoQuery" name="query" type="hidden" />
+                  <input name="displayField" type="hidden" value="all" />
+
+               <!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
+                  <input name="pcAvailabiltyMode" type="hidden" value="true" />
+                  <div class="input-group mb-3">
+                      <input type="text" class="form-control" placeholder="Search articles, books, videos, and more.." id="libSearch" name="search">
+                      <div id="facets"></div>
+                      <div class="input-group-append">
+                          <button class="btn btn-outline-secondary bg-warning" id="button-addon2"><i class="fas fa-search text-default"></i></button>
+                      </div>
+                  </div>
+                  <div class="row justify-content-center">
+      <span class="pt-3 sr-only">Limit to:</span>
+      <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
+          <label class="radio-icon bg-warning d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="everything" value="everything"><i class="fas fa-search-plus"></i><span class="h6 pl-2">Everything</span></label>
+      </div>
+      <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
+          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="prart10" value="prart10"><i class="fas fa-file-alt"></i><span class="h6 pl-2">Articles</span></label>
+      </div>
+      <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
+          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="books" value="books"><i class="fas fa-book-open"></i><span class="h6 pl-2">Books</span></label>
+      </div>
+      <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
+          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="ebooks" value="ebooks"><i class="fas fa-atlas"></i><span class="h6 pl-2">eBooks</span></label>
+      </div>
+      <!--div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
+          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="streaming" value="streaming"><i class="fas fa-play-circle"></i><span class="h6 pl-2">Streaming</span></label>
+      </div-->
+      <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
+          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="reserves" value="reserves"><i class="fas fa-chalkboard-teacher"></i><span class="h6 pl-2">Reserves</span></label>
+      </div>
+  </div>
+        <div class="d-flex justify-content-center mt-2"><a href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&lang=en&sortby=rank&mode=advanced">Advanced Search</a></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery and Bootstrap Bundle (includes Popper) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.querySelectorAll('.radio-icon').forEach(function(element) {
+        element.addEventListener('click', function() {
+            document.querySelectorAll('.radio-icon').forEach(function(el) {
+                el.classList.remove('bg-warning');
+            });
+            this.classList.add('bg-warning');
+        });
+    });
+
+    function setFacets() {
+      var yearTenYearsAgo = new Date().getFullYear() - 10;
+      var yearCurrent = new Date().getFullYear()+1;
+      $("#facets").empty();
+      $('#prart10').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" /><input type="hidden" name="facet" value="rtype,include,articles,lk" /><input type="hidden" name="facet" value="searchcreationdate,include,'+yearTenYearsAgo+'|,|'+yearCurrent+',lk" />') : '';
+      $('#books').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" />') : '';
+      $('#ebooks').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
+      $('#streaming').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,videos,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
+      $('#reserves').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" /><input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />') : '';
+    }
+
+    function searchPrimo() {
+         var libaction = $("#primoinstance").val();
+         $('#libSearchForm').attr('action', 'https://'+libaction+'.primo.exlibrisgroup.com/discovery/search');
+         document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
+         setFacets();
+         event.stopPropogation();
+         document.forms["libSearchForm"].submit();
+    }
+    function updateDescription(radio) {
+      var descriptionDiv = document.getElementById('searchDescription');
+      var text = "";
+
+      switch (radio.value) {
+          case "prart10":
+              text = "Search <span class='text-success'>peer-reviewed articles</span> from the past 10 years.";
+              break;
+          case "books":
+              text = "Search <span class='text-success'>books</span> (print & electronic) in our library.";
+              break;
+          case "ebooks":
+              text = "Search <span class='text-success'>eBooks</span> you can access from anywhere.";
+              break;
+          case "reserves":
+              text = "Search <span class='text-success'>items that are on reserve</span> for specific classes.";
+              break;
+          default:
+              text = "Use Library Search to discover <span class='text-success'>books, articles, media</span> and more.";
+    }
+
+    descriptionDiv.innerHTML = text;
+}
+</script>
+</body>
+</html>
