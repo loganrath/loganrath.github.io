@@ -85,6 +85,67 @@
             </form>
         </div>
     </div>
+    <hr class="mt-5" style="border:0.5px solid #00533e;"/>
+    <div class="row mt-5">
+      <div class="col-12">
+      <h2>Bookmarklet</h2>
+      <p>This bookmarklet will allow you to swap between Brockport's Production and Sandbox library discovery layers.</p>
+    </div>
+      <div class="col-6">
+      <ol>
+       <li>Drag this icon into your bookmarks bar.</li>
+       <li>Accept the addition of the bookmark.</li>
+       <li>Search in either discovery layer.</li>
+       <li>Click the bookmarklet to go to the other instance.</li>
+      </ol>
+      </div>
+      <div class="col-6">
+      <p><a href='javascript:!function(){
+      var x = window.location.href;
+      var p = window.location.hostname;
+      if (p == "suny-bro-psb.primo.exlibrisgroup.com") {
+        var r1 = p;
+        var r2 = "suny-bro.primo.exlibrisgroup.com";
+        }
+      else if (p == "suny-bro.primo.exlibrisgroup.com") {
+        var r1 = p;
+        var r2 = "suny-bro-psb.primo.exlibrisgroup.com";
+      }
+      else {
+      	alert ("This bookmarklet will not work on this page.");
+      }
+      var y = x.replace(r1,r2);
+      window.location.href = y
+      }();
+      '><i class="fa fa-search-plus fa-6x" aria-hidden="true"></i><span style="display:none;">BPT <--> PSB</span></a></p>
+      </div>
+      </div>
+
+
+      <h2>Code</h2>
+      <p>This is the direct code for the bookmarklet if you wish to copy and paste:</p>
+      <textarea disabled="disabled" cols="100" rows="5">
+        javascript:!function(){
+        var x = window.location.href;
+        var p = window.location.hostname;
+        if (p == "suny-bro-psb.primo.exlibrisgroup.com") {
+          var r1 = p;
+          var r2 = "suny-bro.primo.exlibrisgroup.com";
+          }
+        else if (p == "suny-bro.primo.exlibrisgroup.com") {
+          var r1 = p;
+          var r2 = "suny-bro-psb.primo.exlibrisgroup.com";
+        }
+        else {
+        	alert ("This bookmarklet will not work on this page.");
+        }
+        var y = x.replace(r1,r2);
+        window.location.href = y
+        }();
+      </textarea>
+
+
+    </div>
 </div>
 
 <!-- jQuery and Bootstrap Bundle (includes Popper) -->
