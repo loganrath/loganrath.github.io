@@ -32,8 +32,10 @@
               <div class="form-group">
                 <label for="primoinstance" class="sr-only">Choose instance:</label>
                 <select name="instance" id="primoinstance" class="form-control">
-                  <option value="suny-bro">Production</option>
-                  <option value="suny-bro-psb">Sandbox</optino>
+                  <option value="production">Production</option>
+                  <option value="sandbox">Sandbox</option>
+                  <option value="dnci">Expanded Results</option>
+                  <option value="dncisandbox">Expanded Results & Sandbox</option>
                   </select>
                 </div>
                <!-- Customizable Parameters -->
@@ -174,7 +176,26 @@
 
     function searchPrimo() {
          var libaction = $("#primoinstance").val();
-         $('#libSearchForm').attr('action', 'https://'+libaction+'.primo.exlibrisgroup.com/discovery/search');
+         switch (libaction) {
+            case "production":
+              $('#primoScope').val("MyInst_and_CI");
+              $('#libSearchForm').attr('action', 'https://suny-bro.primo.exlibrisgroup.com/discovery/search');
+              break;
+            case "sandbox":
+              $('#primoScope').val("MyInst_and_CI");
+              $('#libSearchForm').attr('action', 'https://suny-bro-psb.primo.exlibrisgroup.com/discovery/search');
+              break;
+            case "dnci":
+              $('#primoScope').val("DN_and_CI");
+              $('#libSearchForm').attr('action', 'https://suny-bro.primo.exlibrisgroup.com/discovery/search');
+              break;
+            case "dncisandbox":
+              $('#primoScope').val("DN_and_CI");
+              $('#libSearchForm').attr('action', 'https://suny-bro-psb.primo.exlibrisgroup.com/discovery/search');
+              break;
+           default:
+              $('#libSearchForm').attr('action', 'https://suny-bro.primo.exlibrisgroup.com/discovery/search');
+         }
          document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
          setFacets();
          event.stopPropogation();
