@@ -56,10 +56,11 @@
                <!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
                   <input name="pcAvailabiltyMode" type="hidden" value="true" />
                   <div class="input-group mb-3">
+                      <label for="libSearch" class="sr-only">Enter Keywords</label>
                       <input type="text" class="form-control" placeholder="Search articles, books, videos, and more.." id="libSearch" name="search">
                       <div id="facets"></div>
                       <div class="input-group-append">
-                          <button class="btn btn-outline-secondary bg-warning" id="button-addon2"><i class="fas fa-search text-default"></i></button>
+                          <button class="btn btn-outline-secondary bg-warning" id="button-addon2"><i class="fas fa-search text-default"><span class="sr-only">Search</span></i></button>
                       </div>
                   </div>
                   <div class="row justify-content-center">
@@ -126,7 +127,8 @@
 
       <h2>Code</h2>
       <p>This is the direct code for the bookmarklet if you wish to copy and paste:</p>
-      <textarea disabled="disabled" cols="100" rows="5">
+      <label class="sr-only" for="textarea1">Code:</label>
+      <textarea disabled="disabled" cols="100" rows="5" id="textarea1">
         javascript:!function(){
         var x = window.location.href;
         var p = window.location.hostname;
