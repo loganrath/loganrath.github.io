@@ -29,6 +29,7 @@ layout: page
   var pathArray = kurl.split("/");
   var lastEl = pathArray[pathArray.length-1];
   var exturl = "https://www.kaltura.com/index.php/extwidget/preview/partner_id/573351/uiconf_id/42521101/entry_id/"+lastEl+"/embed/auto?&flashvars[streamerType]=auto";
-  document.getElementById("kudiv").innerHTML='<h2>External Kaltura URL</h2><p><a target="_blank" href="'+exturl+'">'+exturl+'</a></p>';
+  var embedurl = "https://cdnapisec.kaltura.com/p/573351/embedPlaykitJs/uiconf_id/51923792?iframeembed=true&entry_id="+lastEl;
+  document.getElementById("kudiv").innerHTML='<h2>External Kaltura URL</h2><p>External URL: <a target="_blank" href="'+exturl+'">'+exturl+'</a></p><h2>Embed URL:</h2><a target="_blank" href="'+embedurl+'">'+embedurl+'</a>';
   }
 </script>
