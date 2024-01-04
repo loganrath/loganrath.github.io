@@ -357,7 +357,7 @@ window._monsido = window._monsido || {
 <!-- START LIBRARY SEARCH -->
 <div class="container space-above">
     <div class="row">
-			<p class="text-center" id="searchDescription">Use Library Search to discover books, articles, media and more.</p>
+			<p class="text-center space-above" id="searchDescription">Use Library Search to discover books, articles, media and more.</p>
 
         <div class="small-10 column">
             <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo()" method="get"  id="libSearchForm" name="libSearchForm">
@@ -417,23 +417,23 @@ window._monsido = window._monsido || {
 			</style>
 			<ul class="text-center inline">
 				<li>
-			    <input type="radio" id="everything" name="radio-group" class="hidden-radio" checked="checked">
+			    <input type="radio" id="everything" name="searchOptionsRadio" class="hidden-radio" checked="checked">
 			    <label for="everything" class="button"><i class="fa fa-search-plus" aria-hidden="true"></i>Everything</label>
 			  </li>
 				<li>
-			    <input type="radio" id="prart10" name="radio-group" class="hidden-radio">
+			    <input type="radio" id="prart10" name="searchOptionsRadio" class="hidden-radio">
 			    <label for="parart10" class="button"><i class="fa fa-file-text-o" aria-hidden="true"></i>Articles</label>
 			  </li>
 			  <li>
-			    <input type="radio" id="books" name="radio-group" class="hidden-radio">
+			    <input type="radio" id="books" name="searchOptionsRadio" class="hidden-radio">
 			    <label for="books" class="button"><i class="fa fa-book" aria-hidden="true"></i>Books</label>
 			  </li>
 			  <li>
-			    <input type="radio" id="ebooks" name="radio-group" class="hidden-radio">
+			    <input type="radio" id="ebooks" name="searchOptionsRadio" class="hidden-radio">
 			    <label for="ebooks" class="button"><i class="fa fa-link" aria-hidden="true"></i>eBooks</label>
 			  </li>
 				<li>
-			    <input type="radio" id="reserves" name="radio-group" class="hidden-radio">
+			    <input type="radio" id="reserves" name="searchOptionsRadio" class="hidden-radio">
 			    <label for="reserves" class="button"><i class="fa fa-graduation-cap" aria-hidden="true"></i>Reserves</label>
 			  </li>
 			</ul>
@@ -467,6 +467,48 @@ window._monsido = window._monsido || {
         </div>
     </div>
 </div>
+<script>
+function setFacets() {
+	var yearTenYearsAgo = new Date().getFullYear() - 10;
+	var yearCurrent = new Date().getFullYear()+1;
+	$("#facets").empty();
+	$('#prart10').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" /><input type="hidden" name="facet" value="rtype,include,articles,lk" /><input type="hidden" name="facet" value="searchcreationdate,include,'+yearTenYearsAgo+'|,|'+yearCurrent+',lk" />') : '';
+	$('#books').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" />') : '';
+	$('#ebooks').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
+	$('#streaming').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,videos,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
+	$('#reserves').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" /><input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />') : '';
+}
+
+function searchPrimo() {
+		 document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
+		 setFacets();
+		 event.stopPropogation();
+		 document.forms["libSearchForm"].submit();
+}
+function updateDescription(radio) {
+	var descriptionDiv = document.getElementById('searchDescription');
+	var text = "";
+
+	switch (radio.value) {
+			case "prart10":
+					text = "Search <em>peer-reviewed articles</em> from the past 10 years.";
+					break;
+			case "books":
+					text = "Search <em>books</em> (print & electronic) in our library.";
+					break;
+			case "ebooks":
+					text = "Search <em>eBooks</em> you can access from anywhere.";
+					break;
+			case "reserves":
+					text = "Search <em>items that are on reserve</em> for specific classes.";
+					break;
+			default:
+					text = "Use Library Search to discover <em>books, articles, media</em> and more.";
+}
+
+descriptionDiv.innerHTML = text;
+}
+</script>
 <!-- END LIBRARY SEARCH -->
 
               </div>
