@@ -93,8 +93,8 @@ document.addEventListener("DOMContentLoaded", function() {
     var radioButtons = document.getElementsByName("searchOptionsRadio");
     for (var i = 0; i < radioButtons.length; i++) {
         radioButtons[i].addEventListener("change", function() {
-            updateButtonClass(this);
             updateDescription(this);
+            updateButtonClass(this);
             setFacets();
         });
     }
