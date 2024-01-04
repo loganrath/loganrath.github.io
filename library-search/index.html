@@ -108,7 +108,7 @@
     function searchPrimo() {
          document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
          setFacets();
-         event.stopPropogation();
+         event.stopPropagation();
          document.forms["libSearchForm"].submit();
     }
     function updateDescription(radio) {
