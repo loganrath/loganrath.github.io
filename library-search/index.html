@@ -28,7 +28,7 @@
 
           <p class="text-center h4 mb-3" id="searchDescription">Use Library Search to discover <span class="text-success">books, articles, media</span> and more.</p>
 
-            <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo()" method="get"  id="libSearchForm" name="libSearchForm">
+            <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo(event)" method="get"  id="libSearchForm" name="libSearchForm">
                <!-- Customizable Parameters -->
                   <input name="institution" type="hidden" value="01SUNY_BRO" />
                   <input name="vid" type="hidden" value="01SUNY_BRO:01SUNY_BRO" />
@@ -105,7 +105,8 @@
       $('#reserves').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" /><input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />') : '';
     }
 
-    function searchPrimo() {
+    function searchPrimo(event) {
+         event.preventDefault();
          document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
          setFacets();
          event.stopPropagation();
