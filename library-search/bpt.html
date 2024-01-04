@@ -469,73 +469,76 @@ window._monsido = window._monsido || {
     </div>
 </div>
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Attach event listener to form submission
+    document.getElementById("libSearchForm").addEventListener("submit", searchPrimo);
+
+    // Attach event listeners to radio buttons
+    var radioButtons = document.getElementsByName("searchOptionsRadio");
+    for (var i = 0; i < radioButtons.length; i++) {
+        radioButtons[i].addEventListener("change", function() {
+            updateDescription(this);
+            setFacets();
+        });
+    }
+});
+
 function setFacets() {
-	console.log("setFacets started");
+    console.log("setFacets started");
     var yearTenYearsAgo = new Date().getFullYear() - 10;
     var yearCurrent = new Date().getFullYear() + 1;
 
-    // Clear existing facets
     var facetsDiv = document.getElementById('extrafacets');
-    facetsDiv.innerHTML = '';
-		console.log(facetsDiv.innerHTML);
+    facetsDiv.innerHTML = ''; // Clear existing facets
 
-    // Check which radio button is checked and append the appropriate hidden inputs
-    if (document.getElementById('prart10').checked) {
-        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" />';
-        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles,lk" />';
-        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + ',lk" />';
-				console.log("prart10 checked");
+    var selectedOption = document.querySelector('input[name="searchOptionsRadio"]:checked').value;
+    switch(selectedOption) {
+        case "prart10":
+            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" />';
+            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles,lk" />';
+            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + ',lk" />';
+            break;
+        case "books":
+            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
+            break;
+        case "ebooks":
+            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
+            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources" />';
+            break;
+        case "reserves":
+            facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" />';
+            facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />';
+            break;
     }
-    if (document.getElementById('books').checked) {
-        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
-				console.log("books checked");
-    }
-    if (document.getElementById('ebooks').checked) {
-        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
-        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources" />';
-				console.log("ebooks checked");
-    }
-    //if (document.getElementById('streaming').checked) {
-    //    facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,videos,lk" />';
-    //    facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources" />';
-    // }
-    if (document.getElementById('reserves').checked) {
-        facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" />';
-        facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />';
-				console.log("reserves checked");
-		}
 }
 
-
 function searchPrimo(event) {
-		event.preventDefault(); // Prevent default form submission
-		setFacets();
-		document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
-		document.forms["libSearchForm"].submit(); // Manually submit the form
+    event.preventDefault(); // Prevent default form submission
+    document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
+    document.getElementById("libSearchForm").submit(); // Manually submit the form
 }
 
 function updateDescription(radio) {
-	var descriptionDiv = document.getElementById('searchDescription');
-	var text = "";
+    var descriptionDiv = document.getElementById('searchDescription');
+    var text = "";
 
-	switch (radio.value) {
-			case "prart10":
-					text = "Search <em>peer-reviewed articles</em> from the past 10 years.";
-					break;
-			case "books":
-					text = "Search <em>books</em> (print & electronic) in our library.";
-					break;
-			case "ebooks":
-					text = "Search <em>eBooks</em> you can access from anywhere.";
-					break;
-			case "reserves":
-					text = "Search <em>items that are on reserve</em> for specific classes.";
-					break;
-			default:
-					text = "Use Library Search to discover <em>books, articles, media</em> and more.";
-}
-
-descriptionDiv.innerHTML = text;
+    switch (radio.value) {
+        case "prart10":
+            text = "Search <em>peer-reviewed articles</em> from the past 10 years.";
+            break;
+        case "books":
+            text = "Search <em>books</em> (print & electronic) in our library.";
+            break;
+        case "ebooks":
+            text = "Search <em>eBooks</em> you can access from anywhere.";
+            break;
+        case "reserves":
+            text = "Search <em>items that are on reserve</em> for specific classes.";
+            break;
+        default:
+            text = "Use Library Search to discover <em>books, articles, media</em> and more.";
+    }
+    descriptionDiv.innerHTML = text;
 }
 </script>
 <!-- END LIBRARY SEARCH -->
