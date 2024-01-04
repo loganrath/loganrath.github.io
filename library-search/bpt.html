@@ -469,39 +469,49 @@ window._monsido = window._monsido || {
     </div>
 </div>
 <script>
+function setFacets() {
+	console.log("setFacets-started");
+    var yearTenYearsAgo = new Date().getFullYear() - 10;
+    var yearCurrent = new Date().getFullYear() + 1;
+
+    // Clear existing facets
+    var facetsDiv = document.getElementById('extrafacets');
+    facetsDiv.innerHTML = '';
+		console.log(facetsDiv.innerHTML);
+
+    // Check which radio button is checked and append the appropriate hidden inputs
+    if (document.getElementById('prart10').checked) {
+        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" />';
+        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles,lk" />';
+        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + ',lk" />';
+				console.log("prart10 checked");
+    }
+    if (document.getElementById('books').checked) {
+        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
+				console.log("books checked");
+    }
+    if (document.getElementById('ebooks').checked) {
+        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
+        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources" />';
+				console.log("ebooks checked");
+    }
+    //if (document.getElementById('streaming').checked) {
+    //    facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,videos,lk" />';
+    //    facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources" />';
+    // }
+    if (document.getElementById('reserves').checked) {
+        facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" />';
+        facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />';
+				console.log("reserves checked");
+		}
+}
+
 
 function searchPrimo(event) {
 		event.preventDefault(); // Prevent default form submission
 		document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
-		var yearTenYearsAgo = new Date().getFullYear() - 10;
-		var yearCurrent = new Date().getFullYear() + 1;
-
-		// Clear existing facets
-		var facetsDiv = document.getElementById('extrafacets');
-		facetsDiv.innerHTML = '';
-
-		// Check which radio button is checked and append the appropriate hidden inputs
-		if (document.getElementById('prart10').checked) {
-				facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" />';
-				facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles,lk" />';
-				facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + ',lk" />';
-		}
-		if (document.getElementById('books').checked) {
-				facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
-		}
-		if (document.getElementById('ebooks').checked) {
-				facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
-				facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources" />';
-		}
-		//if (document.getElementById('streaming').checked) {
-		//    facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,videos,lk" />';
-		//    facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources" />';
-		// }
-		if (document.getElementById('reserves').checked) {
-				facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" />';
-				facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />';
-		}
-				document.forms["libSearchForm"].submit(); // Manually submit the form
+		setFacets();
+		document.forms["libSearchForm"].submit(); // Manually submit the form
 }
 
 function updateDescription(radio) {
@@ -917,7 +927,7 @@ descriptionDiv.innerHTML = text;
 </div>
 <div id="lower-page-full-width-content" class="editable optional">
 	<section>
-		<div class="big-number-callout bg-purple">
+		<div class="big-number-callout bg-blue">
 			<div class="background-overlay bg-alpha desaturate" style="background-image: url('/live/resource/image/library//live/resource/image/library//live/resource/image/library/images/study1.rev.1672302243.jpg');"></div>
 			<div class="row">
 				<div class="grid-12 columns text-center">
