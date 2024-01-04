@@ -360,7 +360,7 @@ window._monsido = window._monsido || {
 			<p class="text-center space-above" id="searchDescription">Use Library Search to discover books, articles, media and more.</p>
 
         <div class="small-10 column">
-            <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo(event)" method="get"  id="libSearchForm" name="libSearchForm">
+            <form target="_blank" action="#" onsubmit="searchPrimo(event)" method="get"  id="libSearchForm" name="libSearchForm">
                <!-- Customizable Parameters -->
                   <input name="institution" type="hidden" value="01SUNY_BRO" />
                   <input name="vid" type="hidden" value="01SUNY_BRO:01SUNY_BRO" />
@@ -509,6 +509,7 @@ function setFacets() {
 
 function searchPrimo(event) {
 		event.preventDefault(); // Prevent default form submission
+		document.forms["libSearchForm"].action = "https://suny-bro.primo.exlibrisgroup.com/discovery/search";
 		document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
 		setFacets();
 		document.forms["libSearchForm"].submit(); // Manually submit the form
