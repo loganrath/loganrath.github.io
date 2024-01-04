@@ -360,7 +360,7 @@ window._monsido = window._monsido || {
 			<p class="text-center space-above" id="searchDescription">Use Library Search to discover books, articles, media and more.</p>
 
         <div class="small-10 column">
-            <form target="_blank" action="#" onsubmit="searchPrimo(event)" method="get"  id="libSearchForm" name="libSearchForm">
+            <form target="_blank" action="#" method="get" id="libSearchForm" name="libSearchForm">
                <!-- Customizable Parameters -->
                   <input name="institution" type="hidden" value="01SUNY_BRO" />
                   <input name="vid" type="hidden" value="01SUNY_BRO:01SUNY_BRO" />
@@ -387,7 +387,7 @@ window._monsido = window._monsido || {
 		</div>
 			<div class="small-2 columns">
         <div class="input-group-button">
-            <input type="submit" class="button tiny go" value="Search">
+            <input type="submit" class="button tiny go" value="Search" onsubmit="searchPrimo();">
         </div>
     </div>
 	</div>
