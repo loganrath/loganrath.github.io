@@ -360,7 +360,7 @@ window._monsido = window._monsido || {
 			<p class="text-center space-above" id="searchDescription">Use Library Search to discover books, articles, media and more.</p>
 
         <div class="small-10 column">
-            <form target="_blank" action="#" method="get" id="libSearchForm" name="libSearchForm">
+            <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo(event)" method="get"  id="libSearchForm" name="libSearchForm">
                <!-- Customizable Parameters -->
                   <input name="institution" type="hidden" value="01SUNY_BRO" />
                   <input name="vid" type="hidden" value="01SUNY_BRO:01SUNY_BRO" />
@@ -387,7 +387,7 @@ window._monsido = window._monsido || {
 		</div>
 			<div class="small-2 columns">
         <div class="input-group-button">
-            <input type="submit" class="button tiny go" value="Search" onsubmit="searchPrimo(event);">
+            <input type="submit" class="button tiny go" value="Search">
         </div>
     </div>
 	</div>
@@ -470,7 +470,7 @@ window._monsido = window._monsido || {
 </div>
 <script>
 function setFacets() {
-	console.log("setFacets-started");
+	console.log("setFacets started");
     var yearTenYearsAgo = new Date().getFullYear() - 10;
     var yearCurrent = new Date().getFullYear() + 1;
 
@@ -508,9 +508,8 @@ function setFacets() {
 
 
 function searchPrimo(event) {
-		setFacets();
-		document.forms["libSearchForm"].action = "https://suny-bro.primo.exlibrisgroup.com/discovery/search";
 		event.preventDefault(); // Prevent default form submission
+		setFacets();
 		document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
 		document.forms["libSearchForm"].submit(); // Manually submit the form
 }
@@ -928,7 +927,7 @@ descriptionDiv.innerHTML = text;
 </div>
 <div id="lower-page-full-width-content" class="editable optional">
 	<section>
-		<div class="big-number-callout bg-blue">
+		<div class="big-number-callout bg-brand">
 			<div class="background-overlay bg-alpha desaturate" style="background-image: url('/live/resource/image/library//live/resource/image/library//live/resource/image/library/images/study1.rev.1672302243.jpg');"></div>
 			<div class="row">
 				<div class="grid-12 columns text-center">
