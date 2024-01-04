@@ -106,12 +106,12 @@
     }
 
     function searchPrimo(event) {
-         event.preventDefault();
-         document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
-         setFacets();
-         event.stopPropagation();
-         document.forms["libSearchForm"].submit();
+        event.preventDefault(); // Prevent default form submission
+        document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
+        setFacets();
+        document.forms["libSearchForm"].submit(); // Manually submit the form
     }
+
     function updateDescription(radio) {
       var descriptionDiv = document.getElementById('searchDescription');
       var text = "";
