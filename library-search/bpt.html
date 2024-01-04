@@ -343,7 +343,7 @@ window._monsido = window._monsido || {
 </ul>
 					<h1>Drake Memorial Library</h1>
 					<div id="intro-paragraph" class="intro editable">
-						<a class='go' href='/library/hours/'><span class='date'>Wednesday, January 3, 2024 • 8am - 4pm</span></a>
+						<a class='go' href='/library/hours/'><span class='date'>Weekday, January 0, 2099 • 8am - 4pm</span></a>
 					</div>
 				</div>
 			</div>
@@ -398,14 +398,16 @@ window._monsido = window._monsido || {
   display: none;
 }
 
-.hidden-radio + label {
+.hidden-radio + label, .hidden-radio + label i  {
   display: inline-block;
   cursor: pointer;
 	color: white;
   /* Add more styling here to make it look like a button */
 }
 
-.hidden-radio:checked + label {
+.hidden-radio + label i {font-size: 1.25em; margin-right: 0.5em;}
+
+.hidden-radio:checked + label, .hidden-radio:checked + label i {
   /* Style for when the radio is selected */
   background-color: #ffc726;
   color: #262626;
