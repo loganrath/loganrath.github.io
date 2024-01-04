@@ -401,19 +401,22 @@ window._monsido = window._monsido || {
 .hidden-radio + label {
   display: inline-block;
   cursor: pointer;
+	background-color: white;
+	color: #262626;
   /* Add more styling here to make it look like a button */
 }
 
 .hidden-radio:checked + label {
   /* Style for when the radio is selected */
-  background-color: blue;
-  color: white;
+  background-color: #ffc726;
+  color: #262626;
 }
 
+#searchDescription {font-size: 24px; font-weight: bold;}
 			</style>
-			<ul class="text-center no-bullet small-flex-1 medium-flex-3 large-flex-5 font-sans">
+			<ul class="text-center inline">
 				<li>
-			    <input type="radio" id="everything" name="radio-group" class="hidden-radio">
+			    <input type="radio" id="everything" name="radio-group" class="hidden-radio" checked="checked">
 			    <label for="everything" class="button">Everything</label>
 			  </li>
 				<li>
