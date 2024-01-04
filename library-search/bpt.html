@@ -379,13 +379,15 @@ window._monsido = window._monsido || {
 
                <!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
                   <input name="pcAvailabiltyMode" type="hidden" value="true" />
-                  <div class="input-group mb-3">
-                      <label for="libSearch" class="show-for-screenreaders">Enter Keywords</label>
-                      <input type="text" class="form-control" placeholder="Search articles, books, videos, and more.." id="libSearch" name="search">
-                      <div id="facets"></div>
-                      <div class="input-group-append">
-                          <button class="btn btn-outline-secondary bg-warning" id="button-addon2"><i class="fa fa-search text-default"><span class="show-for-screenreaders">Search</i></button>
-                      </div>
+											<div class="input-group">
+												<label for="libSearch" class="show-for-screenreaders">Enter Keywords</label>
+        <input class="input-group-field" type="search" id="libSearch" placeholder="Search...">
+				<div id="facets"></div>
+
+        <div class="input-group-button">
+            <input type="submit" class="button" value="Search">
+        </div>
+    </div>
                   </div>
                   <div class="row justify-content-center">
       <span class="show-for-screenreaders">Limit to:</span>
