@@ -387,7 +387,7 @@ window._monsido = window._monsido || {
 		</div>
 			<div class="small-2 columns">
         <div class="input-group-button">
-            <input type="submit" class="button tiny go" value="Search" onsubmit="searchPrimo();">
+            <input type="submit" class="button tiny go" value="Search" onsubmit="searchPrimo(event);">
         </div>
     </div>
 	</div>
@@ -508,10 +508,10 @@ function setFacets() {
 
 
 function searchPrimo(event) {
-		event.preventDefault(); // Prevent default form submission
-		document.forms["libSearchForm"].action = "https://suny-bro.primo.exlibrisgroup.com/discovery/search";
-		document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
 		setFacets();
+		document.forms["libSearchForm"].action = "https://suny-bro.primo.exlibrisgroup.com/discovery/search";
+		event.preventDefault(); // Prevent default form submission
+		document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
 		document.forms["libSearchForm"].submit(); // Manually submit the form
 }
 
