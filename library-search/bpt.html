@@ -357,10 +357,9 @@ window._monsido = window._monsido || {
 <!-- START LIBRARY SEARCH -->
 <div class="container space-above">
     <div class="row">
+			<p class="text-center" id="searchDescription">Use Library Search to discover books, articles, media and more.</p>
+
         <div class="small-10 column">
-
-          <p class="text-center" id="searchDescription">Use Library Search to discover books, articles, media and more.</p>
-
             <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo()" method="get"  id="libSearchForm" name="libSearchForm">
                <!-- Customizable Parameters -->
                   <input name="institution" type="hidden" value="01SUNY_BRO" />
@@ -387,7 +386,7 @@ window._monsido = window._monsido || {
 				<div id="facets"></div>
 			<div class="small-2 columns">
         <div class="input-group-button">
-            <input type="submit" class="button" value="Search">
+            <input type="submit" class="button tiny go" value="Search">
         </div>
     </div>
 	</div>
@@ -412,24 +411,24 @@ window._monsido = window._monsido || {
 }
 
 			</style>
-			<div class="grid-x grid-padding-x small-centered">
-				<div class="cell small-1 columns">
+			<div class="grid-x grid-padding-x">
+				<div class="cell small-1 small-centered columns">
 			    <input type="radio" id="everything" name="radio-group" class="hidden-radio">
 			    <label for="everything" class="button">Everything</label>
 			  </div>
-				<div class="cell small-1 columns">
+				<div class="cell small-1 small-centered columns">
 			    <input type="radio" id="prart10" name="radio-group" class="hidden-radio">
 			    <label for="parart10" class="button">Articles</label>
 			  </div>
-			  <div class="cell small-1 columns">
+			  <div class="cell small-1 small-centered columns">
 			    <input type="radio" id="books" name="radio-group" class="hidden-radio">
 			    <label for="books" class="button">Books</label>
 			  </div>
-			  <div class="cell small-1 columns">
+			  <div class="cell small-1 small-centered columns">
 			    <input type="radio" id="ebooks" name="radio-group" class="hidden-radio">
 			    <label for="ebooks" class="button">eBooks</label>
 			  </div>
-				<div class="cell small-1 columns">
+				<div class="cell small-1 small-centered columns">
 			    <input type="radio" id="reserves" name="radio-group" class="hidden-radio">
 			    <label for="reserves" class="button">Reserves</label>
 			  </div>
