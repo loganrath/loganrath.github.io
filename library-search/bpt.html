@@ -484,7 +484,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function setFacets() {
-    console.log("setFacets started");
     var yearTenYearsAgo = new Date().getFullYear() - 10;
     var yearCurrent = new Date().getFullYear() + 1;
 
@@ -503,7 +502,7 @@ function setFacets() {
             break;
         case "ebooks":
             facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources" />';
+            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources,lk" />';
             break;
         case "reserves":
             facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" />';
