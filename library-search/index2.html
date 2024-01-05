@@ -92,7 +92,9 @@ document.addEventListener("DOMContentLoaded", function() {
     for (var i = 0; i < radioButtons.length; i++) {
         radioButtons[i].addEventListener("change", function() {
             updateDescription(this);
+            console.log("description updated");
             setFacets();
+            console.log("facets set");
         });
     }
     document.querySelectorAll('.radio-icon').forEach(function(element) {
