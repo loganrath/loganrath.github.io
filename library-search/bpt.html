@@ -357,9 +357,9 @@ window._monsido = window._monsido || {
 <!-- START LIBRARY SEARCH -->
 <div class="container space-above">
     <div class="row">
-			<p class="text-center space-above" id="searchDescription">Use Library Search to discover books, articles, media and more.</p>
+			<p class="text-center space-above" id="searchDescription">Use <span class='description_emphasis'>Library Search</span> to discover <span class='description_emphasis'>books, articles, media</span> and more.</p>
 
-        <div class="small-10 column">
+        <div class="small-9 push-1 column">
             <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo(event)" method="get"  id="libSearchForm" name="libSearchForm">
                <!-- Customizable Parameters -->
                   <input name="institution" type="hidden" value="01SUNY_BRO" />
@@ -380,7 +380,7 @@ window._monsido = window._monsido || {
                   <input name="pcAvailabiltyMode" type="hidden" value="true" />
 											<div class="input-group">
 												<label for="libSearch" class="show-for-screenreaders">Enter Keywords</label>
-        <input class="input-group-field" type="search" id="libSearch" placeholder="Search...">
+        <input class="input-group-field" type="search" id="libSearch" placeholder="Search..." style="font-size: 18px; padding: 1.25em 0.25em;">
 				<div id="extrafacets">
 				</div>
 			</div>
@@ -406,9 +406,11 @@ window._monsido = window._monsido || {
   /* Add more styling here to make it look like a button */
 }
 
+.description_emphasis {color: #ffc726; font-weight: bold;}
+
 .hidden-radio + label i {font-size: 1.25em; margin-right: 0.5em;}
 
-.hidden-radio:checked + label, .hidden-radio:checked + label i {
+.hidden-radio:checked + label, .hidden-radio:checked + label:hover, .hidden-radio:checked + label i {
   /* Style for when the radio is selected */
   background-color: #ffc726;
   color: #262626;
@@ -416,6 +418,7 @@ window._monsido = window._monsido || {
 
 #searchDescription {font-size: 24px; font-weight: bold;}
 			</style>
+			<fieldset class="nopad nomargin" style="border:0">
 			<ul class="text-center inline">
 				<li>
 			    <input type="radio" id="everything" onchange="updateDescription(this)" name="searchOptionsRadio" class="hidden-radio" checked="checked" value="everything">
@@ -438,6 +441,7 @@ window._monsido = window._monsido || {
 			    <label for="reserves" class="button"><i class="fa fa-graduation-cap" aria-hidden="true"></i>Reserves</label>
 			  </li>
 			</ul>
+		</fieldset>
 
 
 
@@ -523,19 +527,19 @@ function updateDescription(radio) {
 
     switch (radio.value) {
         case "prart10":
-            text = "Search <em>peer-reviewed articles</em> from the past 10 years.";
+            text = "Search <span class='description_emphasis'>peer-reviewed articles</span> from the past 10 years.";
             break;
         case "books":
-            text = "Search <em>books</em> (print & electronic) in our library.";
+            text = "Search <span class='description_emphasis'>books</span> (print & electronic) in our library.";
             break;
         case "ebooks":
-            text = "Search <em>eBooks</em> you can access from anywhere.";
+            text = "Search <span class='description_emphasis'>eBooks</span> you can access from anywhere.";
             break;
         case "reserves":
-            text = "Search <em>items that are on reserve</em> for specific classes.";
+            text = "Search <span class='description_emphasis'>items that are on reserve</span> for specific classes.";
             break;
         default:
-            text = "Use Library Search to discover <em>books, articles, media</em> and more.";
+            text = "Use <span class='description_emphasis'>Library Search</span> to discover <span class='description_emphasis'>books, articles, media</span> and more.";
     }
     descriptionDiv.innerHTML = text;
 }

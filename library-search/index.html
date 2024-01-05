@@ -97,9 +97,9 @@
       $("#facets").empty();
       $('#prart10').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" /><input type="hidden" name="facet" value="rtype,include,articles,lk" /><input type="hidden" name="facet" value="searchcreationdate,include,'+yearTenYearsAgo+'|,|'+yearCurrent+',lk" />') : '';
       $('#books').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" />') : '';
-      $('#ebooks').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
-      $('#streaming').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,videos,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources" />') : '';
-      $('#reserves').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" /><input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />') : '';
+      $('#ebooks').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources,lk" />') : '';
+      $('#streaming').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,videos,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources,lk" />') : '';
+      $('#reserves').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="location_code,include,4805–160973130004805–rbr,1" /><input type="hidden" name="facet" value="location_code,include,4805–160973130004805–rbrvd,1" />') : '';
     }
 
     function searchPrimo(event) {
