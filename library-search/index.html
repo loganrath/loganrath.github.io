@@ -99,7 +99,7 @@
       $('#books').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" />') : '';
       $('#ebooks').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources,lk" />') : '';
       $('#streaming').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,videos,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources,lk" />') : '';
-      $('#reserves').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="location_code,include,4805–160973130004805–rbr,1" /><input type="hidden" name="facet" value="location_code,include,4805–160973130004805–rbrvd,1" />') : '';
+      $('#reserves').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" /><input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />') : '';
     }
 
     function searchPrimo(event) {
