@@ -45,8 +45,8 @@
                   <input name="pcAvailabiltyMode" type="hidden" value="true" />
                   <div class="input-group mb-3">
                       <label for="libSearch" class="sr-only">Enter Keywords</label>
-                      <input type="text" class="form-control" placeholder="Search articles, books, videos, and more.." id="libSearch" name="search">
-                      <div id="extrafacets"></div>
+                      <input type="text" class="form-control" placeholder="Enter keywords to search our collections..." id="libSearch" name="search">
+                      <div id="facets"></div>
                       <div class="input-group-append">
                           <button class="btn btn-outline-secondary bg-warning" id="button-addon2"><i class="fas fa-search text-default"><span class="sr-only">Search</i></button>
                       </div>
@@ -82,21 +82,6 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 <script>
-
-document.addEventListener("DOMContentLoaded", function() {
-    // Attach event listener to form submission
-    document.getElementById("libSearchForm").addEventListener("submit", searchPrimo);
-
-    // Attach event listeners to radio buttons
-    var radioButtons = document.getElementsByName("searchOptionsRadio");
-    for (var i = 0; i < radioButtons.length; i++) {
-        radioButtons[i].addEventListener("change", function() {
-            updateDescription(this);
-            console.log("description updated");
-            setFacets();
-            console.log("facets set");
-        });
-    }
     document.querySelectorAll('.radio-icon').forEach(function(element) {
         element.addEventListener('click', function() {
             document.querySelectorAll('.radio-icon').forEach(function(el) {
@@ -105,65 +90,48 @@ document.addEventListener("DOMContentLoaded", function() {
             this.classList.add('bg-warning');
         });
     });
-});
 
-function setFacets() {
-    var yearTenYearsAgo = new Date().getFullYear() - 10;
-    var yearCurrent = new Date().getFullYear() + 1;
-
-    var facetsDiv = document.getElementById('extrafacets');
-    facetsDiv.innerHTML = ''; // Clear existing facets
-
-    var selectedOption = document.querySelector('input[name="searchOptionsRadio"]:checked').value;
-    switch(selectedOption) {
-        case "prart10":
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" />';
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles,lk" />';
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + ',lk" />';
-            break;
-        case "books":
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
-            break;
-        case "ebooks":
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources,lk" />';
-            break;
-        case "reserves":
-            facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" />';
-            facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />';
-            break;
+    function setFacets() {
+      var yearTenYearsAgo = new Date().getFullYear() - 10;
+      var yearCurrent = new Date().getFullYear()+1;
+      $("#facets").empty();
+      $('#prart10').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" /><input type="hidden" name="facet" value="rtype,include,articles,lk" /><input type="hidden" name="facet" value="searchcreationdate,include,'+yearTenYearsAgo+'|,|'+yearCurrent+',lk" />') : '';
+      $('#books').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" />') : '';
+      $('#ebooks').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,books,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources,lk" />') : '';
+      $('#streaming').is(":checked") ? $("#facets").append('<input type="hidden" name="facet" value="rtype,include,videos,lk" /><input type="hidden" name="facet" value="tlevel,include,online_resources,lk" />') : '';
+      $('#reserves').is(":checked") ? $("#facets").append('<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" /><input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />') : '';
     }
-}
 
-function searchPrimo(event) {
-    event.preventDefault(); // Prevent default form submission
-    document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
-    document.getElementById("libSearchForm").submit(); // Manually submit the form
-}
-
-function updateDescription(radio) {
-    var descriptionDiv = document.getElementById('searchDescription');
-    var text = "";
-
-    switch (radio.value) {
-        case "prart10":
-            text = "Search <span class='text-success'>peer-reviewed articles</span> from the past 10 years.";
-            break;
-        case "books":
-            text = "Search <span class='text-success'>books</span> (print & electronic) in our library.";
-            break;
-        case "ebooks":
-            text = "Search <span class='text-success'>eBooks</span> you can access from anywhere.";
-            break;
-        case "reserves":
-            text = "Search <span class='text-success'>items that are on reserve</span> for specific classes.";
-            break;
-        default:
-            text = "Use Library Search to discover <span class='text-success'>books, articles, media</span> and more.";
+    function searchPrimo(event) {
+        event.preventDefault(); // Prevent default form submission
+        document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
+        setFacets();
+        document.forms["libSearchForm"].submit(); // Manually submit the form
     }
+
+    function updateDescription(radio) {
+      var descriptionDiv = document.getElementById('searchDescription');
+      var text = "";
+
+      switch (radio.value) {
+          case "prart10":
+              text = "Search <span class='text-success'>peer-reviewed articles</span> from the past 10 years.";
+              break;
+          case "books":
+              text = "Search <span class='text-success'>books</span> (print & electronic) in our library.";
+              break;
+          case "ebooks":
+              text = "Search <span class='text-success'>eBooks</span> you can access from anywhere.";
+              break;
+          case "reserves":
+              text = "Search <span class='text-success'>items that are on reserve</span> for specific classes.";
+              break;
+          default:
+              text = "Use Library Search to discover <span class='text-success'>books, articles, media</span> and more.";
+    }
+
     descriptionDiv.innerHTML = text;
 }
-</script>
 </script>
 </body>
 </html>
