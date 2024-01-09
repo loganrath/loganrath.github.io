@@ -416,6 +416,8 @@ window._monsido = window._monsido || {
   color: #262626;
 }
 
+.advanced-search a:hover {color:#DCD59A !important;}
+
 #searchDescription {font-size: 24px; font-weight: bold;}
 			</style>
 			<fieldset class="nopad nomargin" style="border:0">
@@ -442,32 +444,8 @@ window._monsido = window._monsido || {
 			  </li>
 			</ul>
 		</fieldset>
-
-
-
-
-
-
-			<!--div class="">
-          <label class="radio-icon bg-warning d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="everything" value="everything"><i class="fa fa-search-plus"></i><span class="h6 pl-2">Everything</span></label>
-      </div>
-      <div class="">
-          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="prart10" value="prart10"><i class="fas fa-file-alt"></i><span class="h6 pl-2">Articles</span></label>
-      </div>
-      <div class="">
-          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="books" value="books"><i class="fas fa-book-open"></i><span class="h6 pl-2">Books</span></label>
-      </div>
-      <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
-          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="ebooks" value="ebooks"><i class="fas fa-atlas"></i><span class="h6 pl-2">eBooks</span></label>
-      </div-->
-      <!--div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
-          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="streaming" value="streaming"><i class="fas fa-play-circle"></i><span class="h6 pl-2">Streaming</span></label>
-      </div-->
-      <!--div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
-          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="reserves" value="reserves"><i class="fas fa-chalkboard-teacher"></i><span class="h6 pl-2">Reserves</span></label>
-      </div-->
   </div>
-        <div class="text-center space-above"><a href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&lang=en&sortby=rank&mode=advanced">Advanced Search</a></div>
+        <div class="advanced-search text-center space-above"><a href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&lang=en&sortby=rank&mode=advanced">Advanced Search</a></div>
             </form>
         </div>
     </div>
@@ -711,14 +689,14 @@ function updateDescription(radio) {
 						<div id="main-content-area" class="editable">
 							<h3>Library Quicklinks</h3>
 								<ul class="text-left no-bullet small-flex-1 medium-flex-2 font-sans link-list">
-									<li><a href="#">Article Lookup</a></li>
-									<li><a href="#">Databases A-Z</a></li>
-									<li><a href="#">Journals & Newspaper Listing</a></li>
-									<li><a href="#">WorldCat (beyond Drake)</a></li>
-									<li><a href="#">Faculty & Staff Support</a></li>
-									<li><a href="#">The Rose Archives & Repositories</a></li>
-									<li><a href="#">Cite My Sources</a></li>
-									<li><a href="#">To Be Decided</a></li>
+									<li><a href="https://library.brockport.edu/az.php">Databases A-Z</a></li>
+									<li><a href="https://suny-bro.primo.exlibrisgroup.com/discovery/jsearch?vid=01SUNY_BRO:01SUNY_BRO">Journals & Newspaper Listing</a></li>
+									<li><a href="https://brockport.libanswers.com/faq/368529">Lookup by Citation or DOI</a></li>
+									<li><a href="https://brockport.on.worldcat.org/">WorldCat (beyond Drake)</a></li>
+									<li><a href="https://library.brockport.edu/faculty-support">Faculty & Staff Support</a></li>
+									<li><a href="https://www2.brockport.edu/about/archives/">The Rose Archives & Repositories</a></li>
+									<li><a href="https://library.brockport.edu/citing">Cite My Sources</a></li>
+									<li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">To Be Decided</a></li>
 								</ul>
 						</div>
 					</article>
@@ -732,36 +710,38 @@ function updateDescription(radio) {
 										 <nav class="sidebar">
 											 <div id="lw_widget_d085fc80" class="lw_widget lw_widget_type_navigation lw_widget_navigation">
 				<ul class="lw_widget_results lw_widget_results_navigation">
+				<li><a href="https://www2.brockport.edu/library">Library Home</a></li>
 				<li><a href="#">Find</a><ul>
-					<li><a href="#" class="clickable-layer">Article Lookup</a></li>
-					<li><a href="#" class="clickable-layer">Databases A-Z</a></li>
-					<li><a href="#" class="clickable-layer">Databases by subject</a></li>
-					<li><a href="#" class="clickable-layer">Interlibrary Loan</a></li>
-					<li><a href="#" class="clickable-layer">Journals and Newspapers listing</a></li>
-					<li><a href="#" class="clickable-layer">Research guides</a></li>
-					<li><a href="#" class="clickable-layer">Worldcat (Beyond Drake Library)</a></li>
-					<li><a href="#" class="clickable-layer">Brockport @ SUNY Open Repositories</a></li>
-					<li><a href="#" class="clickable-layer">Tech tools</a></li>
+					<li><a href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&lang=en&sortby=rank&mode=advanced" class="clickable-layer">Advanced Search</a></li>
+					<li><a href="https://library.brockport.edu/az" class="clickable-layer">Databases A-Z</a></li>
+					<li><a href="#" class="clickable-layer" data-reveal-id="dbsubj">Databases by Subject</a></li>
+					<li><a href="https://brockport.libanswers.com/faq/399650" class="clickable-layer">Interlibrary Loan</a></li>
+					<li><a href="https://suny-bro.primo.exlibrisgroup.com/discovery/jsearch?vid=01SUNY_BRO:01SUNY_BRO" class="clickable-layer">Journals and Newspapers Listing</a></li>
+					<li><a href="https://brockport.libanswers.com/faq/368529" class="clickable-layer">Lookup by Citation or DOI</a></li>
+					<li><a href="https://library.brockport.edu" class="clickable-layer">Research Guides</a></li>
+					<li><a href="https://brockport.on.worldcat.org" class="clickable-layer">Worldcat (Beyond Drake Library)</a></li>
+					<li><a href="https://library.brockport.edu/ir" class="clickable-layer">Brockport @ SUNY Open Repositories</a></li>
+					<li><a href="https://library.brockport.edu/techtools" class="clickable-layer">Tech Tools</a></li>
 				</ul></li>
 				<li><a href="#" class="clickable-layer">Help & Support</a><ul>
-					<li><a href="#" class="clickable-layer">Alumni Services</a></li>
-					<li><a href="#" class="clickable-layer">Ask a librarian</a></li>
-					<li><a href="#" class="clickable-layer">Faculty and Staff support</a></li>
-					<li><a href="#" class="clickable-layer">Research appointments</a></li>
-					<li><a href="#" class="clickable-layer">Citing your sources</a></li>
-					<li><a href="#" class="clickable-layer">How do I find…</a></li>
+					<li><a href="https://www2.brockport.edu/library/about/alumni/" class="clickable-layer">Alumni Services</a></li>
+					<li><a href="https://brockport.libanswers.com" class="clickable-layer">Ask a librarian</a></li>
+					<li><a href="https://library.brockport.edu/faculty-support/" class="clickable-layer">Faculty and Staff support</a></li>
+					<li><a href="https://brockport.libanswers.com/#s-la-box-56247" class="clickable-layer">Research Appointments</a></li>
+					<li><a href="https://library.brockport.edu/citing" class="clickable-layer">Citing Your Sources</a></li>
+					<li><a href="https://library.brockport.edu/howto" class="clickable-layer">How do I find…</a></li>
 				</ul></li>
 				<li><a href="#" class="clickable-layer">About</a><ul>
-					<li><a href="#" class="clickable-layer">Rose Archives</a></li>
-					<li><a href="#" class="clickable-layer">Borrowing policies</a></li>
-					<li><a href="#" class="clickable-layer">Directory</a></li>
-					<li><a href="#" class="clickable-layer">Friends of Drake Library</a></li>
-					<li><a href="#" class="clickable-layer">Give to the library</a></li>
-					<li><a href="#" class="clickable-layer">Library Hours</a></li>
-					<li><a href="#" class="clickable-layer">Maps and floor plans</a></li>
-					<li><a href="#" class="clickable-layer">Mission, Vision, and Values</a></li>
-					<li><a href="#" class="clickable-layer">Student employment</a></li>
-					<li><a href="#" class="clickable-layer">Visitor information</a></li>
+					<li><a href="https://www2.brockport.edu/about/archives/" class="clickable-layer">Rose Archives</a></li>
+					<li><a href="https://www2.brockport.edu/library/about/borrowing/" class="clickable-layer">Borrowing policies</a></li>
+					<li><a href="https://www2.brockport.edu/library/directory/" class="clickable-layer">Directory</a></li>
+					<li><a href="https://library.brockport.edu/friends" class="clickable-layer">Friends of Drake Library</a></li>
+					<li><a href="https://www2.brockport.edu/library/about/giving/" class="clickable-layer">Give to the library</a></li>
+					<li><a href="https://www2.brockport.edu/library/hours/" class="clickable-layer">Library Hours</a></li>
+					<li><a href="https://www2.brockport.edu/library/about/maps/" class="clickable-layer">Maps and Floor Plans</a></li>
+					<li><a href="https://www2.brockport.edu/library/about/mission/" class="clickable-layer">Mission, Vision, and Values</a></li>
+					<li><a href="https://www2.brockport.edu/library/about/student-employment/" class="clickable-layer">Student Employment</a></li>
+					<li><a href="https://www2.brockport.edu/library/about/visitor-information/" class="clickable-layer">Visitor information</a></li>
 				</ul></li>
 				</ul>
 			</section>
