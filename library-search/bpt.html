@@ -440,7 +440,7 @@ window._monsido = window._monsido || {
 			  </li>
 				<li>
 			    <input type="radio" id="reserves" onchange="updateDescription(this)" name="searchOptionsRadio" class="hidden-radio" value="reserves">
-			    <label for="reserves" class="button"><i class="fa fa-graduation-cap" aria-hidden="true"></i>Reserves</label>
+			    <label for="reserves" class="button"><i class="fa fa-graduation-cap" aria-hidden="true"></i>Course Reserves</label>
 			  </li>
 			</ul>
 		</fieldset>
@@ -529,10 +529,10 @@ function updateDescription(radio) {
 
     switch (radio.value) {
         case "prart10":
-            text = "Search <span class='description_emphasis'>peer-reviewed articles</span> from the past 10 years.";
+            text = "Search <span class='description_emphasis'>peer-reviewed articles</span> from the <span class='description_emphasis'>past 10 years</span>.";
             break;
         case "books":
-            text = "Search <span class='description_emphasis'>books</span> (print & electronic) in our library.";
+            text = "Search <span class='description_emphasis'>books (print & electronic)</span> in our library.";
             break;
         case "ebooks":
             text = "Search <span class='description_emphasis'>eBooks</span> you can access from anywhere.";
