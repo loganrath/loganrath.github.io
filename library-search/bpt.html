@@ -360,7 +360,7 @@ window._monsido = window._monsido || {
 			<p class="text-center space-above" id="searchDescription">Use <span class='description_emphasis'>Library Search</span> to discover <span class='description_emphasis'>books, articles, media</span> and more.</p>
 
         <div class="small-9 push-1 column">
-            <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo(event)" method="get"  id="libSearchForm" name="libSearchForm">
+            <form action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo(event)" method="get"  id="libSearchForm" name="libSearchForm">
                <!-- Customizable Parameters -->
                   <input name="institution" type="hidden" value="01SUNY_BRO" />
                   <input name="vid" type="hidden" value="01SUNY_BRO:01SUNY_BRO" />
@@ -393,31 +393,6 @@ window._monsido = window._monsido || {
 	</div>
   <div class="row">
       <span class="show-for-screenreaders">Limit to:</span>
-
-			<style>
-			.hidden-radio {
-  display: none;
-}
-
-.hidden-radio + label, .hidden-radio + label i  {
-  display: inline-block;
-  cursor: pointer;
-	color: white;
-  /* Add more styling here to make it look like a button */
-}
-
-.description_emphasis {color: #ffc726; font-weight: bold;}
-
-.hidden-radio + label i {font-size: 1.25em; margin-right: 0.5em;}
-
-.hidden-radio:checked + label, .hidden-radio:checked + label:hover, .hidden-radio:checked + label i {
-  /* Style for when the radio is selected */
-  background-color: #ffc726;
-  color: #262626;
-}
-
-#searchDescription {font-size: 24px; font-weight: bold;}
-			</style>
 			<fieldset class="nopad nomargin" style="border:0">
 			<ul class="text-center inline">
 				<li>
@@ -472,6 +447,30 @@ window._monsido = window._monsido || {
         </div>
     </div>
 </div>
+<style>
+.hidden-radio {
+display: none;
+}
+
+.hidden-radio + label, .hidden-radio + label i  {
+display: inline-block;
+cursor: pointer;
+color: white;
+/* Add more styling here to make it look like a button */
+}
+
+.description_emphasis {color: #ffc726; font-weight: bold;}
+
+.hidden-radio + label i {font-size: 1.25em; margin-right: 0.5em;}
+
+.hidden-radio:checked + label, .hidden-radio:checked + label:hover, .hidden-radio:checked + label i {
+/* Style for when the radio is selected */
+background-color: #ffc726;
+color: #262626;
+}
+
+#searchDescription {font-size: 24px; font-weight: bold;}
+</style>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     // Attach event listener to form submission
