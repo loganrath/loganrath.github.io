@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drake Memorial Library Search Box</title>
+<!-- Bootstrap CSS CDN -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+<style>
+    .radio-icon {
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin: 5px;
+    }
+</style>
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+          <p class="text-center h4 mb-3">Search <a href="https://dspace.sunyconnect.suny.edu/collections/61639a8a-e152-4bcc-b00a-54feded54318">Brockport University Senate Resolutions</a></p>
+
+            <form target="_blank" action="https://dspace.sunyconnect.suny.edu/search" onsubmit="searchPrimo(event)" method="get"  id="libSearchForm" name="libSearchForm">
+               <!-- Customizable Parameters -->
+                  <input name="scope" type="hidden" value="61639a8a-e152-4bcc-b00a-54feded54318" />
+                  <div class="input-group mb-3">
+                      <label for="resSearch" class="sr-only">Search for Resolution:</label>
+                      <input type="text" class="form-control" placeholder="Enter keywords" id="resSearch" name="query">
+                      <div class="input-group-append">
+                          <button class="btn btn-outline-secondary bg-warning" id="button-addon2"><i class="fas fa-search text-default"><span class="sr-only">Search</i></button>
+                      </div>
+                  </div>
+        <div class="d-flex justify-content-center mt-2"><a href="https://dspace.sunyconnect.suny.edu/collections/61639a8a-e152-4bcc-b00a-54feded54318">Browse</a></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery and Bootstrap Bundle (includes Popper) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
