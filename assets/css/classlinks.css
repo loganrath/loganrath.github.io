@@ -1,0 +1,53 @@
+/* CSS Document */
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap');
+
+body {margin: 0; font-family: "Open Sans"; background-color: #fff}
+
+header {background-color: #00533e; color: white; border-bottom: 0.5em solid #FFD100; margin-bottom: 0.5em; padding-top: 0.2em;}
+header h1 {line-height: 1em;}
+
+header h1 {font-family: "Open Sans", sans-serif;  }
+
+#content-wrapper {background-color: #fff; min-width: 960px; padding: 0 1em; line-height: 1.5em;}
+#content {width: 95%; margin-left: auto; margin-right: auto; padding-left: 1em; padding-right: 1em;}
+#content a:link, #content a:visited {color: #005899;}
+#content a:hover {color: #ffc726;}
+#content p {margin-top: 2em; margin-bottom: 2em;}
+
+a.button {display: block; width: 75%; margin-left: auto; margin-right: auto; padding: 1em; background-color: #334d6c; text-decoration: none; color: white !important; font-size: 2em; font-weight: bold !important;}
+a.button:hover {color: #FFD100 !important;}
+
+.c2 {float: left; width: 45%; margin-right: 2%;}
+.c3 {float: left; width: 30%; margin-right: 2%;}
+.c3w {float: left; width: 65%; margin-right: 3%;}
+.c4 {float: left; width: 22%; margin-right: 2%;}
+.c4x {float: left; width: 44%; margin-right: 2%;}
+.c4w {float: left; width: 70%; margin-right: 2%;}
+
+.wide {float: left; width: 74%; margin-right: 2%;}
+.narrow {float: left; width: 22%; margin-right: 2%;}
+
+.box {background-color: white; border: 1px solid #ccc; margin-top: 0.5em; margin-bottom: 1em;}
+.box h3 {margin: 0; padding: 0.25em; padding-left: 0.5em; background-color: #334d6c; color: white; font-weight: 600;}
+.box ul {list-style-type: none; }
+.box h4 {padding-left: 0.5em; margin-bottom: 0;}
+.box ol {margin-top:0;}
+.box ul ul {margin-top: 0; margin-bottom: 0.5em; list-style-type:square;}
+
+.clear {clear: both;}
+.center {text-align: center;}
+
+@media only screen and (max-width : 1200px ) {
+
+.wide {float: left; width: 65%; margin-right: 2%;}
+.narrow {float: left; width: 30%;}
+}
+
+@media only screen and (max-width : 970px ) {
+#content, #content-wrapper {width: 100%; min-width: 0; padding: 0.25em}
+
+@media only screen and (max-width : 768px ) { 
+#content, #content-wrapper, .c2, .c3, .c3w, .c4, .c4w, .c4x, .narrow, .wide {width: 100%; float: none; min-width:0; padding: 0; }
+}
+	

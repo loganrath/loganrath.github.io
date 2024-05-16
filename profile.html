@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logan Rath, PhD - Digital Business Card</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card-container {
+            width: 90%; /* Responsive width */
+            max-width: 500px; /* Max width to avoid being too wide on desktop */
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-photo {
+            width: 100%;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .shadow-box {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 80%;
+            margin-top: -40px; /* Distance from the photo */
+            text-align: left;
+            font-size: 24px;
+        }
+
+        .contact-info {
+            padding: 15px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-item i {
+            background-color: #005899; /* Icon background color */
+            color: white;
+            border-radius: 50%;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .contact-info a {
+            color: black;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .link-tree {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .link-tree a {
+            background-color: #005899; /* Links background color */
+            color: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .link-tree a:hover {
+            background-color: #003d66; /* Darker shade for hover effect */
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <img src="https://www.rath.phd/assets/img/logan2023.jpg" alt="Logan Rath, PhD" class="profile-photo">
+        <div class="shadow-box">
+            <div style="font-size: 24px;"><strong>Logan Rath, PhD</strong></div>
+            <div style="font-size: 18px;">Librarian & Researcher</div>
+        </div>
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:logan@rath.phd">logan@rath.phd</a>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-sms"></i>
+                <a href="sms:+15852450045">+1 585 245 0045</a>
+            </div>
+        </div>
+        <div class="link-tree">
+            <a href="rath_cv_web.pdf">CV</a>
+            <a href="your-portfolio-url">Google Scholar</a>
+            <a href="your-portfolio-url">ORCiD</a>
+            <a href="your-portfolio-url">LinkedIn</a>
+
+
+        </div>
+    </div>
+</body>
+</html>

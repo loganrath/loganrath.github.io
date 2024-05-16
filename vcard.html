@@ -50,12 +50,12 @@
   .border-top-red {border-top:2px solid red;}
 
   ul.icons {width:100%;text-align:center;margin-bottom:60px;padding-top:1em;color:#333}
-  ul.icons .fas,ul.icons .fab,ul.icons .ai{font-size:xx-large;transition:all .15s ease-in-out}
+  ul.icons .fas,ul.icons .fab,ul.icons .ai{font-size:18px;transition:all .15s ease-in-out}
   @media (min-width: 768px) {
-      ul.icons .fas,ul.icons .fab,ul.icons .ai {font-size: 36px;}
+      ul.icons .fas,ul.icons .fab,ul.icons .ai {font-size: 24px;}
   }
   @media (min-width: 992px) {
-      ul.icons .fas,ul.icons .fab,ul.icons .ai {font-size: 48px; padding: 0 0.15em;}
+      ul.icons .fas,ul.icons .fab,ul.icons .ai {font-size: 36px; padding: 0 0.15em;}
   }
   ul.icons .fas:hover,ul.icons .fab:hover,ul.icons .ai:hover{color:#005899;transform:scale(1.5)}
   ul.icons ul li a i{color:#005899;}
@@ -63,6 +63,7 @@
   ul.icons li{list-style-type:none;display:inline-block;padding:0px 10px}
   ul.icons a{color:#333;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
   ul.icons a:hover{text-decoration-style:solid;text-decoration-color:#005899}
+
 
 /* @media (min-width: 768px) {
   #vcard {max-width: 1024px; position: absolute; top: 40%;left: 50%;-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);
@@ -72,67 +73,32 @@
 
 </head>
 <body>
-  <div id="vcard" class="container-fluid mt-1">
-    <div class="row">
-    <div class="col-6 offset-3 col-sm-5 offset-sm-0 col-md-6 col-lg-6 col-xl-5 text-center">
-      <img src="/assets/img/logan2023.jpg" class="w-100" />
-    </div>
-    <div class="col-12 col-sm-7 mt-sm-2 pt-sm-2 col-md-6 mt-md-4 pt-md-4 col-lg-6 mt-lg-5 pt-lg-5 col-xl-7  ">
-      <div class="text-center">
-      <h1 class="mt-2">Logan Rath, PhD</h1>
-      <p>logan@rath.phd</p>
-      <ul class="icons my-2 py-md-5 my-md-5 my-lg-3 ps-0">
-        <li><a href="mailto:logan@rath.phd" title="E-Mail"><i class="fas fa-envelope"></i></a></li>
-        <li><a href="rath_cv_web.pdf" title="CV"><i class="ai ai-cv-square"></i></a></li>
-        <li><a href="https://www2.brockport.edu/live/profiles/logan-rath" title="My institution"><i class="fas fa-university"></i></a></li>
-        <li><a href="https://scholar.google.com/citations?user=sfO-kFAAAAAJ&hl=en" title="Google Scholar"><i class="ai ai-google-scholar-square"></i></a></li>
-        <li><a href="https://orcid.org/0000-0002-6221-4536" title="ORCID iD"><i class="fab fa-orcid"></i></a></li>
-        <li><a href="https://github.com/loganrath" title="GitHub"><i class="fab fa-github"></i></a></li>
-        <!--li><a href="" title="Instagram"><i class="fab fa-instagram fa-2x"></i></a></li-->
-        <li><a href="https://linkedin.com/in/loganrath" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
-      </ul>
-      </div>
-      <nav class="row text-center mt-5 mt-sm-3">
-        <div class="col"><a href="/about/"><i class="far fa-address-card d-block m-auto mb-2 fa-2x"></i><span class="d-block">About</span></a></div>
-        <div class="col"><a href="/learning/"><i class="fas fa-chalkboard-user d-block m-auto mb-2 fa-2x"></i><span class="d-block">Teaching</span></a></div>
-        <div class="col"><a href="/tools/"><i class="fas fa-toolbox d-block m-auto mb-2 fa-2x"></i><span class="d-block">Tools</span></a></div>
-        <div class="col"><a href="/scuba/"><img src="/assets/img/scuba-diving-icon.svg" alt="scuba diver" class="d-block m-auto mb-2" style="width:50px; filter: invert(19%) sepia(97%) saturate(2027%) hue-rotate(189deg) brightness(95%) contrast(101%);" /><span class="d-block">Scuba Diving</span></a></div>
-      </nav>
-
-      </div>
-      <!--div class="d-none d-lg-block d-xl-none" style="height:1em;"></div>
-      <nav class="row text-center my-md-5">
-        <ul>
-          <li class="mb-1 mb-lg-3"><a href="teaching/">Teaching</a></li>
-          <li class="mb-1 mb-lg-3"><a href="consulting/">Consulting</a></li>
-          <li class="mb-1 mb-lg-3"><a href="scuba/">Scuba</a></li>
-        </ul>
-      </nav>
-      <p>
-    </div-->
-    </div>
-
-  <!--main class="row mt-5">
-      <div class="col-sm-6">
-        <div class="card border-top-red">
-          <div class="card-body align-middle">
-            <p class="card-text"><img src="scuba-diving-icon.svg" alt="scuba diver" class="w-25" /></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-  </main-->
-
+  <div id="vcard" class="container">
+    <div style="background:url(/assets/img/logan2023.jpg); height: 300px; background-position: center; border-bottom:5px solid #005899;">
+      <div class="row justify-content-center">
+          <div class="col-md-9" style="margin-top: 275px;">
+              <div class="shadow p-3 mb-5 bg-white rounded">
+                  <!-- Your content here -->
+                  <h1 class="mt-2">Logan Rath, PhD</h1>
+                  <p>Librarian. Research. Adjunct Instructor.</p>
+                  <p><i class="fas fa-envelope me-2"></i>logan@rath.phd</p>
+                  <p><i class="fas fa-comment-dots me-2"></i>585-245-0045</p>              </div>
+              </div>
+            </div>
+    <button type="button" class="btn btn-primary">
+      <i class="fas fa-thumbs-up"></i> Like
+    </button>
   </div>
-
-
+<footer class="mt-5">
+  <ul class="nav icons justify-content-center">
+    <li class="nav-item"><a class="nav-link" href="mailto:logan@rath.phd" title="E-Mail"><i class="fas fa-envelope"></i><span class="menu-title sr-only">Email</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="rath_cv_web.pdf" title="CV"><i class="ai ai-cv-square"></i><span class="menu-title sr-only">CV</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="https://www.brockport.edu/live/profiles/logan-rath" title="My institution"><i class="fas fa-university"></i></a><span class="menu-title sr-only">Profile</span></li>
+    <li class="nav-item"><a class="nav-link" href="https://scholar.google.com/citations?user=sfO-kFAAAAAJ&hl=en" title="Google Scholar"><i class="ai ai-google-scholar-square"></i></a><span class="menu-title sr-only">Google Scholar</span></li>
+    <li class="nav-item"><a class="nav-link" href="https://orcid.org/0000-0002-6221-4536" title="ORCID iD"><i class="fab fa-orcid"></i></a><span class="menu-title sr-only">ORCid</span></li>
+    <li class="nav-item"><a class="nav-link" href="https://github.com/loganrath" title="GitHub"><i class="fab fa-github"></i></a><span class="menu-title sr-only">GitHub</span></li>
+    <li class="nav-item"><a class="nav-link" href="https://linkedin.com/in/loganrath" title="LinkedIn"><i class="fab fa-linkedin"></i></a><span class="menu-title sr-only">LinkedIn</span></li>
+  </ul>
+</footer>
 </body>
 </html>
