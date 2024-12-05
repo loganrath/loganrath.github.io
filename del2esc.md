@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Brockport &amp; Empire State Library Search Bookmarklet
+title: SUNY Delhi &amp; Empire State Library Search Bookmarklet
 ---
 <div class="container" markdown="1">
 
@@ -19,18 +19,18 @@ var x = window.location.href;
 var p = window.location.hostname;
 if (p == "onesearch.sunyempire.edu") {
   var r1 = p;
-  var r2 = "suny-bro.primo.exlibrisgroup.com";
+  var r2 = "suny-del.primo.exlibrisgroup.com";
   var r3 = "01SUNY_ESC:01SUNY_ESC";
-  var r4 = "01SUNY_BRO:01SUNY_BRO";
+  var r4 = "01SUNY_DEL:01SUNY_DEL";
 	var r5 = "01SUNY_ESC";
-	var r6 = "01SUNY_BRO";
+	var r6 = "01SUNY_DEL";
   }
 else if (p == "suny-bro.primo.exlibrisgroup.com") {
   var r1 = p;
   var r2 = "onesearch.sunyempire.edu";
-  var r3 = "01SUNY_BRO:01SUNY_BRO";
+  var r3 = "01SUNY_DEL:01SUNY_DEL";
   var r4 = "01SUNY_ESC:01SUNY_ESC";
-	var r5 = "01SUNY_BRO";
+	var r5 = "01SUNY_DEL";
 	var r6 = "01SUNY_ESC";
 }
 else {
@@ -55,18 +55,18 @@ var x = window.location.href;
 var p = window.location.hostname;
 if (p == "onesearch.sunyempire.edu") {
   var r1 = p;
-  var r2 = "suny-bro.primo.exlibrisgroup.com";
+  var r2 = "suny-del.primo.exlibrisgroup.com";
   var r3 = "01SUNY_ESC:01SUNY_ESC";
-  var r4 = "01SUNY_BRO:01SUNY_BRO";
+  var r4 = "01SUNY_DEL:01SUNY_DEL";
 	var r5 = "01SUNY_ESC";
-	var r6 = "01SUNY_BRO";
+	var r6 = "01SUNY_DEL";
   }
 else if (p == "suny-bro.primo.exlibrisgroup.com") {
   var r1 = p;
-  var r2 = "search.library.albany.edu";
-  var r3 = "01SUNY_BRO:01SUNY_BRO";
+  var r2 = "onesearch.sunyempire.edu";
+  var r3 = "01SUNY_DEL:01SUNY_DEL";
   var r4 = "01SUNY_ESC:01SUNY_ESC";
-	var r5 = "01SUNY_BRO";
+	var r5 = "01SUNY_DEL";
 	var r6 = "01SUNY_ESC";
 }
 else {
