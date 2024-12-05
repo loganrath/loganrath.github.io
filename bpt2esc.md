@@ -53,24 +53,24 @@ Code
 javascript:!function(){
 var x = window.location.href;
 var p = window.location.hostname;
-if (p == "search.lib.buffalo.edu") {
+if (p == "onesearch.sunyempire.edu") {
   var r1 = p;
   var r2 = "suny-bro.primo.exlibrisgroup.com";
-  var r3 = "01SUNY_BUF:everything";
+  var r3 = "01SUNY_ESC:01SUNY_ESC";
   var r4 = "01SUNY_BRO:01SUNY_BRO";
-	var r5 = "01SUNY_BUF";
+	var r5 = "01SUNY_ESC";
 	var r6 = "01SUNY_BRO";
   }
 else if (p == "suny-bro.primo.exlibrisgroup.com") {
   var r1 = p;
-  var r2 = "search.lib.buffalo.edu";
+  var r2 = "search.library.albany.edu";
   var r3 = "01SUNY_BRO:01SUNY_BRO";
-  var r4 = "01SUNY_BUF:everything";
+  var r4 = "01SUNY_ESC:01SUNY_ESC";
 	var r5 = "01SUNY_BRO";
-	var r6 = "01SUNY_BUF";
+	var r6 = "01SUNY_ESC";
 }
 else {
-	alert ("This bookmarklet only works for Brockport and UB's library pages.")
+	alert ("This bookmarklet will not work on this page.");
 }
 var y = x.replace(r1,r2);
 var z = y.replace(r3,r4);
