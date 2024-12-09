@@ -25,7 +25,7 @@ if (p == "onesearch.sunyempire.edu") {
 	var r5 = "01SUNY_ESC";
 	var r6 = "01SUNY_DEL";
   }
-else if (p == "suny-bro.primo.exlibrisgroup.com") {
+else if (p == "uny-del.primo.exlibrisgroup.com") {
   var r1 = p;
   var r2 = "onesearch.sunyempire.edu";
   var r3 = "01SUNY_DEL:01SUNY_DEL";
@@ -61,7 +61,7 @@ if (p == "onesearch.sunyempire.edu") {
 	var r5 = "01SUNY_ESC";
 	var r6 = "01SUNY_DEL";
   }
-else if (p == "suny-bro.primo.exlibrisgroup.com") {
+else if (p == "uny-del.primo.exlibrisgroup.com") {
   var r1 = p;
   var r2 = "onesearch.sunyempire.edu";
   var r3 = "01SUNY_DEL:01SUNY_DEL";
