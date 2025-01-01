@@ -15,7 +15,6 @@
     <style>
         body {
             font-family: "Noto Serif";
-            margin: 20px;
             background-color: #f2f2f2;
             padding: 0;
         }
@@ -23,6 +22,7 @@
         .doc-container {
             background-color: #fff;
             border: 1px solid #ddd;
+            margin: 0 20px;
             padding: 15px;
             border-radius: 5px;
         }
@@ -44,18 +44,8 @@
 <body>
     <div class="doc-container">
     	<div class="container">
-    	<!--div class="row header">
-    		<div class="col-sm-8">
-        		<h1 class="h1 fw-bold mt-3 text-center">Logan Rath, PhD</h1>
-        	</div>
-        	<div class="col-sm-4 text-end">
-        		<p><i class="fa-regular fa-envelope me-2"></i>logan@rath.phd</p>
-        		<p><i class="fa-regular fa-globe me-2"></i>https://www.rath.phd</p>
-        	</div>
-        </div>
-        </div-->
         <h1 class="mt-3 text-center">Logan Rath, PhD</h1>
-		<ul class="mt-2 list-group list-group-horizontal list-group-flush d-flex justify-content-center list-group-custom">        	<li class="list-group-item"><a href="mailto:logan+cv@rath.phd"><i class="far fa-envelope"></i>logan@rath.phd</a></li>
+		<ul class="mt-2 list-group list-group-horizontal list-group-flush d-flex justify-content-center list-group-custom">        	<li class="list-group-item"><a href="mailto:logan+cv@rath.phd"><i class="fa-solid fa-envelope"></i>logan@rath.phd</a></li>
         	<li class="list-group-item"><a href="https://www.brockport.edu/live/profiles/logan-rath" title="My institution"><i class="fas fa-building-columns"></i>SUNY Brockport</a></li>
         	<li class="list-group-item"><a href="https://scholar.google.com/citations?user=sfO-kFAAAAAJ&amp;hl=en" title="Google Scholar"><i class="fab fa-google-scholar"></i>Publications</a></li>
         	<li class="list-group-item"><a href="https://orcid.org/0000-0002-6221-4536" title="ORCID iD"><i class="fab fa-orcid"></i>ORCiD</a></li>
@@ -65,25 +55,12 @@
 	    <hr />
 	    <div class="container">
 	    <h2>Updates, Links, Tools, Projects, and More</h2>
-			{% assign file_names = "bpt2alb.md,bpt2buf.md,kaltura.md,proxy.html" | split: "," %}
-			<ul>
-			  {% for file_name in file_names %}
-			    <li>
-			      <a href="{{ file_name }}">{{ file_name | remove: '.md' | remove: '.html' }}</a> 
-			      ({{ site.static_files | where: "name", file_name | first.modified_time | date: "%B %d, %Y" }})
-			    </li>
-			  {% endfor %}
-			</ul>
-			    <h2>Logan&rsquo;s Bio</h2>
-	    <p>Dr. Logan Rath is a Librarian at <a href="https://brockport.edu/" target="_blank">SUNY Brockport</a> where he focuses on instruction and student research support. He is a 2016 recipient of the <a href="https://system.suny.edu/academic-affairs/faculty-staff-awards/chancellors-excellence-awards/">Chancellor’s Award for Excellence in Librarianship</a> for his efforts in many different areas of librarianship including instruction, technology, and interlibrary loan. Logan has a PhD in <a href="https://ed.buffalo.edu/teaching/academics/doctorate/cisl.html" target="_blank">Curriculum, Instruction, &amp; the Science of Learning from the University at Buffalo, SUNY</a>. His current research interests include the intersection of information literacy and literacy as a social practice, effective library instruction, and effective integration of technology into collegiate learning. </p>
-	    <p>In addition to his role as a librarian Brockport, Logan teaches at the <a href="https://www.albany.edu/cehc" target="_blank">University at Albany</a> in the Information Science and Technology program. He is also the Director of Online Learning for the <a href="https://www.idsproject.org" target="_blank">IDS Project</a> where he coordinates online learning for interlibrary loan professionals.</p>
-	    <p>Outside of the library, Logan has been involved with <a href="https://brockport.edu/support/college-senate" target="_blank">College Senate</a> as the current chair of the committee on Equity, Diveristy, and Inclusion. He is also a former parliamentarian, Chair of the Faculty and Professional Staff Policies Committee, and representative of SUNY Brockport to the <a href="https://system.suny.edu/facultysenate/" target="_blank">SUNY University Faculty Senate</a>.</p>
-	    
-	    <h2>Education</h2>
-        <h3>PhD, University at Buffalo</h3>
-        <h3>MS, Information Design &amp; Technology, SUNY Polytechnic</h3>
-        <h3>MLS, School Library Media, SUNY Buffalo</h3>
-        <h3>BA, Spanish, Adolescent Education 7-12, SUNY Geneseo</h3>
+	    <ul>
+	    	<li>SUNY Primo Switcher: <a href="bpt2alb/">Brockport<->Albany</a> | <a href="bpt2buf/">Brockport<->Buffalo</a> | <a href="bpt2buf/">Brockport<->Empire</a></li>
+	    	<li><a href="/kaltura">Kaltura Link Generator</a></li>
+            <li><a href="/xlh/">XLH Research Links</a></li>
+		</ul>
+
 	</div>
     </div>
 </body>
