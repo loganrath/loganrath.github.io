@@ -1,0 +1,72 @@
+---
+Title: New EBSCO UI Permalink
+layout: page
+---
+<div class="container mt-5">
+  <div class="row">
+    <div class="col">
+      <!-- Input where the user can paste their EBSCO-like URL -->
+      <input
+        type="text"
+        id="database"
+        placeholder="Paste your URL here"
+        class="form-control"
+      />
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col">
+      <strong>New URL:</strong>
+      <!-- Hyperlink that will display the new URL -->
+      <a id="newURL" href="#" target="_blank" style="margin-left: 8px;"></a>
+    </div>
+  </div>
+</div>
+
+<script>
+function findDbParamValue(urlString) {
+  // Create a URL object
+  const url = new URL(urlString);
+
+  // Retrieve query parameters using URLSearchParams
+  const params = new URLSearchParams(url.search);
+
+  for (const [key, value] of params.entries()) {
+    // Check if the parameter name contains "db"
+    if (key.includes('db')) {
+      return value;
+    }
+  }
+
+  return null; // Return null if no db-related parameter is found
+}
+
+document.getElementById('database').addEventListener('input', async () => {
+  const inputURL = document.getElementById('database').value.trim();
+  if (!inputURL) return;
+
+  try {
+    // Parse out the db parameter
+    const dbValue = findDbParamValue(inputURL);
+    if (!dbValue) {
+      document.getElementById('newURL').textContent = 'No "db" parameter found.';
+      document.getElementById('newURL').removeAttribute('href');
+      return;
+    }
+
+    // Construct the new URL
+    const newURLStr = 'https://research.ebsco.com/c/mhyfef/search/advanced/filters?defaultdb=' + dbValue;
+
+    // Update the hyperlink
+    const newLink = document.getElementById('newURL');
+    newLink.textContent = newURLStr;
+    newLink.href = newURLStr; // [[4]]
+
+    // Copy to clipboard
+    await navigator.clipboard.writeText(newURLStr);
+  } catch (err) {
+    console.error('Invalid URL or clipboard error:', err);
+  }
+});
+</script>
