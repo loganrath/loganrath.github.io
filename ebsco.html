@@ -8,7 +8,18 @@ layout: page
   </div>
   <div class="row mt-5">
     <div class="col">
+      <!-- Input where the user enters their OPI code-->
+       <label class="d-inline-block" for="opid">EBSCO OPID (a six letter code): </label>
+       <input
+        type="text"
+        class="d-inline"
+        id="opid"
+        placeholder="Replace with your OPID"
+        class="form-control"
+        value="mhyfef"
+      />
       <!-- Input where the user can paste their EBSCO-like URL -->
+      <label for="database">Original EBSCO URL:</label>
       <input
         type="text"
         id="database"
@@ -49,6 +60,9 @@ function findDbParamValue(urlString) {
 }
 
 document.getElementById('database').addEventListener('input', async () => {
+  const opid = document.getElementById('opid').value.trim();
+
+  
   const inputURL = document.getElementById('database').value.trim();
   if (!inputURL) return;
 
@@ -62,7 +76,7 @@ document.getElementById('database').addEventListener('input', async () => {
     }
 
     // Construct the new URL
-    const newURLStr = 'https://research.ebsco.com/c/mhyfef/search/advanced/filters?defaultdb=' + dbValue;
+    const newURLStr = 'https://research.ebsco.com/c/' + opid + 'mhyfef/search/advanced/filters?defaultdb=' + dbValue;
 
     // Update the hyperlink
     const newLink = document.getElementById('newURL');
