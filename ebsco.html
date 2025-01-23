@@ -8,24 +8,31 @@ layout: page
   </div>
   <div class="row mt-5">
     <div class="col">
-      <!-- Input where the user enters their OPI code-->
-       <label class="d-inline-block" for="opid">EBSCO OPID (a six letter code): </label>
-       <input
-        type="text"
-        class="d-inline"
-        id="opid"
-        placeholder="Replace with your OPID"
-        class="form-control"
-        value="mhyfef"
-      />
-      <!-- Input where the user can paste their EBSCO-like URL -->
-      <label for="database">Original EBSCO URL:</label>
-      <input
-        type="text"
-        id="database"
-        placeholder="Paste your URL here"
-        class="form-control"
-      />
+        <form>
+            <div class="mb-3">
+                <!-- Input where the user enters their OPI code-->      
+                <label class="form-label" for="opid">EBSCO OPID (a six letter code):</label>
+                <input
+                    type="text"
+                    id="opid"
+                    placeholder="Replace with your OPID"
+                    class="form-control"
+                    value="mhyfef"
+                />
+            </div>
+            <div class="mb-3">
+                <!-- Input where the user enters their OLD URL-->      
+                <label class="form-label" for="database">Original EBSCO URL:</label>
+                <input
+                    type="text"
+                    id="database"
+                    placeholder="Paste your URL here"
+                    class="form-control"
+                />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    
     </div>
   </div>
 
