@@ -62,8 +62,6 @@ function findDbParamValue(urlString) {
 
 document.getElementById('database').addEventListener('input', async () => {
   const opid = document.getElementById('opid').value.trim();
-
-  
   const inputURL = document.getElementById('database').value.trim();
   if (!inputURL) return;
 
@@ -77,7 +75,7 @@ document.getElementById('database').addEventListener('input', async () => {
     }
 
     // Construct the new URL
-    const newURLStr = 'https://research.ebsco.com/c/' + opid + 'mhyfef/search/advanced/filters?defaultdb=' + dbValue;
+    const newURLStr = 'https://research.ebsco.com/c/' + opid + '/search/advanced/filters?defaultdb=' + dbValue;
 
     // Update the hyperlink
     const newLink = document.getElementById('newURL');
