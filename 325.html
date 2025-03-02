@@ -27,20 +27,24 @@ specializedai:
   - name: Goblin Tools
     url: https://www.goblin.tools
 ---
-<div class="row">
-<div class="col-sm-6">
+<div style="float: left; text-align: left; width: 49%;">
   <h2>Major AI Models</h2>
-  {% for item in page.bigai %}
-  [{{ item.name }}]({{ item.url }})
-{% endfor %}
+  <ul>
+    <li><a href="https://chatgpt.com">ChatGPT</a></li>
+    <li><a href="https://copilot.microsoft.com">Microsoft CoPilot</a></li>
+    <li><a href="https://www.claude.ai">Claude</a></li>
+    <li><a href="https://gemini.google.com">Google Gemini</a></li>
+  </ul>
 </div>
-<div class="col-sm-6">
+<div style="float: left; text-align: left; width: 49%;">
   <h2>Specialized AI Models</h2>
-  {% for item in page.specializedai %}
-  [{{ item.name }}]({{ item.url }})
-{% endfor %}
-</div>
-</div>
+  <ul>
+    <li><a href="https://www.magicschool.ai">MagicSchool.ai</a></li>
+    <li><a href="https://www.eduaide.ai">Eduaide.ai</a></li>
+    <li><a href="https://www.perplexity.ai">Perplexity</a></li>
+    <li><a href="https://www.researchrabbit.ai">Research Rabbit</a></li>
+    <li><a href="https://www.goblin.tools">Goblin Tools</a></li>
+    </ul>
 </div>
 
-AI Thinks ICRSME stands for: International Conference on Robotics, Simulation and Manufacturing Engineering
+<p style="text-align:center;"><small>AI Thinks ICRSME stands for: International Conference on Robotics, Simulation and Manufacturing Engineering</small></p>
