@@ -18,6 +18,9 @@ header h1 {font-family: "Open Sans", sans-serif;  }
 a.button {display: block; width: 75%; margin-left: auto; margin-right: auto; padding: 1em; background-color: #334d6c; text-decoration: none; color: white !important; font-size: 2em; font-weight: bold !important;}
 a.button:hover {color: #FFD100 !important;}
 
+a.button-sm {display: block; width: 75%; margin-left: auto; margin-right: auto; padding: 0.25em; background-color: #334d6c; text-decoration: none; color: white !important; font-size: 1.25em; font-weight: bold !important;}
+a.button-sm:hover {color: #FFD100 !important;}
+
 .c2 {float: left; width: 45%; margin-right: 2%;}
 .c3 {float: left; width: 30%; margin-right: 2%;}
 .c3w {float: left; width: 65%; margin-right: 3%;}
