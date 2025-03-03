@@ -15,7 +15,7 @@ header h1 {font-family: "Open Sans", sans-serif;  }
 #content a:hover {color: #ffc726;}
 #content p {margin-top: 2em; margin-bottom: 2em;}
 
-a.button {display: block; width: 75%; margin-left: auto; margin-right: auto; padding: 1em; background-color: #334d6c; text-decoration: none; color: white !important; font-size: 2em; font-weight: bold !important;}
+a.button {display: block; width: 75%; margin-left: auto; margin-right: auto; padding: 1em; background-color: #334d6c; text-decoration: none; color: white !important; font-size: 2em; line-height: 1em; font-weight: bold !important;}
 a.button:hover {color: #FFD100 !important;}
 
 a.button-sm {display: block; width: 85%%; margin-left: auto; margin-right: auto; padding: 0.5em; background-color: #334d6c; text-decoration: none; color: white !important; font-size: 1.25em; font-weight: bold !important;}
