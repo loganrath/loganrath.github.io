@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    input, select, button {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+    }
+    img {
+      margin-top: 20px;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>QR Code Generator</h1>
+    <label for="data">Enter Data:</label>
+    <input type="text" id="data" placeholder="Enter text or URL" required>
+    
+    <label for="color">Choose QR Code Color:</label>
+    <input type="color" id="color" value="#000000">
+    
+    <button id="generate">Generate QR Code</button>
+    
+    <h2>Generated QR Code:</h2>
+    <img id="qrCode" alt="Your QR Code will appear here">
+  </div>
+
+  <script>
+    document.getElementById('generate').addEventListener('click', function() {
+      const data = document.getElementById('data').value;
+      const color = document.getElementById('color').value.substring(1); // Remove the '#' from the color value
+      
+      if (!data) {
+        alert('Please enter some data to generate the QR code.');
+        return;
+      }
+      
+      // Construct the QR code API URL
+      const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(data)}&color=${color}`;
+      
+      // Set the QR code image source
+      const qrCodeImage = document.getElementById('qrCode');
+      qrCodeImage.src = qrCodeUrl;
+    });
+  </script>
+</body>
+</html>
