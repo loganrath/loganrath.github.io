@@ -5,18 +5,18 @@ layout: page
 
   <div class="container">
     <div class="row">
-      <div class="col-sm-10">
-        <label for="data">Enter Data:</label>
-        <input type="text" id="data" placeholder="Enter text or URL" required>
+      <div class="col-sm-6">
+        <label for="data">Data:</label>
+        <input type="text" id="data" placeholder="Enter text or URL" class="w-75" required>
       </div>
-      <div class="col-sm-2">
-        <label for="color">Choose QR Code Color:</label>
+      <div class="col-sm-3">
+        <label for="color">Color:</label>
         <input type="color" id="color" value="#000000">
       </div>
-    </div>
-    <div class="row">
-      <button id="generate">Generate QR Code</button>
-    </div>
+      <div class="col-sm-3">
+        <button id="generate">Generate</button>
+      </div>
+
     <h2>Generated QR Code:</h2>
     <img id="qrCode" alt="Your QR Code will appear here">
   </div>
