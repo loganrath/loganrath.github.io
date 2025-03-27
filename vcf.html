@@ -1,0 +1,38 @@
+---
+title: Logan Rath, PhD
+layout: page
+---
+<div class="container">
+
+</div>
+<script>
+        // Function to generate and download a VCF file
+function generateVCF() {
+  // Define your contact information
+  const vcfData = `
+BEGIN:VCARD
+VERSION:3.0
+FN:Logan Rath
+N:Rath;Logan;;;
+EMAIL:logan@rath.phd
+TEL:+15852450045
+END:VCARD
+  `;
+
+  // Create a Blob object with the VCF data
+  const blob = new Blob([vcfData], { type: 'text/vcard' });
+
+  // Create a temporary anchor element to trigger the download
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'contact.vcf'; // File name for the download
+  document.body.appendChild(link);
+
+  // Trigger the download and clean up
+  link.click();
+  document.body.removeChild(link);
+}
+
+// Call the function to generate and download the VCF file
+generateVCF();
+</script>
