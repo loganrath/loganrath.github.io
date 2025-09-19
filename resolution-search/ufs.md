@@ -2,10 +2,47 @@
 title: UFS Resolution Search
 layout: page
 ---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>University Senate Resolutions Search</title>
+<!-- Bootstrap CSS CDN -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+<style>
+    .radio-icon {
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin: 5px;
+    }
+</style>
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+		<p class="text-center h4 mb-3">Search <a href="https://dspace.sunyconnect.suny.edu/collections/61639a8a-e152-4bcc-b00a-54feded54318">University Faculty Senate Resolutions</a></p>
+
 <form target="_blank" action="https://dspace.sunyconnect.suny.edu/search" method="get" id="resSearchForm" name="researchForm">
 		<!-- Customizable Parameters -->
 		<input name="scope" type="hidden" value="b7176c31-45c2-49bb-a597-67539b50f461">
 			<label for="resSearch" class=""><em class="ico-search">&nbsp;</em></label>
 			<input type="text" class="search__field" placeholder="Enter keywords" id="resSearch" name="query">
+			<input type="hidden" name="spc.sf" value="dc.date.issued" />
+			<input type="hidden" name="spc.sd" value="DESC" />
 			<button class="search__btn sr-only-focusable" type="submit">Submit</button>
 	</form>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery and Bootstrap Bundle (includes Popper) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
