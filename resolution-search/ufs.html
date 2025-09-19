@@ -35,6 +35,40 @@
 	</form>
         </div>
     </div>
+    <div id="items-list">Loading...</div>
+<script>
+const apiUrl = "https://dspace.sunyconnect.suny.edu/server/api/discover/search/objects?scope=b7176c31-45c2-49bb-a597-67539b50f461";
+
+fetch(apiUrl)
+  .then(response => response.json())
+  .then(data => {
+    // Assuming the items are in data._embedded.searchResult._embedded.objects
+    const items = data._embedded?.searchResult?._embedded?.objects || [];
+
+    // Sort by metadata[0].date.issued (descending)
+    items.sort((a, b) => {
+      const dateA = new Date(a.metadata[0]?.['date.issued'] || 0);
+      const dateB = new Date(b.metadata[0]?.['date.issued'] || 0);
+      return dateB - dateA;
+    });
+
+    // Render as links
+    const html = items.map(item => {
+      const title = item.metadata[0]?.title || "Untitled";
+      // Find the full text link (assuming it's in a bitstream or similar field)
+      // You may need to adjust this depending on the actual API structure
+      const link = item._links?.self?.href || "#";
+      return `<a href="${link}" target="_blank">${title}</a>`;
+    }).join('<br>');
+
+    document.getElementById('items-list').innerHTML = html || "No items found.";
+  })
+  .catch(error => {
+    document.getElementById('items-list').textContent = "Error loading items.";
+    console.error(error);
+  });
+</script>
+
 </div>
 
 <!-- jQuery and Bootstrap Bundle (includes Popper) -->
