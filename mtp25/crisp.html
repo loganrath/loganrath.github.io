@@ -150,8 +150,9 @@
           });
           prompt += '\nPlease produce the requested product now.';
         } else if(style === 'compact'){
-          const parts = sections.map(s => `${s.k}: ${s.v || '[none]'}`);
-          prompt = parts.join(' | ');
+          // Compact: values only, in CRISP order, separated by blank lines.
+          const valuesOnly = sections.map(s => s.v || '[No input provided]');
+          prompt = valuesOnly.join('\n\n');
         } else if(style === 'bullet'){
           prompt = sections.map(s => `- ${s.k}: ${s.v || '[none]'}`).join('\n');
         }
