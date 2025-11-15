@@ -21,8 +21,8 @@ a.button:hover {color: #FFD100 !important;}
 a.button-sm {display: block; width: 85%%; margin-left: auto; margin-right: auto; padding: 0.5em; background-color: #334d6c; text-decoration: none; color: white !important; font-size: 1.25em; font-weight: bold !important;}
 a.button-sm:hover {color: #FFD100 !important;}
 
-.c2 {float: left; width: 45%; margin-right: 2%;}
-.c3 {float: left; width: 30%; margin-right: 2%;}
+.c2 {float: left; width: 45%; margin-left: 2%; margin-right: 2%;}
+.c3 {float: left; width: 30%; margin-left: 2%; margin-right: 2%;}
 .c3w {float: left; width: 65%; margin-right: 3%;}
 .c4 {float: left; width: 22%; margin-right: 2%;}
 .c4x {float: left; width: 44%; margin-right: 2%;}
