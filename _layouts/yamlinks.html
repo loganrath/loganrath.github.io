@@ -11,7 +11,7 @@
 <div id="content-wrapper"><div id="content">
 	<div style="text-align: center;">
 	  {% for block in page.links %}
-		<p><a class="button" target="_blank" href="{{ block.url }}">{{ block.name }}</a></p>
+		<p><a class="button" href="{{ block.url }}">{{ block.name }}</a></p>
 	  {% endfor %}
 	</div>
 {{ content }}
