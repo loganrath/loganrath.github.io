@@ -23,7 +23,7 @@ a.button-sm {display: block; width: 85%%; margin-left: auto; margin-right: auto;
 a.button-sm:hover {color: #FFD100 !important;}
 
 .c2 {float: left; width: 45%; margin-left: 2%; margin-right: 2%;}
-.c3 {float: left; width: 30%; margin-left: 2%; margin-right: 2%;}
+.c3 {float: left; width: 30%; margin-left: 1.25%; margin-right: 1.25%;}
 .c3w {float: left; width: 65%; margin-right: 3%;}
 .c4 {float: left; width: 22%; margin-right: 2%;}
 .c4x {float: left; width: 44%; margin-right: 2%;}
@@ -51,7 +51,6 @@ a.button-sm:hover {color: #FFD100 !important;}
 @media only screen and (max-width : 970px ) {
 #content, #content-wrapper {width: 100%; min-width: 0; padding: 0.25em}
 
-@media only screen and (max-width : 768px ) { 
+@media only screen and (max-width : 768px ) {
 #content, #content-wrapper, .c2, .c3, .c3w, .c4, .c4w, .c4x, .narrow, .wide {width: 100%; float: none; min-width:0; padding: 0; }
 }
-	
