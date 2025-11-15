@@ -152,7 +152,7 @@
         } else if(style === 'compact'){
           // Compact: values only, in CRISP order, separated by blank lines.
           const valuesOnly = sections.map(s => s.v || '[No input provided]');
-          prompt = valuesOnly.join('\n\n');
+          prompt = valuesOnly.join(' ');
         } else if(style === 'bullet'){
           prompt = sections.map(s => `- ${s.k}: ${s.v || '[none]'}`).join('\n');
         }
