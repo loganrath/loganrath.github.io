@@ -13,7 +13,8 @@ header h1 {font-family: "Open Sans", sans-serif;  }
 #content {width: 95%; margin-left: auto; margin-right: auto; padding-left: 1em; padding-right: 1em;}
 #content a:link, #content a:visited {color: #005899;}
 #content a:hover {color: #ffc726;}
-#content p {margin-top: 2em; margin-bottom: 2em;}
+#content p {margin-top: 2em; margin-bottom: 2em; }
+#content div.text-large {font-size: 18px;}
 
 a.button {display: block; width: 75%; margin-left: auto; margin-right: auto; padding: 1em; background-color: #334d6c; text-decoration: none; color: white !important; font-size: 2em; line-height: 1em; font-weight: bold !important;}
 a.button:hover {color: #FFD100 !important;}
