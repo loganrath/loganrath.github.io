@@ -1,21 +1,33 @@
 ---
-title: New EBSCO UI Permalink
+title: New EBSCO UI Permalink Generator
 layout: page
 ---
-<div class="container mt-5">
+<div class="container">
   <div class="row">
-    <p>Paste in the old EBSCO link. Then, this page will automatically give you the new link below and copy it to your clipboard.
+    <p>This script was made for all the libraries that are migrating to the new EBSCO UI. It works by allowing you to paste in your <strong>single</strong> database link into the box. Then, it will both display the new link and copy that value to your clipboard. By default it uses my institution's OPID, so be sure to change that input first if you don't want a link that will send you to my institution's proxy server. This page works best in Chrome and Edge.</p>
   </div>
-  <div class="row">
-    <div class="col">
-      <!-- Input where the user can paste their EBSCO-like URL -->
-      <input
-        type="text"
-        id="database"
-        placeholder="Paste your URL here"
-        class="form-control"
-      />
-    </div>
+  <div class="row mt-4">
+            <div class="col-9">
+                <!-- Input where the user enters their OLD URL-->      
+                <label class="form-label" for="database">Original EBSCO URL:</label>
+                <input
+                    type="text"
+                    id="database"
+                    placeholder="Paste your URL here"
+                    class="form-control"
+                />
+            </div>  
+            <div class="col-3">
+              <!-- Input where the user enters their OPI code-->      
+              <label class="form-label" for="opid">EBSCO OPID (a six letter code):</label>
+              <input
+                  type="text"
+                  id="opid"
+                  placeholder="Replace with your OPID"
+                  class="form-control"
+                  value="mhyfef"
+              />
+          </div>  
   </div>
 
   <div class="row mt-5">
@@ -26,7 +38,7 @@ layout: page
     </div>
   </div>
   <div class="row mt-5">
-    <p>This page was created by Dr. Logan Rath</p>
+    <p>This page was created by <a href="https://www.rath.phd">Dr. Logan Rath</a> at SUNY Brockport.</p>
   </div>
 </div>
 
@@ -49,6 +61,7 @@ function findDbParamValue(urlString) {
 }
 
 document.getElementById('database').addEventListener('input', async () => {
+  const opid = document.getElementById('opid').value.trim();
   const inputURL = document.getElementById('database').value.trim();
   if (!inputURL) return;
 
@@ -62,7 +75,7 @@ document.getElementById('database').addEventListener('input', async () => {
     }
 
     // Construct the new URL
-    const newURLStr = 'https://research.ebsco.com/c/mhyfef/search/advanced/filters?defaultdb=' + dbValue;
+    const newURLStr = 'https://research.ebsco.com/c/' + opid + '/search/advanced/filters?defaultdb=' + dbValue;
 
     // Update the hyperlink
     const newLink = document.getElementById('newURL');

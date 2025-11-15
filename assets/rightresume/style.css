@@ -1,0 +1,3 @@
+#vcard a:link, #vcard a:visited {color: #005899 !important;}
+#vcard a:hover {color: #005899 !important; text-decoration: underline !important;}
+#vcard {font-size: 18px;}
