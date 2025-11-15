@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CRISP Prompt Builder</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;max-width:900px;margin:28px auto;padding:20px;color:#0b1220}
+    h1{margin-bottom:6px}
+    p.lead{color:#374151;margin-top:0}
+    .step{border:1px solid #e6e9ee;border-radius:8px;padding:14px;margin:12px 0;background:#fbfcff}
+    label{display:block;font-weight:600;margin-bottom:6px}
+    textarea,input[type="text"]{width:100%;box-sizing:border-box;padding:10px;border-radius:6px;border:1px solid #d1d5db;resize:vertical;font-size:15px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    button{background:#0b5fff;color:white;padding:8px 12px;border-radius:8px;border:0;cursor:pointer}
+    button.secondary{background:#e6eefc;color:#0b5fff}
+    button.ghost{background:transparent;color:#0b5fff;border:1px solid #0b5fff}
+    .output{white-space:pre-wrap;background:#0b122020;padding:12px;border-radius:8px;color:#07102a;margin-top:14px}
+    .row{display:flex;gap:12px}
+    .col{flex:1}
+    footer{margin-top:18px;color:#475569;font-size:13px}
+    .hint{font-size:13px;color:#6b7280;margin-top:6px}
+  </style>
+</head>
+<body>
+  <h1>CRISP Prompt Builder</h1>
+  <p class="lead">Step through the CRISP framework to build a clear, reproducible prompt. Fill each step and use the controls to preview, refine, and export the final prompt.</p>
+
+  <div id="steps">
+
+    <div class="step" data-step="context">
+      <label for="context">1) Context — What background or situation should the model know?</label>
+      <textarea id="context" rows="4" placeholder="E.g., 'You're an instructional designer for middle-school science.'"></textarea>
+      <div class="hint">Describe the setting, background facts, or constraints the model should assume.</div>
+    </div>
+
+    <div class="step" data-step="role">
+      <label for="role">2) Role — What role should the model take on?</label>
+      <textarea id="role" rows="2" placeholder="E.g., 'Act as an empathetic tutor who simplifies explanations.'"></textarea>
+      <div class="hint">Specify persona, tone, or expertise level.</div>
+    </div>
+
+    <div class="step" data-step="intent">
+      <label for="intent">3) Intent — What is the user's goal or desired outcome?</label>
+      <textarea id="intent" rows="3" placeholder="E.g., 'Create a 30-minute lesson plan with formative checks.'"></textarea>
+      <div class="hint">What should the model produce or accomplish?</div>
+    </div>
+
+    <div class="step" data-step="scope">
+      <label for="scope">4) Scope — Constraints, format, length, style, stakeholders</label>
+      <textarea id="scope" rows="3" placeholder="E.g., 'Use CCSS-aligned objectives, 3 activities, max 500 words.'"></textarea>
+      <div class="hint">Add constraints: length, sections, audience, examples to avoid or include.</div>
+    </div>
+
+    <div class="step" data-step="product">
+      <label for="product">5) Product — What final artifact should be delivered?</label>
+      <textarea id="product" rows="3" placeholder="E.g., 'A teacher-ready lesson plan and slide outline.'"></textarea>
+      <div class="hint">Be explicit about deliverables and their structure.</div>
+    </div>
+
+  </div>
+
+  <div style="display:flex;gap:10px;align-items:center;margin-top:12px">
+    <button id="build">Build Prompt</button>
+    <button id="clean" class="secondary">Clear All</button>
+    <button id="example" class="ghost">Load Example</button>
+    <div style="margin-left:auto">
+      <label for="formatSelect" style="font-weight:600;margin-right:6px">Output style</label>
+      <select id="formatSelect">
+        <option value="detailed">Detailed (labeled sections)</option>
+        <option value="compact">Compact (single paragraph)</option>
+        <option value="bullet">Bullet list</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:14px">
+    <div class="col">
+      <h3 style="margin-bottom:6px">Preview</h3>
+      <div id="preview" class="output" aria-live="polite">No prompt built yet — click "Build Prompt".</div>
+      <div style="margin-top:8px" class="controls">
+        <button id="copy">Copy to clipboard</button>
+        <button id="download" class="secondary">Download .txt</button>
+        <button id="addStep" class="ghost">Add Custom Step</button>
+      </div>
+    </div>
+
+    <div class="col">
+      <h3 style="margin-bottom:6px">Prompt History</h3>
+      <div id="history" class="output" style="height:320px;overflow:auto">No history yet.</div>
+    </div>
+  </div>
+
+  <footer>
+    Tip: iterate — build, test, then refine individual steps to shape model output.
+  </footer>
+
+  <script>
+    (function(){
+      const elems = {
+        context: document.getElementById('context'),
+        role: document.getElementById('role'),
+        intent: document.getElementById('intent'),
+        scope: document.getElementById('scope'),
+        product: document.getElementById('product'),
+        build: document.getElementById('build'),
+        preview: document.getElementById('preview'),
+        history: document.getElementById('history'),
+        copy: document.getElementById('copy'),
+        download: document.getElementById('download'),
+        clean: document.getElementById('clean'),
+        example: document.getElementById('example'),
+        formatSelect: document.getElementById('formatSelect'),
+        addStep: document.getElementById('addStep'),
+        stepsContainer: document.getElementById('steps')
+      };
+
+      let customStepCounter = 0;
+
+      function buildPrompt() {
+        const sections = [
+          {k:'Context', v: elems.context.value.trim()},
+          {k:'Role', v: elems.role.value.trim()},
+          {k:'Intent', v: elems.intent.value.trim()},
+          {k:'Scope', v: elems.scope.value.trim()},
+          {k:'Product', v: elems.product.value.trim()}
+        ];
+
+        const customAreas = Array.from(elems.stepsContainer.querySelectorAll('.step[data-custom="true"]'));
+        customAreas.forEach(node=>{
+          const label = node.querySelector('label')?.innerText.replace(/^\d+\)\s*/,'') || 'Custom';
+          const textarea = node.querySelector('textarea');
+          if(textarea){
+            const inputLabel = node.querySelector('input[type="text"]');
+            const finalLabel = inputLabel && inputLabel.value.trim() ? inputLabel.value.trim() : label;
+            sections.push({k: finalLabel, v: textarea.value.trim()});
+          }
+        });
+
+        const style = elems.formatSelect.value;
+        let prompt = '';
+
+        if(style === 'detailed'){
+          // Clean, copy-friendly detailed format
+          sections.forEach((s, idx)=>{
+            const header = `${s.k}`;
+            const body = s.v || '[No input provided]';
+            // Use simple separators that are copy/paste friendly
+            prompt += `${header}\n${body}\n`;
+            if(idx < sections.length - 1) prompt += '\n'; // blank line between sections
+          });
+          prompt += '\nPlease produce the requested product now.';
+        } else if(style === 'compact'){
+          const parts = sections.map(s => `${s.k}: ${s.v || '[none]'}`);
+          prompt = parts.join(' | ');
+        } else if(style === 'bullet'){
+          prompt = sections.map(s => `- ${s.k}: ${s.v || '[none]'}`).join('\n');
+        }
+
+        elems.preview.textContent = prompt;
+        const time = new Date().toLocaleString();
+        const histEntry = `--- ${time} ---\n${prompt}\n\n`;
+        elems.history.textContent = histEntry + elems.history.textContent;
+      }
+
+      elems.build.addEventListener('click', buildPrompt);
+
+      elems.copy.addEventListener('click', async()=>{
+        try {
+          await navigator.clipboard.writeText(elems.preview.textContent);
+          alert('Prompt copied to clipboard');
+        } catch(e){
+          alert('Copy failed — select and copy manually.');
+        }
+      });
+
+      elems.download.addEventListener('click', ()=>{
+        const blob = new Blob([elems.preview.textContent], {type:'text/plain'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'crisp-prompt.txt';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      });
+
+      elems.clean.addEventListener('click', ()=>{
+        if(!confirm('Clear all fields?')) return;
+        [elems.context, elems.role, elems.intent, elems.scope, elems.product].forEach(t=>t.value='');
+        const customs = elems.stepsContainer.querySelectorAll('.step[data-custom="true"]');
+        customs.forEach(n=>n.remove());
+        elems.preview.textContent = 'No prompt built yet — click "Build Prompt".';
+      });
+
+      elems.example.addEventListener('click', ()=>{
+        elems.context.value = "You're an instructional designer working with a busy middle-school science teacher who needs an engaging lesson.";
+        elems.role.value = "Act as an experienced, concise curriculum writer.";
+        elems.intent.value = "Create a 35-minute lesson plan that teaches photosynthesis with 3 quick formative checks.";
+        elems.scope.value = "Include objectives (CCSS-like), materials, 3 activities, assessment, and differentiation. Keep total text under 450 words.";
+        elems.product.value = "A teacher-ready lesson plan with a 5-slide slide outline notes.";
+      });
+
+      elems.addStep.addEventListener('click', ()=>{
+        customStepCounter++;
+        const num = customStepCounter;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'step';
+        wrapper.dataset.custom = 'true';
+        wrapper.innerHTML = `
+          <label for="custom_${num}">${num}) Custom step — label:</label>
+          <input id="custom_label_${num}" type="text" placeholder="E.g., 'Audience' or 'Constraints (technical)'" />
+          <div style="height:8px"></div>
+          <textarea id="custom_${num}" rows="2" placeholder="Custom step details..."></textarea>
+          <div class="hint">Add a label and details. You can remove this step.</div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button type="button" class="remove">Remove step</button>
+            <button type="button" class="pull">Move to top</button>
+          </div>
+        `;
+        elems.stepsContainer.appendChild(wrapper);
+
+        wrapper.querySelector('.remove').addEventListener('click', ()=> wrapper.remove());
+        wrapper.querySelector('.pull').addEventListener('click', ()=>{
+          elems.stepsContainer.insertBefore(wrapper, elems.stepsContainer.firstChild);
+        });
+
+        const labelInput = wrapper.querySelector(`#custom_label_${num}`);
+        const labelEl = wrapper.querySelector('label');
+        labelInput.addEventListener('input', ()=> {
+          const val = labelInput.value.trim() || `Custom ${num}`;
+          labelEl.textContent = `${num}) ${val}`;
+        });
+
+      });
+
+      document.addEventListener('keydown', (e)=>{
+        if((e.ctrlKey || e.metaKey) && e.key === 'Enter'){
+          buildPrompt();
+        }
+      });
+
+    })();
+  </script>
+</body>
+</html>
