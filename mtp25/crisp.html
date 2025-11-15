@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CRISP Prompt Builder</title>
+  <title>CRISP Prompt Builder (Context, Request, Intent, Style, Parameters)</title>
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;max-width:900px;margin:28px auto;padding:20px;color:#0b1220}
     h1{margin-bottom:6px}
@@ -24,38 +24,38 @@
 </head>
 <body>
   <h1>CRISP Prompt Builder</h1>
-  <p class="lead">Step through the CRISP framework to build a clear, reproducible prompt. Fill each step and use the controls to preview, refine, and export the final prompt.</p>
+  <p class="lead">Use the CRISP steps (Context, Request, Intent, Style, Parameters) to build clear prompts. Fill each step, choose an output style, then click "Build Prompt".</p>
 
   <div id="steps">
 
     <div class="step" data-step="context">
-      <label for="context">1) Context — What background or situation should the model know?</label>
+      <label for="context">1) Context — Background or situation the model should know</label>
       <textarea id="context" rows="4" placeholder="E.g., 'You're an instructional designer for middle-school science.'"></textarea>
-      <div class="hint">Describe the setting, background facts, or constraints the model should assume.</div>
+      <div class="hint">Describe setting, relevant facts, or constraints the model should assume.</div>
     </div>
 
-    <div class="step" data-step="role">
-      <label for="role">2) Role — What role should the model take on?</label>
-      <textarea id="role" rows="2" placeholder="E.g., 'Act as an empathetic tutor who simplifies explanations.'"></textarea>
-      <div class="hint">Specify persona, tone, or expertise level.</div>
+    <div class="step" data-step="request">
+      <label for="request">2) Request — What are you asking the model to do?</label>
+      <textarea id="request" rows="3" placeholder="E.g., 'Write a 30-minute lesson plan on photosynthesis.'"></textarea>
+      <div class="hint">State the concrete task or deliverable.</div>
     </div>
 
     <div class="step" data-step="intent">
-      <label for="intent">3) Intent — What is the user's goal or desired outcome?</label>
-      <textarea id="intent" rows="3" placeholder="E.g., 'Create a 30-minute lesson plan with formative checks.'"></textarea>
-      <div class="hint">What should the model produce or accomplish?</div>
+      <label for="intent">3) Intent — The user's goal or desired outcome</label>
+      <textarea id="intent" rows="2" placeholder="E.g., 'Help students build a conceptual model of photosynthesis.'"></textarea>
+      <div class="hint">Clarify why you want this result (learning objective, decision support, etc.).</div>
     </div>
 
-    <div class="step" data-step="scope">
-      <label for="scope">4) Scope — Constraints, format, length, style, stakeholders</label>
-      <textarea id="scope" rows="3" placeholder="E.g., 'Use CCSS-aligned objectives, 3 activities, max 500 words.'"></textarea>
-      <div class="hint">Add constraints: length, sections, audience, examples to avoid or include.</div>
+    <div class="step" data-step="style">
+      <label for="style">4) Style — Tone, format, and voice</label>
+      <textarea id="style" rows="2" placeholder="E.g., 'Concise, teacher-facing, friendly tone; bullet lists where helpful.'"></textarea>
+      <div class="hint">Specify tone, level of detail, formatting preferences.</div>
     </div>
 
-    <div class="step" data-step="product">
-      <label for="product">5) Product — What final artifact should be delivered?</label>
-      <textarea id="product" rows="3" placeholder="E.g., 'A teacher-ready lesson plan and slide outline.'"></textarea>
-      <div class="hint">Be explicit about deliverables and their structure.</div>
+    <div class="step" data-step="parameters">
+      <label for="parameters">5) Parameters — Constraints, length, audience, and extra rules</label>
+      <textarea id="parameters" rows="3" placeholder="E.g., 'Max 450 words; include objectives, materials, 3 activities, and quick formative checks.'"></textarea>
+      <div class="hint">Any limits, required sections, or special instructions.</div>
     </div>
 
   </div>
@@ -99,10 +99,10 @@
     (function(){
       const elems = {
         context: document.getElementById('context'),
-        role: document.getElementById('role'),
+        request: document.getElementById('request'),
         intent: document.getElementById('intent'),
-        scope: document.getElementById('scope'),
-        product: document.getElementById('product'),
+        style: document.getElementById('style'),
+        parameters: document.getElementById('parameters'),
         build: document.getElementById('build'),
         preview: document.getElementById('preview'),
         history: document.getElementById('history'),
@@ -120,15 +120,16 @@
       function buildPrompt() {
         const sections = [
           {k:'Context', v: elems.context.value.trim()},
-          {k:'Role', v: elems.role.value.trim()},
+          {k:'Request', v: elems.request.value.trim()},
           {k:'Intent', v: elems.intent.value.trim()},
-          {k:'Scope', v: elems.scope.value.trim()},
-          {k:'Product', v: elems.product.value.trim()}
+          {k:'Style', v: elems.style.value.trim()},
+          {k:'Parameters', v: elems.parameters.value.trim()}
         ];
 
         const customAreas = Array.from(elems.stepsContainer.querySelectorAll('.step[data-custom="true"]'));
         customAreas.forEach(node=>{
-          const label = node.querySelector('label')?.innerText.replace(/^\d+\)\s*/,'') || 'Custom';
+          const labelNode = node.querySelector('label');
+          const label = labelNode ? labelNode.innerText.replace(/^\d+\)\s*/,'') : 'Custom';
           const textarea = node.querySelector('textarea');
           if(textarea){
             const inputLabel = node.querySelector('input[type="text"]');
@@ -141,13 +142,11 @@
         let prompt = '';
 
         if(style === 'detailed'){
-          // Clean, copy-friendly detailed format
           sections.forEach((s, idx)=>{
             const header = `${s.k}`;
             const body = s.v || '[No input provided]';
-            // Use simple separators that are copy/paste friendly
             prompt += `${header}\n${body}\n`;
-            if(idx < sections.length - 1) prompt += '\n'; // blank line between sections
+            if(idx < sections.length - 1) prompt += '\n';
           });
           prompt += '\nPlease produce the requested product now.';
         } else if(style === 'compact'){
@@ -188,7 +187,7 @@
 
       elems.clean.addEventListener('click', ()=>{
         if(!confirm('Clear all fields?')) return;
-        [elems.context, elems.role, elems.intent, elems.scope, elems.product].forEach(t=>t.value='');
+        [elems.context, elems.request, elems.intent, elems.style, elems.parameters].forEach(t=>t.value='');
         const customs = elems.stepsContainer.querySelectorAll('.step[data-custom="true"]');
         customs.forEach(n=>n.remove());
         elems.preview.textContent = 'No prompt built yet — click "Build Prompt".';
@@ -196,10 +195,10 @@
 
       elems.example.addEventListener('click', ()=>{
         elems.context.value = "You're an instructional designer working with a busy middle-school science teacher who needs an engaging lesson.";
-        elems.role.value = "Act as an experienced, concise curriculum writer.";
-        elems.intent.value = "Create a 35-minute lesson plan that teaches photosynthesis with 3 quick formative checks.";
-        elems.scope.value = "Include objectives (CCSS-like), materials, 3 activities, assessment, and differentiation. Keep total text under 450 words.";
-        elems.product.value = "A teacher-ready lesson plan with a 5-slide slide outline notes.";
+        elems.request.value = "Write a 35-minute lesson plan on photosynthesis.";
+        elems.intent.value = "Help students build a conceptual model of photosynthesis and connect it to real-world examples.";
+        elems.style.value = "Concise, teacher-facing, friendly tone; use bullet lists and clear labels.";
+        elems.parameters.value = "Max 450 words; include objectives, materials, 3 activities, quick formative checks, and differentiation notes.";
       });
 
       elems.addStep.addEventListener('click', ()=>{
