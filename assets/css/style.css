@@ -14,7 +14,7 @@ html {
 .nav-link:hover,
 .nav-link:focus,
 .active .nav-link {
-  color: rgba(0, 0, 0, 0.8); }
+  color: #4F4F4F; }
 
 .nav-item + .nav-item {
   margin-left: 1rem; }
