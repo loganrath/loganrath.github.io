@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Drag & Drop Keyword Builder</title>
+  <title>Drag & Drop Keyword Builder — Boolean on Final Screen</title>
   <style>
     :root{--accent:#2b6cb0;--muted:#666;--bg:#f7fafc;--card:#fff;--radius:8px;--pad:14px}
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:20px;background:var(--bg);color:#1a202c}
@@ -41,7 +41,7 @@
   <div class="container">
     <header>
       <h1>Drag & Drop Keyword Builder</h1>
-      <p class="lead">Stepwise: submit question → drag single words from the right into keyword boxes on the left → add synonyms → build Boolean string.</p>
+      <p class="lead">Stepwise: question → drag words → add synonyms → final Boolean output on its own screen.</p>
     </header>
 
     <!-- STEP 1 -->
@@ -80,33 +80,45 @@
 
     <!-- STEP 3 -->
     <div id="step3" class="card hidden">
-      <div class="step-indicator"><div class="step-pill">Step 3</div><div class="small">Add synonyms & build Boolean</div></div>
+      <div class="step-indicator"><div class="step-pill">Step 3</div><div class="small">Add synonyms (no Boolean shown here)</div></div>
       <div class="grid">
         <div>
           <label>Keywords & synonyms</label>
-          <div class="small" style="margin-bottom:8px">Add synonyms for each selected keyword (press Enter or comma to add).</div>
+          <div class="small" style="margin-bottom:8px">Add synonyms for each selected keyword (press Enter or comma to add). The Boolean result is on the next screen.</div>
           <div id="keywords" class="keywords-list"></div>
           <div style="margin-top:10px" class="controls">
             <button id="add-keyword" class="btn secondary">+ Add keyword</button>
             <button id="reset" class="remove-btn">Reset to chosen boxes</button>
             <button id="back-step2" class="btn">Back</button>
+            <button id="to-step4" class="btn">Next: View Boolean</button>
           </div>
         </div>
 
         <div>
-          <label>Boolean string</label>
-          <div class="small" style="margin-bottom:6px">Built as: (syn1 OR syn2) AND (synA OR synB) ...</div>
-          <div id="boolean-output" class="output" aria-live="polite">Your Boolean string will appear here.</div>
-          <div style="margin-top:10px;display:flex;gap:8px;">
-            <button id="copy-btn" class="btn">Copy Boolean string</button>
-            <button id="auto-suggest-syn" class="btn secondary">Auto-suggest synonyms</button>
+          <label>Preview</label>
+          <div class="small" style="margin-bottom:6px">You won't see the final Boolean string on this screen. Use the "View Boolean" button to go to the final screen where you can copy it.</div>
+          <div style="padding:12px;border-radius:6px;background:#f8fafc;border:1px solid #e6eef8;min-height:120px;">
+            <div class="small">Current keywords (editable) and synonyms are being saved — proceed to the final step to view the generated Boolean string.</div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- STEP 4: Boolean output -->
+    <div id="step4" class="card hidden">
+      <div class="step-indicator"><div class="step-pill">Step 4</div><div class="small">Boolean output & copy</div></div>
+      <label>Final Boolean string</label>
+      <div id="boolean-output" class="output" aria-live="polite">Your Boolean string will appear here.</div>
+      <div style="margin-top:10px" class="controls">
+        <button id="copy-btn" class="btn">Copy Boolean string</button>
+        <button id="edit-keywords" class="btn secondary">Edit keywords/synonyms</button>
+        <button id="start-over" class="btn">Start over</button>
+      </div>
+      <div class="small" style="margin-top:10px">Paste this string into your library database search box. Adjust quotes/field tags as needed for specific databases.</div>
+    </div>
+
     <footer>
-      <div class="small">Tip: If a keyword should be multiple words, drop the words into the same box and then edit the text in Step 3.</div>
+      <div class="small">Tip: If a keyword should be multiple words, drop several words into the same box in Step 2 and edit it in Step 3.</div>
     </footer>
   </div>
 
@@ -115,6 +127,7 @@
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');
     const step3 = document.getElementById('step3');
+    const step4 = document.getElementById('step4');
 
     const questionInput = document.getElementById('research-question');
     const toStep2Btn = document.getElementById('to-step2');
@@ -130,20 +143,21 @@
     const addKeywordBtn = document.getElementById('add-keyword');
     const resetBtn = document.getElementById('reset');
     const backStep2Btn = document.getElementById('back-step2');
+    const toStep4Btn = document.getElementById('to-step4');
 
     const booleanOutput = document.getElementById('boolean-output');
     const copyBtn = document.getElementById('copy-btn');
-    const autoSuggestSynBtn = document.getElementById('auto-suggest-syn');
+    const editKeywordsBtn = document.getElementById('edit-keywords');
+    const startOverBtn = document.getElementById('start-over');
+    const autoSuggestSynBtn = document.getElementById('auto-suggest-syn'); // may be undefined if not shown
 
     let boxCounter = 0;
 
     // Helper: split question into single words (strip punctuation, keep contractions)
     function wordsFromQuestion(q) {
       if (!q) return [];
-      // remove punctuation except apostrophes
       const cleaned = q.replace(/[^\w'\s]/g, ' ');
       const words = cleaned.split(/\s+/).map(w => w.trim()).filter(Boolean);
-      // dedupe while preserving order
       const seen = new Set();
       const unique = [];
       words.forEach(w => {
@@ -203,7 +217,6 @@
         row.classList.remove('drop-target');
         const w = e.dataTransfer.getData('text/plain');
         if (!w) return;
-        // If box already has value, append with space (user can edit later in step3)
         input.value = input.value ? (input.value + ' ' + w) : w;
       });
 
@@ -236,17 +249,16 @@
       step1.classList.remove('hidden');
     });
 
-    // Step2 -> Step3: transfer box values into editable keyword rows with synonym controls
+    // Step2 -> Step3
     toStep3Btn.addEventListener('click', () => {
       const boxes = Array.from(keywordBoxes.children);
       const values = boxes.map(b => b.querySelector('.kw').value.trim()).filter(Boolean);
-      // build step3 rows
       keywordsEl.innerHTML = '';
       values.forEach(v => addKeyword(v));
       while (keywordsEl.children.length < 3) addKeyword();
       step2.classList.add('hidden');
       step3.classList.remove('hidden');
-      updateBoolean();
+      updateBoolean(); // keep internal boolean updated (not shown)
     });
 
     backStep2Btn.addEventListener('click', () => {
@@ -332,7 +344,7 @@
         const chips = Array.from(row.querySelectorAll('.syn-tag')).map(c => c.textContent.trim());
         if (chips.length === 0) {
           const main = row.querySelector('.kw').value.trim();
-          if (main) chips.push(main);
+        if (main) chips.push(main);
         }
         const cleaned = chips.map(s => s.replace(/\s+/g,' ').trim()).filter(Boolean);
         if (cleaned.length) groups.push(cleaned);
@@ -355,15 +367,16 @@
     }
 
     function updateBoolean() {
+      // Build internal boolean string (kept for final step)
       const groups = getAllKeywordGroups();
       const built = buildBooleanString(groups);
-      booleanOutput.textContent = built || 'Your Boolean string will appear here.';
+      // store on the booleanOutput element so Step 4 can read it when opened
+      booleanOutput.dataset.value = built || '';
     }
 
+    // Reset to chosen boxes
     resetBtn.addEventListener('click', () => {
-      if (!keywordBoxes.children.length) return;
       if (confirm('Reset keywords to the boxes you chose?')) {
-        // rebuild step3 rows from current boxes
         const boxes = Array.from(keywordBoxes.children);
         const values = boxes.map(b => b.querySelector('.kw').value.trim()).filter(Boolean);
         keywordsEl.innerHTML = '';
@@ -375,8 +388,26 @@
 
     addKeywordBtn.addEventListener('click', () => addKeyword());
 
+    // Navigate to Step 4 (final boolean preview)
+    toStep4Btn.addEventListener('click', () => {
+      updateBoolean();
+      // populate visible output
+      const out = booleanOutput.dataset.value || '';
+      booleanOutput.textContent = out || 'Your Boolean string will appear here.';
+      step3.classList.add('hidden');
+      step4.classList.remove('hidden');
+    });
+
+    // Edit keywords/synonyms (back to Step 3)
+    editKeywordsBtn.addEventListener('click', () => {
+      step4.classList.add('hidden');
+      step3.classList.remove('hidden');
+    });
+
+    // Copy boolean on final screen
     copyBtn.addEventListener('click', async () => {
-      const txt = booleanOutput.textContent;
+      const txt = booleanOutput.dataset.value || '';
+      if (!txt) { alert('Boolean string is empty. Return to edit keywords/synonyms.'); return; }
       try {
         await navigator.clipboard.writeText(txt);
         copyBtn.textContent = 'Copied!';
@@ -386,31 +417,35 @@
       }
     });
 
-    autoSuggestSynBtn.addEventListener('click', () => {
-      const rows = keywordsEl.querySelectorAll('.keyword-row');
-      rows.forEach(row => {
-        const main = row.querySelector('.kw').value.trim();
-        if (!main) return;
-        const chips = row.querySelector('.synonyms');
-        const suggestions = new Set();
-        const w = main.replace(/[^\w\s']/g,'').split(/\s+/).filter(Boolean);
-        if (w.length === 1) {
-          suggestions.add(main + 's');
-          suggestions.add(main + 'ing');
-        } else if (w.length === 2) {
-          suggestions.add(w.join(' '));
-          suggestions.add(w.slice().reverse().join(' '));
-        }
-        suggestions.forEach(s => addSynonymChip(chips, s));
-      });
-      updateBoolean();
+    // Start over
+    startOverBtn.addEventListener('click', () => {
+      if (!confirm('Start over and clear your work?')) return;
+      // reset everything
+      questionInput.value = '';
+      wordPool.innerHTML = '';
+      keywordBoxes.innerHTML = '';
+      keywordsEl.innerHTML = '';
+      booleanOutput.textContent = 'Your Boolean string will appear here.';
+      delete booleanOutput.dataset.value;
+      boxCounter = 0;
+      // ensure 3 empty boxes
+      for (let i=0;i<3;i++) createKeywordBox();
+      step4.classList.add('hidden');
+      step1.classList.remove('hidden');
     });
 
-    // Observe changes to keywords to refresh Boolean string
+    // Observe keywords area to keep boolean updated
     const observer = new MutationObserver(updateBoolean);
     observer.observe(keywordsEl, { childList: true, subtree: true });
 
     keywordsEl.addEventListener('input', () => setTimeout(updateBoolean, 250));
+
+    // Ensure at least 3 keyword boxes initially
+    (function initialBoxes(){
+      keywordBoxes.innerHTML = '';
+      boxCounter = 0;
+      for (let i=0;i<3;i++) createKeywordBox();
+    })();
   </script>
 </body>
 </html>
