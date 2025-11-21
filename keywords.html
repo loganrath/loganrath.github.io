@@ -10,6 +10,7 @@
     .container{max-width:980px;margin:0 auto}
     header{margin-bottom:12px}
     h1{margin:0 0 6px;font-size:1.4rem}
+    h2{margin:6px 0 12px;font-size:1.1rem}
     p.lead{margin:0;color:var(--muted)}
     .card{background:var(--card);border-radius:var(--radius);padding:var(--pad);box-shadow:0 1px 4px rgba(11,15,25,0.06);margin-top:14px}
     label{display:block;font-weight:600;margin-bottom:6px}
@@ -34,6 +35,10 @@
     .word:active{cursor:grabbing}
     .word.dragging{opacity:0.45}
     .right-panel{padding:10px;border-radius:6px;background:#f8fafc;border:1px solid #e6eef8;min-height:120px}
+    /* Step3 adjustments */
+    .step3-full { display:block; }
+    .step3-controls-top { margin-bottom:10px; }
+    .step3-controls-bottom { display:flex; gap:8px; flex-wrap:wrap; }
     @media (max-width:880px){ .grid{grid-template-columns:1fr} .container{padding:8px} }
   </style>
 </head>
@@ -47,6 +52,7 @@
     <!-- STEP 1 -->
     <div id="step1" class="card">
       <div class="step-indicator"><div class="step-pill">Step 1</div><div class="small">Enter research question</div></div>
+      <h2>Step 1 — Research question</h2>
       <label for="research-question">Research question</label>
       <textarea id="research-question" rows="3" placeholder="e.g., How does social media use affect teenagers' sleep?"></textarea>
       <div style="margin-top:10px" class="controls">
@@ -58,6 +64,7 @@
     <!-- STEP 2 -->
     <div id="step2" class="card hidden">
       <div class="step-indicator"><div class="step-pill">Step 2</div><div class="small">Drag single words into keyword boxes</div></div>
+      <h2>Step 2 — Assign words</h2>
 
       <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
         <div style="flex:1;min-width:300px">
@@ -81,25 +88,27 @@
     <!-- STEP 3 -->
     <div id="step3" class="card hidden">
       <div class="step-indicator"><div class="step-pill">Step 3</div><div class="small">Add synonyms (no Boolean shown here)</div></div>
-      <div class="grid">
+      <h2>Step 3 — Add synonyms</h2>
+
+      <!-- Full-width keywords area (no preview on the right) -->
+      <div class="step3-full">
+        <!-- Top: add keyword button on its own line -->
+        <div class="step3-controls-top">
+          <button id="add-keyword" class="btn secondary">+ Add keyword</button>
+        </div>
+
+        <!-- Keywords list -->
         <div>
           <label>Keywords & synonyms</label>
           <div class="small" style="margin-bottom:8px">Add synonyms for each selected keyword (press Enter or comma to add). The Boolean result is on the next screen.</div>
           <div id="keywords" class="keywords-list"></div>
-          <div style="margin-top:10px" class="controls">
-            <button id="add-keyword" class="btn secondary">+ Add keyword</button>
-            <button id="reset" class="remove-btn">Reset to chosen boxes</button>
-            <button id="back-step2" class="btn">Back</button>
-            <button id="to-step4" class="btn">Next: View Boolean</button>
-          </div>
         </div>
 
-        <div>
-          <label>Preview</label>
-          <div class="small" style="margin-bottom:6px">You won't see the final Boolean string on this screen. Use the "View Boolean" button to go to the final screen where you can copy it.</div>
-          <div style="padding:12px;border-radius:6px;background:#f8fafc;border:1px solid #e6eef8;min-height:120px;">
-            <div class="small">Current keywords (editable) and synonyms are being saved — proceed to the final step to view the generated Boolean string.</div>
-          </div>
+        <!-- Bottom control buttons -->
+        <div style="margin-top:12px" class="step3-controls-bottom">
+          <button id="reset" class="remove-btn">Reset to chosen boxes</button>
+          <button id="back-step2" class="btn">Back</button>
+          <button id="to-step4" class="btn">Next: View Boolean</button>
         </div>
       </div>
     </div>
@@ -107,6 +116,7 @@
     <!-- STEP 4: Boolean output -->
     <div id="step4" class="card hidden">
       <div class="step-indicator"><div class="step-pill">Step 4</div><div class="small">Boolean output & copy</div></div>
+      <h2>Step 4 — Final Boolean string</h2>
       <label>Final Boolean string</label>
       <div id="boolean-output" class="output" aria-live="polite">Your Boolean string will appear here.</div>
       <div style="margin-top:10px" class="controls">
@@ -149,7 +159,6 @@
     const copyBtn = document.getElementById('copy-btn');
     const editKeywordsBtn = document.getElementById('edit-keywords');
     const startOverBtn = document.getElementById('start-over');
-    const autoSuggestSynBtn = document.getElementById('auto-suggest-syn'); // may be undefined if not shown
 
     let boxCounter = 0;
 
@@ -258,7 +267,7 @@
       while (keywordsEl.children.length < 3) addKeyword();
       step2.classList.add('hidden');
       step3.classList.remove('hidden');
-      updateBoolean(); // keep internal boolean updated (not shown)
+      updateBoolean(); // internal only
     });
 
     backStep2Btn.addEventListener('click', () => {
@@ -344,7 +353,7 @@
         const chips = Array.from(row.querySelectorAll('.syn-tag')).map(c => c.textContent.trim());
         if (chips.length === 0) {
           const main = row.querySelector('.kw').value.trim();
-        if (main) chips.push(main);
+          if (main) chips.push(main);
         }
         const cleaned = chips.map(s => s.replace(/\s+/g,' ').trim()).filter(Boolean);
         if (cleaned.length) groups.push(cleaned);
@@ -367,10 +376,8 @@
     }
 
     function updateBoolean() {
-      // Build internal boolean string (kept for final step)
       const groups = getAllKeywordGroups();
       const built = buildBooleanString(groups);
-      // store on the booleanOutput element so Step 4 can read it when opened
       booleanOutput.dataset.value = built || '';
     }
 
@@ -391,7 +398,6 @@
     // Navigate to Step 4 (final boolean preview)
     toStep4Btn.addEventListener('click', () => {
       updateBoolean();
-      // populate visible output
       const out = booleanOutput.dataset.value || '';
       booleanOutput.textContent = out || 'Your Boolean string will appear here.';
       step3.classList.add('hidden');
@@ -420,7 +426,6 @@
     // Start over
     startOverBtn.addEventListener('click', () => {
       if (!confirm('Start over and clear your work?')) return;
-      // reset everything
       questionInput.value = '';
       wordPool.innerHTML = '';
       keywordBoxes.innerHTML = '';
@@ -428,7 +433,6 @@
       booleanOutput.textContent = 'Your Boolean string will appear here.';
       delete booleanOutput.dataset.value;
       boxCounter = 0;
-      // ensure 3 empty boxes
       for (let i=0;i<3;i++) createKeywordBox();
       step4.classList.add('hidden');
       step1.classList.remove('hidden');
@@ -437,7 +441,6 @@
     // Observe keywords area to keep boolean updated
     const observer = new MutationObserver(updateBoolean);
     observer.observe(keywordsEl, { childList: true, subtree: true });
-
     keywordsEl.addEventListener('input', () => setTimeout(updateBoolean, 250));
 
     // Ensure at least 3 keyword boxes initially
