@@ -4,50 +4,183 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Drag & Drop Keyword Builder</title>
-  <style>
-    :root{
-      --accent:#2b6cb0; --muted:#666; --bg:#f7fafc; --card:#fff;
-      --radius:8px; --pad:14px;
-      --shade1: #f0f9ff;
-      --shade2: #fff7ed;
-      --shade3: #f6fffa;
-      --shade4: #fff5f7;
-      --shade5: #fffaf0;
-    }
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:20px;background:var(--bg);color:#1a202c}
-    .container{max-width:980px;margin:0 auto}
-    header{margin-bottom:12px}
-    h1{margin:0 0 6px;font-size:1.4rem}
-    h2{margin:6px 0 12px;font-size:1.1rem}
-    p.lead{margin:0;color:var(--muted)}
-    .card{background:var(--card);border-radius:var(--radius);padding:var(--pad);box-shadow:0 1px 4px rgba(11,15,25,0.06);margin-top:14px}
-    .question-banner{background:#eef6ff;padding:10px;border-radius:8px;margin-bottom:12px;border:1px solid #d6eaff}
-    .directions{background:#f8fafc;border-left:4px solid var(--accent);padding:8px;border-radius:6px;margin-bottom:10px;color:var(--muted)}
-    label{display:block;font-weight:600;margin-bottom:6px}
-    textarea,input[type="text"]{width:100%;padding:8px;border:1px solid #e2e8f0;border-radius:6px;font-size:0.95rem}
-    .grid{display:grid;grid-template-columns:1fr 320px;gap:12px;align-items:start}
-    .keywords-list{display:flex;flex-direction:column;gap:10px}
-    .keyword-row{display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;border:1px dashed transparent}
-    .keyword-row.drop-target{border-color:#cfe6ff}
-    .keyword-row > .kw{flex:1;background:transparent;border:0;padding:6px;font-size:1rem}
-    .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:6px;border:none;cursor:pointer}
-    .btn.secondary{background:#eef2ff;color:var(--accent)}
-    .small{font-size:0.85rem;color:var(--muted)}
-    .synonyms{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
-    .syn-tag{background:#edf2f7;padding:6px 8px;border-radius:999px;font-size:0.9rem}
-    .controls{display:flex;gap:8px;flex-wrap:wrap}
-    .output{white-space:pre-wrap;background:#0f1724;color:#e6f0ff;padding:12px;border-radius:6px;font-family:monospace}
-    .remove-btn{background:#ffefef;color:#b91c1c;border:1px solid #fca5a5;padding:6px 8px;border-radius:6px;cursor:pointer}
-    .hidden{display:none}
-    .word{display:inline-block;padding:6px 8px;margin:6px;border-radius:6px;background:#fff;border:1px solid #e2e8f0;cursor:grab;user-select:none}
-    .word:active{cursor:grabbing}
-    .word.dragging{opacity:0.45}
-    .right-panel{padding:10px;border-radius:6px;background:#f8fafc;border:1px solid #e6eef8;min-height:120px}
-    .step3-full { display:block; }
-    .step3-controls-top { margin-bottom:10px; }
-    .step3-controls-bottom { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
-    @media (max-width:880px){ .grid{grid-template-columns:1fr} .container{padding:8px} }
-  </style>
+<style>
+  /* WCAG 2.1 AA - high-contrast, larger typography, clear focus, roomy spacing */
+  :root{
+    --bg: #ffffff;
+    --card-bg: #ffffff;
+    --text: #071224;              /* very dark text for contrast */
+    --muted: #334155;             /* for secondary text */
+    --accent: #0b63d6;           /* blue with good contrast on white */
+    --accent-contrast: #ffffff;
+    --danger: #b91c1c;
+    --radius: 12px;
+    --pad: 20px;
+    --max-width: 1100px;
+  }
+
+  /* Base page */
+  html { font-size: 16px; }      /* large base for accessibility */
+  body {
+    margin: 24px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+    font-size: 1rem;             /* equals 20px from html */
+  }
+
+  .container { max-width: var(--max-width); margin: 0 auto; }
+
+  /* Headings */
+  h1 { font-size: 28px; margin: 0 0 10px; font-weight: 800; color: var(--text); }
+  h2 { font-size: 22px; margin: 8px 0 14px; font-weight: 800; color: var(--text); }
+
+  /* Cards */
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: calc(var(--pad) + 2px);
+    box-shadow: 0 3px 12px rgba(2,6,23,0.06);
+    margin-top: 18px;
+    border: 1px solid rgba(7,18,36,0.04);
+  }
+
+  /* Shared question banner */
+  .question-banner { background:#f1f8ff; padding:12px; border-radius:10px; border:1px solid #dfeffd; font-size:1.02rem; }
+
+  /* Directions box */
+  .directions {
+    background:#f7fbff;
+    border-left: 5px solid var(--accent);
+    padding:12px;
+    border-radius:8px;
+    color:var(--muted);
+    font-size:1.02rem;
+  }
+
+  label { display:block; font-weight:800; margin-bottom:10px; color:var(--text); font-size:1.06rem; }
+
+  /* Form controls */
+  textarea, input[type="text"]{
+    width:100%;
+    padding:14px 16px;
+    border-radius:10px;
+    border:1px solid #d9e7fb;
+    background:#ffffff;
+    color:var(--text);
+    font-size:1.05rem;
+    line-height:1.5;
+  }
+
+  /* Buttons */
+  .btn {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    min-height:48px;
+  }
+  .btn.secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 2px solid rgba(11,99,214,0.12);
+    font-weight:800;
+  }
+  .remove-btn {
+    background: #fff7f7;
+    color: var(--danger);
+    border:1px solid rgba(185,28,28,0.12);
+    padding:10px 12px;
+    border-radius:10px;
+    font-weight:800;
+    min-height:44px;
+  }
+
+  .controls { display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin-top:14px; }
+
+  /* Tokenized words */
+  .word {
+    display:inline-block;
+    padding:10px 12px;
+    margin:6px;
+    border-radius:8px;
+    background:#ffffff;
+    border:1px solid #e6eef8;
+    cursor:grab;
+    font-size:1.03rem;
+    color:var(--text);
+  }
+
+  /* Keyword rows and synonym chips */
+  .keyword-row { display:flex; gap:12px; align-items:center; padding:12px; border-radius:12px; }
+  .keyword-row .kw {
+    font-size:1.06rem;
+    padding:10px;
+    background:transparent;
+    border:none;
+    color:var(--text);
+    min-width: 200px;
+  }
+  .syn-tag { background:#eef6ff; padding:8px 10px; border-radius:999px; font-size:1.02rem; color:var(--text); }
+
+  /* Output block */
+  .output {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+    font-size:1.03rem;
+    padding:14px;
+    border-radius:10px;
+    background:#041427;
+    color:#dff0ff;
+    line-height:1.5;
+  }
+
+  /* Focus styles (keyboard accessible) */
+  :focus { outline: none; }
+  button:focus, input:focus, textarea:focus, .word:focus {
+    box-shadow: 0 0 0 5px rgba(11,99,214,0.18);
+    border-radius:8px;
+  }
+
+  /* Ensure buttons and touch targets are large */
+  button, .word { touch-action: manipulation; }
+
+  /* Responsive tweaks */
+  @media (max-width:700px) {
+    html { font-size:18px; } /* slight reduction on small screens */
+    .controls { flex-direction:column; align-items:stretch; }
+    .btn { width:100%; }
+  }
+
+  .hidden {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Ensure visible step panels display as block cards */
+  #step1:not(.hidden),
+  #step2:not(.hidden),
+  #step3:not(.hidden),
+  #step4:not(.hidden) {
+    display: block;
+    visibility: visible;
+    height: auto;
+    overflow: visible;
+    padding: initial;
+    margin: initial;
+  }
+</style>
+
 </head>
 <body>
   <div class="container">
