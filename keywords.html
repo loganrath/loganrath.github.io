@@ -3,9 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Drag & Drop Keyword Builder — Boolean on Final Screen</title>
+  <title>Drag & Drop Keyword Builder</title>
   <style>
-    :root{--accent:#2b6cb0;--muted:#666;--bg:#f7fafc;--card:#fff;--radius:8px;--pad:14px}
+    :root{
+      --accent:#2b6cb0; --muted:#666; --bg:#f7fafc; --card:#fff;
+      --radius:8px; --pad:14px;
+      --shade1: #f0f9ff;
+      --shade2: #fff7ed;
+      --shade3: #f6fffa;
+      --shade4: #fff5f7;
+      --shade5: #fffaf0;
+    }
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:20px;background:var(--bg);color:#1a202c}
     .container{max-width:980px;margin:0 auto}
     header{margin-bottom:12px}
@@ -13,13 +21,15 @@
     h2{margin:6px 0 12px;font-size:1.1rem}
     p.lead{margin:0;color:var(--muted)}
     .card{background:var(--card);border-radius:var(--radius);padding:var(--pad);box-shadow:0 1px 4px rgba(11,15,25,0.06);margin-top:14px}
+    .question-banner{background:#eef6ff;padding:10px;border-radius:8px;margin-bottom:12px;border:1px solid #d6eaff}
+    .directions{background:#f8fafc;border-left:4px solid var(--accent);padding:8px;border-radius:6px;margin-bottom:10px;color:var(--muted)}
     label{display:block;font-weight:600;margin-bottom:6px}
     textarea,input[type="text"]{width:100%;padding:8px;border:1px solid #e2e8f0;border-radius:6px;font-size:0.95rem}
     .grid{display:grid;grid-template-columns:1fr 320px;gap:12px;align-items:start}
     .keywords-list{display:flex;flex-direction:column;gap:10px}
-    .keyword-row{display:flex;gap:8px;align-items:center;padding:6px;border-radius:6px;border:1px dashed transparent}
-    .keyword-row.drop-target{border-color:#cfe6ff;background:#f0f8ff}
-    .keyword-row > .kw{flex:1}
+    .keyword-row{display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;border:1px dashed transparent}
+    .keyword-row.drop-target{border-color:#cfe6ff}
+    .keyword-row > .kw{flex:1;background:transparent;border:0;padding:6px;font-size:1rem}
     .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:6px;border:none;cursor:pointer}
     .btn.secondary{background:#eef2ff;color:var(--accent)}
     .small{font-size:0.85rem;color:var(--muted)}
@@ -29,16 +39,13 @@
     .output{white-space:pre-wrap;background:#0f1724;color:#e6f0ff;padding:12px;border-radius:6px;font-family:monospace}
     .remove-btn{background:#ffefef;color:#b91c1c;border:1px solid #fca5a5;padding:6px 8px;border-radius:6px;cursor:pointer}
     .hidden{display:none}
-    .step-indicator{display:flex;gap:8px;margin-bottom:8px}
-    .step-pill{padding:6px 10px;border-radius:999px;background:#eef2ff;color:var(--accent);font-weight:600}
     .word{display:inline-block;padding:6px 8px;margin:6px;border-radius:6px;background:#fff;border:1px solid #e2e8f0;cursor:grab;user-select:none}
     .word:active{cursor:grabbing}
     .word.dragging{opacity:0.45}
     .right-panel{padding:10px;border-radius:6px;background:#f8fafc;border:1px solid #e6eef8;min-height:120px}
-    /* Step3 adjustments */
     .step3-full { display:block; }
     .step3-controls-top { margin-bottom:10px; }
-    .step3-controls-bottom { display:flex; gap:8px; flex-wrap:wrap; }
+    .step3-controls-bottom { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
     @media (max-width:880px){ .grid{grid-template-columns:1fr} .container{padding:8px} }
   </style>
 </head>
@@ -46,13 +53,19 @@
   <div class="container">
     <header>
       <h1>Drag & Drop Keyword Builder</h1>
-      <p class="lead">Stepwise: question → drag words → add synonyms → final Boolean output on its own screen.</p>
+      <p class="lead">Stepwise: question → assign words → add synonyms → final Boolean output.</p>
     </header>
+
+    <!-- Shared question banner (hidden until question is submitted) -->
+    <div id="shared-question" class="question-banner hidden" aria-live="polite">
+      <strong>Research question:</strong>
+      <div id="shared-question-text" style="margin-top:6px;"></div>
+    </div>
 
     <!-- STEP 1 -->
     <div id="step1" class="card">
-      <div class="step-indicator"><div class="step-pill">Step 1</div><div class="small">Enter research question</div></div>
       <h2>Step 1 — Research question</h2>
+      <div class="directions"><p><strong>What to do:</strong> Type your full research question.</p><p><strong>Why:</strong> We'll use this question to pull words you can turn into search keywords.</p></div>
       <label for="research-question">Research question</label>
       <textarea id="research-question" rows="3" placeholder="e.g., How does social media use affect teenagers' sleep?"></textarea>
       <div style="margin-top:10px" class="controls">
@@ -63,9 +76,8 @@
 
     <!-- STEP 2 -->
     <div id="step2" class="card hidden">
-      <div class="step-indicator"><div class="step-pill">Step 2</div><div class="small">Drag single words into keyword boxes</div></div>
       <h2>Step 2 — Assign words</h2>
-
+      <div class="directions"><p><strong>What to do:</strong> Drag single words from the right into the keyword boxes on the left.</p><p><strong>Why:</strong> Picking main words from your question helps you build focused search terms.</p></div>
       <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
         <div style="flex:1;min-width:300px">
           <label>Keyword boxes (drop words here)</label>
@@ -87,25 +99,21 @@
 
     <!-- STEP 3 -->
     <div id="step3" class="card hidden">
-      <div class="step-indicator"><div class="step-pill">Step 3</div><div class="small">Add synonyms (no Boolean shown here)</div></div>
       <h2>Step 3 — Add synonyms</h2>
+      <div class="directions"><p><strong>What to do:</strong> For each keyword, add synonyms or related words (press Enter or comma).</p><p><strong>Why:</strong> Databases return better results when you include synonyms joined by OR and combine concept groups with AND.</p></div>
 
-      <!-- Full-width keywords area (no preview on the right) -->
       <div class="step3-full">
-        <!-- Top: add keyword button on its own line -->
         <div class="step3-controls-top">
           <button id="add-keyword" class="btn secondary">+ Add keyword</button>
         </div>
 
-        <!-- Keywords list -->
         <div>
           <label>Keywords & synonyms</label>
-          <div class="small" style="margin-bottom:8px">Add synonyms for each selected keyword (press Enter or comma to add). The Boolean result is on the next screen.</div>
+          <div class="small" style="margin-bottom:8px">Each row shows a keyword (read-only) on the left and synonym controls on the right.</div>
           <div id="keywords" class="keywords-list"></div>
         </div>
 
-        <!-- Bottom control buttons -->
-        <div style="margin-top:12px" class="step3-controls-bottom">
+        <div class="step3-controls-bottom">
           <button id="reset" class="remove-btn">Reset to chosen boxes</button>
           <button id="back-step2" class="btn">Back</button>
           <button id="to-step4" class="btn">Next: View Boolean</button>
@@ -115,8 +123,8 @@
 
     <!-- STEP 4: Boolean output -->
     <div id="step4" class="card hidden">
-      <div class="step-indicator"><div class="step-pill">Step 4</div><div class="small">Boolean output & copy</div></div>
       <h2>Step 4 — Final Boolean string</h2>
+      <div class="directions"><p><strong>What to do:</strong> Review the generated Boolean string and copy it.</p><p><strong>Why:</strong> Paste this into the library database search box to run your refined search.</p></div>
       <label>Final Boolean string</label>
       <div id="boolean-output" class="output" aria-live="polite">Your Boolean string will appear here.</div>
       <div style="margin-top:10px" class="controls">
@@ -127,13 +135,16 @@
       <div class="small" style="margin-top:10px">Paste this string into your library database search box. Adjust quotes/field tags as needed for specific databases.</div>
     </div>
 
-    <footer>
-      <div class="small">Tip: If a keyword should be multiple words, drop several words into the same box in Step 2 and edit it in Step 3.</div>
+    <footer style="margin-top:18px">
+      <div class="small">Tip: If a keyword should be multiple words, drop several words into the same box in Step 2 and they will appear together as the keyword in Step 3.</div>
     </footer>
   </div>
 
   <script>
     // Elements
+    const sharedQuestionBanner = document.getElementById('shared-question');
+    const sharedQuestionText = document.getElementById('shared-question-text');
+
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');
     const step3 = document.getElementById('step3');
@@ -161,6 +172,7 @@
     const startOverBtn = document.getElementById('start-over');
 
     let boxCounter = 0;
+    const bgPalette = ['var(--shade1)', 'var(--shade2)', 'var(--shade3)', 'var(--shade4)', 'var(--shade5)'];
 
     // Helper: split question into single words (strip punctuation, keep contractions)
     function wordsFromQuestion(q) {
@@ -192,6 +204,12 @@
         span.addEventListener('dragend', () => span.classList.remove('dragging'));
         wordPool.appendChild(span);
       });
+    }
+
+    // Show the shared question banner with the submitted question
+    function showSharedQuestion(q) {
+      sharedQuestionText.textContent = q;
+      sharedQuestionBanner.classList.remove('hidden');
     }
 
     // Create keyword drop boxes (for step2)
@@ -239,9 +257,9 @@
     toStep2Btn.addEventListener('click', () => {
       const q = questionInput.value.trim();
       if (!q) { alert('Please enter your research question.'); return; }
+      showSharedQuestion(q);
       const words = wordsFromQuestion(q);
       renderWordPool(words);
-      // create 3 boxes if none exist
       if (!keywordBoxes.children.length) {
         for (let i=0;i<3;i++) createKeywordBox();
       }
@@ -267,7 +285,7 @@
       while (keywordsEl.children.length < 3) addKeyword();
       step2.classList.add('hidden');
       step3.classList.remove('hidden');
-      updateBoolean(); // internal only
+      updateBoolean(); // internal
     });
 
     backStep2Btn.addEventListener('click', () => {
@@ -275,7 +293,7 @@
       step2.classList.remove('hidden');
     });
 
-    // STEP 3 logic (keywords + synonyms)
+    // STEP 3 logic (keywords + synonyms) — left inputs read-only and shaded background per row
     function createKeywordRow(initialKeyword = '') {
       const row = document.createElement('div');
       row.className = 'keyword-row';
@@ -283,11 +301,16 @@
       row.style.gap='8px';
       row.style.alignItems='flex-start';
 
+      // Assign a background shade based on current count
+      const index = (keywordsEl.children.length) % bgPalette.length;
+      row.style.background = bgPalette[index];
+
       const kwInput = document.createElement('input');
       kwInput.type = 'text';
       kwInput.className = 'kw';
-      kwInput.placeholder = 'Keyword (editable)';
+      kwInput.placeholder = 'Keyword (read-only)';
       kwInput.value = initialKeyword;
+      kwInput.readOnly = true; // left textbox not editable
 
       const right = document.createElement('div');
       right.style.flex='0 0 320px';
@@ -325,22 +348,24 @@
     }
 
     function addSynonymChip(container, text) {
-      const t=text.trim(); if(!t) return;
-      const exists = Array.from(container.children).some(c=>c.textContent===t);
+      const t = text.trim(); if (!t) return;
+      const exists = Array.from(container.children).some(c => c.textContent === t);
       if (exists) return;
       const chip = document.createElement('span');
-      chip.className='syn-tag'; chip.textContent=t; chip.title='Click to remove';
-      chip.style.cursor='pointer';
+      chip.className = 'syn-tag';
+      chip.textContent = t;
+      chip.title = 'Click to remove';
+      chip.style.cursor = 'pointer';
       chip.addEventListener('click', () => { chip.remove(); updateBoolean(); });
       container.appendChild(chip);
     }
 
-    function addKeyword(initial='') {
+    function addKeyword(initial = '') {
       const row = createKeywordRow(initial);
       const synInput = row.querySelector('input[placeholder^="Add synonym"]');
       synInput.addEventListener('blur', () => {
         const v = synInput.value.trim();
-        if (v) { addSynonymChip(row.querySelector('.synonyms'), v); synInput.value=''; updateBoolean(); }
+        if (v) { addSynonymChip(row.querySelector('.synonyms'), v); synInput.value = ''; updateBoolean(); }
       });
       updateBoolean();
       return row;
@@ -355,7 +380,7 @@
           const main = row.querySelector('.kw').value.trim();
           if (main) chips.push(main);
         }
-        const cleaned = chips.map(s => s.replace(/\s+/g,' ').trim()).filter(Boolean);
+        const cleaned = chips.map(s => s.replace(/\s+/g, ' ').trim()).filter(Boolean);
         if (cleaned.length) groups.push(cleaned);
       });
       return groups;
@@ -417,7 +442,7 @@
       try {
         await navigator.clipboard.writeText(txt);
         copyBtn.textContent = 'Copied!';
-        setTimeout(()=> copyBtn.textContent = 'Copy Boolean string', 1400);
+        setTimeout(() => copyBtn.textContent = 'Copy Boolean string', 1400);
       } catch (e) {
         alert('Unable to copy automatically. Select and copy the text manually.');
       }
@@ -427,13 +452,15 @@
     startOverBtn.addEventListener('click', () => {
       if (!confirm('Start over and clear your work?')) return;
       questionInput.value = '';
+      sharedQuestionBanner.classList.add('hidden');
+      sharedQuestionText.textContent = '';
       wordPool.innerHTML = '';
       keywordBoxes.innerHTML = '';
       keywordsEl.innerHTML = '';
       booleanOutput.textContent = 'Your Boolean string will appear here.';
       delete booleanOutput.dataset.value;
       boxCounter = 0;
-      for (let i=0;i<3;i++) createKeywordBox();
+      for (let i = 0; i < 3; i++) createKeywordBox();
       step4.classList.add('hidden');
       step1.classList.remove('hidden');
     });
@@ -444,11 +471,12 @@
     keywordsEl.addEventListener('input', () => setTimeout(updateBoolean, 250));
 
     // Ensure at least 3 keyword boxes initially
-    (function initialBoxes(){
+    (function initialBoxes() {
       keywordBoxes.innerHTML = '';
       boxCounter = 0;
-      for (let i=0;i<3;i++) createKeywordBox();
+      for (let i = 0; i < 3; i++) createKeywordBox();
     })();
   </script>
 </body>
 </html>
+
