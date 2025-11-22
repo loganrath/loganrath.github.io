@@ -103,14 +103,9 @@ layout: tool
     <div id="step1" class="card">
       <h2>Step 1 — Research question</h2>
       <div class="directions"><p><strong>What do I do?</strong> Type your research question.</p><p><strong>Why?</strong> This page will help you decide which keywords are most important and then create an complex search string.</p></div>
+      <form id="research-form" aria-labelledby="step1-heading"> <label for="research-question">Research question</label> <textarea id="research-question" name="research-question" rows="3" placeholder="e.g., How does social media use affect teenagers' sleep?"></textarea>
 
-      <label for="research-question">Research question</label>
-      <textarea id="research-question" rows="3" placeholder="e.g., How does social media use affect teenagers' sleep?"></textarea>
-
-      <div class="controls">
-        <button id="to-step2" class="btn">Submit question</button>
-        <button id="clear-question" class="btn secondary">Clear</button>
-      </div>
+<div class="controls"> <button id="to-step2" class="btn" type="submit" aria-controls="step2">Submit question</button> <button id="clear-question" class="btn secondary" type="button" aria-label="Clear research question">Clear</button> </div> </form>
     </div>
 
     <!-- STEP 2 -->
