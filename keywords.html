@@ -316,22 +316,7 @@ layout: tool
   }
 
   // Step controls
-  researchForm.addEventListener('submit', (ev) => {
-    ev.preventDefault();
-    const q = questionInput.value.trim();
-    if(!q){ alert('Please enter your research question.'); return; }
-    showSharedQuestion(q);
-    const words = wordsFromQuestion(q);
-    renderWordPool(words);
-    if(!keywordBoxes.children.length){
-      for(let i=0;i<3;i++) createKeywordBox();
-    }
-    step1.classList.add('hidden');
-    step2.classList.remove('hidden');
-    step2.removeAttribute('aria-hidden');
-    step1.setAttribute('aria-hidden', 'true');
-    window.scrollTo({top:0,behavior:'smooth'});
-  });
+  researchForm.addEventListener('submit', (ev) => { ev.preventDefault(); const q = questionInput.value.trim(); if (!q) { alert('Please enter your research question.'); return; } showSharedQuestion(q); const words = wordsFromQuestion(q); renderWordPool(words); if (!keywordBoxes.children.length) { for (let i = 0; i < 3; i++) createKeywordBox(); } step1.classList.add('hidden'); step2.classList.remove('hidden'); step2.removeAttribute('aria-hidden'); step1.setAttribute('aria-hidden', 'true'); window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
   clearQuestionBtn.addEventListener('click', ()=>{ if(confirm('Clear question?')) questionInput.value=''; });
 
