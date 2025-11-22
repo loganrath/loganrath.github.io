@@ -1,207 +1,112 @@
 <!doctype html>
-<html lang="en-us">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Drag & Drop Keyword Builder</title>
-<style>
-  /* WCAG 2.1 AA - high-contrast, larger typography, clear focus, roomy spacing */
-  :root{
-    --bg: #ffffff;
-    --card-bg: #ffffff;
-    --text: #071224;              /* very dark text for contrast */
-    --muted: #334155;             /* for secondary text */
-    --accent: #0b63d6;           /* blue with good contrast on white */
-    --accent-contrast: #ffffff;
-    --danger: #b91c1c;
-    --radius: 12px;
-    --pad: 20px;
-    --max-width: 1100px;
-  }
+  <title>Keyword & Boolean Builder — Clean</title>
 
-  /* Base page */
-  html { font-size: 16px; }      /* large base for accessibility */
-  body {
-    margin: 24px;
-    background: var(--bg);
-    color: var(--text);
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    line-height: 1.6;
-    font-size: 1rem;             /* equals 20px from html */
-  }
+  <!-- Accessible, larger-type stylesheet -->
+  <style>
+    :root{
+      --bg:#ffffff; --card:#ffffff; --text:#071224; --muted:#374151;
+      --accent:#0b63d6; --accent-contrast:#ffffff; --danger:#b91c1c;
+      --radius:12px; --pad:18px; --max-width:1100px;
+      --shade1:#f0f9ff; --shade2:#fff7ed; --shade3:#f6fffa; --shade4:#fff5f7; --shade5:#fffaf0;
+    }
 
-  .container { max-width: var(--max-width); margin: 0 auto; }
+    html { font-size:18px; } /* base */
+    body{
+      margin:20px; background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+      line-height:1.6;
+    }
+    .container{max-width:var(--max-width);margin:0 auto}
 
-  /* Headings */
-  h1 { font-size: 28px; margin: 0 0 10px; font-weight: 800; color: var(--text); }
-  h2 { font-size: 22px; margin: 8px 0 14px; font-weight: 800; color: var(--text); }
+    h1{font-size:1.4em;margin:0 0 8px;font-weight:800}
+    h2{font-size:1.2em;margin:6px 0 12px;font-weight:800}
 
-  /* Cards */
-  .card {
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    padding: calc(var(--pad) + 2px);
-    box-shadow: 0 3px 12px rgba(2,6,23,0.06);
-    margin-top: 18px;
-    border: 1px solid rgba(7,18,36,0.04);
-  }
+    .card{background:var(--card);border-radius:var(--radius);padding:calc(var(--pad)+2px);box-shadow:0 3px 12px rgba(2,6,23,0.06);margin-top:16px;border:1px solid rgba(7,18,36,0.04)}
 
-  /* Shared question banner */
-  .question-banner { background:#f1f8ff; padding:12px; border-radius:10px; border:1px solid #dfeffd; font-size:1.02rem; }
+    .question-banner{background:#f1f8ff;padding:12px;border-radius:10px;margin-bottom:12px;border:1px solid #dfeffd;font-size:1.02rem}
+    .directions{background:#f7fbff;border-left:5px solid var(--accent);padding:12px;border-radius:8px;color:var(--muted);font-size:1.02rem;margin-bottom:10px}
 
-  /* Directions box */
-  .directions {
-    background:#f7fbff;
-    border-left: 5px solid var(--accent);
-    padding:12px;
-    border-radius:8px;
-    color:var(--muted);
-    font-size:1.02rem;
-  }
+    label{display:block;font-weight:800;margin-bottom:10px;color:var(--text);font-size:1.06rem}
 
-  label { display:block; font-weight:800; margin-bottom:10px; color:var(--text); font-size:1.06rem; }
+    textarea,input[type="text"]{
+      width:100%;padding:14px 16px;border-radius:10px;border:1px solid #d9e7fb;background:#fff;color:var(--text);
+      font-size:1.05rem;line-height:1.5;
+    }
 
-  /* Form controls */
-  textarea, input[type="text"]{
-    width:100%;
-    padding:14px 16px;
-    border-radius:10px;
-    border:1px solid #d9e7fb;
-    background:#ffffff;
-    color:var(--text);
-    font-size:1.05rem;
-    line-height:1.5;
-  }
+    .controls{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:14px}
 
-  /* Buttons */
-  .btn {
-    background: var(--accent);
-    color: var(--accent-contrast);
-    padding: 12px 18px;
-    border-radius: 10px;
-    border: none;
-    font-size: 1.05rem;
-    font-weight: 800;
-    cursor: pointer;
-    min-height:48px;
-  }
-  .btn.secondary {
-    background: transparent;
-    color: var(--accent);
-    border: 2px solid rgba(11,99,214,0.12);
-    font-weight:800;
-  }
-  .remove-btn {
-    background: #fff7f7;
-    color: var(--danger);
-    border:1px solid rgba(185,28,28,0.12);
-    padding:10px 12px;
-    border-radius:10px;
-    font-weight:800;
-    min-height:44px;
-  }
+    .btn{background:var(--accent);color:var(--accent-contrast);padding:12px 18px;border-radius:10px;border:0;font-size:1.05rem;font-weight:800;cursor:pointer;min-height:48px}
+    .btn.secondary{background:transparent;color:var(--accent);border:2px solid rgba(11,99,214,0.12)}
+    .remove-btn{background:#fff7f7;color:var(--danger);border:1px solid rgba(185,28,28,0.12);padding:10px 12px;border-radius:10px;font-weight:800;min-height:44px}
 
-  .controls { display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin-top:14px; }
+    .word{display:inline-block;padding:10px 12px;margin:6px;border-radius:8px;background:#fff;border:1px solid #e6eef8;cursor:grab;font-size:1.03rem}
+    .word.dragging{opacity:0.45}
 
-  /* Tokenized words */
-  .word {
-    display:inline-block;
-    padding:10px 12px;
-    margin:6px;
-    border-radius:8px;
-    background:#ffffff;
-    border:1px solid #e6eef8;
-    cursor:grab;
-    font-size:1.03rem;
-    color:var(--text);
-  }
+    .right-panel{padding:10px;border-radius:8px;background:#f8fafc;border:1px solid #e6eef8;min-height:120px}
 
-  /* Keyword rows and synonym chips */
-  .keyword-row { display:flex; gap:12px; align-items:center; padding:12px; border-radius:12px; }
-  .keyword-row .kw {
-    font-size:1.06rem;
-    padding:10px;
-    background:transparent;
-    border:none;
-    color:var(--text);
-    min-width: 200px;
-  }
-  .syn-tag { background:#eef6ff; padding:8px 10px; border-radius:999px; font-size:1.02rem; color:var(--text); }
+    .keywords-list{display:flex;flex-direction:column;gap:10px}
+    .keyword-row{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;transition:background .18s,box-shadow .18s;border:1px solid rgba(7,18,36,0.08)}
+    .keyword-row:hover,.keyword-row:focus-within{border-color:rgba(7,18,36,0.18);box-shadow:0 2px 8px rgba(7,18,36,0.04)}
+    .keyword-row .kw{flex:1;background:transparent;border:0;padding:8px;font-size:1.06rem;font-weight:700;color:var(--text);min-width:180px}
+    .synonyms{margin-top:8px;display:flex;flex-wrap:wrap;gap:8px}
+    .syn-tag{background:#eef6ff;padding:8px 10px;border-radius:999px;font-size:1.02rem;color:var(--text)}
 
-  /* Output block */
-  .output {
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
-    font-size:1.03rem;
-    padding:14px;
-    border-radius:10px;
-    background:#041427;
-    color:#dff0ff;
-    line-height:1.5;
-  }
+    .output{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Roboto Mono",monospace;font-size:1.03rem;padding:14px;border-radius:10px;background:#041427;color:#dff0ff;line-height:1.5}
 
-  /* Focus styles (keyboard accessible) */
-  :focus { outline: none; }
-  button:focus, input:focus, textarea:focus, .word:focus {
-    box-shadow: 0 0 0 5px rgba(11,99,214,0.18);
-    border-radius:8px;
-  }
+    /* Shaded backgrounds (cycle by child index) */
+    .keywords-list .keyword-row:nth-child(5n+1){background:var(--shade1)}
+    .keywords-list .keyword-row:nth-child(5n+2){background:var(--shade2)}
+    .keywords-list .keyword-row:nth-child(5n+3){background:var(--shade3)}
+    .keywords-list .keyword-row:nth-child(5n+4){background:var(--shade4)}
+    .keywords-list .keyword-row:nth-child(5n+5){background:var(--shade5)}
 
-  /* Ensure buttons and touch targets are large */
-  button, .word { touch-action: manipulation; }
+    /* Hidden handling for the steps (force hide) */
+    .hidden{display:none !important;visibility:hidden !important}
 
-  /* Responsive tweaks */
-  @media (max-width:700px) {
-    html { font-size:18px; } /* slight reduction on small screens */
-    .controls { flex-direction:column; align-items:stretch; }
-    .btn { width:100%; }
-  }
+    /* Focus styles */
+    :focus{outline:none}
+    button:focus,input:focus,textarea:focus,.word:focus{box-shadow:0 0 0 6px rgba(11,99,214,0.18);border-radius:8px}
 
-  .hidden {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  /* Ensure visible step panels display as block cards */
-  #step1:not(.hidden),
-  #step2:not(.hidden),
-  #step3:not(.hidden),
-  #step4:not(.hidden) {
-    display: block;
-    visibility: visible;
-    height: auto;
-    overflow: visible;
-    padding: initial;
-    margin: initial;
-  }
-</style>
-
+    /* Responsive: Step2 reordering and stacking */
+    @media (max-width:880px){
+      /* Make step2 wrapper stack with word-pool first */
+      .step2-flex{display:flex;flex-direction:column-reverse;gap:12px}
+      .left-column .controls{flex-direction:column;gap:10px}
+      .right-column,.right-column .right-panel{width:100%!important;box-sizing:border-box}
+      .keyword-row{flex-direction:column;align-items:stretch;gap:10px}
+      .keyword-row .kw{width:100%}
+      .controls{flex-direction:column;align-items:stretch}
+      .btn{width:100%}
+    }
+  </style>
 </head>
 <body>
   <div class="container">
+
     <header>
-      <h1>Drag & Drop Keyword Builder</h1>
-      <p class="lead">Stepwise: question → assign words → add synonyms → final Boolean output.</p>
+      <h1>Keyword & Boolean Builder</h1>
+      <p class="lead" style="color:var(--muted)">Stepwise: enter question → assign words → add synonyms → get Boolean string.</p>
     </header>
 
-    <!-- Shared question banner (hidden until question is submitted) -->
+    <!-- Shared question banner (visible after submit) -->
     <div id="shared-question" class="question-banner hidden" aria-live="polite">
       <strong>Research question:</strong>
-      <div id="shared-question-text" style="margin-top:6px;"></div>
+      <div id="shared-question-text" style="margin-top:8px;font-size:1.02rem"></div>
     </div>
 
     <!-- STEP 1 -->
     <div id="step1" class="card">
       <h2>Step 1 — Research question</h2>
-      <div class="directions"><p><strong>What to do:</strong> Type your full research question.</p><p><strong>Why:</strong> We'll use this question to pull words you can turn into search keywords.</p></div>
+      <div class="directions"><strong>What:</strong> Type your research question. <strong>Why:</strong> We'll extract words to help you create keywords.</div>
+
       <label for="research-question">Research question</label>
       <textarea id="research-question" rows="3" placeholder="e.g., How does social media use affect teenagers' sleep?"></textarea>
-      <div style="margin-top:10px" class="controls">
+
+      <div class="controls">
         <button id="to-step2" class="btn">Submit question</button>
         <button id="clear-question" class="btn secondary">Clear</button>
       </div>
@@ -210,22 +115,23 @@
     <!-- STEP 2 -->
     <div id="step2" class="card hidden">
       <h2>Step 2 — Assign words</h2>
-      <div class="directions"><p><strong>What to do:</strong> Drag single words from the right into the keyword boxes on the left.</p><p><strong>Why:</strong> Picking main words from your question helps you build focused search terms.</p></div>
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="flex:1;min-width:300px">
+      <div class="directions"><strong>What:</strong> Drag single words from the word pool into the keyword boxes. <strong>Why:</strong> Selecting main words helps form focused search concepts.</div>
+
+      <div class="step2-flex" style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
+        <div class="left-column" style="flex:1;min-width:300px">
           <label>Keyword boxes (drop words here)</label>
-          <div id="keyword-boxes" class="keywords-list"></div>
-          <div style="margin-top:10px" class="controls">
+          <div id="keyword-boxes" class="keywords-list" aria-live="polite"></div>
+
+          <div class="controls" style="margin-top:10px">
             <button id="add-keyword-box" class="btn secondary">+ Add box</button>
             <button id="to-step3" class="btn">Next: Add synonyms</button>
             <button id="back-step1" class="btn">Back</button>
           </div>
         </div>
 
-        <div style="flex:0 0 320px">
+        <div class="right-column" style="flex:0 0 320px">
           <label>Words from your question (drag these)</label>
           <div id="word-pool" class="right-panel" aria-live="polite"></div>
-          <div class="small" style="margin-top:8px">Each token is a single word from your question. Drag and drop into a box.</div>
         </div>
       </div>
     </div>
@@ -233,20 +139,17 @@
     <!-- STEP 3 -->
     <div id="step3" class="card hidden">
       <h2>Step 3 — Add synonyms</h2>
-      <div class="directions"><p><strong>What to do:</strong> For each keyword, add synonyms or related words (press Enter or comma).</p><p><strong>Why:</strong> Databases return better results when you include synonyms joined by OR and combine concept groups with AND.</p></div>
+      <div class="directions"><strong>What:</strong> For each keyword row, add synonyms on the right (press Enter or comma). <strong>Why:</strong> Use OR between synonyms and AND between concept groups to build comprehensive searches.</div>
 
-      <div class="step3-full">
-        <div class="step3-controls-top">
+      <div style="margin-top:8px">
+        <div style="margin-bottom:10px">
           <button id="add-keyword" class="btn secondary">+ Add keyword</button>
         </div>
 
-        <div>
-          <label>Keywords & synonyms</label>
-          <div class="small" style="margin-bottom:8px">Each row shows a keyword (read-only) on the left and synonym controls on the right.</div>
-          <div id="keywords" class="keywords-list"></div>
-        </div>
+        <label>Keywords & synonyms</label>
+        <div id="keywords" class="keywords-list" aria-live="polite"></div>
 
-        <div class="step3-controls-bottom">
+        <div class="controls" style="margin-top:12px">
           <button id="reset" class="remove-btn">Reset to chosen boxes</button>
           <button id="back-step2" class="btn">Back</button>
           <button id="to-step4" class="btn">Next: View Boolean</button>
@@ -254,25 +157,29 @@
       </div>
     </div>
 
-    <!-- STEP 4: Boolean output -->
+    <!-- STEP 4 -->
     <div id="step4" class="card hidden">
       <h2>Step 4 — Final Boolean string</h2>
-      <div class="directions"><p><strong>What to do:</strong> Review the generated Boolean string and copy it.</p><p><strong>Why:</strong> Paste this into the library database search box to run your refined search.</p></div>
+      <div class="directions"><strong>What:</strong> Review and copy the final Boolean string. <strong>Why:</strong> Paste into your library database to run the refined search.</div>
+
       <label>Final Boolean string</label>
       <div id="boolean-output" class="output" aria-live="polite">Your Boolean string will appear here.</div>
-      <div style="margin-top:10px" class="controls">
+
+      <div class="controls" style="margin-top:12px">
         <button id="copy-btn" class="btn">Copy Boolean string</button>
         <button id="edit-keywords" class="btn secondary">Edit keywords/synonyms</button>
         <button id="start-over" class="btn">Start over</button>
       </div>
-      <div class="small" style="margin-top:10px">Paste this string into your library database search box. Adjust quotes/field tags as needed for specific databases.</div>
+
+      <div class="small" style="margin-top:10px;color:var(--muted)">Paste this into your library database search box. Adjust quotes or field tags as needed for the database.</div>
     </div>
 
     <footer style="margin-top:18px">
-      <div class="small">Tip: If a keyword should be multiple words, drop several words into the same box in Step 2 and they will appear together as the keyword in Step 3.</div>
+      <div class="small" style="color:var(--muted)">Tip: If a keyword should be multiple words, drop more than one word into the same box (they will join with a space) and they'll appear as that keyword in Step 3.</div>
     </footer>
   </div>
 
+  <!-- JavaScript logic -->
   <script>
     // Elements
     const sharedQuestionBanner = document.getElementById('shared-question');
@@ -305,32 +212,35 @@
     const startOverBtn = document.getElementById('start-over');
 
     let boxCounter = 0;
-    const bgPalette = ['var(--shade1)', 'var(--shade2)', 'var(--shade3)', 'var(--shade4)', 'var(--shade5)'];
 
-    // Helper: split question into single words (strip punctuation, keep contractions)
-    function wordsFromQuestion(q) {
-      if (!q) return [];
-      const cleaned = q.replace(/[^\w'\s]/g, ' ');
-      const words = cleaned.split(/\s+/).map(w => w.trim()).filter(Boolean);
-      const seen = new Set();
-      const unique = [];
-      words.forEach(w => {
-        const lower = w.toLowerCase();
-        if (!seen.has(lower)) { seen.add(lower); unique.push(w); }
-      });
-      return unique;
+    // Helpers
+    function showSharedQuestion(q){
+      sharedQuestionText.textContent = q;
+      sharedQuestionBanner.classList.remove('hidden');
     }
 
-    function renderWordPool(words) {
+    function wordsFromQuestion(q){
+      if(!q) return [];
+      const cleaned = q.replace(/[^\w'\s]/g,' ');
+      const words = cleaned.split(/\s+/).map(s=>s.trim()).filter(Boolean);
+      const seen = new Set(); const uniq = [];
+      words.forEach(w=>{
+        const low = w.toLowerCase();
+        if(!seen.has(low)){ seen.add(low); uniq.push(w); }
+      });
+      return uniq;
+    }
+
+    function renderWordPool(words){
       wordPool.innerHTML = '';
-      if (!words.length) { wordPool.textContent = 'No words detected.'; return; }
-      words.forEach(w => {
+      if(!words.length){ wordPool.textContent = 'No words detected.'; return; }
+      words.forEach(w=>{
         const span = document.createElement('span');
         span.className = 'word';
         span.draggable = true;
         span.textContent = w;
         span.dataset.word = w;
-        span.addEventListener('dragstart', (e) => {
+        span.addEventListener('dragstart', e => {
           e.dataTransfer.setData('text/plain', w);
           span.classList.add('dragging');
         });
@@ -339,14 +249,8 @@
       });
     }
 
-    // Show the shared question banner with the submitted question
-    function showSharedQuestion(q) {
-      sharedQuestionText.textContent = q;
-      sharedQuestionBanner.classList.remove('hidden');
-    }
-
-    // Create keyword drop boxes (for step2)
-    function createKeywordBox(initial='') {
+    // Create keyword drop box for step2
+    function createKeywordBox(initial=''){
       const id = `box-${++boxCounter}`;
       const row = document.createElement('div');
       row.className = 'keyword-row';
@@ -364,19 +268,13 @@
       clearBtn.className = 'remove-btn';
       clearBtn.type = 'button';
       clearBtn.textContent = 'Clear';
-      clearBtn.addEventListener('click', () => { input.value=''; });
+      clearBtn.addEventListener('click', () => { input.value = ''; });
 
-      // Drag & drop handlers
-      row.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        row.classList.add('drop-target');
-      });
+      row.addEventListener('dragover', e => { e.preventDefault(); row.classList.add('drop-target'); });
       row.addEventListener('dragleave', () => row.classList.remove('drop-target'));
-      row.addEventListener('drop', (e) => {
-        e.preventDefault();
-        row.classList.remove('drop-target');
-        const w = e.dataTransfer.getData('text/plain');
-        if (!w) return;
+      row.addEventListener('drop', e => {
+        e.preventDefault(); row.classList.remove('drop-target');
+        const w = e.dataTransfer.getData('text/plain'); if(!w) return;
         input.value = input.value ? (input.value + ' ' + w) : w;
       });
 
@@ -386,39 +284,40 @@
       return row;
     }
 
-    // Step1 -> Step2
+    // Step controls
     toStep2Btn.addEventListener('click', () => {
       const q = questionInput.value.trim();
-      if (!q) { alert('Please enter your research question.'); return; }
+      if(!q){ alert('Please enter your research question.'); return; }
       showSharedQuestion(q);
       const words = wordsFromQuestion(q);
       renderWordPool(words);
-      if (!keywordBoxes.children.length) {
-        for (let i=0;i<3;i++) createKeywordBox();
+      if(!keywordBoxes.children.length){
+        for(let i=0;i<3;i++) createKeywordBox();
       }
       step1.classList.add('hidden');
       step2.classList.remove('hidden');
+      window.scrollTo({top:0,behavior:'smooth'});
     });
 
-    clearQuestionBtn.addEventListener('click', () => { if (confirm('Clear question?')) questionInput.value=''; });
+    clearQuestionBtn.addEventListener('click', ()=>{ if(confirm('Clear question?')) questionInput.value=''; });
 
-    addKeywordBoxBtn.addEventListener('click', () => createKeywordBox());
+    addKeywordBoxBtn.addEventListener('click', ()=> createKeywordBox());
 
-    backStep1Btn.addEventListener('click', () => {
+    backStep1Btn.addEventListener('click', ()=>{
       step2.classList.add('hidden');
       step1.classList.remove('hidden');
     });
 
-    // Step2 -> Step3
-    toStep3Btn.addEventListener('click', () => {
+    toStep3Btn.addEventListener('click', ()=>{
       const boxes = Array.from(keywordBoxes.children);
-      const values = boxes.map(b => b.querySelector('.kw').value.trim()).filter(Boolean);
+      const values = boxes.map(b=>b.querySelector('.kw').value.trim()).filter(Boolean);
       keywordsEl.innerHTML = '';
       values.forEach(v => addKeyword(v));
       while (keywordsEl.children.length < 3) addKeyword();
       step2.classList.add('hidden');
       step3.classList.remove('hidden');
-      updateBoolean(); // internal
+      updateBoolean();
+      window.scrollTo({top:0,behavior:'smooth'});
     });
 
     backStep2Btn.addEventListener('click', () => {
@@ -426,28 +325,25 @@
       step2.classList.remove('hidden');
     });
 
-    // STEP 3 logic (keywords + synonyms) — left inputs read-only and shaded background per row
+    // STEP 3: keywords + synonyms (left readonly, shaded rows)
     function createKeywordRow(initialKeyword = '') {
       const row = document.createElement('div');
       row.className = 'keyword-row';
-      row.style.display='flex';
-      row.style.gap='8px';
-      row.style.alignItems='flex-start';
 
-      // Assign a background shade based on current count
-      const index = (keywordsEl.children.length) % bgPalette.length;
-      row.style.background = bgPalette[index];
-
+      // left readonly keyword
       const kwInput = document.createElement('input');
       kwInput.type = 'text';
       kwInput.className = 'kw';
       kwInput.placeholder = 'Keyword (read-only)';
       kwInput.value = initialKeyword;
-      kwInput.readOnly = true; // left textbox not editable
+      kwInput.readOnly = true;
 
+      // right: synonyms area
       const right = document.createElement('div');
-      right.style.flex='0 0 320px';
-      right.style.display='flex'; right.style.flexDirection='column'; right.style.gap='6px';
+      right.style.flex = '0 0 320px';
+      right.style.display = 'flex';
+      right.style.flexDirection = 'column';
+      right.style.gap = '8px';
 
       const synField = document.createElement('input');
       synField.type = 'text';
@@ -456,7 +352,7 @@
         if (e.key === 'Enter' || e.key === ',') {
           e.preventDefault();
           const v = synField.value.trim();
-          if (v) { addSynonymChip(chips, v); synField.value=''; updateBoolean(); }
+          if (v) { addSynonymChip(chips, v); synField.value = ''; updateBoolean(); }
         }
       });
 
@@ -465,7 +361,8 @@
 
       const removeBtn = document.createElement('button');
       removeBtn.className = 'remove-btn';
-      removeBtn.type='button'; removeBtn.textContent='Remove';
+      removeBtn.type = 'button';
+      removeBtn.textContent = 'Remove';
       removeBtn.addEventListener('click', () => { row.remove(); updateBoolean(); });
 
       if (initialKeyword) addSynonymChip(chips, initialKeyword);
@@ -539,36 +436,34 @@
       booleanOutput.dataset.value = built || '';
     }
 
-    // Reset to chosen boxes
+    // Reset step3 to chosen boxes
     resetBtn.addEventListener('click', () => {
-      if (confirm('Reset keywords to the boxes you chose?')) {
-        const boxes = Array.from(keywordBoxes.children);
-        const values = boxes.map(b => b.querySelector('.kw').value.trim()).filter(Boolean);
-        keywordsEl.innerHTML = '';
-        values.forEach(v => addKeyword(v));
-        while (keywordsEl.children.length < 3) addKeyword();
-        updateBoolean();
-      }
+      if (!confirm('Reset keywords to the boxes you chose?')) return;
+      const boxes = Array.from(keywordBoxes.children);
+      const values = boxes.map(b => b.querySelector('.kw').value.trim()).filter(Boolean);
+      keywordsEl.innerHTML = '';
+      values.forEach(v => addKeyword(v));
+      while (keywordsEl.children.length < 3) addKeyword();
+      updateBoolean();
     });
 
     addKeywordBtn.addEventListener('click', () => addKeyword());
 
-    // Navigate to Step 4 (final boolean preview)
+    // Step3 -> Step4
     toStep4Btn.addEventListener('click', () => {
       updateBoolean();
       const out = booleanOutput.dataset.value || '';
       booleanOutput.textContent = out || 'Your Boolean string will appear here.';
       step3.classList.add('hidden');
       step4.classList.remove('hidden');
+      window.scrollTo({top:0,behavior:'smooth'});
     });
 
-    // Edit keywords/synonyms (back to Step 3)
     editKeywordsBtn.addEventListener('click', () => {
       step4.classList.add('hidden');
       step3.classList.remove('hidden');
     });
 
-    // Copy boolean on final screen
     copyBtn.addEventListener('click', async () => {
       const txt = booleanOutput.dataset.value || '';
       if (!txt) { alert('Boolean string is empty. Return to edit keywords/synonyms.'); return; }
@@ -581,7 +476,6 @@
       }
     });
 
-    // Start over
     startOverBtn.addEventListener('click', () => {
       if (!confirm('Start over and clear your work?')) return;
       questionInput.value = '';
@@ -596,15 +490,16 @@
       for (let i = 0; i < 3; i++) createKeywordBox();
       step4.classList.add('hidden');
       step1.classList.remove('hidden');
+      window.scrollTo({top:0,behavior:'smooth'});
     });
 
-    // Observe keywords area to keep boolean updated
+    // Observe keywords area to update boolean
     const observer = new MutationObserver(updateBoolean);
     observer.observe(keywordsEl, { childList: true, subtree: true });
     keywordsEl.addEventListener('input', () => setTimeout(updateBoolean, 250));
 
-    // Ensure at least 3 keyword boxes initially
-    (function initialBoxes() {
+    // Initial setup: ensure 3 boxes
+    (function init() {
       keywordBoxes.innerHTML = '';
       boxCounter = 0;
       for (let i = 0; i < 3; i++) createKeywordBox();
@@ -612,4 +507,3 @@
   </script>
 </body>
 </html>
-
