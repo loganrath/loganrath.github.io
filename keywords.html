@@ -180,330 +180,393 @@ layout: tool
   </div>
 
   <!-- JavaScript logic -->
-  <script>
-    // Elements
-    const sharedQuestionBanner = document.getElementById('shared-question');
-    const sharedQuestionText = document.getElementById('shared-question-text');
+<script>
+  // Elements
+  const sharedQuestionBanner = document.getElementById('shared-question');
+  const sharedQuestionText = document.getElementById('shared-question-text');
 
-    const step1 = document.getElementById('step1');
-    const step2 = document.getElementById('step2');
-    const step3 = document.getElementById('step3');
-    const step4 = document.getElementById('step4');
+  const step1 = document.getElementById('step1');
+  const step2 = document.getElementById('step2');
+  const step3 = document.getElementById('step3');
+  const step4 = document.getElementById('step4');
 
-    const questionInput = document.getElementById('research-question');
-    const toStep2Btn = document.getElementById('to-step2');
-    const clearQuestionBtn = document.getElementById('clear-question');
+  const researchForm = document.getElementById('research-form');
+  const questionInput = document.getElementById('research-question');
+  const toStep2Btn = document.getElementById('to-step2');
+  const clearQuestionBtn = document.getElementById('clear-question');
 
-    const wordPool = document.getElementById('word-pool');
-    const keywordBoxes = document.getElementById('keyword-boxes');
-    const addKeywordBoxBtn = document.getElementById('add-keyword-box');
-    const toStep3Btn = document.getElementById('to-step3');
-    const backStep1Btn = document.getElementById('back-step1');
+  const wordPool = document.getElementById('word-pool');
+  const keywordBoxes = document.getElementById('keyword-boxes');
+  const addKeywordBoxBtn = document.getElementById('add-keyword-box');
+  const toStep3Btn = document.getElementById('to-step3');
+  const backStep1Btn = document.getElementById('back-step1');
 
-    const keywordsEl = document.getElementById('keywords');
-    const addKeywordBtn = document.getElementById('add-keyword');
-    const resetBtn = document.getElementById('reset');
-    const backStep2Btn = document.getElementById('back-step2');
-    const toStep4Btn = document.getElementById('to-step4');
+  const keywordsEl = document.getElementById('keywords');
+  const addKeywordBtn = document.getElementById('add-keyword');
+  const resetBtn = document.getElementById('reset');
+  const backStep2Btn = document.getElementById('back-step2');
+  const toStep4Btn = document.getElementById('to-step4');
 
-    const booleanOutput = document.getElementById('boolean-output');
-    const copyBtn = document.getElementById('copy-btn');
-    const editKeywordsBtn = document.getElementById('edit-keywords');
-    const startOverBtn = document.getElementById('start-over');
+  const booleanOutput = document.getElementById('boolean-output');
+  const copyBtn = document.getElementById('copy-btn');
+  const editKeywordsBtn = document.getElementById('edit-keywords');
+  const startOverBtn = document.getElementById('start-over');
 
-    let boxCounter = 0;
+  let boxCounter = 0;
 
-    // Helpers
-    function showSharedQuestion(q){
-      sharedQuestionText.textContent = q;
-      sharedQuestionBanner.classList.remove('hidden');
-    }
+  // Helpers
+  function showSharedQuestion(q){
+    sharedQuestionText.textContent = q;
+    sharedQuestionBanner.classList.remove('hidden');
+  }
 
-    function wordsFromQuestion(q){
-      if(!q) return [];
-      const cleaned = q.replace(/[^\w'\s]/g,' ');
-      const words = cleaned.split(/\s+/).map(s=>s.trim()).filter(Boolean);
-      const seen = new Set(); const uniq = [];
-      words.forEach(w=>{
-        const low = w.toLowerCase();
-        if(!seen.has(low)){ seen.add(low); uniq.push(w); }
+  function wordsFromQuestion(q){
+    if(!q) return [];
+    const cleaned = q.replace(/[^\w'\s]/g,' ');
+    const words = cleaned.split(/\s+/).map(s=>s.trim()).filter(Boolean);
+    const seen = new Set(); const uniq = [];
+    words.forEach(w=>{
+      const low = w.toLowerCase();
+      if(!seen.has(low)){ seen.add(low); uniq.push(w); }
+    });
+    return uniq;
+  }
+
+  function renderWordPool(words){
+    wordPool.innerHTML = '';
+    if(!words.length){ wordPool.textContent = 'No words detected.'; return; }
+    words.forEach((w)=>{
+      const span = document.createElement('span');
+      span.className = 'word';
+      span.draggable = true;
+      span.textContent = w;
+      span.dataset.word = w;
+      span.setAttribute('role', 'button');
+      span.setAttribute('tabindex', '0');
+      span.setAttribute('aria-label', `Word ${w}`);
+      // keyboard/click fallback: append to first keyword box
+      span.addEventListener('click', () => {
+        const first = keywordBoxes.querySelector('.kw');
+        if(first){ first.value = first.value ? (first.value + ' ' + w) : w; updateWordPoolLabel(); }
       });
-      return uniq;
-    }
-
-    function renderWordPool(words){
-      wordPool.innerHTML = '';
-      if(!words.length){ wordPool.textContent = 'No words detected.'; return; }
-      words.forEach(w=>{
-        const span = document.createElement('span');
-        span.className = 'word';
-        span.draggable = true;
-        span.textContent = w;
-        span.dataset.word = w;
-        span.addEventListener('dragstart', e => {
-          e.dataTransfer.setData('text/plain', w);
-          span.classList.add('dragging');
-        });
-        span.addEventListener('dragend', () => span.classList.remove('dragging'));
-        wordPool.appendChild(span);
+      span.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); span.click(); }
       });
-    }
-
-    // Create keyword drop box for step2
-    function createKeywordBox(initial=''){
-      const id = `box-${++boxCounter}`;
-      const row = document.createElement('div');
-      row.className = 'keyword-row';
-      row.dataset.id = id;
-      row.style.minHeight = '44px';
-
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.className = 'kw';
-      input.placeholder = 'Drop a word here';
-      input.value = initial;
-      input.readOnly = true;
-
-      const clearBtn = document.createElement('button');
-      clearBtn.className = 'remove-btn';
-      clearBtn.type = 'button';
-      clearBtn.textContent = 'Clear';
-      clearBtn.addEventListener('click', () => { input.value = ''; });
-
-      row.addEventListener('dragover', e => { e.preventDefault(); row.classList.add('drop-target'); });
-      row.addEventListener('dragleave', () => row.classList.remove('drop-target'));
-      row.addEventListener('drop', e => {
-        e.preventDefault(); row.classList.remove('drop-target');
-        const w = e.dataTransfer.getData('text/plain'); if(!w) return;
-        input.value = input.value ? (input.value + ' ' + w) : w;
+      span.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', w);
+        span.classList.add('dragging');
       });
+      span.addEventListener('dragend', () => span.classList.remove('dragging'));
+      wordPool.appendChild(span);
+    });
+  }
 
-      row.appendChild(input);
-      row.appendChild(clearBtn);
-      keywordBoxes.appendChild(row);
-      return row;
-    }
+  // Utility: update aria-live label for word-pool (optional feedback)
+  function updateWordPoolLabel(){
+    // announce count to assistive tech
+    const count = wordPool.querySelectorAll('.word').length;
+    wordPool.setAttribute('aria-label', `Words from your question. ${count} words available.`);
+  }
 
-    // Step controls
-    toStep2Btn.addEventListener('click', () => {
-      const q = questionInput.value.trim();
-      if(!q){ alert('Please enter your research question.'); return; }
-      showSharedQuestion(q);
-      const words = wordsFromQuestion(q);
-      renderWordPool(words);
-      if(!keywordBoxes.children.length){
-        for(let i=0;i<3;i++) createKeywordBox();
-      }
-      step1.classList.add('hidden');
-      step2.classList.remove('hidden');
-      window.scrollTo({top:0,behavior:'smooth'});
+  // Create keyword drop box for step2 (adds sr-only label for accessibility)
+  function createKeywordBox(initial=''){
+    const id = `box-${++boxCounter}`;
+
+    const row = document.createElement('div');
+    row.className = 'keyword-row';
+    row.dataset.id = id;
+    row.style.minHeight = '44px';
+
+    const labelEl = document.createElement('label');
+    labelEl.className = 'sr-only';
+    labelEl.htmlFor = id + '-input';
+    labelEl.textContent = 'Keyword box ' + boxCounter;
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'kw';
+    input.id = id + '-input';
+    input.name = id + '-input';
+    input.placeholder = 'Drop a word here';
+    input.value = initial;
+    input.readOnly = true;
+    input.setAttribute('aria-label', 'Keyword box ' + boxCounter);
+
+    const clearBtn = document.createElement('button');
+    clearBtn.className = 'remove-btn';
+    clearBtn.type = 'button';
+    clearBtn.textContent = 'Clear';
+    clearBtn.setAttribute('aria-label', 'Clear keyword box ' + boxCounter);
+    clearBtn.addEventListener('click', () => { input.value = ''; });
+
+    row.addEventListener('dragover', e => { e.preventDefault(); row.classList.add('drop-target'); });
+    row.addEventListener('dragleave', () => row.classList.remove('drop-target'));
+    row.addEventListener('drop', e => {
+      e.preventDefault(); row.classList.remove('drop-target');
+      const w = e.dataTransfer.getData('text/plain'); if(!w) return;
+      input.value = input.value ? (input.value + ' ' + w) : w;
     });
 
-    clearQuestionBtn.addEventListener('click', ()=>{ if(confirm('Clear question?')) questionInput.value=''; });
+    row.appendChild(labelEl);
+    row.appendChild(input);
+    row.appendChild(clearBtn);
+    keywordBoxes.appendChild(row);
+    updateWordPoolLabel();
+    return row;
+  }
 
-    addKeywordBoxBtn.addEventListener('click', ()=> createKeywordBox());
-
-    backStep1Btn.addEventListener('click', ()=>{
-      step2.classList.add('hidden');
-      step1.classList.remove('hidden');
-    });
-
-    toStep3Btn.addEventListener('click', ()=>{
-      const boxes = Array.from(keywordBoxes.children);
-      const values = boxes.map(b=>b.querySelector('.kw').value.trim()).filter(Boolean);
-      keywordsEl.innerHTML = '';
-      values.forEach(v => addKeyword(v));
-      while (keywordsEl.children.length < 3) addKeyword();
-      step2.classList.add('hidden');
-      step3.classList.remove('hidden');
-      updateBoolean();
-      window.scrollTo({top:0,behavior:'smooth'});
-    });
-
-    backStep2Btn.addEventListener('click', () => {
-      step3.classList.add('hidden');
-      step2.classList.remove('hidden');
-    });
-
-    // STEP 3: keywords + synonyms (left readonly, shaded rows)
-    function createKeywordRow(initialKeyword = '') {
-      const row = document.createElement('div');
-      row.className = 'keyword-row';
-
-      // left readonly keyword
-      const kwInput = document.createElement('input');
-      kwInput.type = 'text';
-      kwInput.className = 'kw';
-      kwInput.placeholder = 'Keyword (read-only)';
-      kwInput.value = initialKeyword;
-      kwInput.readOnly = true;
-
-      // right: synonyms area
-      const right = document.createElement('div');
-      right.style.flex = '0 0 320px';
-      right.style.display = 'flex';
-      right.style.flexDirection = 'column';
-      right.style.gap = '8px';
-
-      const synField = document.createElement('input');
-      synField.type = 'text';
-      synField.placeholder = 'Add synonym and press Enter or comma';
-      synField.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ',') {
-          e.preventDefault();
-          const v = synField.value.trim();
-          if (v) { addSynonymChip(chips, v); synField.value = ''; updateBoolean(); }
-        }
-      });
-
-      const chips = document.createElement('div');
-      chips.className = 'synonyms';
-
-      const removeBtn = document.createElement('button');
-      removeBtn.className = 'remove-btn';
-      removeBtn.type = 'button';
-      removeBtn.textContent = 'Remove';
-      removeBtn.addEventListener('click', () => { row.remove(); updateBoolean(); });
-
-      if (initialKeyword) addSynonymChip(chips, initialKeyword);
-
-      right.appendChild(synField);
-      right.appendChild(chips);
-      right.appendChild(removeBtn);
-
-      row.appendChild(kwInput);
-      row.appendChild(right);
-      keywordsEl.appendChild(row);
-      return row;
+  // Step controls
+  researchForm.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const q = questionInput.value.trim();
+    if(!q){ alert('Please enter your research question.'); return; }
+    showSharedQuestion(q);
+    const words = wordsFromQuestion(q);
+    renderWordPool(words);
+    if(!keywordBoxes.children.length){
+      for(let i=0;i<3;i++) createKeywordBox();
     }
+    step1.classList.add('hidden');
+    step2.classList.remove('hidden');
+    step2.removeAttribute('aria-hidden');
+    step1.setAttribute('aria-hidden', 'true');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
 
-    function addSynonymChip(container, text) {
-      const t = text.trim(); if (!t) return;
-      const exists = Array.from(container.children).some(c => c.textContent === t);
-      if (exists) return;
-      const chip = document.createElement('span');
-      chip.className = 'syn-tag';
-      chip.textContent = t;
-      chip.title = 'Click to remove';
-      chip.style.cursor = 'pointer';
-      chip.addEventListener('click', () => { chip.remove(); updateBoolean(); });
-      container.appendChild(chip);
-    }
+  clearQuestionBtn.addEventListener('click', ()=>{ if(confirm('Clear question?')) questionInput.value=''; });
 
-    function addKeyword(initial = '') {
-      const row = createKeywordRow(initial);
-      const synInput = row.querySelector('input[placeholder^="Add synonym"]');
-      synInput.addEventListener('blur', () => {
-        const v = synInput.value.trim();
-        if (v) { addSynonymChip(row.querySelector('.synonyms'), v); synInput.value = ''; updateBoolean(); }
-      });
-      updateBoolean();
-      return row;
-    }
+  addKeywordBoxBtn.addEventListener('click', ()=> createKeywordBox());
 
-    function getAllKeywordGroups() {
-      const groups = [];
-      const rows = keywordsEl.querySelectorAll('.keyword-row');
-      rows.forEach(row => {
-        const chips = Array.from(row.querySelectorAll('.syn-tag')).map(c => c.textContent.trim());
-        if (chips.length === 0) {
-          const main = row.querySelector('.kw').value.trim();
-          if (main) chips.push(main);
-        }
-        const cleaned = chips.map(s => s.replace(/\s+/g, ' ').trim()).filter(Boolean);
-        if (cleaned.length) groups.push(cleaned);
-      });
-      return groups;
-    }
+  backStep1Btn.addEventListener('click', ()=>{
+    step2.classList.add('hidden');
+    step1.classList.remove('hidden');
+    step1.removeAttribute('aria-hidden');
+    step2.setAttribute('aria-hidden', 'true');
+  });
 
-    function buildBooleanString(groups) {
-      if (!groups.length) return '';
-      const groupStrings = groups.map(g => {
-        const syns = g.map(s => {
-          const needsQuotes = s.includes(' ');
-          const esc = s.replace(/"/g, '\\"');
-          return needsQuotes ? '"' + esc + '"' : esc;
-        });
-        if (syns.length === 1) return syns[0];
-        return '(' + syns.join(' OR ') + ')';
-      });
-      return groupStrings.join(' AND ');
-    }
+  toStep3Btn.addEventListener('click', ()=>{
+    const boxes = Array.from(keywordBoxes.children);
+    const values = boxes.map(b=>b.querySelector('.kw').value.trim()).filter(Boolean);
+    keywordsEl.innerHTML = '';
+    values.forEach(v => addKeyword(v));
+    while (keywordsEl.children.length < 3) addKeyword();
+    step2.classList.add('hidden');
+    step3.classList.remove('hidden');
+    step3.removeAttribute('aria-hidden');
+    step2.setAttribute('aria-hidden', 'true');
+    updateBoolean();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
 
-    function updateBoolean() {
-      const groups = getAllKeywordGroups();
-      const built = buildBooleanString(groups);
-      booleanOutput.dataset.value = built || '';
-    }
+  backStep2Btn.addEventListener('click', () => {
+    step3.classList.add('hidden');
+    step2.classList.remove('hidden');
+    step2.removeAttribute('aria-hidden');
+    step3.setAttribute('aria-hidden', 'true');
+  });
 
-    // Reset step3 to chosen boxes
-    resetBtn.addEventListener('click', () => {
-      if (!confirm('Reset keywords to the boxes you chose?')) return;
-      const boxes = Array.from(keywordBoxes.children);
-      const values = boxes.map(b => b.querySelector('.kw').value.trim()).filter(Boolean);
-      keywordsEl.innerHTML = '';
-      values.forEach(v => addKeyword(v));
-      while (keywordsEl.children.length < 3) addKeyword();
-      updateBoolean();
-    });
+  // STEP 3: keywords + synonyms (left readonly, shaded rows)
+  function createKeywordRow(initialKeyword = '') {
+    const row = document.createElement('div');
+    row.className = 'keyword-row';
 
-    addKeywordBtn.addEventListener('click', () => addKeyword());
+    // left readonly keyword (with label for screen readers)
+    const kwId = 'kw-' + (Math.random().toString(36).substr(2,6));
+    const kwLabel = document.createElement('label');
+    kwLabel.className = 'sr-only';
+    kwLabel.htmlFor = kwId;
+    kwLabel.textContent = 'Keyword';
 
-    // Step3 -> Step4
-    toStep4Btn.addEventListener('click', () => {
-      updateBoolean();
-      const out = booleanOutput.dataset.value || '';
-      booleanOutput.textContent = out || 'Your Boolean string will appear here.';
-      step3.classList.add('hidden');
-      step4.classList.remove('hidden');
-      window.scrollTo({top:0,behavior:'smooth'});
-    });
+    const kwInput = document.createElement('input');
+    kwInput.type = 'text';
+    kwInput.className = 'kw';
+    kwInput.id = kwId;
+    kwInput.placeholder = 'Keyword (read-only)';
+    kwInput.value = initialKeyword;
+    kwInput.readOnly = true;
+    kwInput.setAttribute('aria-label', initialKeyword ? 'Keyword ' + initialKeyword : 'Keyword');
 
-    editKeywordsBtn.addEventListener('click', () => {
-      step4.classList.add('hidden');
-      step3.classList.remove('hidden');
-    });
+    // right: synonyms area
+    const right = document.createElement('div');
+    right.style.flex = '0 0 320px';
+    right.style.display = 'flex';
+    right.style.flexDirection = 'column';
+    right.style.gap = '8px';
 
-    copyBtn.addEventListener('click', async () => {
-      const txt = booleanOutput.dataset.value || '';
-      if (!txt) { alert('Boolean string is empty. Return to edit keywords/synonyms.'); return; }
-      try {
-        await navigator.clipboard.writeText(txt);
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => copyBtn.textContent = 'Copy Boolean string', 1400);
-      } catch (e) {
-        alert('Unable to copy automatically. Select and copy the text manually.');
+    const synField = document.createElement('input');
+    synField.type = 'text';
+    synField.placeholder = 'Add synonym and press Enter or comma';
+    synField.setAttribute('aria-label', 'Add synonym for ' + (initialKeyword || 'keyword'));
+
+    synField.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ',') {
+        e.preventDefault();
+        const v = synField.value.trim();
+        if (v) { addSynonymChip(chips, v); synField.value = ''; updateBoolean(); }
       }
     });
 
-    startOverBtn.addEventListener('click', () => {
-      if (!confirm('Start over and clear your work?')) return;
-      questionInput.value = '';
-      sharedQuestionBanner.classList.add('hidden');
-      sharedQuestionText.textContent = '';
-      wordPool.innerHTML = '';
-      keywordBoxes.innerHTML = '';
-      keywordsEl.innerHTML = '';
-      booleanOutput.textContent = 'Your Boolean string will appear here.';
-      delete booleanOutput.dataset.value;
-      boxCounter = 0;
-      for (let i = 0; i < 3; i++) createKeywordBox();
-      step4.classList.add('hidden');
-      step1.classList.remove('hidden');
-      window.scrollTo({top:0,behavior:'smooth'});
+    const chips = document.createElement('div');
+    chips.className = 'synonyms';
+    chips.setAttribute('aria-live', 'polite');
+
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'remove-btn';
+    removeBtn.type = 'button';
+    removeBtn.textContent = 'Remove';
+    removeBtn.setAttribute('aria-label', 'Remove keyword row');
+    removeBtn.addEventListener('click', () => { row.remove(); updateBoolean(); });
+
+    if (initialKeyword) addSynonymChip(chips, initialKeyword);
+
+    right.appendChild(synField);
+    right.appendChild(chips);
+    right.appendChild(removeBtn);
+
+    row.appendChild(kwLabel);
+    row.appendChild(kwInput);
+    row.appendChild(right);
+    keywordsEl.appendChild(row);
+    return row;
+  }
+
+  function addSynonymChip(container, text) {
+    const t = text.trim(); if (!t) return;
+    const exists = Array.from(container.children).some(c => c.textContent === t);
+    if (exists) return;
+    const chip = document.createElement('span');
+    chip.className = 'syn-tag';
+    chip.textContent = t;
+    chip.title = 'Click to remove';
+    chip.style.cursor = 'pointer';
+    chip.setAttribute('role', 'button');
+    chip.setAttribute('tabindex', '0');
+    chip.setAttribute('aria-label', 'Synonym ' + t + '. Click to remove.');
+    chip.addEventListener('click', () => { chip.remove(); updateBoolean(); });
+    chip.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); chip.click(); }});
+    container.appendChild(chip);
+  }
+
+  function addKeyword(initial = '') {
+    const row = createKeywordRow(initial);
+    const synInput = row.querySelector('input[placeholder^="Add synonym"]');
+    synInput.addEventListener('blur', () => {
+      const v = synInput.value.trim();
+      if (v) { addSynonymChip(row.querySelector('.synonyms'), v); synInput.value = ''; updateBoolean(); }
     });
+    updateBoolean();
+    return row;
+  }
 
-    // Observe keywords area to update boolean
-    const observer = new MutationObserver(updateBoolean);
-    observer.observe(keywordsEl, { childList: true, subtree: true });
-    keywordsEl.addEventListener('input', () => setTimeout(updateBoolean, 250));
+  function getAllKeywordGroups() {
+    const groups = [];
+    const rows = keywordsEl.querySelectorAll('.keyword-row');
+    rows.forEach(row => {
+      const chips = Array.from(row.querySelectorAll('.syn-tag')).map(c => c.textContent.trim());
+      if (chips.length === 0) {
+        const main = row.querySelector('.kw').value.trim();
+        if (main) chips.push(main);
+      }
+      const cleaned = chips.map(s => s.replace(/\s+/g, ' ').trim()).filter(Boolean);
+      if (cleaned.length) groups.push(cleaned);
+    });
+    return groups;
+  }
 
-    // Initial setup: ensure 3 boxes
-    (function init() {
-      keywordBoxes.innerHTML = '';
-      boxCounter = 0;
-      for (let i = 0; i < 3; i++) createKeywordBox();
-    })();
-  </script>
+  function buildBooleanString(groups) {
+    if (!groups.length) return '';
+    const groupStrings = groups.map(g => {
+      const syns = g.map(s => {
+        const needsQuotes = s.includes(' ');
+        const esc = s.replace(/"/g, '\\"');
+        return needsQuotes ? '"' + esc + '"' : esc;
+      });
+      if (syns.length === 1) return syns[0];
+      return '(' + syns.join(' OR ') + ')';
+    });
+    return groupStrings.join(' AND ');
+  }
+
+  function updateBoolean() {
+    const groups = getAllKeywordGroups();
+    const built = buildBooleanString(groups);
+    booleanOutput.dataset.value = built || '';
+  }
+
+  // Reset step3 to chosen boxes
+  resetBtn.addEventListener('click', () => {
+    if (!confirm('Reset keywords to the boxes you chose?')) return;
+    const boxes = Array.from(keywordBoxes.children);
+    const values = boxes.map(b => b.querySelector('.kw').value.trim()).filter(Boolean);
+    keywordsEl.innerHTML = '';
+    values.forEach(v => addKeyword(v));
+    while (keywordsEl.children.length < 3) addKeyword();
+    updateBoolean();
+  });
+
+  addKeywordBtn.addEventListener('click', () => addKeyword());
+
+  // Step3 -> Step4
+  toStep4Btn.addEventListener('click', () => {
+    updateBoolean();
+    const out = booleanOutput.dataset.value || '';
+    booleanOutput.textContent = out || 'Your Boolean string will appear here.';
+    step3.classList.add('hidden');
+    step4.classList.remove('hidden');
+    step4.removeAttribute('aria-hidden');
+    step3.setAttribute('aria-hidden', 'true');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  editKeywordsBtn.addEventListener('click', () => {
+    step4.classList.add('hidden');
+    step3.classList.remove('hidden');
+    step3.removeAttribute('aria-hidden');
+    step4.setAttribute('aria-hidden', 'true');
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    const txt = booleanOutput.dataset.value || '';
+    if (!txt) { alert('Boolean string is empty. Return to edit keywords/synonyms.'); return; }
+    try {
+      await navigator.clipboard.writeText(txt);
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => copyBtn.textContent = 'Copy search string', 1400);
+    } catch (e) {
+      alert('Unable to copy automatically. Select and copy the text manually.');
+    }
+  });
+
+  startOverBtn.addEventListener('click', () => {
+    if (!confirm('Start over and clear your work?')) return;
+    questionInput.value = '';
+    sharedQuestionBanner.classList.add('hidden');
+    sharedQuestionText.textContent = '';
+    wordPool.innerHTML = '';
+    keywordBoxes.innerHTML = '';
+    keywordsEl.innerHTML = '';
+    booleanOutput.textContent = 'Your Boolean string will appear here.';
+    delete booleanOutput.dataset.value;
+    boxCounter = 0;
+    for (let i = 0; i < 3; i++) createKeywordBox();
+    step4.classList.add('hidden');
+    step1.classList.remove('hidden');
+    step1.removeAttribute('aria-hidden');
+    step4.setAttribute('aria-hidden', 'true');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  // Observe keywords area to update boolean
+  const observer = new MutationObserver(updateBoolean);
+  observer.observe(keywordsEl, { childList: true, subtree: true });
+  keywordsEl.addEventListener('input', () => setTimeout(updateBoolean, 250));
+
+  // Initial setup: ensure 3 boxes
+  (function init() {
+    keywordBoxes.innerHTML = '';
+    boxCounter = 0;
+    for (let i = 0; i < 3; i++) createKeywordBox();
+  })();
+</script>
 </body>
 </html>
