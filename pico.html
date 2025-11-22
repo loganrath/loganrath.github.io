@@ -96,7 +96,8 @@ layout: page
         <div class="synonyms-area" id="synArea"></div>
 
         <div class="syn-input" style="margin-top:12px">
-          <input id="synInput" type="text" placeholder='Type a synonym and press Enter (e.g., "T2DM", "type II diabetes")' />
+          <label for=""synInput">Type a synonym and press enter:</label>
+          <input id="synInput" type="text" />
           <button class="btn" id="addSyn">Add</button>
         </div>
 
@@ -124,7 +125,7 @@ layout: page
       </div>
 
       <div style="margin-top:18px">
-        <div style="font-weight:700;margin-bottom:8px">Boolean search (Combined):</div>
+        <div style="font-weight:700;margin-bottom:8px"><label for="combinedOutput">Boolean search (Combined):</label></div>
         <textarea id="combinedOutput" style="width:100%;min-height:160px;padding:12px;border-radius:8px;border:1px solid #e6eefc;font-size:14px"></textarea>
         <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="copyBtn">Copy to clipboard</button><button class="btn secondary" id="toggleDb">Toggle: PubMed-style</button></div>
       </div>
