@@ -81,6 +81,13 @@
       .keyword-row .kw{width:100%}
       .controls{flex-direction:column;align-items:stretch}
       .btn{width:100%}
+      .step2-flex { gap: 8px; }                         /* smaller gap between stacked columns */
+      .right-column { margin-bottom: 6px; }            /* less space under pool */
+      .right-panel { padding: 8px; min-height: 80px; } /* slightly smaller panel padding/height */
+      .left-column { margin-top: 0; }                  /* remove any top margin */
+      .left-column .keywords-list { margin-top: 0; }   /* remove extra spacing above boxes */
+      .left-column .controls { margin-top: 6px; }      /* tighter control spacing */
+      .keyword-row { padding: 10px; }                  /* slightly smaller row padding */
     }
   </style>
 </head>
@@ -89,7 +96,7 @@
 
     <header>
       <h1>Keyword & Boolean Builder</h1>
-      <p class="lead" style="color:var(--muted)">Stepwise: enter question → assign words → add synonyms → get Boolean string.</p>
+      <p class="lead" style="color:var(--muted)">Stepwise: Enter Question → assign words → Add Synonyms → Get Search String</p>
     </header>
 
     <!-- Shared question banner (visible after submit) -->
@@ -101,7 +108,7 @@
     <!-- STEP 1 -->
     <div id="step1" class="card">
       <h2>Step 1 — Research question</h2>
-      <div class="directions"><strong>What:</strong> Type your research question. <strong>Why:</strong> We'll extract words to help you create keywords.</div>
+      <div class="directions"><p><strong>What do I do?</strong> Type your research question.</p><p><strong>Why?</strong> This page will help you decide which keywords are most important and then create an complex search string.</p></div>
 
       <label for="research-question">Research question</label>
       <textarea id="research-question" rows="3" placeholder="e.g., How does social media use affect teenagers' sleep?"></textarea>
@@ -115,7 +122,7 @@
     <!-- STEP 2 -->
     <div id="step2" class="card hidden">
       <h2>Step 2 — Assign words</h2>
-      <div class="directions"><strong>What:</strong> Drag single words from the word pool into the keyword boxes. <strong>Why:</strong> Selecting main words helps form focused search concepts.</div>
+      <div class="directions"><p><strong>What do I do?</strong> Drag single words from the word pool into the keyword boxes.</p><p><strong>Why?</strong> Selecting main words helps form focused search concepts.</p></div>
 
       <div class="step2-flex" style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
         <div class="left-column" style="flex:1;min-width:300px">
@@ -129,17 +136,18 @@
           </div>
         </div>
 
-        <div class="right-column" style="flex:0 0 320px">
+        <div class="right-column">
           <label>Words from your question (drag these)</label>
           <div id="word-pool" class="right-panel" aria-live="polite"></div>
         </div>
+        <div class="small" style="color:var(--muted)">Tip: If a keyword should be multiple words, drop more than one word into the same box (they will join with a space) and they'll appear as that keyword in Step 3.</div>
       </div>
     </div>
 
     <!-- STEP 3 -->
     <div id="step3" class="card hidden">
       <h2>Step 3 — Add synonyms</h2>
-      <div class="directions"><strong>What:</strong> For each keyword row, add synonyms on the right (press Enter or comma). <strong>Why:</strong> Use OR between synonyms and AND between concept groups to build comprehensive searches.</div>
+      <div class="directions"><p><strong>What do I do?</strong> For each keyword row, add synonyms on the right (press Enter or type a comma).</p><p><strong>Why?</strong> Using synonyms will increase your chances of finding the best sources.</p></div>
 
       <div style="margin-top:8px">
         <div style="margin-bottom:10px">
@@ -148,7 +156,6 @@
 
         <label>Keywords & synonyms</label>
         <div id="keywords" class="keywords-list" aria-live="polite"></div>
-
         <div class="controls" style="margin-top:12px">
           <button id="reset" class="remove-btn">Reset to chosen boxes</button>
           <button id="back-step2" class="btn">Back</button>
@@ -160,22 +167,21 @@
     <!-- STEP 4 -->
     <div id="step4" class="card hidden">
       <h2>Step 4 — Final Boolean string</h2>
-      <div class="directions"><strong>What:</strong> Review and copy the final Boolean string. <strong>Why:</strong> Paste into your library database to run the refined search.</div>
+      <div class="directions"><p><strong>What do I do?</strong> Review and copy the list of keywords below. Then, press the copy button and paste into the search field in Library Search or a specific library database.</p></div>
 
-      <label>Final Boolean string</label>
-      <div id="boolean-output" class="output" aria-live="polite">Your Boolean string will appear here.</div>
+      <label>Final Search String</label>
+      <div id="boolean-output" class="output" aria-live="polite">Your final search string will appear here.</div>
 
       <div class="controls" style="margin-top:12px">
-        <button id="copy-btn" class="btn">Copy Boolean string</button>
+        <button id="copy-btn" class="btn">Copy search string</button>
         <button id="edit-keywords" class="btn secondary">Edit keywords/synonyms</button>
         <button id="start-over" class="btn">Start over</button>
       </div>
 
-      <div class="small" style="margin-top:10px;color:var(--muted)">Paste this into your library database search box. Adjust quotes or field tags as needed for the database.</div>
+      <div class="small" style="margin-top:10px;color:var(--muted)">This is just to get you started. You may wish to change your add, remove, or change specific words after you see the results. Don't forget to limit to peer-reviewed/scholarly articles in the last 10 years.</div>
     </div>
 
     <footer style="margin-top:18px">
-      <div class="small" style="color:var(--muted)">Tip: If a keyword should be multiple words, drop more than one word into the same box (they will join with a space) and they'll appear as that keyword in Step 3.</div>
     </footer>
   </div>
 
