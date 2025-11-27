@@ -110,7 +110,11 @@ layout: tool
         <p><strong>Why?</strong> When searching a database you can't use full sentences. This means we have to reduce the entire research question into the most important words or concepts.</p></div>
 
       <div class="step2-flex" style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
-        <div class="" style="">
+        <div class=""><!-- right-column -->
+          <label>Words from your question (drag these)</label>
+          <div id="word-pool" class="right-panel" aria-live="polite"></div>
+        </div>
+          <div class="" style="">
           <!-- left-column flex:1;min-width:300px -->
           <label for="keyword-boxes">Keyword boxes (drop words here)</label>
           <div id="keyword-boxes" class="keywords-list" aria-live="polite"></div>
@@ -120,11 +124,6 @@ layout: tool
             <button id="to-step3" class="btn">Next: Add synonyms</button>
             <button id="back-step1" class="btn">Back</button>
           </div>
-        </div>
-
-        <div class=""><!-- right-column -->
-          <label>Words from your question (drag these)</label>
-          <div id="word-pool" class="right-panel" aria-live="polite"></div>
         </div>
         <div class="small" style="color:var(--muted)">Tip: If a keyword should be multiple words, drop more than one word into the same box (they will join with a space) and they'll appear as that keyword in Step 3.</div>
       </div>
