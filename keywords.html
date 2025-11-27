@@ -88,11 +88,6 @@ layout: tool
   </style>
   <div class="container">
 
-    <header>
-      <h1>Keyword & Boolean Builder</h1>
-      <p class="lead" style="color:var(--muted)">Stepwise: Enter Question → assign words → Add Synonyms → Get Search String</p>
-    </header>
-
     <!-- Shared question banner (visible after submit) -->
     <div id="shared-question" class="question-banner hidden" aria-live="polite">
       <strong>Research question:</strong>
@@ -110,11 +105,13 @@ layout: tool
 
     <!-- STEP 2 -->
     <div id="step2" class="card hidden">
-      <h2 id="step2-heading">Step 2 — Assign words</h2>
-      <div class="directions"><p><strong>What do I do?</strong> Drag single words from the word pool into the keyword boxes.</p><p><strong>Why?</strong> Selecting main words helps form focused search concepts.</p></div>
+      <h2 id="step2-heading">Step 2 — Select keywords from your research question</h2>
+      <div class="directions"><p><strong>What do I do?</strong> Look at your research question and drag the most important 2-3 words down into their own boxes. You can drag multiple words into the same box if they're the same part of your idea.</p>
+        <p><strong>Why?</strong> When searching a database you can't use full sentences. This means we have to reduce the entire research question into the most important words or concepts.</p></div>
 
       <div class="step2-flex" style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
-        <div class="left-column" style="flex:1;min-width:300px">
+        <div class="" style="">
+          <!-- left-column flex:1;min-width:300px -->
           <label for="keyword-boxes">Keyword boxes (drop words here)</label>
           <div id="keyword-boxes" class="keywords-list" aria-live="polite"></div>
 
@@ -125,7 +122,7 @@ layout: tool
           </div>
         </div>
 
-        <div class="right-column">
+        <div class=""><!-- right-column -->
           <label>Words from your question (drag these)</label>
           <div id="word-pool" class="right-panel" aria-live="polite"></div>
         </div>
