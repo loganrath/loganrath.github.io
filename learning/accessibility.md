@@ -2,7 +2,7 @@
 layout: page
 title: "3rd Party Tools to Help with Accessibility"
 ---
-This page brings together content that I have used to help others with accessibility. The [standard disclaimer](/disclaimer/) applies.
+This page brings together content that I have used to help others with accessibility. Use at your own risk.
 
 
 Websites
