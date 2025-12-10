@@ -13,7 +13,7 @@ layout: page
     .pico-input input[type="text"]{font-size:18px;border:none;background:transparent;outline:none;width:340px;padding:6px 8px;}
     .muted{color:var(--muted);}
     .controls{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px}
-    .btn{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
+    .btn,.btn:hover{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
     .btn.secondary{background:#eef6ff;color:var(--accent);border:1px solid rgba(11,102,195,0.08)}
     .small{font-size:13px;color:var(--muted)}
     .chip{background:#f1f7ff;border-radius:999px;padding:8px 12px;border:1px solid rgba(11,102,195,0.05);display:inline-flex;gap:10px;align-items:center;font-weight:600;color:var(--accent)}
@@ -125,14 +125,15 @@ layout: page
       </div>
 
       <div style="margin-top:18px">
-        <div style="font-weight:700;margin-bottom:8px"><label for="combinedOutput">Search String for PICO search:</label>
-          <p>Now that you've generated synonyms for your topics, copy the search terms below and paste them into a library database. You can also use the button at the bottom to run a search in CINAL and MEDLINE together.</p>
-          <p>If the results you get aren't working, you may need to further adjust your search terms and/or check your limiters. When in doubt, reach out to Dr. Rath with this search string (copy and paste it) and explain <em>why</em> the results aren't working.</p>
+        <div style="margin-bottom:8px">
+          <div style="background-color:#E7F2FE;color:var(--accent)">
+            <p>Now that you've generated synonyms for your topics, copy the search terms below and paste them into a library database. You can also use the button at the bottom to run a search in CINAL, MEDLINE, or both.</p>
+          </div>
+          <label style="font-weight:700; margin-bottom: 1em;" for="combinedOutput">Search String for PICO search:</label>
         </div>
-
         <textarea id="combinedOutput" style="width:100%;min-height:160px;padding:12px;border-radius:8px;border:1px solid #e6eefc;font-size:14px"></textarea>
-        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="copyBtn">Copy to clipboard</button><button class="btn secondary" id="toggleDb">Toggle: PubMed-style</button></div>
-      </div>
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="copyBtn">Copy to clipboard</button></div>
+        <div style="display:flex;gap:8px;margin-top:10px">Search Databases through <a href="https://library.brockport.edu/nursing">SUNY Brockport</a>: <button class="btn" id="CINAHLbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="CINAHLMEDLINEbtn">Search both</button></div>
 
       <div style="margin-top:16px;color:var(--muted);font-size:13px">Tip: paste into a database's advanced search. Adjust field tags per database.</div>
     </div>
@@ -147,7 +148,6 @@ layout: page
         stepOrder: ['P','I','C','O'],
         stepNames: {P:'Population',I:'Intervention',C:'Comparison',O:'Outcome / Timeframe'},
         stepIndex: 0,
-        pubmedStyle: false,
         noComparison: false,
         // populationBases: array of base population terms (from splitting on 'with')
         populationBases: []
@@ -188,8 +188,10 @@ layout: page
       const progressBar = document.getElementById('progressBar');
 
       const combinedOutput = document.getElementById('combinedOutput');
+      const cinahlBtn = document.getElementById('CINAHLbtn');
+      const medlineBtn = document.getElementById('MEDLINEbtn');
+      const cinahlmedlineBtn = document.getElementById('CINAHLMEDLINEbtn');
       const copyBtn = document.getElementById('copyBtn');
-      const toggleDb = document.getElementById('toggleDb');
       const editPICO = document.getElementById('editPICO');
       const finishBtn = document.getElementById('finishBtn');
 
@@ -404,7 +406,21 @@ layout: page
         catch(e){ copyBtn.textContent='Copy failed'; setTimeout(()=>copyBtn.textContent='Copy to clipboard',1200); }
       });
 
-      toggleDb.addEventListener('click', ()=>{ state.pubmedStyle = !state.pubmedStyle; toggleDb.textContent = state.pubmedStyle ? 'Toggle: Generic-style' : 'Toggle: PubMed-style'; buildCombined(); });
+      cinahlBtn.addEventListener('click', function() {
+        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=cul&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+        window.open(url, '_blank'); // Opens in a new tab
+      });
+
+      medlineBtn.addEventListener('click', function() {
+        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=mnh&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+        window.open(url, '_blank'); // Opens in a new tab
+      });
+
+      cinahlmedlineBtn.addEventListener('click', function() {
+        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=mnh&db=cul&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+        window.open(url, '_blank'); // Opens in a new tab
+      });
+
 
       editPICO.addEventListener('click', ()=>{
         // put P back into population input (join bases with ' with ')
@@ -434,5 +450,3 @@ layout: page
       showMain();
     });
   </script>
-</body>
-</html>
