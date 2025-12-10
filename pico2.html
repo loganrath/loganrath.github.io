@@ -408,6 +408,15 @@ layout: page
         window.open(url, '_blank'); // Opens in a new tab
       });
 
+      medlineBtn.addEventListener('click', function() {
+        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=mnh&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+        window.open(url, '_blank'); // Opens in a new tab
+      });
+
+      cinahlmedlineBtn.addEventListener('click', function() {
+        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=mnh&db=cul&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+        window.open(url, '_blank'); // Opens in a new tab
+      });
 
 
       editPICO.addEventListener('click', ()=>{
