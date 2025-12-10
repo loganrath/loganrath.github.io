@@ -1,0 +1,440 @@
+---
+title: "Dr. Logan Rath's PICO search tool"
+layout: page
+---
+  <style>
+    :root{--bg:#f7fbff;--card:#ffffff;--accent:#0b66c3;--muted:#6b7280;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;}
+    html,body{height:100%;margin:0;background:var(--bg);color:#111;}
+    .fullscreen{height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;}
+    .card{background:var(--card);width:min(1100px,98%);border-radius:12px;box-shadow:0 10px 30px rgba(11,102,195,0.08);padding:28px;display:flex;flex-direction:column;gap:18px;min-height:380px;}
+    .big-only{font-size:20px;font-weight:700;text-align:center;color:var(--accent);}
+    .pico-sentence{align-items:center;justify-content:center;gap:8px;font-size:20px;line-height:1.3;padding:28px;}
+    .pico-input{display:inline-flex;align-items:center;gap:6px;background:#f1f7ff;border-radius:10px;padding:10px 12px;border:1px solid rgba(11,102,195,0.07);}
+    .pico-input input[type="text"]{font-size:18px;border:none;background:transparent;outline:none;width:340px;padding:6px 8px;}
+    .muted{color:var(--muted);}
+    .controls{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px}
+    .btn{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
+    .btn.secondary{background:#eef6ff;color:var(--accent);border:1px solid rgba(11,102,195,0.08)}
+    .small{font-size:13px;color:var(--muted)}
+    .chip{background:#f1f7ff;border-radius:999px;padding:8px 12px;border:1px solid rgba(11,102,195,0.05);display:inline-flex;gap:10px;align-items:center;font-weight:600;color:var(--accent)}
+    .synonyms-area{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap}
+    .syn-input{display:flex;gap:8px;width:100%;margin-top:12px}
+    .syn-input input{flex:1;padding:10px 12px;border-radius:8px;border:1px solid #e6eefc;font-size:16px}
+    .nav-row{display:flex;justify-content:space-between;gap:10px;margin-top:20px}
+    .progress{height:10px;background:#eef6ff;border-radius:999px;overflow:hidden;margin-top:10px;width:300px}
+    .progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#6aa8ff);width:0%}
+    @media (max-width:920px){ .pico-input input[type="text"]{width:180px;font-size:16px} .pico-sentence{font-size:16px;padding:18px} }
+  </style>
+  <div id="screen-main">
+    <div class="card" role="main" aria-labelledby="picoHeading">
+      <div class="big-only" id="picoHeading">PICO(T) Builder</div>
+
+      <div class="pico-sentence" aria-live="polite">
+        <label for="population" class="muted">In</label>
+        <span class="pico-input"><input id="population" type="text" placeholder="population (e.g., adults with Type 2 diabetes)" /></span>
+        <label for="intervention" class="muted">, how does</label>
+        <span class="pico-input"><input id="intervention" type="text" placeholder="intervention (e.g., low-carb diet)" /></span>
+        <label for="comparison" class="muted">compare to</label>
+        <span class="pico-input"><input id="comparison" type="text" placeholder="comparison (e.g., usual care)" /></span>
+        <label for="outcome" class="muted">on</label>
+        <span class="pico-input"><input id="outcome" type="text" placeholder="outcome with time (e.g., HbA1c within 6 months)" /></span>
+        <span class="muted">?</span>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center;justify-content:center">
+        <label style="display:inline-flex;align-items:center;gap:8px" class="small">
+          <input id="noComparisonToggle" type="checkbox" />
+          <span style="font-weight:600">No comparison</span>
+        </label>
+      </div>
+
+      <div class="controls">
+        <div>
+          <button class="btn secondary" id="resetBtn">Clear</button>
+          <span class="small" style="margin-left:12px">Tip: keep entries concise</span>
+        </div>
+        <div>
+          <button class="btn" id="startSteps">Add synonyms & Build Search</button>
+        </div>
+      </div>
+
+      <div id="picoSummary" style="margin-top:8px;display:none">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center">
+          <div class="chip">P: <span id="sumP" style="margin-left:8px;font-weight:600;color:#0b66c3"></span></div>
+          <div class="chip">I: <span id="sumI" style="margin-left:8px;font-weight:600;color:#0b66c3"></span></div>
+          <div class="chip">C: <span id="sumC" style="margin-left:8px;font-weight:600;color:#0b66c3"></span></div>
+          <div class="chip">O/T: <span id="sumO" style="margin-left:8px;font-weight:600;color:#0b66c3"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-steps" style="display:none;padding-top:28px;padding-bottom:28px;">
+    <div class="card" role="main" aria-live="polite" style="width:min(1100px,98%)">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:20px;font-weight:700;color:var(--accent)" id="stepTitle">Add synonyms for Population</div>
+          <div class="small" id="stepSub">Add alternate terms, abbreviations, and related concepts.</div>
+          <div class="progress" aria-hidden="true" style="margin-top:8px">
+            <i id="progressBar"></i>
+          </div>
+        </div>
+        <div style="text-align:right"><div class="small">Step <span id="stepIndex">1</span> of 5</div></div>
+      </div>
+
+      <div style="margin-top:18px">
+        <div class="small">Target field:</div>
+        <div style="font-weight:700;margin-top:6px" id="currentField">Population</div>
+
+        <div style="margin-top:12px">
+          <div style="font-size:14px;margin-bottom:8px">Base term(s) (from sentence):</div>
+          <div id="baseChips" style="display:flex;gap:8px;flex-wrap:wrap">
+            <!-- base chips inserted here -->
+          </div>
+        </div>
+
+        <div class="synonyms-area" id="synArea"></div>
+
+        <div class="syn-input" style="margin-top:12px">
+          <label for="synInput">Type a synonym and press enter:</label>
+          <input id="synInput" type="text" />
+          <button class="btn" id="addSyn">Add</button>
+        </div>
+
+        <div class="hint" style="margin-top:10px">Use commas for phrase variants (e.g., "older adults, elderly") or add items one-by-one. Abbreviations are helpful.</div>
+      </div>
+
+      <div class="nav-row">
+        <div><button class="btn secondary" id="backToMain">Back to PICO</button></div>
+        <div style="display:flex;gap:8px"><button class="btn secondary" id="prevStep">Previous</button><button class="btn" id="nextStep">Next</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-review" style="display:none;align-items:flex-start;padding-top:30px;padding-bottom:30px;">
+    <div class="card" style="width:min(1100px,98%)">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:20px;font-weight:700;color:var(--accent)">Review & Export Search Strings</div>
+          <div class="small">Combined search strings for common databases</div>
+        </div>
+        <div>
+          <button class="btn secondary" id="editPICO">Edit PICO</button>
+          <button class="btn" id="finishBtn">Done</button>
+        </div>
+      </div>
+
+      <div style="margin-top:18px">
+        <div style="margin-bottom:8px"><label style="font-weight:700; margin-bottom: 1em;" for="combinedOutput">Search String for PICO search:</label>
+          <p>Now that you've generated synonyms for your topics, copy the search terms below and paste them into a library database. You can also use the button at the bottom to run a search in CINAL and MEDLINE together.</p>
+          <p>If the results you get aren't working, you may need to further adjust your search terms and/or check your limiters. When in doubt, reach out to Dr. Rath with this search string (copy and paste it) and explain <em>why</em> the results aren't working.</p>
+        </div>
+        <textarea id="combinedOutput" style="width:100%;min-height:160px;padding:12px;border-radius:8px;border:1px solid #e6eefc;font-size:14px"></textarea>
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="copyBtn">Copy to clipboard</button><button class="btn" id="CINALbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="CINAHLMEDLINEbtn">Search both</button></div>
+
+      <div style="margin-top:16px;color:var(--muted);font-size:13px">Tip: paste into a database's advanced search. Adjust field tags per database.</div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const state = {
+        pico: { P:'', I:'', C:'', O:'' },
+        // synonyms store also used to attach to each base item for P (array of arrays)
+        synonyms: { P:[], I:[], C:[], O:[] },
+        stepOrder: ['P','I','C','O'],
+        stepNames: {P:'Population',I:'Intervention',C:'Comparison',O:'Outcome / Timeframe'},
+        stepIndex: 0,
+        noComparison: false,
+        // populationBases: array of base population terms (from splitting on 'with')
+        populationBases: []
+      };
+
+      // DOM refs
+      const population = document.getElementById('population');
+      const intervention = document.getElementById('intervention');
+      const comparison = document.getElementById('comparison');
+      const outcome = document.getElementById('outcome');
+      const noComparisonToggle = document.getElementById('noComparisonToggle');
+
+      const startSteps = document.getElementById('startSteps');
+      const resetBtn = document.getElementById('resetBtn');
+
+      const screenMain = document.getElementById('screen-main');
+      const screenSteps = document.getElementById('screen-steps');
+      const screenReview = document.getElementById('screen-review');
+
+      const picoSummary = document.getElementById('picoSummary');
+      const sumP = document.getElementById('sumP');
+      const sumI = document.getElementById('sumI');
+      const sumC = document.getElementById('sumC');
+      const sumO = document.getElementById('sumO');
+
+      const stepTitle = document.getElementById('stepTitle');
+      const stepSub = document.getElementById('stepSub');
+      const currentField = document.getElementById('currentField');
+      const synArea = document.getElementById('synArea');
+      const synInput = document.getElementById('synInput');
+      const addSyn = document.getElementById('addSyn');
+      const baseChips = document.getElementById('baseChips');
+
+      const prevStep = document.getElementById('prevStep');
+      const nextStep = document.getElementById('nextStep');
+      const backToMain = document.getElementById('backToMain');
+      const stepIndexEl = document.getElementById('stepIndex');
+      const progressBar = document.getElementById('progressBar');
+
+      const combinedOutput = document.getElementById('combinedOutput');
+      const cinahlBtn = document.getElementById('CINAHLbtn');
+      const medlineBtn = document.getElementById('MEDLINEbtn');
+      const cinahlmedlineBtn = document.getElementById('CINAHLMEDLINEbtn');
+      const copyBtn = document.getElementById('copyBtn');
+      const editPICO = document.getElementById('editPICO');
+      const finishBtn = document.getElementById('finishBtn');
+
+      // helpers
+      function normalizeTerm(t){
+        if(!t) return null;
+        const v = t.trim();
+        if(!v) return null;
+        const lowered = v.toLowerCase();
+        if(lowered === 'none' || lowered === 'n/a' || lowered === 'na' || lowered === 'none.') return null;
+        return v;
+      }
+
+      function splitPopulationBases(raw){
+        // Split on standalone word "with" (case-insensitive), trim, normalize, remove blanks/none
+        if(!raw) return [];
+        const parts = raw.split(/\bwith\b/i).map(p=>p.trim()).filter(Boolean);
+        const normalized = parts.map(p=>normalizeTerm(p)).filter(Boolean);
+        return normalized;
+      }
+
+      function showMain(){ screenMain.style.display='flex'; screenSteps.style.display='none'; screenReview.style.display='none'; picoSummary.style.display='none'; }
+      function showSteps(){
+        // capture PICO and build populationBases
+        state.pico.P = population.value.trim();
+        state.pico.I = intervention.value.trim();
+        state.pico.C = state.noComparison ? '' : (comparison ? comparison.value.trim() : '');
+        state.pico.O = outcome.value.trim();
+        state.noComparison = noComparisonToggle.checked;
+        state.populationBases = splitPopulationBases(state.pico.P);
+        // If no split happened but there's a valid term, keep that single base
+        if(state.populationBases.length === 0){
+          const single = normalizeTerm(state.pico.P);
+          state.populationBases = single ? [single] : [];
+        }
+        updateSummary();
+        screenMain.style.display='none';
+        screenSteps.style.display='flex';
+        screenReview.style.display='none';
+        picoSummary.style.display='block';
+        state.stepIndex = 0;
+        loadStep();
+      }
+      function showReview(){ buildCombined(); screenMain.style.display='none'; screenSteps.style.display='none'; screenReview.style.display='flex'; picoSummary.style.display='block'; }
+
+      function updateSummary(){
+        sumP.textContent = state.pico.P || '(empty)';
+        sumI.textContent = state.pico.I || '(empty)';
+        sumC.textContent = state.noComparison ? '(no comparison)' : (state.pico.C || '(empty)');
+        sumO.textContent = state.pico.O || '(empty)';
+        picoSummary.style.display='flex';
+      }
+
+      resetBtn.addEventListener('click', () => {
+        population.value=''; intervention.value=''; if(comparison) comparison.value=''; outcome.value='';
+        noComparisonToggle.checked = false;
+        state.pico = {P:'',I:'',C:'',O:''};
+        state.noComparison = false;
+        state.synonyms = { P:[], I:[], C:[], O:[], T:[] };
+        state.populationBases = [];
+        picoSummary.style.display='none';
+      });
+
+      noComparisonToggle.addEventListener('change', () => {
+        state.noComparison = noComparisonToggle.checked;
+        if(state.noComparison && comparison){ comparison.disabled = true; comparison.value = ''; }
+        else if(comparison) comparison.disabled = false;
+      });
+
+      startSteps.addEventListener('click', () => { showSteps(); });
+
+      // load step view
+      function loadStep(){
+        const key = state.stepOrder[state.stepIndex];
+        stepIndexEl.textContent = (state.stepIndex+1);
+        const pct = Math.round(((state.stepIndex+1)/state.stepOrder.length)*100);
+        progressBar.style.width = pct + '%';
+        stepTitle.textContent = `Add synonyms for ${state.stepNames[key]}`;
+        stepSub.textContent = `Add alternate terms, abbreviations, and subject headings for ${state.stepNames[key]}.`;
+        currentField.textContent = state.stepNames[key];
+
+        // show base chips — for Population show each base from populationBases; for others show single base
+        baseChips.innerHTML = '';
+        if(key === 'P'){
+          if(state.populationBases.length === 0){
+            const c = document.createElement('div'); c.className='chip'; c.textContent='—'; baseChips.appendChild(c);
+          } else {
+            state.populationBases.forEach((b, idx)=>{
+              const c = document.createElement('div'); c.className='chip'; c.textContent=b;
+              // add a small remove button for base if desired
+              const btn = document.createElement('button'); btn.type='button';
+              btn.textContent = '✕';
+              btn.style.marginLeft = '8px';
+              btn.style.background = 'transparent';
+              btn.style.border = 'none';
+              btn.style.color = '#c02424';
+              btn.style.cursor = 'pointer';
+              btn.title = 'Remove base term';
+              btn.addEventListener('click', () => {
+                state.populationBases.splice(idx, 1);
+                loadStep();
+              });
+              c.appendChild(btn);
+              baseChips.appendChild(c);
+            });
+          }
+        } else {
+          const baseMap = {P: state.pico.P, I: state.pico.I, C: (state.noComparison ? '(no comparison)' : state.pico.C), O: state.pico.O, T: ''};
+          const val = baseMap[key] || '—';
+          const c = document.createElement('div'); c.className='chip'; c.textContent = val;
+          baseChips.appendChild(c);
+        }
+
+        // render synonyms for this key
+        synArea.innerHTML = '';
+        // For Population, we allow synonyms attached to whole P group (not per base)
+        const synList = state.synonyms[key] || [];
+        synList.forEach((s, idx)=>{
+          const span = document.createElement('span');
+          span.className = 'chip';
+          span.textContent = s;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.textContent = '✕';
+          btn.title = 'Remove';
+          btn.addEventListener('click', () => {
+            state.synonyms[key].splice(idx,1);
+            loadStep();
+          });
+          span.appendChild(btn);
+          synArea.appendChild(span);
+        });
+
+        synInput.value = '';
+        prevStep.disabled = (state.stepIndex === 0);
+        nextStep.textContent = (state.stepIndex === state.stepOrder.length-1) ? 'Finish' : 'Next';
+      }
+
+      function addSynonym(){
+        const text = synInput.value.trim();
+        if(!text) return;
+        const key = state.stepOrder[state.stepIndex];
+        const parts = text.split(',').map(p=>p.trim()).filter(Boolean);
+        parts.forEach(p=>{
+          const n = normalizeTerm(p);
+          if(n && !state.synonyms[key].includes(n)) state.synonyms[key].push(n);
+        });
+        loadStep();
+      }
+
+      addSyn.addEventListener('click', addSynonym);
+      synInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ e.preventDefault(); addSynonym(); } });
+
+      prevStep.addEventListener('click', ()=>{ if(state.stepIndex>0){ state.stepIndex--; loadStep(); } });
+      nextStep.addEventListener('click', ()=>{ if(state.stepIndex < state.stepOrder.length-1){ state.stepIndex++; loadStep(); } else { showReview(); } });
+
+      backToMain.addEventListener('click', ()=>{
+        // return to main and preserve current state
+        // If populationBases has multiple entries, join them by " with " to show in sentence
+        if(state.populationBases.length > 1){
+          population.value = state.populationBases.join(' with ');
+        } else {
+          population.value = state.populationBases[0] || '';
+        }
+        intervention.value = state.pico.I;
+        comparison.value = state.pico.C;
+        outcome.value = state.pico.O;
+        noComparisonToggle.checked = state.noComparison;
+        if(state.noComparison && comparison) comparison.disabled = true;
+        showMain();
+      });
+
+      // build combined without quoting; Population group includes populationBases + P synonyms
+      function buildCombined(){
+        // capture latest pico
+        state.pico.P = population.value.trim();
+        state.pico.I = intervention.value.trim();
+        state.pico.C = state.noComparison ? '' : (comparison ? comparison.value.trim() : '');
+        state.pico.O = outcome.value.trim();
+
+        const groups = {};
+
+        // Population: use populationBases (which may have been edited) plus synonyms
+        const popBases = state.populationBases.length ? state.populationBases.map(normalizeTerm).filter(Boolean) : (normalizeTerm(state.pico.P) ? [normalizeTerm(state.pico.P)] : []);
+        const popSyns = (state.synonyms.P || []).map(normalizeTerm).filter(Boolean);
+        const popItems = [...popBases, ...popSyns];
+        if(popItems.length) groups.P = popItems.join(' OR ');
+
+        // Other fields
+        ['I','C','O','T'].forEach(k=>{
+          const base = normalizeTerm(state.pico[k]) || '';
+          const syns = (state.synonyms[k] || []).map(normalizeTerm).filter(Boolean);
+          const items = [];
+          if(base) items.push(base);
+          syns.forEach(s=>items.push(s));
+          if(items.length) groups[k] = items.join(' OR ');
+        });
+
+        // wrap groups that contain spaces
+        Object.keys(groups).forEach(k=>{
+          if(groups[k].includes(' ')) groups[k] = `(${groups[k]})`;
+        });
+
+        const orderForCombine = ['P','I','C','O','T'];
+        const present = orderForCombine.map(k=>groups[k]).filter(Boolean);
+        const combined = present.join(' AND ');
+        combinedOutput.value = combined || '[No terms provided yet]';
+      }
+
+      copyBtn.addEventListener('click', async ()=>{
+        try{ await navigator.clipboard.writeText(combinedOutput.value); copyBtn.textContent='Copied!'; setTimeout(()=>copyBtn.textContent='Copy to clipboard',1200); }
+        catch(e){ copyBtn.textContent='Copy failed'; setTimeout(()=>copyBtn.textContent='Copy to clipboard',1200); }
+      });
+
+      cinahlBtn.addEventListener('click', ()=>{
+        cinahlBtn.href = "https://research.ebsco.com/c/mhyfef/search/results?q=";
+        cinahlBtn.href .= combinedOutput.value;
+        cinahlBtn.href .= "autocorrect=y&db=cul&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+      });
+
+
+      editPICO.addEventListener('click', ()=>{
+        // put P back into population input (join bases with ' with ')
+        if(state.populationBases.length > 1) population.value = state.populationBases.join(' with ');
+        else population.value = state.populationBases[0] || state.pico.P || '';
+        intervention.value = state.pico.I;
+        comparison.value = state.pico.C;
+        outcome.value = state.pico.O;
+        noComparisonToggle.checked = state.noComparison;
+        if(state.noComparison && comparison) comparison.disabled = true;
+        showMain();
+      });
+
+      finishBtn.addEventListener('click', ()=>{
+        // return to main preserving state (same as editPICO)
+        if(state.populationBases.length > 1) population.value = state.populationBases.join(' with ');
+        else population.value = state.populationBases[0] || state.pico.P || '';
+        intervention.value = state.pico.I;
+        comparison.value = state.pico.C;
+        outcome.value = state.pico.O;
+        noComparisonToggle.checked = state.noComparison;
+        if(state.noComparison && comparison) comparison.disabled = true;
+        showMain();
+      });
+
+      // init
+      showMain();
+    });
+  </script>
