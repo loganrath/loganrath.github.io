@@ -396,17 +396,15 @@ layout: page
         const present = orderForCombine.map(k=>groups[k]).filter(Boolean);
         const combined = present.join(' AND ');
         combinedOutput.value = combined || '[No terms provided yet]';
+
+        cinahlBtn.href = "https://research.ebsco.com/c/mhyfef/search/results?q=" +
+      encodeURIComponent(combinedOutput.value) +
+      "&autocorrect=y&db=cul&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
       }
 
       copyBtn.addEventListener('click', async ()=>{
         try{ await navigator.clipboard.writeText(combinedOutput.value); copyBtn.textContent='Copied!'; setTimeout(()=>copyBtn.textContent='Copy to clipboard',1200); }
         catch(e){ copyBtn.textContent='Copy failed'; setTimeout(()=>copyBtn.textContent='Copy to clipboard',1200); }
-      });
-
-      cinahlBtn.addEventListener('click', ()=>{
-        cinahlBtn.href = "https://research.ebsco.com/c/mhyfef/search/results?q=";
-        cinahlBtn.href += combinedOutput.value;
-        cinahlBtn.href += "autocorrect=y&db=cul&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
       });
 
 
