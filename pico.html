@@ -125,15 +125,12 @@ layout: page
       </div>
 
       <div style="margin-top:18px">
-        <div style="font-weight:700;margin-bottom:8px"><label for="combinedOutput">Search String for PICO search:</label>
+        <div style="margin-bottom:8px"><label style="font-weight:700; margin-bottom: 1em;" for="combinedOutput">Search String for PICO search:</label>
           <p>Now that you've generated synonyms for your topics, copy the search terms below and paste them into a library database. You can also use the button at the bottom to run a search in CINAL and MEDLINE together.</p>
-          <p>If the results you get aren't working, you may need to further adjust your search terms and/or check your limiters.</p>
-          <p>When in doubt, reach out to Dr. Rath with this search string (copy and paste it) and explain <em>why</em> the results aren't working.</p>
+          <p>If the results you get aren't working, you may need to further adjust your search terms and/or check your limiters. When in doubt, reach out to Dr. Rath with this search string (copy and paste it) and explain <em>why</em> the results aren't working.</p>
         </div>
         <textarea id="combinedOutput" style="width:100%;min-height:160px;padding:12px;border-radius:8px;border:1px solid #e6eefc;font-size:14px"></textarea>
-        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="copyBtn">Copy to clipboard</button><button class="btn secondary" id="toggleDb">Toggle: PubMed-style</button></div>
-        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="CINALbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="CINAHLMEDLINEbtn">Search both</button>
-      </div>
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="copyBtn">Copy to clipboard</button><button class="btn" id="CINALbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="CINAHLMEDLINEbtn">Search both</button></div>
 
       <div style="margin-top:16px;color:var(--muted);font-size:13px">Tip: paste into a database's advanced search. Adjust field tags per database.</div>
     </div>
@@ -189,8 +186,10 @@ layout: page
       const progressBar = document.getElementById('progressBar');
 
       const combinedOutput = document.getElementById('combinedOutput');
+      const cinahlBtn = document.getElementById('CINAHLbtn');
+      const medlineBtn = document.getElementById('MEDLINEbtn');
+      const cinahlmedlineBtn = document.getElementById('CINAHLMEDLINEbtn');
       const copyBtn = document.getElementById('copyBtn');
-      const toggleDb = document.getElementById('toggleDb');
       const editPICO = document.getElementById('editPICO');
       const finishBtn = document.getElementById('finishBtn');
 
@@ -406,6 +405,12 @@ layout: page
       });
 
       toggleDb.addEventListener('click', ()=>{ state.pubmedStyle = !state.pubmedStyle; toggleDb.textContent = state.pubmedStyle ? 'Toggle: Generic-style' : 'Toggle: PubMed-style'; buildCombined(); });
+      cinahlBtn.addEventListener('click', ()=>{
+        cinahlBtn.href = "https://research.ebsco.com/c/mhyfef/search/results?q=";
+        cinahlBtn.href .= combinedOutput.value;
+        cinahlBtn.href .= "autocorrect=y&db=cul&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+      });
+
 
       editPICO.addEventListener('click', ()=>{
         // put P back into population input (join bases with ' with ')
