@@ -125,9 +125,14 @@ layout: page
       </div>
 
       <div style="margin-top:18px">
-        <div style="font-weight:700;margin-bottom:8px"><label for="combinedOutput">Boolean search (Combined):</label></div>
+        <div style="font-weight:700;margin-bottom:8px"><label for="combinedOutput">Search String for PICO search:</label>
+          <p>Now that you've generated synonyms for your topics, copy the search terms below and paste them into a library database. You can also use the button at the bottom to run a search in CINAL and MEDLINE together.</p>
+          <p>If the results you get aren't working, you may need to further adjust your search terms and/or check your limiters.</p>
+          <p>When in doubt, reach out to Dr. Rath with this search string (copy and paste it) and explain <em>why</em> the results aren't working.</p>
+        </div>
         <textarea id="combinedOutput" style="width:100%;min-height:160px;padding:12px;border-radius:8px;border:1px solid #e6eefc;font-size:14px"></textarea>
         <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="copyBtn">Copy to clipboard</button><button class="btn secondary" id="toggleDb">Toggle: PubMed-style</button></div>
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="CINALbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="CINAHLMEDLINEbtn">Search both</button>
       </div>
 
       <div style="margin-top:16px;color:var(--muted);font-size:13px">Tip: paste into a database's advanced search. Adjust field tags per database.</div>
@@ -430,6 +435,3 @@ layout: page
       showMain();
     });
   </script>
-</body>
-</html>
-
