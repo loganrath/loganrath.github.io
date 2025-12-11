@@ -34,7 +34,7 @@ layout: page
         .add-keyword-btn:hover, .add-synonym-btn:hover { background: #229954; }
         .remove-keyword-btn, .remove-synonym-btn { background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 12px; transition: background-color 0.3s ease; }
         .remove-keyword-btn:hover, .remove-synonym-btn:hover { background: #c0392b; }
-        .boolean-output { background: #2c3e50; color: white; padding: 25px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 16px; line-height: 1.8; margin-bottom: 25px; min-height: 80px; word-wrap: break-word; }
+        .boolean-output { background: #2c3e50; color: white; padding: 25px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 18px; font-weight: bold; line-height: 1.8; margin-bottom: 25px; min-height: 80px; word-wrap: break-word; }
         .copy-btn { background: #f39c12; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; margin-right: 15px; transition: background-color 0.3s ease; }
         .copy-btn:hover { background: #e67e22; }
         .database-section { margin-top: 30px; padding: 30px; background: #f8f9fa; border-radius: 15px; }
@@ -189,15 +189,6 @@ layout: page
                 <button class="copy-btn" onclick="copyToClipboard()">📋 Copy Search String</button>
                 <button class="edit-search-btn" onclick="editSearch()">✏️ Edit Search</button>
                 <div id="copyAlert"></div>
-                <div class="database-section">
-                    <h2>Click a database to search:</h2>
-                    <div class="database-buttons" id="databaseButtons">
-                        <button class="database-btn" disabled>Complete previous steps first</button>
-                    </div>
-                    <div style="margin-top: 20px;">
-                        <button class="edit-search-btn" onclick="editSearch()">✏️ Start Over / Edit Search</button>
-                    </div>
-                </div>
             </div>
 
             <!-- Step 5: Search Databases -->
