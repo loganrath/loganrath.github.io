@@ -166,12 +166,15 @@ layout: page
                     <div class="step-title">Review & Generate Boolean Search</div>
                 </div>
                 <div class="instructions">
-                    <h2>Understanding Boolean Logic:</h2>
+                    <h2>Understanding Database Speak (aka Boolean logic):</h2>
                     <ul>
-                        <li><strong>OR:</strong> Connects synonyms (broadens search) - "social media OR Facebook OR Twitter"</li>
-                        <li><strong>AND:</strong> Connects different concepts (narrows search) - "social media AND sleep"</li
-                        <li><strong>Parentheses:</strong> Group related terms - "(social media OR Facebook) AND (sleep OR insomnia)"</li>
-                        <li><strong>Quotation marks:</strong> Search exact phrases - "social media"</li>
+                        <li><strong>OR:</strong> ANY OF THESE - Connects synonyms (broadens search) - "social media OR Facebook OR Twitter"</li>
+                        <li><strong>AND:</strong> ALL OF THESE - Connects different concepts (narrows search) - "social media AND sleep"</li>
+                    </ul>
+                    <p>There are also ways to group terms:</p>
+                    <ul>
+                        <li><strong>Parentheses:</strong> Group related terms (usually combined with OR) - "(social media OR Facebook) AND (sleep OR insomnia)"</li>
+                        <li><strong>Quotation marks:</strong> Search these words together - "social media"</li>
                     </ul>
                 </div>
 
@@ -179,13 +182,22 @@ layout: page
                     <h2>📋 Your Search Summary:</h2>
                     <div id="searchSummary"></div>
                 </div>
-
+                <p>We've taken your search and turned it into database friendly language. You can now copy and paste this into a database or continue to the next page</p>
                 <div class="boolean-output" id="booleanOutput">
                     Your Boolean search will appear here...
                 </div>
                 <button class="copy-btn" onclick="copyToClipboard()">📋 Copy Search String</button>
                 <button class="edit-search-btn" onclick="editSearch()">✏️ Edit Search</button>
                 <div id="copyAlert"></div>
+                <div class="database-section">
+                    <h2>Click a database to search:</h2>
+                    <div class="database-buttons" id="databaseButtons">
+                        <button class="database-btn" disabled>Complete previous steps first</button>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <button class="edit-search-btn" onclick="editSearch()">✏️ Start Over / Edit Search</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Step 5: Search Databases -->
