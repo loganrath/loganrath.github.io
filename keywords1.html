@@ -14,12 +14,12 @@ layout: page
         .step-header { display: flex; align-items: center; margin-bottom: 30px; }
         .step-number { background: #3498db; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 20px; font-size: 1.4em; }
         .step-title { font-size: 1.6em; font-weight: 600; color: #2c3e50; }
-        .instructions { background: #f8f9fa; padding: 25px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #3498db; }
+        .instructions { background: #f8f9fa; padding: 25px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #FA8334; }
         .instructions h2 { color: #2c3e50; margin-bottom: 15px; font-size: 1.2em; }
         .instructions ul { margin-left: 20px; }
         .instructions li { margin-bottom: 10px; }
         .synonym-tips { background: #e8f5e8; padding: 25px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #27ae60; }
-        .synonym-tips h4 { color: #27ae60; margin-bottom: 15px; font-size: 1.2em; }
+        .synonym-tips h2 { color: #27ae60; margin-bottom: 15px; font-size: 1.2em; }
         input[type="text"], textarea { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color 0.3s ease; }
         input[type="text"]:focus, textarea:focus { outline: none; border-color: #3498db; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); }
         textarea { resize: vertical; min-height: 120px; }
@@ -56,7 +56,7 @@ layout: page
         .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .alert-warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
         .summary-section { background: #f8f9fa; padding: 25px; border-radius: 10px; margin-bottom: 25px; }
-        .summary-section h4 { color: #2c3e50; margin-bottom: 15px; }
+        .summary-section h2 { color: #2c3e50; margin-bottom: 15px; }
         .summary-item { margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid #3498db; }
         .summary-item { margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid #2DD881; }
         .summary-item strong { color: #2c3e50; }
@@ -79,7 +79,7 @@ layout: page
                     <div class="step-title">Start with Your Research Question</div>
                 </div>
                 <div class="instructions">
-                    <h4>What makes a good research question?</h4>
+                    <h2>What makes a good research question?</h2>
                     <ul>
                         <li><strong>Specific:</strong> Focus on a particular aspect of your topic</li>
                         <li><strong>Researchable:</strong> Can be answered through academic sources</li>
@@ -98,7 +98,7 @@ layout: page
                     <div class="step-title">Identify Key Concepts</div>
                 </div>
                 <div class="instructions">
-                    <h4>How to identify keywords:</h4>
+                    <h2>How to identify keywords:</h2>
                     <ul>
                         <li><strong>Look for nouns:</strong> These are usually your main concepts</li>
                         <li><strong>Ignore connecting words:</strong> Skip "and", "or", "the", "how", "what"</li>
@@ -141,7 +141,7 @@ layout: page
                     <div class="step-title">Add Synonyms & Related Terms</div>
                 </div>
                 <div class="synonym-tips">
-                    <h4>🔍 Strategies for brainstorming synonyms:</h4>
+                    <h2>🔍 Strategies for brainstorming synonyms:</h2>
                     <ul>
                         <li><strong>Think of different audiences:</strong> How would a scientist vs. a journalist describe this?</li>
                         <li><strong>Consider formality levels:</strong> "Kids" vs "children" vs "adolescents" vs "youth"</li>
@@ -152,7 +152,7 @@ layout: page
                     </ul>
                 </div>
                 <div class="instructions">
-                    <h4>💡 Quick synonym resources:</h4>
+                    <h2>💡 Quick synonym resources:</h2>
                     <ul>
                         <li><strong>Google Scholar:</strong> Look at how researchers phrase similar topics</li>
                         <li><strong>Wikipedia:</strong> Check the "See also" sections and category tags</li>
@@ -170,7 +170,7 @@ layout: page
                     <div class="step-title">Review & Generate Boolean Search</div>
                 </div>
                 <div class="instructions">
-                    <h4>Understanding Boolean Logic:</h4>
+                    <h2>Understanding Boolean Logic:</h2>
                     <ul>
                         <li><strong>OR:</strong> Connects synonyms (broadens search) - "social media OR Facebook OR Twitter"</li>
                         <li><strong>AND:</strong> Connects different concepts (narrows search) - "social media AND sleep"</li
@@ -180,7 +180,7 @@ layout: page
                 </div>
 
                 <div class="summary-section">
-                    <h4>📋 Your Search Summary:</h4>
+                    <h2>📋 Your Search Summary:</h2>
                     <div id="searchSummary"></div>
                 </div>
 
@@ -199,7 +199,7 @@ layout: page
                     <div class="step-title">Search Library Databases</div>
                 </div>
                 <div class="instructions">
-                    <h4>Choose the right database for your topic:</h4>
+                    <h2>Choose the right database for your topic:</h2>
                     <ul>
                         <li><strong>Academic Search Complete:</strong> Multidisciplinary database - good starting point</li>
                         <li><strong>JSTOR:</strong> Scholarly articles across many disciplines</li>
@@ -210,12 +210,12 @@ layout: page
                 </div>
 
                 <div class="summary-section">
-                    <h4>🔍 Your Final Boolean Search:</h4>
+                    <h2>🔍 Your Final Boolean Search:</h2>
                     <div class="boolean-output" id="finalBooleanOutput" style="margin-bottom: 0;"></div>
                 </div>
 
                 <div class="database-section">
-                    <h4>Click a database to search with your Boolean string:</h4>
+                    <h2>Click a database to search with your Boolean string:</h2>
                     <div class="database-buttons" id="databaseButtons">
                         <button class="database-btn" disabled>Complete previous steps first</button>
                     </div>
