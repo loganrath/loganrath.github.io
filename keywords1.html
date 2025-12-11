@@ -1,10 +1,10 @@
 ---
-title: "Dr. Rath's Keyword Generator"
+title: "Dr. Rath's Search Term Generator"
 layout: page
 ---
     <style>
         .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
-        .header { background: #2c3e50; color: white; padding: 30px; text-align: center; }
+        .header { /* background: #2c3e50; color: white; */ padding: 30px; text-align: center; }
         .header h1 { font-size: 2.2em; margin-bottom: 10px; }
         .header p { font-size: 1.1em; opacity: 0.9; }
         .progress-bar { background: #34495e; height: 8px; position: relative; }
@@ -16,7 +16,7 @@ layout: page
         .step-number { background: #3498db; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 20px; font-size: 1.4em; }
         .step-title { font-size: 1.6em; font-weight: 600; color: #2c3e50; }
         .instructions { background: #f8f9fa; padding: 25px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #3498db; }
-        .instructions h4 { color: #2c3e50; margin-bottom: 15px; font-size: 1.2em; }
+        .instructions h2 { color: #2c3e50; margin-bottom: 15px; font-size: 1.2em; }
         .instructions ul { margin-left: 20px; }
         .instructions li { margin-bottom: 10px; }
         .synonym-tips { background: #e8f5e8; padding: 25px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #27ae60; }
@@ -59,12 +59,13 @@ layout: page
         .summary-section { background: #f8f9fa; padding: 25px; border-radius: 10px; margin-bottom: 25px; }
         .summary-section h4 { color: #2c3e50; margin-bottom: 15px; }
         .summary-item { margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid #3498db; }
+        .summary-item { margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid #2DD881; }
         .summary-item strong { color: #2c3e50; }
         @media (max-width: 768px) { .content { padding: 25px; } .navigation { flex-direction: column; gap: 15px; } .nav-btn { width: 100%; text-align: center; } .database-buttons { flex-direction: column; } .synonym-item { flex-direction: column; align-items: stretch; } .synonym-input { margin-right: 0; margin-bottom: 10px; } }
     </style>
 
         <div class="header">
-            <h1>Boolean Search Builder</h1>
+            <h1>Plan Your Search</h1>
         </div>
 
         <div class="progress-bar">
@@ -107,9 +108,9 @@ layout: page
                     </ul>
                 </div>
                 <div class="summary-section" id="step2QuestionDisplay" style="display: none;">
-                <h4>📝 Your Research Question:</h4>
+                <h2>📝 Your Research Question:</h2>
                 <div class="summary-item">
-                    <em id="displayedQuestion">Your research question will appear here</em>
+                    <p id="displayedQuestion">Your research question will appear here</p>
                 </div>
               </div>
                 <div id="keywordContainer">
