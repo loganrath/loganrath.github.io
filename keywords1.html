@@ -109,7 +109,7 @@ layout: page
                 <div class="summary-section" id="step2QuestionDisplay" style="display: none;">
                 <h2>📝 Your Research Question:</h2>
                 <div class="summary-item">
-                    <p id="displayedQuestion">Your research question will appear here</p>
+                    <h3 style="text-align: center;" id="displayedQuestion">Your research question will appear here</h3>
                 </div>
               </div>
                 <div id="keywordContainer">
@@ -308,7 +308,7 @@ layout: page
                 const displayedQuestion = document.getElementById('displayedQuestion');
 
                 if (questionDisplay && displayedQuestion) {
-                    displayedQuestion.textContent = `"${searchData.question}"`;
+                    displayedQuestion.textContent = `${searchData.question}`;
                     questionDisplay.style.display = 'block';
                 }
             }
