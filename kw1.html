@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boolean Search Builder - SUNY Brockport Library</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .step {
+            margin-bottom: 40px;
+            padding: 25px;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            border-color: #3498db;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.1);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+
+        .step-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .instructions h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .instructions ul {
+            margin-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .synonym-tips {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .synonym-tips h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .keyword-container {
+            margin-bottom: 20px;
+        }
+
+        .keyword-item {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .keyword-item label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .keyword-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .keyword-title {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        .synonym-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .synonym-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .synonym-input {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .add-keyword-btn, .add-synonym-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-keyword-btn:hover, .add-synonym-btn:hover {
+            background: #229954;
+        }
+
+        .add-synonym-btn {
+            padding: 8px 15px;
+            font-size: 12px;
+        }
+
+        .remove-keyword-btn, .remove-synonym-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .remove-keyword-btn:hover, .remove-synonym-btn:hover {
+            background: #c0392b;
+        }
+
+        .remove-synonym-btn {
+            padding: 8px 12px;
+            white-space: nowrap;
+        }
+
+        .boolean-output {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            min-height: 60px;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #e67e22;
+        }
+
+        .database-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .database-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .database-btn {
+            background: #8e44ad;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .database-btn:hover {
+            background: #7d3c98;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.3);
+        }
+
+        .database-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            .database-buttons {
+                flex-direction: column;
+            }
+
+            .database-btn {
+                text-align: center;
+            }
+
+            .synonym-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .synonym-input {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Boolean Search Builder</h1>
+            <p>Master the art of academic research with effective search strategies</p>
+        </div>
+
+        <div class="content">
+            <!-- Step 1: Research Question -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Start with Your Research Question</div>
+                </div>
+                <div class="instructions">
+                    <h4>What makes a good research question?</h4>
+                    <ul>
+                        <li><strong>Specific:</strong> Focus on a particular aspect of your topic</li>
+                        <li><strong>Researchable:</strong> Can be answered through academic sources</li>
+                        <li><strong>Clear:</strong> Easy to understand and not overly complex</li>
+                        <li><strong>Example:</strong> "How does social media usage affect college students' sleep patterns?"</li>
+                    </ul>
+                </div>
+                <label for="researchQuestion"><strong>Enter your research question:</strong></label>
+                <textarea id="researchQuestion" placeholder="Example: How does social media usage affect college students' sleep patterns?" oninput="updateBooleanSearch()"></textarea>
+            </div>
+
+            <!-- Step 2: Identify Keywords -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Identify Key Concepts</div>
+                </div>
+                <div class="instructions">
+                    <h4>How to identify keywords:</h4>
+                    <ul>
+                        <li><strong>Look for nouns:</strong> These are usually your main concepts</li>
+                        <li><strong>Ignore connecting words:</strong> Skip "and", "or", "the", "how", "what"</li>
+                        <li><strong>Think broadly:</strong> What are the main ideas you're exploring?</li>
+                        <li><strong>Aim for 2-4 concepts:</strong> Too many will make your search too narrow</li>
+                    </ul>
+                </div>
+                <div id="keywordContainer">
+                    <div class="keyword-item" data-keyword-id="1">
+                        <div class="keyword-header">
+                            <div class="keyword-title">Concept 1</div>
+                            <button class="remove-keyword-btn" onclick="removeKeyword(1)" style="display: none;">Remove</button>
+                        </div>
+                        <label>Main keyword/concept:</label>
+                        <input type="text" class="keyword-input" placeholder="e.g., social media" oninput="updateBooleanSearch()" data-keyword-id="1">
+
+                        <div class="synonym-section">
+                            <h4 style="color: #27ae60; margin-bottom: 10px;">Synonyms & Related Terms:</h4>
+                            <div class="synonym-container" data-keyword-id="1">
+                                <div class="synonym-item">
+                                    <input type="text" class="synonym-input" placeholder="e.g., Facebook" oninput="updateBooleanSearch()">
+                                    <button class="remove-synonym-btn" onclick="removeSynonym(this)" style="display: none;">Remove</button>
+                                </div>
+                            </div>
+                            <button class="add-synonym-btn" onclick="addSynonym(1)">+ Add Synonym</button>
+                        </div>
+                    </div>
+
+                    <div class="keyword-item" data-keyword-id="2">
+                        <div class="keyword-header">
+                            <div class="keyword-title">Concept 2</div>
+                            <button class="remove-keyword-btn" onclick="removeKeyword(2)" style="display: none;">Remove</button>
+                        </div>
+                        <label>Main keyword/concept:</label>
+                        <input type="text" class="keyword-input" placeholder="e.g., college students" oninput="updateBooleanSearch()" data-keyword-id="2">
+
+                        <div class="synonym-section">
+                            <h4 style="color: #27ae60; margin-bottom: 10px;">Synonyms & Related Terms:</h4>
+                            <div class="synonym-container" data-keyword-id="2">
+                                <div class="synonym-item">
+                                    <input type="text" class="synonym-input" placeholder="e.g., university students" oninput="updateBooleanSearch()">
+                                    <button class="remove-synonym-btn" onclick="removeSynonym(this)" style="display: none;">Remove</button>
+                                </div>
+                            </div>
+                            <button class="add-synonym-btn" onclick="addSynonym(2)">+ Add Synonym</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="add-keyword-btn" onclick="addKeyword()">+ Add Another Concept</button>
+            </div>
+
+            <!-- Step 3: Synonym Tips -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Tips for Finding Great Synonyms</div>
+                </div>
+                <div class="synonym-tips">
+                    <h4>🔍 Strategies for brainstorming synonyms:</h4>
+                    <ul>
+                        <li><strong>Think of different audiences:</strong> How would a scientist vs. a journalist describe this?</li>
+                        <li><strong>Consider formality levels:</strong> "Kids" vs "children" vs "adolescents" vs "youth"</li>
+                        <li><strong>Use online thesauruses:</strong> Thesaurus.com, Merriam-Webster Thesaurus</li>
+                        <li><strong>Check subject-specific dictionaries:</strong> Psychology, medical, business terms</li
+                        <li><strong>Look at related concepts:</strong> "Sleep" could include "insomnia", "sleep quality", "rest"</li>
+                        <li><strong>Consider broader/narrower terms:</strong> "Social media" → broader: "technology", narrower: "Instagram"</li>
+                        <li><strong>Think of alternative spellings:</strong> "Behavior" vs "behaviour"</li>
+                        <li><strong>Use wildcards when available:</strong> "Teen*" finds "teen", "teens", "teenager"</li>
+                    </ul>
+                </div>
+                <div class="instructions">
+                    <h4>💡 Quick synonym resources:</h4>
+                    <ul>
+                        <li><strong>Google Scholar:</strong> Look at how researchers phrase similar topics</li>
+                        <li><strong>Wikipedia:</strong> Check the "See also" sections and category tags</li>
+                        <li><strong>Library subject guides:</strong> Often list key terms for topics</li>
+                        <li><strong>Ask a librarian:</strong> They know the best terms for your field!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 4: Boolean Search -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Your Boolean Search String</div>
+                </div>
+                <div class="instructions">
+                    <h4>Understanding Boolean Logic:</h4>
+                    <ul>
+                        <li><strong>OR:</strong> Connects synonyms (broadens search) - "social media OR Facebook OR Twitter"</li>
+                        <li><strong>AND:</strong> Connects different concepts (narrows search) - "social media AND sleep"</li>
+                        <li><strong>Parentheses:</strong> Group related terms - "(social media OR Facebook) AND (sleep OR insomnia)"</li>
+                        <li><strong>Quotation marks:</strong> Search exact phrases - "social media"</li>
+                    </ul>
+                </div>
+                <div class="boolean-output" id="booleanOutput">
+                    Your Boolean search will appear here as you fill in the steps above...
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard()">📋 Copy Search String</button>
+                <div id="copyAlert"></div>
+            </div>
+
+            <!-- Step 5: Search Databases -->
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Search SUNY Brockport Library Databases</div>
+                </div>
+                <div class="instructions">
+                    <h4>Choose the right database for your topic:</h4>
+                    <ul>
+                        <li><strong>Academic Search Complete:</strong> Multidisciplinary database - good starting point</li>
+                        <li><strong>JSTOR:</strong> Scholarly articles across many disciplines</li>
+                        <li><strong>PsycINFO:</strong> Psychology, behavioral sciences, mental health</li>
+                        <li><strong>ERIC:</strong> Education research and information</li>
+                        <li><strong>Business Source Premier:</strong> Business, economics, management</li>
+                    </ul>
+                </div>
+
+                <div class="database-section">
+                    <h4>🔍 Click a database to search with your Boolean string:</h4>
+                    <div class="database-buttons" id="databaseButtons">
+                        <button class="database-btn" disabled>Complete steps above to enable database searches</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database configurations - easily customizable
+        const databases = {
+            'Academic Search Complete': 'https://search.ebscohost.com/login.aspx?direct=true&db=a9h&bquery=SEARCH_QUERY&site=ehost-live&scope=site',
+            'JSTOR': 'https://www.jstor.org/action/doBasicSearch?Query=SEARCH_QUERY&acc=on&wc=on',
+            'PsycINFO': 'https://search.ebscohost.com/login.aspx?direct=true&db=psyh&bquery=SEARCH_QUERY&site=ehost-live&scope=site',
+            'ERIC': 'https://search.ebscohost.com/login.aspx?direct=true&db=eric&bquery=SEARCH_QUERY&site=ehost-live&scope=site',
+            'Business Source Premier': 'https://search.ebscohost.com/login.aspx?direct=true&db=bth&bquery=SEARCH_QUERY&site=ehost-live&scope=site'
+        };
+
+        let keywordCount = 2;
+        let synonymCount = {};
+
+        // Initialize synonym counts
+        synonymCount[1] = 1;
+        synonymCount[2] = 1;
+
+        // Update Boolean search as user types
+        function updateBooleanSearch() {
+            const keywords = document.querySelectorAll('.keyword-input');
+            let booleanParts = [];
+
+            keywords.forEach((keyword, index) => {
+                if (keyword.value.trim()) {
+                    const keywordId = keyword.dataset.keywordId;
+                    const synonymInputs = document.querySelectorAll(`.synonym-container[data-keyword-id="${keywordId}"] .synonym-input`);
+
+                    let terms = [keyword.value.trim()];
+
+                    synonymInputs.forEach(syn => {
+                        if (syn.value.trim()) {
+                            terms.push(syn.value.trim());
+                        }
+                    });
+
+                    if (terms.length > 1) {
+                        booleanParts.push('(' + terms.join(' OR ') + ')');
+                    } else if (terms.length === 1) {
+                        booleanParts.push(terms[0]);
+                    }
+                }
+            });
+
+            const booleanString = booleanParts.join(' AND ');
+            document.getElementById('booleanOutput').textContent = booleanString || 'Your Boolean search will appear here as you fill in the steps above...';
+
+            updateDatabaseButtons(booleanString);
+        }
+
+        // Add new keyword
+        function addKeyword() {
+            keywordCount++;
+            synonymCount[keywordCount] = 1;
+
+            const container = document.getElementById('keywordContainer');
+            const newKeyword = document.createElement('div');
+            newKeyword.className = 'keyword-item';
+            newKeyword.setAttribute('data-keyword-id', keywordCount);
+
+            newKeyword.innerHTML = `
+                <div class="keyword-header">
+                    <div class="keyword-title">Concept ${keywordCount}</div>
+                    <button class="remove-keyword-btn" onclick="removeKeyword(${keywordCount})">Remove</button>
+                </div>
+                <label>Main keyword/concept:</label>
+                <input type="text" class="keyword-input" placeholder="e.g., sleep patterns" oninput="updateBooleanSearch()" data-keyword-id="${keywordCount}">
+
+                <div class="synonym-section">
+                    <h4 style="color: #27ae60; margin-bottom: 10px;">Synonyms & Related Terms:</h4>
+                    <div class="synonym-container" data-keyword-id="${keywordCount}">
+                        <div class="synonym-item">
+                            <input type="text" class="synonym-input" placeholder="e.g., insomnia" oninput="updateBooleanSearch()">
+                            <button class="remove-synonym-btn" onclick="removeSynonym(this)" style="display: none;">Remove</button>
+                        </div>
+                    </div>
+                    <button class="add-synonym-btn" onclick="addSynonym(${keywordCount})">+ Add Synonym</button>
+                </div>
+            `;
+
+            container.appendChild(newKeyword);
+            updateRemoveButtons();
+        }
+
+        // Remove keyword
+        function removeKeyword(keywordId) {
+            const keywordElement = document.querySelector(`.keyword-item[data-keyword-id="${keywordId}"]`);
+            keywordElement.remove();
+            delete synonymCount[keywordId];
+            updateRemoveButtons();
+            updateBooleanSearch();
+        }
+
+        // Add synonym
+        function addSynonym(keywordId) {
+            synonymCount[keywordId]++;
+            const container = document.querySelector(`.synonym-container[data-keyword-id="${keywordId}"]`);
+
+            const newSynonym = document.createElement('div');
+            newSynonym.className = 'synonym-item';
+            newSynonym.innerHTML = `
+                <input type="text" class="synonym-input" placeholder="Enter synonym" oninput="updateBooleanSearch()">
+                <button class="remove-synonym-btn" onclick="removeSynonym(this)">Remove</button>
+            `;
+
+            container.appendChild(newSynonym);
+            updateSynonymRemoveButtons(keywordId);
+        }
+
+        // Remove synonym
+        function removeSynonym(button) {
+            const synonymItem = button.parentElement;
+            const container = synonymItem.parentElement;
+            const keywordId = container.dataset.keywordId;
+
+            synonymItem.remove();
+            synonymCount[keywordId]--;
+            updateSynonymRemoveButtons(keywordId);
+            updateBooleanSearch();
+        }
+
+        // Update remove button visibility
+        function updateRemoveButtons() {
+            const keywordItems = document.querySelectorAll('.keyword-item');
+            keywordItems.forEach((item, index) => {
+                const removeBtn = item.querySelector('.remove-keyword-btn');
+                if (keywordItems.length > 2) {
+                    removeBtn.style.display = 'inline-block';
+                } else {
+                    removeBtn.style.display = 'none';
+                }
+            });
+        }
+
+        // Update synonym remove button visibility
+        function updateSynonymRemoveButtons(keywordId) {
+            const synonymItems = document.querySelectorAll(`.synonym-container[data-keyword-id="${keywordId}"] .synonym-item`);
+            synonymItems.forEach((item, index) => {
+                const removeBtn = item.querySelector('.remove-synonym-btn');
+                if (synonymItems.length > 1) {
+                    removeBtn.style.display = 'inline-block';
+                } else {
+                    removeBtn.style.display = 'none';
+                }
+            });
+        }
+
+        // Update database buttons
+        function updateDatabaseButtons(booleanString) {
+            const container = document.getElementById('databaseButtons');
+
+            if (!booleanString || booleanString.includes('Your Boolean search will appear here')) {
+                container.innerHTML = '<button class="database-btn" disabled>Complete steps above to enable database searches</button>';
+                return;
+            }
+
+            container.innerHTML = '';
+
+            Object.keys(databases).forEach(dbName => {
+                const button = document.createElement('button');
+                button.className = 'database-btn';
+                button.textContent = dbName;
+                button.onclick = () => searchDatabase(dbName, booleanString);
+                container.appendChild(button);
+            });
+        }
+
+        // Search database
+        function searchDatabase(dbName, query) {
+            const url = databases[dbName].replace('SEARCH_QUERY', encodeURIComponent(query));
+            window.open(url, '_blank');
+        }
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            const booleanOutput = document.getElementById('booleanOutput');
+            const text = booleanOutput.textContent;
+
+            if (text.includes('Your Boolean search will appear here')) {
+                showAlert('Please complete the steps above first!', 'warning');
+                return;
+            }
+
+            navigator.clipboard.writeText(text).then(() => {
+                showAlert('Boolean search copied to clipboard!', 'success');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showAlert('Boolean search copied to clipboard!', 'success');
+            });
+        }
+
+        // Show alert
+        function showAlert(message, type) {
+            const alertDiv = document.getElementById('copyAlert');
+            alertDiv.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+
+            setTimeout(() => {
+                alertDiv.innerHTML = '';
+            }, 3000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateRemoveButtons();
+            updateSynonymRemoveButtons(1);
+            updateSynonymRemoveButtons(2);
+        });
+    </script>
+</body>
+</html>
