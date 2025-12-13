@@ -6,62 +6,50 @@ layout: tool
         .header { /* background: #2c3e50; color: white; */ padding: 30px; text-align: center; }
         .header h1 { font-size: 2.2em; margin-bottom: 10px; }
         .header p { font-size: 1.1em; opacity: 0.9; }
-        .progress-bar { background: #34495e; height: 8px; position: relative; }
-        .progress-fill { background: #3498db; height: 100%; transition: width 0.3s ease; }
-        .content { padding: 40px; min-height: 500px; }
-        .step { display: none; }
-        .step.active { display: block; }
-        .step-header { display: flex; align-items: center; margin-bottom: 30px; }
-        .step-number { background: #3498db; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 20px; font-size: 1.4em; }
-        .step-title { font-size: 1.6em; font-weight: 600; color: #2c3e50; }
-        .instructions { background: #f8f9fa; padding: 25px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #FA8334; }
-        .instructions h2 { color: #2c3e50; margin-bottom: 15px; font-size: 1.2em; }
-        .instructions ul { margin-left: 20px; }
-        .instructions li { margin-bottom: 10px; }
-        .synonym-tips { background: #e8f5e8; padding: 25px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #27ae60; }
-        .synonym-tips h2 { color: #27ae60; margin-bottom: 15px; font-size: 1.2em; }
-        input[type="text"], textarea { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color 0.3s ease; }
-        input[type="text"]:focus, textarea:focus { outline: none; border-color: #3498db; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); }
-        textarea { resize: vertical; min-height: 120px; }
-        .keyword-item { background: #f8f9fa; padding: 25px; margin-bottom: 20px; border-radius: 10px; border: 1px solid #dee2e6; }
-        .keyword-item label { font-weight: 600; color: #2c3e50; margin-bottom: 10px; display: block; font-size: 1.1em; }
-        .keyword-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .keyword-title { font-weight: 600; color: #2c3e50; font-size: 1.2em; }
-        .synonym-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid #dee2e6; }
-        .synonym-item { display: flex; align-items: center; margin-bottom: 15px; }
-        .synonym-input { flex: 1; margin-right: 15px; }
-        .add-keyword-btn, .add-synonym-btn { background: #27ae60; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: background-color 0.3s ease; }
-        .add-keyword-btn:hover, .add-synonym-btn:hover { background: #229954; }
-        .remove-keyword-btn, .remove-synonym-btn { background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 12px; transition: background-color 0.3s ease; }
-        .remove-keyword-btn:hover, .remove-synonym-btn:hover { background: #c0392b; }
-        .boolean-output { background: #2c3e50; color: white; padding: 25px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 18px; font-weight: bold; line-height: 1.8; margin-bottom: 25px; min-height: 80px; word-wrap: break-word; }
-        .copy-btn { background: #f39c12; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; margin-right: 15px; transition: background-color 0.3s ease; }
-        .copy-btn:hover { background: #e67e22; }
-        .database-section { margin-top: 30px; padding: 30px; background: #f8f9fa; border-radius: 15px; }
-        .database-buttons { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 25px; }
-        .database-btn { background: #8e44ad; color: white; border: none; padding: 18px 30px; border-radius: 10px; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s ease; text-decoration: none; display: inline-block; }
-        .database-btn:hover { background: #7d3c98; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(142, 68, 173, 0.3); }
-        .database-btn:disabled { background: #bdc3c7; cursor: not-allowed; transform: none; box-shadow: none; }
-        .navigation { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; padding-top: 30px; border-top: 2px solid #ecf0f1; }
-        .nav-btn { background: #3498db; color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s ease; }
-        .nav-btn:hover { background: #2980b9; transform: translateY(-1px); }
-        .nav-btn:disabled { background: #bdc3c7; cursor: not-allowed; transform: none; }
-        .nav-btn.secondary { background: #95a5a6; }
-        .nav-btn.secondary:hover { background: #7f8c8d; }
-        .step-indicator { display: flex; align-items: center; gap: 10px; }
-        .step-indicator span { color: #7f8c8d; font-weight: 600; }
-        .edit-search-btn { background: #e74c3c; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: background-color 0.3s ease; }
-        .edit-search-btn:hover { background: #c0392b; }
-        .alert { padding: 15px; border-radius: 8px; margin-top: 20px; font-weight: 500; }
-        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .alert-warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
-        .summary-section { background: #f8f9fa; padding: 25px; border-radius: 10px; margin-bottom: 25px; }
-        .summary-section h2 { color: #2c3e50; margin-bottom: 15px; }
-        .summary-item { margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid #3498db; }
-        .summary-item { margin-bottom: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid #2DD881; }
-        .summary-item strong { color: #2c3e50; }
-        @media (max-width: 768px) { .content { padding: 25px; } .navigation { flex-direction: column; gap: 15px; } .nav-btn { width: 100%; text-align: center; } .database-buttons { flex-direction: column; } .synonym-item { flex-direction: column; align-items: stretch; } .synonym-input { margin-right: 0; margin-bottom: 10px; } }
-    </style>
+        .progress-bar{background:#34495e;height:8px}
+        .progress-fill{background:#3498db;height:100%;transition:width .25s ease}
+        .content{padding:30px;min-height:420px}
+        .step{display:none}
+        .step.active{display:block}
+        .step-header{display:flex;align-items:center;margin-bottom:18px}
+        .step-number{background:#3498db;color:#fff;width:44px;height:44px;border-radius:50%;
+        display:flex;align-items:center;justify-content:center;font-weight:700;margin-right:14px}
+        .step-title{font-size:1.25rem;font-weight:700;color:#233140}
+        .instructions{background:#f8f9fa;padding:18px;border-radius:8px;border-left:4px solid #3498db;margin-bottom:18px}
+        .instructions h4{margin-bottom:8px;color:#233140}
+        .instructions ul{margin-left:18px}
+        input[type="text"],textarea{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:15px}
+        input[type="text"]:focus,textarea:focus{outline:none;border-color:#3498db;box-shadow:0 0 0 4px rgba(52,152,219,.06)}
+        textarea{min-height:100px;resize:vertical}
+        .keyword-item{background:#f8f9fa;padding:16px;border-radius:8px;border:1px solid #e3e7eb;margin-bottom:12px}
+        .keyword-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+        .keyword-title{font-weight:700;color:#233140}
+        .synonym-section{margin-top:12px;padding-top:12px;border-top:1px solid #e3e7eb}
+        .synonym-item{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+        .synonym-input{flex:1}
+        .btn{cursor:pointer;border:0;padding:10px 16px;border-radius:8px;font-weight:700}
+        .btn.primary{background:#3498db;color:#fff}
+        .btn.primary:hover{background:#2b86c9}
+        .btn.green{background:#27ae60;color:#fff}
+        .btn.green:hover{background:#229954}
+        .btn.warn{background:#f39c12;color:#fff}
+        .btn.warn:hover{background:#e07f1b}
+        .btn.red{background:#e74c3c;color:#fff}
+        .btn.red:hover{background:#c43830}
+        .boolean-output{background:#2c3e50;color:#fff;padding:18px;border-radius:8px;font-family:Courier,monospace;font-size:15px;min-height:64px;word-break:break-word}
+        .database-section{margin-top:18px;padding:18px;background:#f8f9fa;border-radius:10px}
+        .database-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
+        .database-btn{background:#8e44ad;color:#fff;padding:10px 16px;border-radius:8px;font-weight:700;border:0;cursor:pointer}
+        .database-btn:disabled{background:#bfc6cc;cursor:not-allowed}
+        .navigation{display:flex;justify-content:space-between;align-items:center;padding:18px;border-top:1px solid #eef2f5}
+        .navigation .center{display:flex;gap:12px;align-items:center}
+        .summary-section{background:#f8f9fa;padding:14px;border-radius:8px;margin-bottom:12px}
+        .summary-item{padding:10px;background:#fff;border-radius:8px;border-left:4px solid #3498db;margin-bottom:10px}
+        .alert{padding:12px;border-radius:8px;margin-top:12px}
+        .alert.success{background:#d4edda;color:#155724;border:1px solid #c3e6cb}
+        .alert.warn{background:#fff3cd;color:#856404;border:1px solid #ffeaa7}
+        @media(max-width:720px){.navigation{flex-direction:column}.navigation .center{order:3;width:100%}.database-buttons{flex-direction:column}}
+  </style>
 
         <div class="progress-bar"><div id="progressFill" class="progress-fill" style="width:25%"></div></div>
 
@@ -93,7 +81,7 @@ layout: tool
 
         <div class="summary-section" id="step2QuestionDisplay" style="display:none;margin-bottom:12px">
           <h2 style="margin-bottom:8px">Your research question</h2>
-          <div class="summary-item"><em id="displayedQuestion"></em></div>
+          <div class="summary-item"><p style="font-size:18px; font-weight: bold; text-align:center;" id="displayedQuestion"></p></div>
         </div>
 
         <div id="keywordContainer">
@@ -196,7 +184,7 @@ layout: tool
       // show question at step 2
       if (n>=2 && searchData.question) {
         const disp = document.getElementById('step2QuestionDisplay');
-        document.getElementById('displayedQuestion').textContent = `"${searchData.question}"`;
+        document.getElementById('displayedQuestion').textContent = `${searchData.question}`;
         disp.style.display = 'block';
       } else {
         const disp = document.getElementById('step2QuestionDisplay');
