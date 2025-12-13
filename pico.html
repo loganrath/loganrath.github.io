@@ -407,17 +407,17 @@ layout: page
       });
 
       cinahlBtn.addEventListener('click', function() {
-        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=cul&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=cul&expanders=concept&&limiters=RV%3AY%2CDT1%3A2021-01-01%2F2026-12-13&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
         window.open(url, '_blank'); // Opens in a new tab
       });
 
       medlineBtn.addEventListener('click', function() {
-        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=mnh&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=mnh&expanders=concept&&limiters=RV%3AY%2CDT1%3A2021-01-01%2F2026-12-13&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
         window.open(url, '_blank'); // Opens in a new tab
       });
 
       cinahlmedlineBtn.addEventListener('click', function() {
-        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=mnh&db=cul&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=mnh&db=cul&expanders=concept&&limiters=RV%3AY%2CDT1%3A2021-01-01%2F2026-12-13&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
         window.open(url, '_blank'); // Opens in a new tab
       });
 
