@@ -98,7 +98,7 @@ layout: page
         <div class="synonyms-area" id="synArea"></div>
 
         <div class="syn-input" style="margin-top:12px">
-          <label for="synInput">Type a synonym and press enter:</label>
+          <label for="synInput">Type a synonym for the above term(s) and press enter:</label>
           <input id="synInput" type="text" />
           <button class="btn" id="addSyn">Add</button>
         </div>
@@ -131,10 +131,12 @@ layout: page
           <div style="background-color:#E7F2FE;padding: 0.25em;">
             <p>You've translated your PICO(T) search into a search string that will work in library databases! Now it's time to search.</p>
             <p>First, look at the search string below and make any edits.</p>
-            <ul>
+            <ol>
+              <li>Make sure that your keywords and synonyms are not full sentences. Reduce them to 1-2 words they are.</li>
               <li>If any of your PICO terms or synonyms contain multiple words, consider adding quotation marks around them to search for the exact phrase (e.g., change diabetes mellitus to "diabetes mellitus").</li>
               <li>Use an asterisk (*) after a base word to search for all words that start with those characters (e.g., adult* = adult OR adults; child* = child OR children)</li>
-            </ul>
+              <li>You may want to add <strong> AND (systematic review OR meta-analysis)</strong> to limit to higher levels of evidence.</li>
+            </ol>
             <p>Second, use the buttons under the search string to find peer-reviewed articles from the past five years in CINAL, MEDLINE, PsycINFO or all three.</p>
           </div>
           <label style="font-weight:700; margin-top: 1em; margin-bottom: 1em;" for="combinedOutput">Search String for PICO search:</label>
