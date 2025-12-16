@@ -1,605 +1,467 @@
 ---
-title: "Dr. Logan Rath's Search Builder"
+title: "Dr. Rath's Search String Generator"
 layout: tool
---- 
-  <style>
-    :root{
-      --bg:#ffffff; --card:#ffffff; --text:#071224; --muted:#374151;
-      --accent:#0b63d6; --accent-contrast:#ffffff; --danger:#b91c1c;
-      --radius:12px; --pad:18px; --max-width:1100px;
-      --shade1:#f0f9ff; --shade2:#fff7ed; --shade3:#f6fffa; --shade4:#fff5f7; --shade5:#fffaf0;
-    }
-
-    html { font-size:18px; } /* base */
-    body{
-      margin:20px; background:var(--bg); color:var(--text);
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-      line-height:1.6;
-    }
-    .container{max-width:var(--max-width);margin:0 auto}
-
-    h1{font-size:1.4em;margin:0 0 8px;font-weight:800}
-    h2{font-size:1.2em;margin:6px 0 12px;font-weight:800}
-
-    .card{background:var(--card);border-radius:var(--radius);padding:calc(var(--pad)+2px);box-shadow:0 3px 12px rgba(2,6,23,0.06);margin-top:16px;border:1px solid rgba(7,18,36,0.04)}
-
-    .question-banner{background:#f1f8ff;padding:12px;border-radius:10px;margin-bottom:12px;border:1px solid #dfeffd;font-size:1.02rem}
-    .directions{background:#f7fbff;border-left:5px solid var(--accent);padding:12px;border-radius:8px;color:var(--muted);font-size:1.02rem;margin-bottom:10px}
-
-    label{display:block;font-weight:800;margin-bottom:10px;color:var(--text);font-size:1.06rem}
-
-    textarea,input[type="text"]{
-      width:100%;padding:14px 16px;border-radius:10px;border:1px solid #d9e7fb;background:#fff;color:var(--text);
-      font-size:1.05rem;line-height:1.5;
-    }
-
-    .controls{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:14px}
-
-    .btn{background:var(--accent);color:var(--accent-contrast);padding:12px 18px;border-radius:10px;border:0;font-size:1.05rem;font-weight:800;cursor:pointer;min-height:48px}
-    .btn.secondary{background:transparent;color:var(--accent);border:2px solid rgba(11,99,214,0.12)}
-    .remove-btn{background:#fff7f7;color:var(--danger);border:1px solid rgba(185,28,28,0.12);padding:10px 12px;border-radius:10px;font-weight:800;min-height:44px}
-
-    .word{display:inline-block;padding:10px 12px;margin:6px;border-radius:8px;background:#fff;border:1px solid #e6eef8;cursor:grab;font-size:1.03rem}
-    .word.dragging{opacity:0.45}
-
-    .right-panel{padding:10px;border-radius:8px;background:#f8fafc;border:1px solid #e6eef8;min-height:120px}
-
-    .keywords-list{display:flex;flex-direction:column;gap:10px}
-    .keyword-row{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;transition:background .18s,box-shadow .18s;border:1px solid rgba(7,18,36,0.08)}
-    .keyword-row:hover,.keyword-row:focus-within{border-color:rgba(7,18,36,0.18);box-shadow:0 2px 8px rgba(7,18,36,0.04)}
-    .keyword-row .kw{flex:1;background:transparent;border:0;padding:8px;font-size:1.06rem;font-weight:700;color:var(--text);min-width:180px}
-    .synonyms{margin-top:8px;display:flex;flex-wrap:wrap;gap:8px}
-    .syn-tag{background:#eef6ff;padding:8px 10px;border-radius:999px;font-size:1.02rem;color:var(--text)}
-
-    .output{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Roboto Mono",monospace;font-size:1.03rem;padding:14px;border-radius:10px;background:#041427;color:#dff0ff;line-height:1.5}
-
-    /* Shaded backgrounds (cycle by child index) */
-    .keywords-list .keyword-row:nth-child(5n+1){background:var(--shade1)}
-    .keywords-list .keyword-row:nth-child(5n+2){background:var(--shade2)}
-    .keywords-list .keyword-row:nth-child(5n+3){background:var(--shade3)}
-    .keywords-list .keyword-row:nth-child(5n+4){background:var(--shade4)}
-    .keywords-list .keyword-row:nth-child(5n+5){background:var(--shade5)}
-
-    /* Hidden handling for the steps (force hide) */
-    .hidden{display:none !important;visibility:hidden !important}
-
-    /* Focus styles */
-    :focus{outline:none}
-    button:focus,input:focus,textarea:focus,.word:focus{box-shadow:0 0 0 6px rgba(11,99,214,0.18);border-radius:8px}
-
-    /* Responsive: Step2 reordering and stacking */
-    @media (max-width:880px){
-      /* Make step2 wrapper stack with word-pool first */
-      .step2-flex{display:flex;flex-direction:column-reverse;gap:12px}
-      .left-column .controls{flex-direction:column;gap:10px}
-      .right-column,.right-column .right-panel{width:100%!important;box-sizing:border-box}
-      .keyword-row{flex-direction:column;align-items:stretch;gap:10px}
-      .keyword-row .kw{width:100%}
-      .controls{flex-direction:column;align-items:stretch}
-      .btn{width:100%}
-      .step2-flex { gap: 8px; }                         /* smaller gap between stacked columns */
-      .right-column { margin-bottom: 6px; }            /* less space under pool */
-      .right-panel { padding: 8px; min-height: 80px; } /* slightly smaller panel padding/height */
-      .left-column { margin-top: 0; }                  /* remove any top margin */
-      .left-column .keywords-list { margin-top: 0; }   /* remove extra spacing above boxes */
-      .left-column .controls { margin-top: 6px; }      /* tighter control spacing */
-      .keyword-row { padding: 10px; }                  /* slightly smaller row padding */
-    }
+---
+    <style>
+        .header { /* background: #2c3e50; color: white; */ padding: 30px; text-align: center; }
+        .header h1 { font-size: 2.2em; margin-bottom: 10px; }
+        .header p { font-size: 1.1em; opacity: 0.9; }
+        .progress-bar{background:#34495e;height:8px}
+        .progress-fill{background:#3498db;height:100%;transition:width .25s ease}
+        .content{padding:30px;min-height:420px}
+        .step{display:none}
+        .step.active{display:block}
+        .step-header{display:flex;align-items:center;margin-bottom:18px}
+        .step-number{background:#3498db;color:#fff;width:44px;height:44px;border-radius:50%;
+        display:flex;align-items:center;justify-content:center;font-weight:700;margin-right:14px}
+        .step-title{font-size:1.25rem;font-weight:700;color:#233140}
+        .instructions{background:#f8f9fa;padding:18px;border-radius:8px;border-left:4px solid #3498db;margin-bottom:18px}
+        .instructions h4{margin-bottom:8px;color:#233140}
+        .instructions ul{margin-left:18px}
+        input[type="text"],textarea{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:15px}
+        input[type="text"]:focus,textarea:focus{outline:none;border-color:#3498db;box-shadow:0 0 0 4px rgba(52,152,219,.06)}
+        textarea{min-height:100px;resize:vertical}
+        .keyword-item{background:#f8f9fa;padding:16px;border-radius:8px;border:1px solid #e3e7eb;margin-bottom:12px}
+        .keyword-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+        .keyword-title{font-weight:700;color:#233140}
+        .synonym-section{margin-top:12px;padding-top:12px;border-top:1px solid #e3e7eb}
+        .synonym-item{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+        .synonym-input{flex:1}
+        .btn{cursor:pointer;border:0;padding:10px 16px;border-radius:8px;font-weight:700}
+        .btn.primary{background:#3498db;color:#fff}
+        .btn.primary:hover{background:#2b86c9}
+        .btn.green{background:#27ae60;color:#fff}
+        .btn.green:hover{background:#229954}
+        .btn.warn{background:#f39c12;color:#fff}
+        .btn.warn:hover{background:#e07f1b}
+        .btn.red{background:#e74c3c;color:#fff}
+        .btn.red:hover{background:#c43830}
+        .boolean-output{background:#2c3e50;color:#fff;padding:18px;border-radius:8px;font-family:Courier,monospace;font-size:15px;min-height:64px;word-break:break-word}
+        .database-section{margin-top:18px;padding:18px;background:#f8f9fa;border-radius:10px}
+        .database-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
+        .database-btn{background:#8e44ad;color:#fff;padding:10px 16px;border-radius:8px;font-weight:700;border:0;cursor:pointer}
+        .database-btn:disabled{background:#bfc6cc;cursor:not-allowed}
+        .navigation{display:flex;justify-content:space-between;align-items:center;padding:18px;border-top:1px solid #eef2f5}
+        .navigation .center{display:flex;gap:12px;align-items:center}
+        .summary-section{background:#f8f9fa;padding:14px;border-radius:8px;margin-bottom:12px}
+        .summary-item{padding:10px;background:#fff;border-radius:8px;border-left:4px solid #3498db;margin-bottom:10px}
+        .alert{padding:12px;border-radius:8px;margin-top:12px}
+        .alert.success{background:#d4edda;color:#155724;border:1px solid #c3e6cb}
+        .alert.warn{background:#fff3cd;color:#856404;border:1px solid #ffeaa7}
+        @media(max-width:720px){.navigation{flex-direction:column}.navigation .center{order:3;width:100%}.database-buttons{flex-direction:column}}
   </style>
-  <div class="container">
 
-    <!-- Shared question banner (visible after submit) -->
-    <div id="shared-question" class="question-banner hidden" aria-live="polite">
-      <strong>Research question:</strong>
-      <div id="shared-question-text" style="margin-top:8px;font-size:1.02rem"></div>
-    </div>
+        <div class="progress-bar"><div id="progressFill" class="progress-fill" style="width:25%"></div></div>
 
-    <!-- STEP 1 -->
-    <div id="step1" class="card">
-      <h2 id="step1-heading">Step 1 — Research question</h2>
-      <div class="directions"><p><strong>What do I do?</strong> Type your research question.</p><p><strong>Why?</strong> This page will help you decide which keywords are most important and then create an complex search string.</p></div>
-      <form id="research-form" aria-labelledby="step1-heading"> <label for="research-question">Research question</label> <textarea id="research-question" name="research-question" rows="3" placeholder="e.g., How does social media use affect teenagers' sleep?"></textarea>
-
-<div class="controls"> <button id="to-step2" class="btn" type="submit" aria-controls="step2">Submit question</button> <button id="clear-question" class="btn secondary" type="button" aria-label="Clear research question">Clear</button> </div> </form>
-    </div>
-
-    <!-- STEP 2 -->
-    <div id="step2" class="card hidden">
-      <h2 id="step2-heading">Step 2 — Select keywords from your research question</h2>
-      <div class="directions"><p><strong>What do I do?</strong> Look at your research question and drag the most important 2-3 words down into their own boxes. You can drag multiple words into the same box if they're the same part of your idea.</p>
-        <p><strong>Why?</strong> When searching a database you can't use full sentences. This means we have to reduce the entire research question into the most important words or concepts.</p></div>
-
-      <div class="step2-flex" style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
-        <div class=""><!-- right-column -->
-          <label>Words from your question (drag these)</label>
-          <div id="word-pool" class="right-panel" aria-live="polite"></div>
+    <div class="content">
+      <!-- STEP 1 -->
+      <div class="step active" id="step1">
+        <div class="step-header"><div class="step-number">1</div><div class="step-title">Start with your research question</div></div>
+        <div class="instructions">
+          <h2>What makes a good question?</h2>
+          <ul>
+            <li>Be specific and researchable</li>
+            <li>Example: "How does social media use affect college students' sleep?"</li>
+          </ul>
         </div>
-          <div class="" style="">
-          <!-- left-column flex:1;min-width:300px -->
-          <label for="keyword-boxes">Keyword boxes (drop words here)</label>
-          <div id="keyword-boxes" class="keywords-list" aria-live="polite"></div>
+        <label for="researchQuestion"><strong>Enter your research question</strong></label>
+        <textarea id="researchQuestion" placeholder="Type your research question here"></textarea>
+      </div>
 
-          <div class="controls" style="margin-top:10px">
-            <button id="add-keyword-box" class="btn secondary">+ Add box</button>
-            <button id="to-step3" class="btn">Next: Add synonyms</button>
-            <button id="back-step1" class="btn">Back</button>
+      <!-- STEP 2 -->
+      <div class="step" id="step2">
+        <div class="step-header"><div class="step-number">2</div><div class="step-title">Identify key concepts</div></div>
+        <div class="instructions">
+          <h2>How to pick keywords</h2>
+          <ul>
+            <li>Look for central nouns or ideas from your question</li>
+            <li>Pick 2–4 main concepts</li>
+          </ul>
+        </div>
+
+        <div class="summary-section" id="step2QuestionDisplay" style="display:none;margin-bottom:12px">
+          <h2 style="margin-bottom:8px">Your research question</h2>
+          <div class="summary-item"><p style="font-size:18px; font-weight: bold; text-align:center;" id="displayedQuestion"></p></div>
+        </div>
+
+        <div id="keywordContainer">
+          <div class="keyword-item" data-keyword-id="1">
+            <div class="keyword-header"><div class="keyword-title">Concept 1</div><button class="btn red" onclick="removeKeyword(1)" style="display:none">Remove</button></div>
+            <label>Main keyword</label>
+            <input type="text" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media">
+          </div>
+
+          <div class="keyword-item" data-keyword-id="2">
+            <div class="keyword-header"><div class="keyword-title">Concept 2</div><button class="btn red" onclick="removeKeyword(2)" style="display:none">Remove</button></div>
+            <label>Main keyword</label>
+            <input type="text" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students">
           </div>
         </div>
-        <div class="small" style="color:var(--muted)">Tip: If a keyword should be multiple words, drop more than one word into the same box (they will join with a space) and they'll appear as that keyword in Step 3.</div>
+
+        <div style="margin-top:10px"><button class="btn green" onclick="addKeyword()">+ Add another concept</button></div>
       </div>
-    </div>
 
-    <!-- STEP 3 -->
-    <div id="step3" class="card hidden">
-      <h2 id="step3-heading">Step 3 — Add synonyms</h2>
-      <div class="directions"><p><strong>What do I do?</strong> For each keyword row, add synonyms on the right (press Enter or type a comma).</p><p><strong>Why?</strong> Using synonyms will increase your chances of finding the best sources.</p></div>
+      <!-- STEP 3 -->
+      <div class="step" id="step3">
+        <div class="step-header"><div class="step-number">3</div><div class="step-title">Add synonyms & related terms</div></div>
 
-      <div style="margin-top:8px">
-        <div style="margin-bottom:10px">
-          <button id="add-keyword" class="btn secondary">+ Add keyword</button>
+        <div class="instructions">
+          <h2>Tips for finding synonyms</h2>
+          <ul>
+            <li>Use thesaurus, Google Scholar phrasing, or subject-specific terms</li>
+            <li>Include alternate spellings and broader/narrower terms</li>
+          </ul>
         </div>
 
-        <label>Keywords & synonyms</label>
-        <div id="keywords" class="keywords-list" aria-live="polite"></div>
-        <div class="controls" style="margin-top:12px">
-          <button id="reset" class="remove-btn">Reset to chosen boxes</button>
-          <button id="back-step2" class="btn">Back</button>
-          <button id="to-step4" class="btn">Next: View Boolean</button>
+        <div id="synonymContainer"></div>
+      </div>
+
+      <!-- STEP 4 (combined review + databases) -->
+      <div class="step" id="step4">
+        <div class="step-header"><div class="step-number">4</div><div class="step-title">Review & search</div></div>
+
+        <div class="instructions">
+          <h2>Boolean basics</h2>
+          <ul>
+            <li><strong>OR</strong> connects synonyms: (A OR B)</li>
+            <li><strong>AND</strong> connects concepts: (A) AND (B)</li>
+            <li>Use quotes for exact phrases: "social media"</li>
+          </ul>
+        </div>
+
+        <div class="summary-section">
+          <h2>Search summary</h2>
+          <div id="searchSummary"></div>
+        </div>
+
+        <div>
+          <h2 style="margin:0 0 8px 0">Your Boolean search</h2>
+          <div id="booleanOutput" class="boolean-output">Your search will appear here</div>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn warn" onclick="copyToClipboard()">📋 Copy search</button>
+          <button class="btn red" onclick="editSearch()">✏️ Start over / edit</button>
+          <div id="copyAlert" style="min-width:180px"></div>
+        </div>
+
+        <div class="database-section">
+          <h2 style="margin:0">Search library databases</h2>
+          <div class="database-buttons" id="databaseButtons" style="margin-top:10px">
+            <button class="database-btn" disabled>Complete previous steps</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- STEP 4 -->
-    <div id="step4" class="card hidden">
-      <h2 id="step4-heading">Step 4 — Final Boolean string</h2>
-      <div class="directions"><p><strong>What do I do?</strong> Review and copy the list of keywords below. Then, press the copy button and paste into the search field in Library Search or a specific library database.</p></div>
-
-      <label>Final Search String</label>
-      <div id="boolean-output" class="output" aria-live="polite">Your final search string will appear here.</div>
-
-      <div class="controls" style="margin-top:12px">
-        <button id="copy-btn" class="btn">Copy search string</button>
-        <button id="edit-keywords" class="btn secondary">Edit keywords/synonyms</button>
-        <button id="start-over" class="btn">Start over</button>
-      </div>
-
-      <div class="small" style="margin-top:10px;color:var(--muted)">This is just to get you started. You may wish to change your add, remove, or change specific words after you see the results. Don't forget to limit to peer-reviewed/scholarly articles in the last 10 years.</div>
+    <div class="navigation">
+      <button id="backBtn" class="btn" onclick="previousStep()" disabled>← Back</button>
+      <div class="center"><span id="stepIndicator">Step 1 of 4</span></div>
+      <button id="nextBtn" class="btn primary" onclick="nextStep()">Next →</button>
     </div>
-
-    <footer style="margin-top:18px">
-    </footer>
   </div>
 
-  <!-- JavaScript logic -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-  // Elements
-  const sharedQuestionBanner = document.getElementById('shared-question');
-  const sharedQuestionText = document.getElementById('shared-question-text');
-  const step1 = document.getElementById('step1');
-  const step2 = document.getElementById('step2');
-  const step3 = document.getElementById('step3');
-  const step4 = document.getElementById('step4');
-  const researchForm = document.getElementById('research-form');
-  const questionInput = document.getElementById('research-question');
-  const toStep2Btn = document.getElementById('to-step2');
-  const clearQuestionBtn = document.getElementById('clear-question');
-  const wordPool = document.getElementById('word-pool');
-  const keywordBoxes = document.getElementById('keyword-boxes');
-  const addKeywordBoxBtn = document.getElementById('add-keyword-box');
-  const toStep3Btn = document.getElementById('to-step3');
-  const backStep1Btn = document.getElementById('back-step1');
-  const keywordsEl = document.getElementById('keywords');
-  const addKeywordBtn = document.getElementById('add-keyword');
-  const resetBtn = document.getElementById('reset');
-  const backStep2Btn = document.getElementById('back-step2');
-  const toStep4Btn = document.getElementById('to-step4');
-  const booleanOutput = document.getElementById('boolean-output');
-  const copyBtn = document.getElementById('copy-btn');
-  const editKeywordsBtn = document.getElementById('edit-keywords');
-  const startOverBtn = document.getElementById('start-over');
-  let boxCounter = 0;
+  <script>
+    // Configurable database URLs (replace or add entries as needed)
+    const databases = {
+      'Library Search': 'https://suny-bro.primo.exlibrisgroup.com/discovery/search?institution=01SUNY_BRO&vid=01SUNY_BRO%3A01SUNY_BRO&tab=Everything&search_scope=everythingSLS&mode=Basic&displayMode=full&bulkSize=10&highlight=true&dum=true&query=any%2Ccontains%2CSEARCH_QUERY&displayField=all&pcAvailabiltyMode=true&searchOptionsRadio=everything',
+      'Academic Search Complete': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=a9h&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
+      'Education Databases': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=eue&db=eric&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
+      'Psychology Databases': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=psyh&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
+      'Business Source Premier': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=eue&db=eric&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
+    };
 
-  // Helpers
-  function showSharedQuestion(q) {
-    sharedQuestionText.textContent = q;
-    sharedQuestionBanner.classList.remove('hidden');
-  }
+    let currentStep = 1;
+    let totalSteps = 4;
+    let keywordCount = 2;
+    let synonymCount = {1:1,2:1};
+    let searchData = { question:'', keywords:{}, booleanString:'' };
 
-  function wordsFromQuestion(q) {
-    if (!q) return [];
-    const cleaned = q.replace(/[^\w'\s]/g, ' ');
-    const words = cleaned.split(/\s+/).map(s => s.trim()).filter(Boolean);
-    const seen = new Set();
-    const uniq = [];
-    words.forEach(w => {
-      const low = w.toLowerCase();
-      if (!seen.has(low)) {
-        seen.add(low);
-        uniq.push(w);
+    // Helpers
+    function showStep(n) {
+      document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+      document.getElementById('step'+n).classList.add('active');
+      // show question at step 2
+      if (n>=2 && searchData.question) {
+        const disp = document.getElementById('step2QuestionDisplay');
+        document.getElementById('displayedQuestion').textContent = `${searchData.question}`;
+        disp.style.display = 'block';
+      } else {
+        const disp = document.getElementById('step2QuestionDisplay');
+        if (disp) disp.style.display = 'none';
       }
-    });
-    return uniq;
-  }
-
-  function renderWordPool(words) {
-    wordPool.innerHTML = '';
-    if (!words.length) {
-      wordPool.textContent = 'No words detected.';
-      return;
+      document.getElementById('stepIndicator').textContent = `Step ${n} of ${totalSteps}`;
+      document.getElementById('progressFill').style.width = `${(n/totalSteps)*100}%`;
+      updateNavButtons();
     }
-    words.forEach((w) => {
-      const span = document.createElement('span');
-      span.className = 'word';
-      span.draggable = true;
-      span.textContent = w;
-      span.dataset.word = w;
-      span.setAttribute('role', 'button');
-      span.setAttribute('tabindex', '0');
-      span.setAttribute('aria-label', `Word ${w}`);
 
-      // keyboard/click fallback: append to first keyword box
-      span.addEventListener('click', () => {
-        const first = keywordBoxes.querySelector('.kw');
-        if (first) {
-          first.value = first.value ? (first.value + ' ' + w) : w;
-          updateWordPoolLabel();
-        }
+    function updateNavButtons() {
+      document.getElementById('backBtn').disabled = currentStep===1;
+      const nextBtn = document.getElementById('nextBtn');
+      if (currentStep===totalSteps) { nextBtn.style.display='none'; } else { nextBtn.style.display='inline-block'; nextBtn.textContent = currentStep=== (totalSteps-1) ? 'Review & Search →' : 'Next →'; }
+    }
+
+    // Validation for moving forward
+    function validateCurrentStep() {
+      if (currentStep===1) {
+        const q = document.getElementById('researchQuestion').value.trim();
+        if (!q) { showAlert('Please enter your research question before continuing.','warn'); return false; }
+        searchData.question = q;
+        return true;
+      }
+      if (currentStep===2) {
+        const kws = document.querySelectorAll('.keyword-input');
+        let any=false;
+        searchData.keywords = {};
+        kws.forEach(k=>{ if(k.value.trim()){ any=true; searchData.keywords[k.dataset.keywordId] = { main: k.value.trim(), synonyms: [] }; }});
+        if (!any){ showAlert('Please enter at least one keyword or concept.','warn'); return false; }
+        return true;
+      }
+      if (currentStep===3) {
+        // gather synonyms into searchData
+        Object.keys(searchData.keywords).forEach(id=>{
+          const syns = Array.from(document.querySelectorAll(`.synonym-container[data-keyword-id="${id}"] .synonym-input`)).map(i=>i.value.trim()).filter(Boolean);
+          searchData.keywords[id].synonyms = syns;
+        });
+        return true;
+      }
+      return true;
+    }
+
+    // Navigation
+    function nextStep(){
+      if (!validateCurrentStep()) return;
+      if (currentStep < totalSteps) {
+        // special: when leaving step1 ensure question saved
+        if (currentStep===1) searchData.question = document.getElementById('researchQuestion').value.trim();
+        currentStep++;
+        // when entering step3 generate synonym fields
+        if (currentStep===3) generateSynonymFields();
+        // when entering final step, build summary & boolean & database buttons
+        if (currentStep===4){ buildSummary(); buildBoolean(); updateDatabaseButtons(); }
+        showStep(currentStep);
+      }
+    }
+
+    function previousStep(){
+      if (currentStep>1){ currentStep--; showStep(currentStep); }
+    }
+
+    // Keyword management
+    function addKeyword(){
+      keywordCount++;
+      synonymCount[keywordCount]=1;
+      const container = document.getElementById('keywordContainer');
+      const div = document.createElement('div');
+      div.className='keyword-item'; div.dataset.keywordId = keywordCount;
+      div.innerHTML = `<div class="keyword-header"><div class="keyword-title">Concept ${keywordCount}</div><button class="btn red" onclick="removeKeyword(${keywordCount})">Remove</button></div>
+        <label>Main keyword</label><input type="text" class="keyword-input" data-keyword-id="${keywordCount}" placeholder="Enter keyword">`;
+      container.appendChild(div);
+      updateKeywordRemoveVisibility();
+    }
+
+    function removeKeyword(id){
+      const el = document.querySelector(`.keyword-item[data-keyword-id="${id}"]`);
+      if (el) el.remove();
+      delete synonymCount[id];
+      updateKeywordRemoveVisibility();
+    }
+
+    function updateKeywordRemoveVisibility(){
+      const items = document.querySelectorAll('#keywordContainer .keyword-item');
+      items.forEach(it=>{
+        const btn = it.querySelector('.btn.red');
+        btn.style.display = items.length>2 ? 'inline-block' : 'none';
       });
-      span.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          span.click();
-        }
+    }
+
+    // Synonym fields generation (for step 3)
+    function generateSynonymFields(){
+      const container = document.getElementById('synonymContainer');
+      container.innerHTML = '';
+      // ensure searchData.keywords has keys in stable order
+      Object.keys(searchData.keywords).forEach(id=>{
+        const data = searchData.keywords[id];
+        const block = document.createElement('div');
+        block.className='keyword-item'; block.dataset.keywordId = id;
+        block.innerHTML = `<div class="keyword-header"><div class="keyword-title">Synonyms for: "${data.main}"</div></div>
+          <div class="synonym-section">
+            <div class="synonym-container" data-keyword-id="${id}">
+              <div class="synonym-item"><input type="text" class="synonym-input" placeholder="Enter synonym or related term"></div>
+            </div>
+            <div style="margin-top:8px"><button class="btn green" onclick="addSynonym(${id})">+ Add another synonym</button></div>
+          </div>`;
+        container.appendChild(block);
+        synonymCount[id] = 1;
       });
-      span.addEventListener('dragstart', e => {
-        e.dataTransfer.setData('text/plain', w);
-        span.classList.add('dragging');
+    }
+
+    function addSynonym(keywordId){
+      synonymCount[keywordId]++;
+      const container = document.querySelector(`.synonym-container[data-keyword-id="${keywordId}"]`);
+      const item = document.createElement('div');
+      item.className = 'synonym-item';
+      item.innerHTML = `<input type="text" class="synonym-input" placeholder="Enter synonym or related term">
+                        <button class="btn red" onclick="removeSynonym(this)">Remove</button>`;
+      container.appendChild(item);
+      updateSynonymRemoveButtons(keywordId);
+    }
+
+    function removeSynonym(btn){
+      const item = btn.parentElement;
+      const container = item.parentElement;
+      const keywordId = container.dataset.keywordId;
+      item.remove();
+      updateSynonymRemoveButtons(keywordId);
+    }
+
+    function updateSynonymRemoveButtons(keywordId){
+      const items = document.querySelectorAll(`.synonym-container[data-keyword-id="${keywordId}"] .synonym-item`);
+      items.forEach(it=>{
+        const btn = it.querySelector('.btn.red');
+        if (btn) btn.style.display = items.length > 1 ? 'inline-block' : 'none';
       });
-      span.addEventListener('dragend', () => span.classList.remove('dragging'));
-      wordPool.appendChild(span);
-    });
-    updateWordPoolLabel();
-  }
-
-  // Utility: update aria-live label for word-pool (optional feedback)
-  function updateWordPoolLabel() {
-    const count = wordPool.querySelectorAll('.word').length;
-    wordPool.setAttribute('aria-label', `Words from your question. ${count} words available.`);
-  }
-
-  // Create keyword drop box for step2 (adds sr-only label for accessibility)
-  function createKeywordBox(initial = '') {
-    const id = `box-${++boxCounter}`;
-    const row = document.createElement('div');
-    row.className = 'keyword-row';
-    row.dataset.id = id;
-    row.style.minHeight = '44px';
-
-    const labelEl = document.createElement('label');
-    labelEl.className = 'sr-only';
-    labelEl.htmlFor = id + '-input';
-    labelEl.textContent = 'Keyword box ' + boxCounter;
-
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.className = 'kw';
-    input.id = id + '-input';
-    input.name = id + '-input';
-    input.placeholder = 'Drop a word here';
-    input.value = initial;
-    input.readOnly = true;
-    input.setAttribute('aria-label', 'Keyword box ' + boxCounter);
-
-    const clearBtn = document.createElement('button');
-    clearBtn.className = 'remove-btn';
-    clearBtn.type = 'button';
-    clearBtn.textContent = 'Clear';
-    clearBtn.setAttribute('aria-label', 'Clear keyword box ' + boxCounter);
-    clearBtn.addEventListener('click', () => {
-      input.value = '';
-    });
-
-    row.addEventListener('dragover', e => {
-      e.preventDefault();
-      row.classList.add('drop-target');
-    });
-    row.addEventListener('dragleave', () => row.classList.remove('drop-target'));
-    row.addEventListener('drop', e => {
-      e.preventDefault();
-      row.classList.remove('drop-target');
-      const w = e.dataTransfer.getData('text/plain');
-      if (!w) return;
-      input.value = input.value ? (input.value + ' ' + w) : w;
-    });
-
-    row.appendChild(labelEl);
-    row.appendChild(input);
-    row.appendChild(clearBtn);
-    keywordBoxes.appendChild(row);
-    return row;
-  }
-
-  // Step controls
-  researchForm.addEventListener('submit', (ev) => {
-    ev.preventDefault();
-    const q = questionInput.value.trim();
-    if (!q) {
-      alert('Please enter your research question.');
-      return;
     }
-    showSharedQuestion(q);
-    const words = wordsFromQuestion(q);
-    renderWordPool(words);
-    if (!keywordBoxes.children.length) {
-      for (let i = 0; i < 3; i++) createKeywordBox();
-    }
-    step1.classList.add('hidden');
-    step2.classList.remove('hidden');
-    step2.removeAttribute('aria-hidden');
-    step1.setAttribute('aria-hidden', 'true');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
 
-  clearQuestionBtn.addEventListener('click', () => {
-    if (confirm('Clear question?')) questionInput.value = '';
-  });
+    // Build summary & boolean
+    function buildSummary(){
+      const summary = document.getElementById('searchSummary');
+      summary.innerHTML = '';
+      const qDiv = document.createElement('div');
+      qDiv.className = 'summary-item';
+      qDiv.innerHTML = `<strong>Research question:</strong><br>${escapeHtml(searchData.question)}`;
+      summary.appendChild(qDiv);
 
-  addKeywordBoxBtn.addEventListener('click', () => createKeywordBox());
-
-  backStep1Btn.addEventListener('click', () => {
-    step2.classList.add('hidden');
-    step1.classList.remove('hidden');
-    step1.removeAttribute('aria-hidden');
-    step2.setAttribute('aria-hidden', 'true');
-  });
-
-  toStep3Btn.addEventListener('click', () => {
-    const boxes = Array.from(keywordBoxes.children);
-    const values = boxes.map(b => b.querySelector('.kw').value.trim()).filter(Boolean);
-    keywordsEl.innerHTML = '';
-    values.forEach(v => addKeyword(v));
-    while (keywordsEl.children.length < 3) addKeyword();
-    step2.classList.add('hidden');
-    step3.classList.remove('hidden');
-    step3.removeAttribute('aria-hidden');
-    step2.setAttribute('aria-hidden', 'true');
-    updateBoolean();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  backStep2Btn.addEventListener('click', () => {
-    step3.classList.add('hidden');
-    step2.classList.remove('hidden');
-    step2.removeAttribute('aria-hidden');
-    step3.setAttribute('aria-hidden', 'true');
-  });
-
-  // STEP 3: keywords + synonyms (left readonly, shaded rows)
-  function createKeywordRow(initialKeyword = '') {
-    const row = document.createElement('div');
-    row.className = 'keyword-row';
-
-    // left readonly keyword (with label for screen readers)
-    const kwId = 'kw-' + (Math.random().toString(36).substr(2, 6));
-    const kwLabel = document.createElement('label');
-    kwLabel.className = 'sr-only';
-    kwLabel.htmlFor = kwId;
-    kwLabel.textContent = 'Keyword';
-
-    const kwInput = document.createElement('input');
-    kwInput.type = 'text';
-    kwInput.className = 'kw';
-    kwInput.id = kwId;
-    kwInput.placeholder = 'Keyword (read-only)';
-    kwInput.value = initialKeyword;
-    kwInput.readOnly = true;
-    kwInput.setAttribute('aria-label', initialKeyword ? 'Keyword ' + initialKeyword : 'Keyword');
-
-    // right: synonyms area
-    const right = document.createElement('div');
-    right.style.flex = '0 0 620px';
-    right.style.display = 'flex';
-    right.style.flexDirection = 'column';
-    right.style.gap = '8px';
-
-    const synField = document.createElement('input');
-    synField.type = 'text';
-    synField.placeholder = 'Add synonym and press Enter or comma';
-    synField.setAttribute('aria-label', 'Add synonym for ' + (initialKeyword || 'keyword'));
-    synField.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ',') {
-        e.preventDefault();
-        const v = synField.value.trim();
-        if (v) {
-          addSynonymChip(chips, v);
-          synField.value = '';
-          updateBoolean();
-        }
-      }
-    });
-
-    const chips = document.createElement('div');
-    chips.className = 'synonyms';
-    chips.setAttribute('aria-live', 'polite');
-
-    const removeBtn = document.createElement('button');
-    removeBtn.className = 'remove-btn';
-    removeBtn.type = 'button';
-    removeBtn.textContent = 'Remove';
-    removeBtn.setAttribute('aria-label', 'Remove keyword row');
-    removeBtn.addEventListener('click', () => {
-      row.remove();
-      updateBoolean();
-    });
-
-    if (initialKeyword) addSynonymChip(chips, initialKeyword);
-
-    right.appendChild(synField);
-    right.appendChild(chips);
-    right.appendChild(removeBtn);
-
-    row.appendChild(kwLabel);
-    row.appendChild(kwInput);
-    row.appendChild(right);
-    keywordsEl.appendChild(row);
-    return row;
-  }
-
-  function addSynonymChip(container, text) {
-    const t = text.trim();
-    if (!t) return;
-    const exists = Array.from(container.children).some(c => c.textContent === t);
-    if (exists) return;
-    const chip = document.createElement('span');
-    chip.className = 'syn-tag';
-    chip.textContent = t;
-    chip.title = 'Click to remove';
-    chip.style.cursor = 'pointer';
-    chip.setAttribute('role', 'button');
-    chip.setAttribute('tabindex', '0');
-    chip.setAttribute('aria-label', 'Synonym ' + t + '. Click to remove.');
-    chip.addEventListener('click', () => {
-      chip.remove();
-      updateBoolean();
-    });
-    chip.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        chip.click();
-      }
-    });
-    container.appendChild(chip);
-  }
-
-  function addKeyword(initial = '') {
-    const row = createKeywordRow(initial);
-    const synInput = row.querySelector('input[placeholder^="Add synonym"]');
-    synInput.addEventListener('blur', () => {
-      const v = synInput.value.trim();
-      if (v) {
-        addSynonymChip(row.querySelector('.synonyms'), v);
-        synInput.value = '';
-        updateBoolean();
-      }
-    });
-    updateBoolean();
-    return row;
-  }
-
-  function getAllKeywordGroups() {
-    const groups = [];
-    const rows = keywordsEl.querySelectorAll('.keyword-row');
-    rows.forEach(row => {
-      const chips = Array.from(row.querySelectorAll('.syn-tag')).map(c => c.textContent.trim());
-      if (chips.length === 0) {
-        const main = row.querySelector('.kw').value.trim();
-        if (main) chips.push(main);
-      }
-      const cleaned = chips.map(s => s.replace(/\s+/g, ' ').trim()).filter(Boolean);
-      if (cleaned.length) groups.push(cleaned);
-    });
-    return groups;
-  }
-
-  function buildBooleanString(groups) {
-    if (!groups.length) return '';
-    const groupStrings = groups.map(g => {
-      const syns = g.map(s => {
-        const needsQuotes = s.includes(' ');
-        const esc = s.replace(/"/g, '\\"');
-        return needsQuotes ? '"' + esc + '"' : esc;
+      Object.keys(searchData.keywords).forEach(id=>{
+        const kd = searchData.keywords[id];
+        const s = kd.synonyms && kd.synonyms.length ? kd.synonyms.join(', ') : '<em>No synonyms</em>';
+        const kDiv = document.createElement('div');
+        kDiv.className = 'summary-item';
+        kDiv.innerHTML = `<strong>Concept:</strong> ${escapeHtml(kd.main)}<br><em>Synonyms:</em> ${escapeHtml(s)}`;
+        summary.appendChild(kDiv);
       });
-      if (syns.length === 1) return syns[0];
-      return '(' + syns.join(' OR ') + ')';
+    }
+
+    function buildBoolean(){
+      // ensure searchData.keywords updated (synonyms collected from fields)
+      Object.keys(searchData.keywords).forEach(id=>{
+        const synInputs = Array.from(document.querySelectorAll(`.synonym-container[data-keyword-id="${id}"] .synonym-input`));
+        const syns = synInputs.map(i=>i.value.trim()).filter(Boolean);
+        searchData.keywords[id].synonyms = syns;
+      });
+
+      const parts = Object.keys(searchData.keywords).map(id=>{
+        const kd = searchData.keywords[id];
+        const terms = [kd.main].concat(kd.synonyms || []);
+        const quoted = terms.map(t => (t.includes(' ') ? `"${t}"` : t));
+        return quoted.length > 1 ? `(${quoted.join(' OR ')})` : quoted[0];
+      });
+
+      searchData.booleanString = parts.join(' AND ');
+      document.getElementById('booleanOutput').textContent = searchData.booleanString || 'No search terms entered';
+      document.getElementById('booleanOutput').scrollIntoView({behavior:'smooth', block:'center'});
+    }
+
+    // Database buttons
+    function updateDatabaseButtons(){
+      const container = document.getElementById('databaseButtons');
+      container.innerHTML = '';
+      const q = searchData.booleanString || '';
+      if (!q.trim()){
+        container.innerHTML = '<button class="database-btn" disabled>Complete previous steps</button>';
+        return;
+      }
+      Object.keys(databases).forEach(name=>{
+        const btn = document.createElement('button');
+        btn.className = 'database-btn';
+        btn.textContent = name;
+        btn.onclick = ()=> {
+          const url = databases[name].replace('SEARCH_QUERY', encodeURIComponent(q));
+          window.open(url, '_blank');
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    // Copy to clipboard
+    function copyToClipboard(){
+      const text = searchData.booleanString || '';
+      const alertBox = document.getElementById('copyAlert');
+      if (!text.trim()){
+        showAlert('Generate your search first.', 'warn');
+        return;
+      }
+      navigator.clipboard.writeText(text).then(()=>{
+        showAlert('Boolean search copied to clipboard.', 'success');
+      }).catch(()=>{
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showAlert('Boolean search copied to clipboard.', 'success');
+      });
+    }
+
+    // Edit / start over
+    function editSearch(){
+      if (!confirm('Start over and clear your entries?')) return;
+      // reset data
+      currentStep = 1;
+      searchData = {question:'', keywords:{}, booleanString:''};
+      keywordCount = 2;
+      synonymCount = {1:1,2:1};
+      // reset UI fields
+      document.getElementById('researchQuestion').value = '';
+      document.getElementById('keywordContainer').innerHTML = `
+        <div class="keyword-item" data-keyword-id="1">
+          <div class="keyword-header"><div class="keyword-title">Concept 1</div><button class="btn red" onclick="removeKeyword(1)" style="display:none">Remove</button></div>
+          <label>Main keyword</label><input type="text" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media">
+        </div>
+        <div class="keyword-item" data-keyword-id="2">
+          <div class="keyword-header"><div class="keyword-title">Concept 2</div><button class="btn red" onclick="removeKeyword(2)" style="display:none">Remove</button></div>
+          <label>Main keyword</label><input type="text" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students">
+        </div>`;
+      document.getElementById('synonymContainer').innerHTML = '';
+      document.getElementById('searchSummary').innerHTML = '';
+      document.getElementById('booleanOutput').textContent = 'Your search will appear here';
+      updateDatabaseButtons();
+      showStep(1);
+    }
+
+    // Utilities
+    function showAlert(msg, type){
+      const box = document.getElementById('copyAlert');
+      box.innerHTML = `<div class="alert ${type==='success'?'success':'warn'}">${msg}</div>`;
+      setTimeout(()=>{ box.innerHTML = ''; }, 3500);
+    }
+
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; });
+    }
+
+    // Init handlers
+    document.addEventListener('click', function(e){
+      // update searchData.question live when typing on step1
+      const rq = document.getElementById('researchQuestion');
+      rq.addEventListener('input', ()=>{ searchData.question = rq.value.trim(); if (currentStep>=2) { document.getElementById('displayedQuestion').textContent = `"${searchData.question}"`; }});
     });
-    return groupStrings.join(' AND ');
-  }
 
-  function updateBoolean() {
-    const groups = getAllKeywordGroups();
-    const built = buildBooleanString(groups);
-    booleanOutput.dataset.value = built || '';
-  }
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e){
+      if (e.key==='Escape') previousStep();
+      if (e.key==='Enter' && e.ctrlKey) nextStep();
+    });
 
-  // Reset step3 to chosen boxes
-  resetBtn.addEventListener('click', () => {
-    if (!confirm('Reset keywords to the boxes you chose?')) return;
-    const boxes = Array.from(keywordBoxes.children);
-    const values = boxes.map(b => b.querySelector('.kw').value.trim()).filter(Boolean);
-    keywordsEl.innerHTML = '';
-    values.forEach(v => addKeyword(v));
-    while (keywordsEl.children.length < 3) addKeyword();
-    updateBoolean();
-  });
-
-  addKeywordBtn.addEventListener('click', () => addKeyword());
-
-  // Step3 -> Step4
-  toStep4Btn.addEventListener('click', () => {
-    updateBoolean();
-    const out = booleanOutput.dataset.value || '';
-    booleanOutput.textContent = out || 'Your Boolean string will appear here.';
-    step3.classList.add('hidden');
-    step4.classList.remove('hidden');
-    step4.removeAttribute('aria-hidden');
-    step3.setAttribute('aria-hidden', 'true');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  editKeywordsBtn.addEventListener('click', () => {
-    step4.classList.add('hidden');
-    step3.classList.remove('hidden');
-    step3.removeAttribute('aria-hidden');
-    step4.setAttribute('aria-hidden', 'true');
-  });
-
-  copyBtn.addEventListener('click', async () => {
-    const txt = booleanOutput.dataset.value || '';
-    if (!txt) {
-      alert('Boolean string is empty. Return to edit keywords/synonyms.');
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(txt);
-      copyBtn.textContent = 'Copied!';
-      setTimeout(() => copyBtn.textContent = 'Copy search string', 1400);
-    } catch (e) {
-      alert('Unable to copy automatically. Select and copy the text manually.');
-    }
-  });
-
-  startOverBtn.addEventListener('click', () => {
-    if (!confirm('Start over and clear your work?')) return;
-    questionInput.value = '';
-    sharedQuestionBanner.classList.add('hidden');
-    sharedQuestionText.textContent = '';
-    wordPool.innerHTML = '';
-    keywordBoxes.innerHTML = '';
-    keywordsEl.innerHTML = '';
-    booleanOutput.textContent = 'Your Boolean string will appear here.';
-    delete booleanOutput.dataset.value;
-    boxCounter = 0;
-    for (let i = 0; i < 3; i++) createKeywordBox();
-    step4.classList.add('hidden');
-    step1.classList.remove('hidden');
-    step1.removeAttribute('aria-hidden');
-    step4.setAttribute('aria-hidden', 'true');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  // Observe keywords area to update boolean
-  const observer = new MutationObserver(updateBoolean);
-  observer.observe(keywordsEl, { childList: true, subtree: true });
-  keywordsEl.addEventListener('input', () => setTimeout(updateBoolean, 250));
-
-  // Initial setup: ensure 3 boxes
-  (function init() {
-    keywordBoxes.innerHTML = '';
-    boxCounter = 0;
-    for (let i = 0; i < 3; i++) createKeywordBox();
-  })();
-});
-</script>
-</body>
-</html>
+    // On load, initialize visibility and handlers
+    (function init(){
+      // ensure remove buttons hidden initially
+      updateKeywordRemoveVisibility();
+      updateDatabaseButtons();
+      showStep(1);
+      // make sure next/back button states correct
+      updateNavButtons();
+    })();
+  </script>
