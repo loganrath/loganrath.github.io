@@ -136,7 +136,7 @@ layout: page
         </div>
         <textarea id="combinedOutput" style="font-size:18px;font-family:monospace;font-weight:bold;background-color:honeydew;width:100%;min-height:80px;padding:12px;border-radius:8px;border:1px solid;"></textarea>
         <div style="display:flex;gap:8px;margin-top:10px">Copy search terms for use in any database: <button class="btn" id="copyBtn">Copy</button></div>
-        <div style="display:flex;gap:8px;margin-top:10px">Search databases through <a href="https://library.brockport.edu/nursing">SUNY Brockport</a>: <button class="btn" id="CINAHLbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="CINAHLMEDLINEbtn">Search Both</button></div>
+        <div style="display:flex;gap:8px;margin-top:10px">Search databases through <a href="https://library.brockport.edu/nursing">SUNY Brockport</a>: <button class="btn" id="CINAHLbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="PSYCINFObtn">Search PsycINFO</button><button class="btn" id="CINAHLMEDLINEbtn">Search CINAHL &amp; MEDLINE</button><button class="btn" id="CINAHLMEDLINEPSYCHINFObtn">Search All 3 Databases</button></div>
 
       <div style="margin-top:16px;color:var(--muted);font-size:13px">Tip: paste into a database's advanced search. Limit to peer-reviewed articles from the past 5 years.</div>
     </div>
@@ -194,6 +194,8 @@ layout: page
       const cinahlBtn = document.getElementById('CINAHLbtn');
       const medlineBtn = document.getElementById('MEDLINEbtn');
       const cinahlmedlineBtn = document.getElementById('CINAHLMEDLINEbtn');
+      const psycinfoBtn = document.getElementById('PSYCINFObtn');
+      const cinahlmedlinepsychinfoBtn = document.getElementById('CINAHLMEDLINEPSYCHINFObtn');
       const copyBtn = document.getElementById('copyBtn');
       const editPICO = document.getElementById('editPICO');
       const finishBtn = document.getElementById('finishBtn');
@@ -424,6 +426,15 @@ layout: page
         window.open(url, '_blank'); // Opens in a new tab
       });
 
+      psycinfoBtn.addEventListener('click', function() {
+        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=psyh&expanders=concept&&limiters=RV%3AY%2CDT1%3A2021-01-01%2F2026-12-13&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+        window.open(url, '_blank'); // Opens in a new tab
+      });
+
+      cinahlmedlinepsychinfoBtn.addEventListener('click', function() {
+        const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=mnh&db=cul&db=psyh&expanders=concept&&limiters=RV%3AY%2CDT1%3A2021-01-01%2F2026-12-13&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+        window.open(url, '_blank'); // Opens in a new tab
+      });
 
       editPICO.addEventListener('click', ()=>{
         // put P back into population input (join bases with ' with ')
