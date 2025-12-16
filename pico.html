@@ -102,7 +102,7 @@ layout: page
           <button class="btn" id="addSyn">Add</button>
         </div>
 
-        <div class="hint" style="margin-top:10px">Use commas for phrase variants (e.g., "older adults, elderly") or add items one-by-one. Abbreviations are helpful.</div>
+        <div class="hint" style="margin-top:10px">If using an abbreviation, type out the phrase it stands for as well.</div>
       </div>
 
       <div class="nav-row">
@@ -116,7 +116,7 @@ layout: page
     <div class="card" style="width:min(1100px,98%)">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div style="font-size:20px;font-weight:700;color:var(--accent)">Review & Export Search Strings</div>
+          <div style="font-size:20px;font-weight:700;color:var(--accent);">Review Your Completed Search String</div>
           <div class="small">Combined search strings for common databases</div>
         </div>
         <div>
@@ -127,12 +127,12 @@ layout: page
 
       <div style="margin-top:18px">
         <div style="margin-bottom:8px">
-          <div style="background-color:#E7F2FE;color:var(--accent)">
-            <p>Now that you've generated synonyms for your topics, copy the search terms below and paste them into a library database. You can also use the button at the bottom to run a search in CINAL, MEDLINE, or both.</p>
+          <div style="background-color:#E7F2FE;color:var(--accent); padding: 0.25em;">
+            <p>Now that you've turned your PICO(T) search into a search string you can use for library databases. You can copy the search terms below and paste them into any library database. For your convenience, you can also use the button under the search string to search CINAL, MEDLINE, or both.</p>
           </div>
           <label style="font-weight:700; margin-bottom: 1em;" for="combinedOutput">Search String for PICO search:</label>
         </div>
-        <textarea id="combinedOutput" style="width:100%;min-height:160px;padding:12px;border-radius:8px;border:1px solid #e6eefc;font-size:14px"></textarea>
+        <textarea id="combinedOutput" style="font-size: 18px; width:100%;min-height:80px;padding:12px;border-radius:8px;border:1px solid #e6eefc;font-size:14px"></textarea>
         <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="copyBtn">Copy to clipboard</button></div>
         <div style="display:flex;gap:8px;margin-top:10px">Search Databases through <a href="https://library.brockport.edu/nursing">SUNY Brockport</a>: <button class="btn" id="CINAHLbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="CINAHLMEDLINEbtn">Search both</button></div>
 
