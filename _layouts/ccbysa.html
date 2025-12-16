@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    {% include head.html %}
+  <body id="top">
+    <header class="d-print-none" style="height: 2em;"></header>
+    <div class="page-content">
+      <div class="container">
+<div class="cover shadow-lg bg-white">
+  <div class="cover-bg p-1 p-lg-2 text-white">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1 class="h1 mt-2">{{ page.title }}</h1>
+        </div>
+      </div>
+    </div>
+    <hr class="d-print-none mt-0 mb-3" />
+    <div class="container px-3 px-lg-4 pb-4">
+      {{ content }}
+    </div>
+  </div>
+</div></div>
+    <div style="text-align: center;">This tool is licensed CC-BY-SA. Any derivatives must be licensed under the same CC-BY-SA license.</div>
+    </div>
+    {% include footer.html %}
+  </body>
+</html>
