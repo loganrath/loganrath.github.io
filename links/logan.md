@@ -3,7 +3,7 @@ layout: linkinbio
 title: "Logan Rath - Links"
 name: "Logan Rath"
 bio: "PhD Librarian at Brockport helping students and researchers navigate the world of information."
-profile_image: "/assets/images/logan-rath.jpg"
+profile_image: "/assets/img/logan-rath.jpg"
 
 social:
   - platform: "LinkedIn"
@@ -11,7 +11,9 @@ social:
     icon: "in"
   - platform: "Email"
     url: "mailto:logan@rath.phd"
-    icon: "✉"
+    icon: "envelope-o"
+  - platform: "Text"
+    url: "sms:+15852450045"
 
 links:
   - title: "Portfolio Website"
@@ -22,19 +24,7 @@ links:
     url: "https://yourblog.com"
     description: "Thoughts on design, code, and creativity"
     external: true
-  - title: "Newsletter"
-    url: "https://newsletter.com/subscribe"
-    description: "Weekly insights delivered to your inbox"
-    external: true
-  - title: "Shop"
-    url: "https://yourshop.com"
-    description: "Digital products and resources"
-    external: true
-  - title: "Book a Call"
-    url: "https://calendly.com/yourusername"
-    description: "Let's chat about your project"
-    external: true
 
-footer_text: "© 2026 Logan Rath. All rights reserved."
+
+footer_text: ""
 ---
-Test
