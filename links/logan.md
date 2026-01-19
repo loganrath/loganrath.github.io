@@ -1,6 +1,5 @@
 ---
 layout: linkinbio
-custom_bg: "background: #2A7B9B; background: linear-gradient(135deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);"            
 title: "Logan Rath - Links"
 name: "Logan Rath"
 bio: "PhD Librarian at Brockport helping students and researchers navigate the world of information."
@@ -18,13 +17,17 @@ social:
     icon: "fa-solid fa-comments"
 
 links:
-  - title: "Portfolio Website"
-    url: "https://yourwebsite.com"
+  - title: "My Website"
+    url: "https://rath.phd"
     description: "Check out my latest work and projects"
     external: true
-  - title: "Blog"
-    url: "https://yourblog.com"
-    description: "Thoughts on design, code, and creativity"
+  - title: "Research Guides"
+    url: "https://library.brockport.edu/prf.php?account_id=456"
+    description: "See my research guides to get started on work"
+    external: true
+  - title: "Download Contact"
+    url: "https://www.rath.phd/LoganRath.vcf"
+    description: "Add my contact info to your addressbook"
     external: true
 
 

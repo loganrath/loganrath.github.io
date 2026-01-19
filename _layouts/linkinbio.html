@@ -39,11 +39,7 @@
 
         body {
             font-family: "Noto Sans",-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            {% if page.custom_bg %}
-              {% page.custom_bg %}
-            {% else %}
-                background: #2A7B9B;
-            {% endif % }
+            background: linear-gradient(135deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%);
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
