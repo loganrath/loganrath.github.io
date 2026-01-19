@@ -8,12 +8,13 @@ profile_image: "/assets/img/logan-rath.jpg"
 social:
   - platform: "LinkedIn"
     url: "https://linkedin.com/in/loganrath"
-    icon: "in"
+    icon: "fa-brands fa-linkedin-in"
   - platform: "Email"
     url: "mailto:logan@rath.phd"
-    icon: "envelope-o"
+    icon: "fa-regular fa-envelope"
   - platform: "Text"
     url: "sms:+15852450045"
+    icon: "fa-solid fa-comments"
 
 links:
   - title: "Portfolio Website"
