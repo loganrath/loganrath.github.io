@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ page.bio | default: site.description }}">
+    <title>{{ page.title | default: site.title }}</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --border-color: #e5e7eb;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-color: #3b82f6;
+                --text-primary: #f9fafb;
+                --text-secondary: #d1d5db;
+                --bg-primary: #111827;
+                --bg-secondary: #1f2937;
+                --border-color: #374151;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 680px;
+            width: 100%;
+            background: var(--bg-primary);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border: 4px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .bio {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .social-link:hover,
+        .social-link:focus {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .links-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .link-item {
+            display: block;
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .link-item:hover,
+        .link-item:focus {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .link-description {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        footer {
+            margin-top: 2.5rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .bio {
+                font-size: 1rem;
+            }
+        }
+
+        /* Skip to main content link for screen readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <main class="container" id="main-content" role="main">
+        <div class="profile-section">
+            {% if page.profile_image %}
+            <img src="{{ page.profile_image }}" alt="{{ page.name }}'s profile picture" class="profile-image">
+            {% endif %}
+            
+            <h1>{{ page.name }}</h1>
+            
+            {% if page.bio %}
+            <p class="bio">{{ page.bio }}</p>
+            {% endif %}
+            
+            {% if page.social %}
+            <nav class="social-links" aria-label="Social media links">
+                {% for social in page.social %}
+                <a href="{{ social.url }}" 
+                   class="social-link" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   aria-label="{{ social.platform }}">
+                    <span aria-hidden="true">{{ social.icon }}</span>
+                </a>
+                {% endfor %}
+            </nav>
+            {% endif %}
+        </div>
+
+        {% if page.links %}
+        <nav class="links-section" aria-label="Primary links">
+            {% for link in page.links %}
+            <a href="{{ link.url }}" 
+               class="link-item"
+               {% if link.external %}target="_blank" rel="noopener noreferrer"{% endif %}
+               aria-label="{{ link.title }}{% if link.description %}: {{ link.description }}{% endif %}">
+                {{ link.title }}
+                {% if link.description %}
+                <span class="link-description">{{ link.description }}</span>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </nav>
+        {% endif %}
+
+        {% if page.footer_text %}
+        <footer>
+            <p>{{ page.footer_text }}</p>
+        </footer>
+        {% endif %}
+    </main>
+</body>
+</html>
