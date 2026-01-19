@@ -1,5 +1,5 @@
 ---
-layout: linkbio
+layout: linkinbio
 title: "Logan Rath - Links"
 name: "Logan Rath"
 bio: "PhD Librarian at Brockport helping students and researchers navigate the world of information."
@@ -35,5 +35,6 @@ links:
     description: "Let's chat about your project"
     external: true
 
-footer_text: "© 2026 Your Name. All rights reserved."
+footer_text: "© 2026 Logan Rath. All rights reserved."
 ---
+Test
