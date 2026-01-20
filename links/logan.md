@@ -27,7 +27,7 @@ links:
     external: true
   - title: "Download Contact"
     url: "https://www.rath.phd/LoganRath.vcf"
-    description: "Add my contact info to your addressbook"
+    description: "Add my contact info to your device"
     external: true
 
 
