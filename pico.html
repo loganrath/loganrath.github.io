@@ -157,7 +157,7 @@ layout: page
         <textarea id="combinedOutput" style="font-size:18px;font-family:monospace;font-weight:bold;background-color:honeydew;width:100%;min-height:80px;padding:12px;border-radius:8px;border:1px solid;"></textarea>
         <div style="display:flex;gap:8px;margin-top:10px">Copy search terms for use in any database: <button class="btn" id="copyBtn">Copy</button></div>
         <div style="display:flex;gap:8px;margin-top:10px">Search databases through <a href="https://library.brockport.edu/nursing">SUNY Brockport</a>:</div>
-        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="CINAHLbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="PSYCINFObtn">Search PsycINFO</button><button class="btn" id="CINAHLMEDLINEbtn">Search CINAHL &amp; MEDLINE</button><button class="btn" id="CINAHLMEDLINEPSYCHINFObtn">Search All 3 Databases</button></div>
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="CINAHLbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="PSYCINFObtn">Search PsycINFO</button><button class="btn" id="CINAHLMEDLINEbtn">Search CINAHL &amp; MEDLINE</button><button class="btn" id="CINAHLMEDLINEPSYCHINFObtn">Search All 3 Databases</button><button class="btn" id="SCHOLARbtn">Google Scholar</button></div>
 
       <div style="margin-top:16px;color:var(--muted);font-size:13px">Tip: paste into a database's advanced search. Limit to peer-reviewed articles from the past 5 years.</div>
     </div>
@@ -217,6 +217,7 @@ layout: page
       const cinahlmedlineBtn = document.getElementById('CINAHLMEDLINEbtn');
       const psycinfoBtn = document.getElementById('PSYCINFObtn');
       const cinahlmedlinepsychinfoBtn = document.getElementById('CINAHLMEDLINEPSYCHINFObtn');
+      const googlescholarBtn = document.getElementById('SCHOLARbtn');
       const copyBtn = document.getElementById('copyBtn');
       const editPICO = document.getElementById('editPICO');
       const finishBtn = document.getElementById('finishBtn');
@@ -454,6 +455,11 @@ layout: page
 
       cinahlmedlinepsychinfoBtn.addEventListener('click', function() {
         const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=mnh&db=cul&db=psyh&expanders=concept&&limiters=RV%3AY%2CDT1%3A2021-01-01%2F2026-12-13&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
+        window.open(url, '_blank'); // Opens in a new tab
+      });
+
+      googlescholarBtn.addEventListener('click', function() {
+        const url = "https://scholar.google.com?q=" + encodeURIComponent(combinedOutput.value) + "&as_ylo=2021";
         window.open(url, '_blank'); // Opens in a new tab
       });
 
