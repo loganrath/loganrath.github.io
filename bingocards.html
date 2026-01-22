@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Cover Bingo Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        #isbnInput {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Print styles for letter-sized pages */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .input-section, .no-print {
+                display: none !important;
+            }
+
+            .page {
+                page-break-after: always;
+                width: 8.5in;
+                height: 11in;
+                padding: 0.25in;
+                box-sizing: border-box;
+            }
+
+            .page:last-child {
+                page-break-after: auto;
+            }
+
+            .bingo-card {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Screen styles */
+        .page {
+            background: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .bingo-card {
+            width: 48%;
+            display: inline-block;
+            vertical-align: top;
+            margin: 1%;
+        }
+
+        .bingo-card h2 {
+            text-align: center;
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+
+        .bingo-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 2px;
+            border: 2px solid #000;
+        }
+
+        .bingo-cell {
+            aspect-ratio: 1;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: white;
+        }
+
+        .bingo-cell img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .free-space {
+            background: #FFD700;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-section no-print">
+        <h1>Book Cover Bingo Card Generator</h1>
+        <p>Enter up to 40 ISBNs (one per line):</p>
+        <textarea id="isbnInput" placeholder="9780143127741&#10;9780316769488&#10;9780061120084&#10;..."></textarea>
+        <br>
+        <button onclick="generateCards()">Generate Bingo Cards</button>
+        <button onclick="window.print()" id="printBtn" style="display:none; background-color: #2196F3;">Print Cards</button>
+        <div id="errorMsg" class="error"></div>
+    </div>
+
+    <div id="cardsContainer"></div>
+
+    <script>
+        // Function to get book cover URL from ISBN
+        function getCoverUrl(isbn) {
+            // Using Open Library Covers API
+            return `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`;
+        }
+
+        // Shuffle array function
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Generate a single bingo card
+        function createBingoCard(isbns, cardNumber) {
+            const shuffled = shuffleArray(isbns);
+            const selected = shuffled.slice(0, 24); // 24 books + 1 free space = 25 squares
+            
+            let html = `
+                <div class="bingo-card">
+                    <h2>BINGO #${cardNumber}</h2>
+                    <div class="bingo-grid">
+            `;
+
+            for (let i = 0; i < 25; i++) {
+                if (i === 12) { // Center square is free space
+                    html += `<div class="bingo-cell free-space">FREE</div>`;
+                } else {
+                    const index = i < 12 ? i : i - 1;
+                    const isbn = selected[index];
+                    const coverUrl = getCoverUrl(isbn);
+                    html += `<div class="bingo-cell"><img src="${coverUrl}" alt="Book ${isbn}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23ddd%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2210%22%3ENo Cover%3C/text%3E%3C/svg%3E'"></div>`;
+                }
+            }
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            return html;
+        }
+
+        // Main function to generate all cards
+        async function generateCards() {
+            const input = document.getElementById('isbnInput').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const cardsContainer = document.getElementById('cardsContainer');
+            const printBtn = document.getElementById('printBtn');
+
+            errorMsg.textContent = '';
+            cardsContainer.innerHTML = '';
+
+            // Parse ISBNs
+            const isbns = input.split('\n')
+                .map(isbn => isbn.trim())
+                .filter(isbn => isbn.length > 0);
+
+            // Validate
+            if (isbns.length < 24) {
+                errorMsg.textContent = 'Please enter at least 24 ISBNs to generate bingo cards.';
+                return;
+            }
+
+            if (isbns.length > 40) {
+                errorMsg.textContent = 'Please enter no more than 40 ISBNs.';
+                return;
+            }
+
+            // Generate cards (2 per page)
+            const numCards = Math.floor(isbns.length / 12) * 2; // Generate as many unique cards as possible
+            let currentPage = '';
+            
+            for (let i = 0; i < numCards; i++) {
+                if (i % 2 === 0) {
+                    if (i > 0) {
+                        cardsContainer.innerHTML += `<div class="page">${currentPage}</div>`;
+                    }
+                    currentPage = '';
+                }
+                currentPage += createBingoCard(isbns, i + 1);
+            }
+
+            // Add last page
+            if (currentPage) {
+                cardsContainer.innerHTML += `<div class="page">${currentPage}</div>`;
+            }
+
+            printBtn.style.display = 'inline-block';
+        }
+    </script>
+</body>
+</html>
