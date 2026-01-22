@@ -157,10 +157,8 @@ layout: page
         <textarea id="combinedOutput" style="font-size:18px;font-family:monospace;font-weight:bold;background-color:honeydew;width:100%;min-height:80px;padding:12px;border-radius:8px;border:1px solid;"></textarea>
         <div style="display:flex;gap:8px;margin-top:10px">Copy search terms for use in any database: <button class="btn" id="copyBtn">Copy</button></div>
         <div style="display:flex;gap:8px;margin-top:10px">Search databases through <a href="https://library.brockport.edu/nursing">SUNY Brockport</a>:</div>
-        <div class="row">
-        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="CINAHLbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="PSYCINFObtn">Search PsycINFO</button>
-        </div>
-        <div class="row"><button class="btn" id="CINAHLMEDLINEbtn">Search CINAHL &amp; MEDLINE</button><button class="btn" id="CINAHLMEDLINEPSYCHINFObtn">Search All 3 Databases</button><button class="btn" id="SCHOLARbtn">Google Scholar</button></div>
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="CINAHLbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="PSYCINFObtn">Search PsycINFO</button></div>
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="CINAHLMEDLINEbtn">Search CINAHL &amp; MEDLINE</button><button class="btn" id="CINAHLMEDLINEPSYCHINFObtn">Search All 3 Databases</button><button class="btn" id="SCHOLARbtn">Google Scholar</button></div>
 
       <div style="margin-top:16px;color:var(--muted);font-size:13px">Tip: paste into a database's advanced search. Limit to peer-reviewed articles from the past 5 years.</div>
     </div>
@@ -465,7 +463,7 @@ layout: page
         const url = "https://scholar.google.com/scholar?q=" + encodeURIComponent(combinedOutput.value) + "&hl=en&as_sdt=0,33&as_ylo=2021";
         window.open(url, '_blank'); // Opens in a new tab
       });
-
+      
       editPICO.addEventListener('click', ()=>{
         // put P back into population input (join bases with ' with ')
         if(state.populationBases.length > 1) population.value = state.populationBases.join(' with ');
