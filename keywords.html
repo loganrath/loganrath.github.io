@@ -451,11 +451,48 @@ layout: tool
       rq.addEventListener('input', ()=>{ searchData.question = rq.value.trim(); if (currentStep>=2) { document.getElementById('displayedQuestion').textContent = `"${searchData.question}"`; }});
     });
 
-    // Keyboard shortcuts
-    document.addEventListener('keydown', function(e){
-      if (e.key==='Escape') previousStep();
-      if (e.key==='Enter' && e.ctrlKey) nextStep();
-    });
+    // Enable Enter key to add keywords and synonyms
+    document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.ctrlKey) {
+      const target = e.target;
+    
+    // Step 2: Adding keywords
+    if (currentStep === 2 && target.classList.contains('keyword-input')) {
+      e.preventDefault();
+      const keywordId = parseInt(target.dataset.keywordId);
+      // If this is the last keyword input, add a new one
+      const allKeywordInputs = document.querySelectorAll('.keyword-input');
+      const lastInput = allKeywordInputs[allKeywordInputs.length - 1];
+      if (target === lastInput && target.value.trim()) {
+        addKeyword();
+        // Focus the new input after a brief delay
+        setTimeout(() => {
+          const newInputs = document.querySelectorAll('.keyword-input');
+          newInputs[newInputs.length - 1].focus();
+        }, 50);
+      }
+    }
+    
+    // Step 3: Adding synonyms
+    if (currentStep === 3 && target.classList.contains('synonym-input')) {
+      e.preventDefault();
+      const container = target.closest('.synonym-container');
+      const keywordId = container.dataset.keywordId;
+      // If this is the last synonym input for this keyword, add a new one
+      const synonymInputs = container.querySelectorAll('.synonym-input');
+      const lastInput = synonymInputs[synonymInputs.length - 1];
+      if (target === lastInput && target.value.trim()) {
+        addSynonym(keywordId);
+        // Focus the new input after a brief delay
+        setTimeout(() => {
+          const newInputs = container.querySelectorAll('.synonym-input');
+          newInputs[newInputs.length - 1].focus();
+        }, 50);
+      }
+    }
+  }
+});
+
 
     // On load, initialize visibility and handlers
     (function init(){
