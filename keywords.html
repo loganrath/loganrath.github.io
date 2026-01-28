@@ -292,7 +292,10 @@ layout: tool
         block.innerHTML = `<div class="keyword-header"><div class="keyword-title">Synonyms for: "${data.main}"</div></div>
           <div class="synonym-section">
             <div class="synonym-container" data-keyword-id="${id}">
-              <div class="synonym-item"><input type="text" class="synonym-input" placeholder="Enter synonym or related term"></div>
+              <div class="synonym-item">
+                <input type="text" class="synonym-input" placeholder="Enter synonym or related term">
+                <button class="btn red" onclick="removeSynonym(this)">Remove</button>
+              </div>
             </div>
             <div style="margin-top:8px"><button class="btn green" onclick="addSynonym(${id})">+ Add another synonym</button></div>
           </div>`;
@@ -324,7 +327,7 @@ layout: tool
       const items = document.querySelectorAll(`.synonym-container[data-keyword-id="${keywordId}"] .synonym-item`);
       items.forEach(it=>{
         const btn = it.querySelector('.btn.red');
-        if (btn) btn.style.display = items.length > 1 ? 'inline-block' : 'none';
+        if (btn) btn.style.display = 'inline-block';
       });
     }
 
