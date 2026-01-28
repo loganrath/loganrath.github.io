@@ -369,8 +369,9 @@ layout: tool
     function updateDatabaseButtons(){
       const container = document.getElementById('databaseButtons');
       container.innerHTML = '';
-      const q = searchData.booleanString || '';
-      if (!q.trim()){
+      const textarea = document.getElementById('booleanOutput');
+      const q = textarea.value.trim();
+      if (!q || q === 'Your search will appear here'){
         container.innerHTML = '<button class="database-btn" disabled>Complete previous steps</button>';
         return;
       }
@@ -379,7 +380,9 @@ layout: tool
         btn.className = 'database-btn';
         btn.textContent = name;
         btn.onclick = ()=> {
-          const url = databases[name].replace('SEARCH_QUERY', encodeURIComponent(q));
+          // Read the current value from textarea at click time
+          const currentQuery = document.getElementById('booleanOutput').value.trim();
+          const url = databases[name].replace('SEARCH_QUERY', encodeURIComponent(currentQuery));
           window.open(url, '_blank');
         };
         container.appendChild(btn);
@@ -388,9 +391,10 @@ layout: tool
 
     // Copy to clipboard
     function copyToClipboard(){
-      const text = searchData.booleanString || '';
+      const textarea = document.getElementById('booleanOutput');
+      const text = textarea.value.trim();
       const alertBox = document.getElementById('copyAlert');
-      if (!text.trim()){
+      if (!text || text === 'Your search will appear here'){
         showAlert('Generate your search first.', 'warn');
         return;
       }
