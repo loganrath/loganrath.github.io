@@ -170,14 +170,15 @@ layout: tool
       'Library Search' : 'https://suny-bro.primo.exlibrisgroup.com/discovery/search?institution=01SUNY_BRO&vid=01SUNY_BRO%3A01SUNY_BRO&tab=Everything&search_scope=everythingSLS&mode=Basic&displayMode=full&bulkSize=10&highlight=true&dum=true&query=any%2Ccontains%2CSEARCH_QUERY&displayField=all&pcAvailabiltyMode=true&searchOptionsRadio=everything',
       'Academic Search Complete' : 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=a9h&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
       'All EBSCO Databases' : 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=all&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
+      'JSTOR' : 'https://brockport.idm.oclc.org/login?url=https://www.jstor.org/action/doBasicSearch?Query=SEARCH_QUERY&acc=on&wc=on&fc=off&group=none',
+      'Business Source': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=bth&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
       'Education Databases': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=eue&db=eric&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
       'Psychology Databases': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=psyh&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
-      'Business Source Premier': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=eue&db=eric&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
     };
 
     let currentStep = 1;
     let totalSteps = 4;
-    let keywordCount = 1;
+    let keywordCount = 2;
     let synonymCount = {1:1,2:1};
     let searchData = { question:'', keywords:{}, booleanString:'' };
 
