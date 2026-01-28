@@ -36,7 +36,7 @@ layout: tool
         .btn.warn:hover{background:#e07f1b}
         .btn.red{background:#e74c3c;color:#fff}
         .btn.red:hover{background:#c43830}
-        .boolean-output{background:#2c3e50;color:#fff;padding:18px;border-radius:8px;font-family:Courier,monospace;font-size:15px;min-height:64px;word-break:break-word}
+        .boolean-output{background:#2c3e50;color:#fff;padding:18px;border-radius:8px;font-family:Courier,monospace;font-size:24px;font-weight:bold;min-height:64px;word-break:break-word}
         .database-section{margin-top:18px;padding:18px;background:#f8f9fa;border-radius:10px}
         .database-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
         .database-btn{background:#8e44ad;color:#fff;padding:10px 16px;border-radius:8px;font-weight:700;border:0;cursor:pointer}
@@ -138,7 +138,8 @@ layout: tool
 
         <div>
           <h2 style="margin:0 0 8px 0">Your Boolean search</h2>
-          <div id="booleanOutput" class="boolean-output">Your search will appear here</div>
+          <p>You can edit these terms using the search box above.</p>
+          <textarea id="booleanOutput" class="boolean-output">Your search will appear here</textarea>
         </div>
 
         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
