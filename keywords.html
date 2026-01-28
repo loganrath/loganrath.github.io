@@ -342,7 +342,7 @@ layout: tool
 
       Object.keys(searchData.keywords).forEach(id=>{
         const kd = searchData.keywords[id];
-        const s = kd.synonyms && kd.synonyms.length ? kd.synonyms.join(', ') : '<em>No synonyms</em>';
+        const s = kd.synonyms && kd.synonyms.length ? kd.synonyms.join(', ') : 'No synonyms added';
         const kDiv = document.createElement('div');
         kDiv.className = 'summary-item';
         kDiv.innerHTML = `<strong>Concept:</strong> ${escapeHtml(kd.main)}<br><em>Synonyms:</em> ${escapeHtml(s)}`;
