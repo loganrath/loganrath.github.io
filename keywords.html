@@ -36,7 +36,7 @@ layout: tool
         .btn.warn:hover{background:#e07f1b}
         .btn.red{background:#e74c3c;color:#fff}
         .btn.red:hover{background:#c43830}
-        .boolean-output{background:#2c3e50;color:#fff;padding:18px;border-radius:8px;font-family:Courier,monospace;font-size:24px;font-weight:bold;min-height:64px;word-break:break-word}
+        .boolean-output{background:#2c3e50;color:#fff;padding:18px;border-radius:8px;font-family:Courier,monospace;font-size:24px;font-weight:bold;min-height:64px;word-break:break-word;field-sizing:content}
         .database-section{margin-top:18px;padding:18px;background:#f8f9fa;border-radius:10px}
         .database-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
         .database-btn{background:#8e44ad;color:#fff;padding:10px 16px;border-radius:8px;font-weight:700;border:0;cursor:pointer}
@@ -138,7 +138,7 @@ layout: tool
 
         <div>
           <h2 style="margin:0 0 8px 0">Your Boolean search</h2>
-          <p>You can edit these terms using the search box above.</p>
+          <p>You can edit these terms using the text-box below:</p>
           <textarea id="booleanOutput" class="boolean-output">Your search will appear here</textarea>
         </div>
 
@@ -167,8 +167,9 @@ layout: tool
   <script>
     // Configurable database URLs (replace or add entries as needed)
     const databases = {
-      'Library Search': 'https://suny-bro.primo.exlibrisgroup.com/discovery/search?institution=01SUNY_BRO&vid=01SUNY_BRO%3A01SUNY_BRO&tab=Everything&search_scope=everythingSLS&mode=Basic&displayMode=full&bulkSize=10&highlight=true&dum=true&query=any%2Ccontains%2CSEARCH_QUERY&displayField=all&pcAvailabiltyMode=true&searchOptionsRadio=everything',
-      'Academic Search Complete': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=a9h&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
+      'Library Search' : 'https://suny-bro.primo.exlibrisgroup.com/discovery/search?institution=01SUNY_BRO&vid=01SUNY_BRO%3A01SUNY_BRO&tab=Everything&search_scope=everythingSLS&mode=Basic&displayMode=full&bulkSize=10&highlight=true&dum=true&query=any%2Ccontains%2CSEARCH_QUERY&displayField=all&pcAvailabiltyMode=true&searchOptionsRadio=everything',
+      'Academic Search Complete' : 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=a9h&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
+      'All EBSCO Databases' : 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=all&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
       'Education Databases': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=eue&db=eric&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
       'Psychology Databases': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=psyh&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
       'Business Source Premier': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=eue&db=eric&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
@@ -176,7 +177,7 @@ layout: tool
 
     let currentStep = 1;
     let totalSteps = 4;
-    let keywordCount = 2;
+    let keywordCount = 1;
     let synonymCount = {1:1,2:1};
     let searchData = { question:'', keywords:{}, booleanString:'' };
 
