@@ -1,169 +1,934 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Drake Memorial Library Search Box</title>
-<!-- Bootstrap CSS CDN -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<!-- Font Awesome CDN -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="generator" content="LiveWhale"/>
+	<meta property="og:title" content="Drake Memorial Library"/>
+	<meta property="og:type" content="website"/>
+	<meta property="og:url" content="https://www.brockport.edu/library/"/>
+	<meta name="pagename" content="Drake Memorial Library"/>
+	<meta property="og:image" content="https://www.brockport.edu/live/image/gid/3/width/1260/height/630/crop/1/1324_placeholder.png"/>
+	<meta property="og:image:secure_url" content="https://www.brockport.edu/live/image/gid/3/width/1260/height/630/crop/1/1324_placeholder.png"/>
+	<meta property="og:image:width" content="990"/>
+	<meta property="og:image:height" content="495"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta name="twitter:title" content="Drake Memorial Library"/>
+	<meta name="twitter:image" content="https://www.brockport.edu/live/image/gid/3/width/1260/height/630/crop/1/1324_placeholder.png"/>
+	<meta name="lw-template-updated" content="02/01/2024 08:06pm EST"/>
+	<title>Drake Memorial Library: SUNY Brockport</title>
+	<script>
+	/*<![CDATA[*/
+	var livewhale={"liveurl_dir":"\/live","host":"www.brockport.edu","page":"\/library\/index.php","request":"\/library\/","ajax_timeout":30,"client_name":"SUNY Brockport","cookie_host":".brockport.edu","cookie_prefix":"lw_a59b0eca_","date_format_us":"m\/d\/Y","date_format_euro":"d-m-Y","time_format_us":"g:ia","time_format_euro":"H:i","timezone_format":"us","has_ssl":"true","has_webp":true,"group_id":"68","group_title":"Drake Memorial Library","group_title_real":"","group_fullname":"Drake Memorial Library","group_fullname_real":"Drake Memorial Library","group_twitter_name":"","group_facebook_name":"","group_instagram_name":"","group_directory":"\/library\/","qa_revision":1728057820,"theme":"core","use_ap_style":true};
+	/*]]>*/
+	</script>
+<link rel="stylesheet" type="text/css" href="https://www.brockport.edu/live/resource/css/%5Clivewhale%5Ctheme%5Ccore%5Cstyles%5Ccommon.css/%5C_i%5Cthemes%5Cglobal%5Cstyles%5Cwidgets.css/%5Clivewhale%5Ctheme%5Ccore%5Cstyles%5Cfrontend.rev.1767818351.css" />
+<link rel="stylesheet" type="text/css" href="https://www.brockport.edu/live/resource/css/%5Clivewhale%5Cstyles%5Clwui%5Clw-overlay.css/%5Clivewhale%5Cstyles%5Clwui%5Clw-notify.rev.1767818351.css" />
+<link rel="stylesheet" type="text/css" href="https://www.brockport.edu/live/resource/css/%5C_i%5Cthemes%5Cglobal%5Cstyles%5C0-data-tables.css/%5C_i%5Cthemes%5Cglobal%5Cstyles%5C0-skip-links.css/%5C_i%5Cthemes%5Cglobal%5Cstyles%5Cbrockport.css/%5C_i%5Cthemes%5Cglobal%5Cstyles%5Cfont-awesome.min.css/%5C_i%5Cthemes%5Cglobal%5Cstyles%5Chandbook.css/%5C_i%5Cthemes%5Cglobal%5Cstyles%5Cstyle.css/%5C_i%5Cthemes%5Cglobal%5Cstyles%5Cstylefixes-temporary.css/%5C_i%5Cthemes%5Cglobal%5Cstyles%5Cstyles-for-legacy-site-code.rev.1769472748.css" /> <link rel="shortcut icon" type="image/x-icon" href="https://www.brockport.edu/assets/images/favicon.ico" /> <link rel="stylesheet" href="https://use.typekit.net/eke1lbn.css" /> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />	<link rel="canonical" href="https://www.brockport.edu/library/"/>
 <style>
-    .radio-icon {
-        cursor: pointer;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin: 5px;
+    .bg-blue {
+        background-color: #01426a;
+        border-radius: 6px;
+        padding: 2em;
+        margin-bottom: 2em;
+        color: white;
+        padding-bottom: 0;
     }
+
+    .inline li:before {
+        display: none;
+    }
+
+    .show-for-screenreaders {
+        display: none;
+    }
+
+    #searchDescription {
+        font-family: 'proxima-nova', sans-serif !important;
+    }
+	#intro-paragraph a:hover,
+	#intro-paragraph a:active {
+		color: #ffc726;
+		text-decoration: underline !important;
+	}
+
+	.tabs.vertical-tabs .tab-title, .accordion.was-tabs.vertical-tabs .tab-title, .accordion.was-vertical-tabs.vertical-tabs .tab-title {
+		margin-bottom: 0 !important;
+		border-left:0 !important;
+		margin-left: 0 !important;
+		line-height: 1rem;}
+	.navtab-list:first-child {border-top: 2px solid #f2ece1;}
+	.navtabs.tab-title {
+		border-bottom: 2px solid #f2ece1;
+		}
+	.navtabs.tab-title > a {
+		margin: 0 !important;
+		background-color: white !important;
+		color: #577935 !important;
+		font-weight: 100; font: normal normal normal 14px !important;
+		padding: .8rem .9375rem	}
+		.navtabs.tab-title.active > a {
+		color: #577935 !important;
+		}
+		.navtabs.tab-title > a:hover {
+		color: #00533e !important;
+		text-decoration: underline;
+		}
+	#lcs_slide_out-12405 {
+		top:360px !important;
+		}
+
+	@media only screen and (max-width: 640px) {
+		#menu_item,
+		#information-heading,
+		#quicklinks-heading {
+/*			display:none !important;*/
+		}
+
+		nav#primary_nav {
+/*			display: block;*/
+		}
+
+		#quicklinks_accordion,
+		#information_accordion {
+/*			display: flex !important;*/
+		}
+
+		#information_content,
+		#quicklinks_content {
+/*			display: block !important;*/
+		}
+
+		.noscript_only {
+/*			display: block !important;*/
+		}
+	}
+
+	.tabs-content {
+		margin-bottom: 0 !important;
+	}
+
+	div.content {
+		padding-bottom: 0 !important;
+	}
+
 </style>
+<style>
+	.hidden-radio {
+		display: none;
+	}
+
+	.hidden-radio + label,
+	.hidden-radio + label i  {
+		display: inline-block;
+		cursor: pointer;
+		color: white;
+	}
+
+	.description_emphasis {color: #ffc726; font-weight: bold;}
+
+	.hidden-radio + label i {font-size: 1.25em; margin-right: 0.5em;}
+
+	.hidden-radio:checked + label, .hidden-radio:checked + label:hover, .hidden-radio:checked + label i {
+		/* Style for when the radio is selected */
+		background-color: #ffc726;
+		color: #262626;
+	}
+
+	.advanced-search a:hover {color:#DCD59A !important;}
+
+	input#libSearch {font-size: 18px;
+	padding: .5em 2.25em;
+width: 100%;
+color: #262626;}
+
+	#searchDescription {font-size: 24px; font-weight: bold; font-family:"abril-text"}
+
+	.hidden-radio + label i {
+		border: none !important;
+	}
+
+	.hidden-radio:checked + label i {
+
+	}
+
+	.search-selector {
+		border: 2px solid #ffffff;
+		border-radius: 15px;
+		box-shadow: none;
+	}
+
+	.bg-blue .button {
+	    background-color: #01426a;
+	}
+
+	.search-selector:checked {
+	    background-color: #ffc726 !important;
+	}
+
+	.search-button {
+		background-color: #ffc726 !important;
+		color: #262626;
+		border: none;
+		border-radius: 0;
+		font-weight: bold;
+        box-shadow: none !important;
+        color: #262626 !important;
+        margin-bottom: 0;
+	}
+
+	.search-button:hover {
+	    background-color: #262626 !important;
+	    color: #ffffff !important;
+	}
+
+	.advanced-search {
+		text-decoration: underline;
+		color: #ffffff !important;
+	}
+
+	.advanced-search:hover {
+	    color: #ffc726 !important;
+	}
+
+	.button-list li {
+	display: inline-block;
+	}
+
+	.library-hours-box {
+	    border-radius: 6px;
+        padding: 1em 2em;
+    }
+
+</style>
+
+	<!--[if lt IE 9]><script src="/live/resource/js/livewhale/thirdparty/html5shiv.rev.1498518277.js"></script><![endif]-->
 </head>
-<body class="bg-light">
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<body class="basic-page disable_story_categories body_library group_drake_memorial_library group_name_drake_memorial_library">
+<div class="wrapper">
+	<div class="header-wrapper">
+	<header class="header" id="main_header">
+		<div class="container container--big">
+			<div class="header__inner">
+				<div class="header__aside">
+					<a href="https://www.brockport.edu/" class="logo">
+<img src="/live/resource/image/assets/images/logo.rev.1759864125.svg" alt="logo suny brockport" width="285" height="72" loading="lazy"/>
+					</a>
+				</div><!-- /.header__aside -->
 
-          <p class="text-center h4 mb-3" id="searchDescription">Use Library Search to discover <span class="text-success">books, articles, media</span> and more.</p>
+				<div class="header__btn-mobile">
+					<a href="#" class="nav-trigger js-nav-trigger" >
+						Navigation
+						<span></span>
+						<span></span>
+						<span></span>
+					</a>
+				</div><!-- /.header__btn-mobile -->
 
-            <form target="_blank" action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo(event)" method="get"  id="libSearchForm" name="libSearchForm">
-               <!-- Customizable Parameters -->
-                  <input name="institution" type="hidden" value="01SUNY_BRO" />
-                  <input name="vid" type="hidden" value="01SUNY_BRO:01SUNY_BRO" />
-                  <input id="primoTab" name="tab" type="hidden" value="Everything" />
-                  <input id="primoScope" name="search_scope" type="hidden" value="MyInst_and_CI" />
-                  <input name="mode" type="hidden" value="Basic" />
+				<div class="header__main">
+					<div class="header__top">
+						<div class="nav-top">
 
-               <!-- Fixed parameters -->
-                  <input name="displayMode" type="hidden" value="full" />
-                  <input name="bulkSize" type="hidden" value="10" />
-                  <input name="highlight" type="hidden" value="true" />
-                  <input name="dum" type="hidden" value="true" />
-                  <input id="primoQuery" name="query" type="hidden" />
-                  <input name="displayField" type="hidden" value="all" />
+<ul>
+  <li>
+    <a href="https://www.brockport.edu/admissions/">Apply</a>
+  </li>
+  <li>
+    <a href="https://www.brockport.edu/admissions/request/">Request Info</a>
+  </li>
+  <li>
+    <a href="https://fundraise.givesmart.com/form/WKr__g?vid=w9wkr" target="_blank">Give</a>
+  </li>
+  <li class="lw_has_subnav">
+    <a href="#">
+      <span class="lw_separator_title">Information For</span>
+    </a>
+    <ul class="lw_subnav" style="display:none;">
+      <li>
+        <a href="https://www.brockport.edu/support/students/">Students</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/support/faculty-staff/">Faculty &amp; Staff</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/alumni/">Alumni</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/families/">Families</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/support/human-resources/careers/">Job Seekers</a>
+      </li>
+    </ul>
+  </li>
+</ul>
 
-               <!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
-                  <input name="pcAvailabiltyMode" type="hidden" value="true" />
-                  <div class="input-group mb-3">
-                      <label for="libSearch" class="sr-only">Enter Keywords</label>
-                      <input type="text" class="form-control" placeholder="Search articles, books, videos, and more.." id="libSearch" name="search">
-                      <div id="extrafacets"></div>
-                      <div class="input-group-append">
-                          <button class="btn btn-outline-secondary bg-warning" id="button-addon2"><i class="fas fa-search text-default"><span class="sr-only">Search</i></button>
-                      </div>
-                  </div>
-                  <div class="row justify-content-center">
-      <span class="pt-3 sr-only">Limit to:</span>
-      <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
-          <label class="radio-icon bg-warning d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="everything" value="everything"><i class="fas fa-search-plus"></i><span class="h6 pl-2">Everything</span></label>
-      </div>
-      <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
-          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="prart10" value="prart10"><i class="fas fa-file-alt"></i><span class="h6 pl-2">Articles</span></label>
-      </div>
-      <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
-          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="books" value="books"><i class="fas fa-book-open"></i><span class="h6 pl-2">Books</span></label>
-      </div>
-      <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
-          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="ebooks" value="ebooks"><i class="fas fa-atlas"></i><span class="h6 pl-2">eBooks</span></label>
-      </div>
-      <!--div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
-          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="streaming" value="streaming"><i class="fas fa-play-circle"></i><span class="h6 pl-2">Streaming</span></label>
-      </div-->
-      <div class="col-6 col-md-auto mx-md-1 px-md-1 mx-lg-0 px-lg-0">
-          <label class="radio-icon d-block"><input type="radio" name="searchOptionsRadio" onchange="updateDescription(this)" class="d-none" id="reserves" value="reserves"><i class="fas fa-chalkboard-teacher"></i><span class="h6 pl-2">Reserves</span></label>
-      </div>
-  </div>
-        <div class="d-flex justify-content-center mt-2"><a href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&lang=en&sortby=rank&mode=advanced">Advanced Search</a></div>
-            </form>
-        </div>
-    </div>
+						</div>
+
+						<div class="search-widget js-search">
+							<a href="#" class="js-search-open">
+								<span>Search</span>
+
+								<em class="ico-search"></em>
+							</a>
+
+								<div class="search txt-color-green bg-color-yellow is-expanded">
+									<form  method="get" action="/search/">
+										<label for="q" class=""><span class="lw_sr_only">Search the site</span><em class="ico-search"></em></label>
+
+										<input type="text" placeholder="Search" name="q" id="q" value="" class="search__field lw_qa lw_qa_pages lw_qa_widget_273" data-qa-too-many="Type keywords or names." data-qa-more-results-msg="Search brockport.edu »" data-qa-more-results-url="/search/index.php?q="  data-qa-none-found=" " />
+
+                    <button type="submit" style="background:transparent; border: none;">
+                      <span class="lw_sr_only">Search</span>
+                      <span class="fa fa-arrow-right"></span>
+                    </button>
+									</form>
+                  <em class="close-search js-search-close fa fa-times"></em>
+								</div><!-- /.search -->
+						</div><!-- /.search-wrapper -->
+					</div><!-- /.header__top -->
+
+					<div class="header__bottom">
+						<div class="nav-main">
+
+<ul>
+  <li>
+    <a href="https://www.brockport.edu/about/">About</a>
+  </li>
+  <li>
+    <a href="https://www.brockport.edu/academics/">Academics</a>
+  </li>
+  <li>
+    <a href="https://www.brockport.edu/admissions/">Admissions</a>
+  </li>
+  <li>
+    <a href="https://www.brockport.edu/scholarships-aid/">Scholarships &amp; Aid</a>
+  </li>
+  <li>
+    <a href="https://www.brockport.edu/life/">Student Life</a>
+  </li>
+  <li>
+    <a href="https://www.gobrockport.com/" target="_blank">Athletics</a>
+  </li>
+</ul>
+
+						</div>
+					</div><!-- /.header__bottom -->
+				</div><!-- /.header__main -->
+
+
+			</div><!-- /.header__inner -->
+		</div><!-- /.container -->
+	</header><!-- /.header -->
+</div><!-- /.header-wrapper -->
+
+	<div class="main">
+		<div class="section">
+			<div class="container">
+				<div class="section__inner">
+					<div class="section__aside">
+						<nav class="nav-aside js-to-nav-aside txt-color-white bg-color-green border-bottom-left">
+<h4>
+
+						<a href="https://www.brockport.edu/library/" class="lw_group_link">Drake Memorial Library</a>
+</h4>
+<div class="mobile-nav-trigger d-md-none">
+  <span class="link-arrow"></span>
 </div>
+<div class="navigation">
+<ul>
+  <li class="lw_has_subnav">
+    <a href="#">
+      <span class="lw_separator_title">Find</span>
+    </a>
+    <ul class="lw_subnav" style="display:none;">
+      <li>
+        <a href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO" target="_blank">Articles, Books &amp; Videos with Library Search</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/library/databases-by-subject/">Databases by Subject</a>
+      </li>
+      <li>
+        <a href="https://library.brockport.edu/az.php" target="_blank">Databases A-Z</a>
+      </li>
+      <li>
+        <a href="https://brockport.illiad.oclc.org/illiad/logon.html" target="_blank">Interlibrary Loan</a>
+      </li>
+      <li>
+        <a href="https://suny-bro.primo.exlibrisgroup.com/discovery/jsearch?vid=01SUNY_BRO:01SUNY_BRO" target="_blank">Journal &amp; Newspaper Listings</a>
+      </li>
+      <li>
+        <a href="https://brockport.libanswers.com/faq/368529" target="_blank">Lookup by Citation or DOI</a>
+      </li>
+      <li>
+        <a href="https://library.brockport.edu/home" target="_blank">Research Guides</a>
+      </li>
+      <li>
+        <a href="https://library.brockport.edu/digital-collections/video" target="_blank">Streaming Video</a>
+      </li>
+      <li class="lw_has_subnav">
+        <a href="https://www.brockport.edu/library/suny-open-repositories/">SUNY Open Repositories</a>
+        <ul class="lw_subnav" style="display:none;">
+          <li>
+            <a href="https://dspace.sunyconnect.suny.edu/handle/1951/6585" target="_blank">Brockport at SUNY Digital Repository</a>
+          </li>
+          <li>
+            <a href="https://soar.suny.edu/handle/20.500.12648/1922" target="_blank">Brockport at SUNY Open Access Repository</a>
+          </li>
+          <li>
+            <a href="https://www.brockport.edu/library/suny-open-repositories/uploading-material/">Uploading Materials to the Repository</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="https://brockport.on.worldcat.org/discovery" target="_blank">WorldCat (Beyond Drake)</a>
+      </li>
+      <li>
+        <a href="https://library.brockport.edu/techtools" target="_blank">Tech Tools</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/library/archives/">The Rose Archives</a>
+      </li>
+    </ul>
+  </li>
+  <li class="lw_has_subnav">
+    <a href="#">
+      <span class="lw_separator_title">Help &amp; Support</span>
+    </a>
+    <ul class="lw_subnav" style="display:none;">
+      <li>
+        <a href="https://brockport.libanswers.com/" target="_blank">Ask a Librarian</a>
+      </li>
+      <li>
+        <a href="https://library.brockport.edu/citing" target="_blank">Citing Your Sources</a>
+      </li>
+      <li>
+        <a href="https://library.brockport.edu/howto" target="_blank">How do I Find...</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/library/who-is-my-librarian/">Who is my Librarian?</a>
+      </li>
+      <li class="lw_has_subnav">
+        <a href="https://www.brockport.edu/library/faculty-staff-support/">Faculty/Staff Support</a>
+        <ul class="lw_subnav" style="display:none;">
+          <li>
+            <a href="https://www.brockport.edu/library/information-literacy/">Information Literacy</a>
+          </li>
+          <li>
+            <a href="https://www.brockport.edu/library/faculty-staff-support/journal-alerts/">Journal Alerts</a>
+          </li>
+          <li>
+            <a href="https://www.brockport.edu/library/faculty-staff-support/media-collection-strategy/">Media Collection Strategy</a>
+          </li>
+          <li>
+            <a href="https://www.brockport.edu/library/faculty-staff-support/online-course-support/">Online Course Support</a>
+          </li>
+          <li>
+            <a href="https://www.brockport.edu/library/scholarly-communications/open-educational-resources/">Open Educational Resources</a>
+          </li>
+          <li>
+            <a href="https://www.brockport.edu/library/who-is-my-librarian/">Who is my Librarian?</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="https://brockport.libanswers.com/search/" target="_blank">Frequently Asked Questions</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/library/distance-students/">Services for Distance and Downtown Students</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/library/about/alumni/">Alumni Services</a>
+      </li>
+      <li>
+        <a href="https://brockport.libanswers.com/#s-la-box-56247" target="_blank">Make an Appointment</a>
+      </li>
+    </ul>
+  </li>
+  <li class="lw_has_subnav">
+    <a href="#">
+      <span class="lw_separator_title">About</span>
+    </a>
+    <ul class="lw_subnav" style="display:none;">
+      <li>
+        <a href="https://www.brockport.edu/library/apa-certificate/">APA Certificate</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/library/about/borrowing/">Borrowing Policies</a>
+      </li>
+      <li class="lw_has_subnav">
+        <a href="https://www.brockport.edu/library/friends-of-drake-library/">Friends of Drake Library</a>
+        <ul class="lw_subnav" style="display:none;">
+          <li>
+            <a href="https://www.brockport.edu/library/friends-of-drake-library/library-research-awards/">Library Research Awards</a>
+          </li>
+          <li>
+            <a href="https://www.brockport.edu/library/friends-of-drake-library/our-goals/">Our Goals</a>
+          </li>
+          <li>
+            <a href="https://www.brockport.edu/library/friends-of-drake-library/how-to-join/">How to Join</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/library/about/giving/">Giving to Drake Memorial Library</a>
+      </li>
+      <li>
+        <a href="https://brockport.libcal.com/hours/" target="_blank">Hours</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/library/directory/">Librarians &amp; Staff</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/library/about/maps/">Maps &amp; Floor Plans</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/library/about/mission/">Mission, Vision, &amp; Values</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/library/about/student-employment/">Student Employment</a>
+      </li>
+      <li>
+        <a href="https://www.brockport.edu/library/about/visitor-information/">Visitor Information</a>
+      </li>
+    </ul>
+  </li>
+</ul>
 
-<!-- jQuery and Bootstrap Bundle (includes Popper) -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-<script>
+  <!--  -->
+</div>
+</nav>
+						<div id="sidebar-lower" class="editable optional">
+							<div class="content_layout" data-type="sidebar-contact-info" data-type-name="Sidebar Contact Info">
+								<div class="contact-callout" spellcheck="false">
+									<p class="h6">CONTACT</p>
+									<p>Circulation Desk Phone:<br /><a href="tel:+15853952277">(585) 395-2277</a><br />Text: (585) 449-6811<br /><a href="mailto:askdrake@brockport.edu">askdrake@brockport.edu</a></p>
+									<div>
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Attach event listener to form submission
-    document.getElementById("libSearchForm").addEventListener("submit", searchPrimo);
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.section__aside -->
+					<div class="section__content js-animate-all-elements animate-all-elements">
 
-    // Attach event listeners to radio buttons
-    var radioButtons = document.getElementsByName("searchOptionsRadio");
-    for (var i = 0; i < radioButtons.length; i++) {
-        radioButtons[i].addEventListener("change", function() {
-            updateDescription(this);
-            console.log("description updated");
-            setFacets();
-            console.log("facets set");
-        });
-    }
-    document.querySelectorAll('.radio-icon').forEach(function(element) {
-        element.addEventListener('click', function() {
-            document.querySelectorAll('.radio-icon').forEach(function(el) {
-                el.classList.remove('bg-warning');
-            });
-            this.classList.add('bg-warning');
-        });
-    });
-});
 
-function setFacets() {
-    var yearTenYearsAgo = new Date().getFullYear() - 10;
-    var yearCurrent = new Date().getFullYear() + 1;
 
-    var facetsDiv = document.getElementById('extrafacets');
-    facetsDiv.innerHTML = ''; // Clear existing facets
 
-    var selectedOption = document.querySelector('input[name="searchOptionsRadio"]:checked').value;
-    switch(selectedOption) {
-        case "prart10":
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" />';
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles,lk" />';
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + ',lk" />';
-            break;
-        case "books":
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
-            break;
-        case "ebooks":
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
-            facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources,lk" />';
-            break;
-        case "reserves":
-            facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" />';
-            facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />';
-            break;
-    }
-}
 
-function searchPrimo(event) {
-    event.preventDefault(); // Prevent default form submission
-    document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
-    document.getElementById("libSearchForm").submit(); // Manually submit the form
-}
+<ul class="breadcrumb">
+		<li>
+			<a href="https://www.brockport.edu/">
+				<span class="lw_sr_only">Home</span>
+				<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" xml:space="preserve" width="13.3" height="11.3" style="enable-background:new 0 0 13.3 11.3" viewBox="0 0 13.3 11.3"><path class="background" d="M-1.3-2h16v16h-16z" style="fill:none"/><defs><filter id="a" width="16" height="16" x="-1.3" y="-2" filterUnits="userSpaceOnUse"><feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"/></filter></defs><mask id="b" width="16" height="16" x="-1.3" y="-2" maskUnits="userSpaceOnUse"><g style="filter:url(#a)"><path d="M5.3 11.3v-4H8v4h3.3V6h2L6.7 0 0 6h2v5.3z" style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"/></g></mask><path class="house" d="M-1.3-2h16v16h-16z" style="mask:url(#b);fill-rule:evenodd;clip-rule:evenodd;fill:#080808"/></svg>
+			</a>
+		</li>
 
-function updateDescription(radio) {
-    var descriptionDiv = document.getElementById('searchDescription');
-    var text = "";
 
-    switch (radio.value) {
-        case "prart10":
-            text = "Search <span class='text-success'>peer-reviewed articles</span> from the past 10 years.";
-            break;
-        case "books":
-            text = "Search <span class='text-success'>books</span> (print & electronic) in our library.";
-            break;
-        case "ebooks":
-            text = "Search <span class='text-success'>eBooks</span> you can access from anywhere.";
-            break;
-        case "reserves":
-            text = "Search <span class='text-success'>items that are on reserve</span> for specific classes.";
-            break;
-        default:
-            text = "Use Library Search to discover <span class='text-success'>books, articles, media</span> and more.";
-    }
-    descriptionDiv.innerHTML = text;
-}
-</script>
-</script>
-</body>
+
+
+
+
+
+
+
+
+
+		<li>
+												<a href="https://www.brockport.edu/library/" class="lw_group_link">Drake Memorial Library</a>
+											</li>
+	</ul>
+
+						<h1 class="page-title">Drake Memorial Library</h1>
+						<div id="intro-paragraph" class="h4 page-intro editable optional">
+
+							<div class="bg-color-yellow library-hours-box">
+								<p class="h4" style="margin-bottom: 0;">Today’s Hours</p>
+								<a class='go header-link' href='https://brockport.libcal.com/hours'><span class='date'>Wednesday, February 4, 2026 • 7:45am - 11pm</span></a>
+							</div>
+						</div>
+						<div id="main-content-area" class="editable">
+							<section>
+								<div class="row">
+									<div class="small-12">
+										<div>
+
+<div class="bleed bg-blue">
+  <div class="container small-12 columns bg-blue">
+    <form action="https://suny-bro.primo.exlibrisgroup.com/discovery/search" onsubmit="searchPrimo(event)" method="get" id="libSearchForm">
+      <div class="row">
+        <div class="small-12 columns">
+          <p class="space-above space-below" id="searchDescription">
+            Use <span class="description_emphasis">Library Search</span> to discover <span class="description_emphasis">books, articles, media</span> and more.
+          </p>
+        </div>
+        <div class="col-sm-8">
+          <!-- Customizable Parameters -->
+          <input name="institution" type="hidden" value="01SUNY_BRO" /> <input name="vid" type="hidden" value="01SUNY_BRO:01SUNY_BRO" /> <input id="primoTab" name="tab" type="hidden" value="Everything" /> <input id="primoScope" name="search_scope" type="hidden" value="everythingSLS" /> <input name="mode" type="hidden" value="Basic" /> <!-- Fixed parameters -->
+           <input name="displayMode" type="hidden" value="full" /> <input name="bulkSize" type="hidden" value="10" /> <input name="highlight" type="hidden" value="true" /> <input name="dum" type="hidden" value="true" /> <input id="primoQuery" name="query" type="hidden" /> <input name="displayField" type="hidden" value="all" /> <!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
+           <input name="pcAvailabiltyMode" type="hidden" value="true" />
+          <div class="input-group">
+            <label for="libSearch" class="show-for-screenreaders">Enter Keywords</label> <input class="input-group-field" type="search" id="libSearch" placeholder="Enter keywords to search our collections..." />
+            <div id="extrafacets">
+
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="input-group-button">
+            <input type="submit" class="button tiny go nomargin search-button" value="Search" /> <a href="https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO:01SUNY_BRO&amp;lang=en&amp;sortby=rank&amp;mode=advanced" class="advanced-search">Advanced&#160;Search</a>
+          </div>
+        </div>
+      </div>
+      <div class="row space-above">
+        <div class="small-12 columns">
+          <span class="show-for-screenreaders">Limit to:</span>
+          <fieldset class="nopad nomargin" style="border:0">
+            <p>
+              <input type="radio" id="everything" onchange="updateDescription(this)" name="searchOptionsRadio" class="hidden-radio" checked="checked" value="everything" /> <label for="everything" class="button search-selector"><i class="fas fa-search-plus" aria-hidden="true"></i>Everything</label> <input type="radio" id="prart10" onchange="updateDescription(this)" name="searchOptionsRadio" class="hidden-radio" value="prart10" /> <label for="prart10" class="button search-selector"><i class="fas fa-file-alt" aria-hidden="true"></i>Articles</label> <input type="radio" id="books" onchange="updateDescription(this)" name="searchOptionsRadio" class="hidden-radio" value="books" /> <label for="books" class="button search-selector"><i class="fa fa-book" aria-hidden="true"></i>Books</label> <input type="radio" id="ebooks" onchange="updateDescription(this)" name="searchOptionsRadio" class="hidden-radio" value="ebooks" /> <label for="ebooks" class="button search-selector"><i class="fa fa-link" aria-hidden="true"></i>eBooks</label> <input type="radio" id="reserves" onchange="updateDescription(this)" name="searchOptionsRadio" class="hidden-radio" value="reserves" /> <label for="reserves" class="button search-selector"><i class="fa fa-graduation-cap" aria-hidden="true"></i>Course Reserves</label>
+            </p>
+          </fieldset>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script>/*<![CDATA[*/
+                        document.addEventListener("DOMContentLoaded", function() {
+                                // Attach event listener to form submission
+                                document.getElementById("libSearchForm").addEventListener("submit", searchPrimo);
+
+                                // Attach event listeners to radio buttons
+                                var radioButtons = document.getElementsByName("searchOptionsRadio");
+                                for (var i = 0; i < radioButtons.length; i++) {
+                                        radioButtons[i].addEventListener("change", function() {
+                                                updateDescription(this);
+                                                setFacets();
+                                        });
+                                }
+                        });
+
+                        function setFacets()
+                        {
+                                var yearTenYearsAgo = new Date().getFullYear() - 10;
+                                var yearCurrent = new Date().getFullYear() + 1;
+
+                                var facetsDiv = document.getElementById('extrafacets');
+                                facetsDiv.innerHTML = ''; // Clear existing facets
+
+                                var selectedOption = document.querySelector('input[name="searchOptionsRadio"]:checked').value;
+                                switch(selectedOption) {
+                                        case "prart10":
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" />';
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles,lk" />';
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + ',lk" />';
+                                                break;
+                                        case "books":
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
+                                                break;
+                                        case "ebooks":
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources,lk" />';
+                                                break;
+                                        case "reserves":
+                                                facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" />';
+                                                facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />';
+                                                break;
+                                }
+                        }
+
+                        function searchPrimo(event)
+                        {
+                                event.preventDefault(); // Prevent default form submission
+                                document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
+                                document.getElementById("libSearchForm").submit(); // Manually submit the form
+                        }
+
+                        function updateDescription(radio)
+                        {
+                                var descriptionDiv = document.getElementById('searchDescription');
+                                var text = "";
+
+                                switch (radio.value)
+                                {
+                                        case "prart10":
+                                                text = "Search <span class='description_emphasis'>peer-reviewed articles</span> from the <span class='description_emphasis'>past 10 years</span>.";
+                                                break;
+                                        case "books":
+                                                text = "Search <span class='description_emphasis'>books (print &amp; electronic)</span> in our library.";
+                                                break;
+                                        case "ebooks":
+                                                text = "Search <span class='description_emphasis'>eBooks</span> you can access from anywhere.";
+                                                break;
+                                        case "reserves":
+                                                text = "Search items <span class='description_emphasis'>for your courses</span> available <span class='description_emphasis'>at Circulation</span>.";
+                                                break;
+                                        default:
+                                                text = "Use <span class='description_emphasis'>Library Search</span> to discover <span class='description_emphasis'>books, articles, media</span> and more.";
+                                }
+                                descriptionDiv.innerHTML = text;
+                        }
+/*]]>*/</script>
+<div style="clear: both;">
+
+</div><!-- END LIBRARY SEARCH -->
+
+										</div>
+										<a class="btn txt-color-white bg-color-green" href="https://brockport.libanswers.com">Ask a Librarian</a>&#160;<a class="btn txt-color-white bg-color-green" href="https://www.brockport.edu/library/about/rooms/">Rooms in the Library</a><a class="btn txt-color-white bg-color-green" href="https://suny-bro.primo.exlibrisgroup.com/discovery/account?vid=01SUNY_BRO:01SUNY_BRO&amp;lang=en&amp;sortby=rank&amp;section=overview">My Accounts</a>
+									</div>
+									<div class="small-12">
+
+									</div>
+									<div class="small-12">
+										<div class="content_layout widget-links content-first" data-type="related-links" data-type-name="Related Links">
+											<section class="section-related-links section-related-links--small">
+												<div class="section__title animate animate--fade-up js-animate is-animated">
+													<p class="h5">Library Quick Links</p>
+												</div>
+												<div class="section__content animate animate--fade-up js-animate is-animated">
+													<ul>
+														<li>
+															<a class="" href="https://brockport.libanswers.com/faq/368529" target="_blank" rel="noopener">Article Lookup</a>
+														</li>
+														<li>
+															<a class="" href="https://www.brockport.edu/library/databases-by-subject/">Databases by Subject</a>
+														</li>
+														<li>
+															<a class="" href="https://suny-bro.primo.exlibrisgroup.com/discovery/jsearch?vid=01SUNY_BRO:01SUNY_BRO" target="_blank" rel="noopener">Journals &amp; Newspapers Listing</a>
+														</li>
+														<li>
+															<a class="" href="https://brockport.on.worldcat.org/discovery" target="_blank" rel="noopener">WorldCat (beyond Drake Library)</a>
+														</li>
+														<li>
+															<a class="" href="https://www.brockport.edu/library/faculty-staff-support/">Faculty and Staff Support</a>
+														</li>
+														<li>
+															<a href="https://www.brockport.edu/library/archives/" target="_blank" rel="noopener">The Rose Archives &amp; Repositories</a>
+														</li>
+														<li>
+															<a class="" href="https://library.brockport.edu/citing" target="_blank" rel="noopener">Citing Your Sources</a>
+														</li>
+														<li>
+															<a class="link link--small" href="https://brockport.libanswers.com/search/" target="_blank" rel="noopener">Frequently Asked Questions</a>
+														</li>
+													</ul>
+												</div>
+											</section>
+										</div>
+										<div class="content_layout" data-type="callout-one-column" data-type-name="Callout, Single">
+
+											<div class="articles callout-one-column">
+												<div class="row callout-column">
+													<div class="col-md-6 left">
+														<picture class="lw_image lw_image15182 lw_fixed_size lw_align_none"><source type="image/png" srcset="/live/image/gid/68/width/800/height/450/crop/1/15182_LibKey-Nomad-logo-text.png 1x" data-origin="responsive"/><img width="800" height="450" alt="" data-alt="" data-decoration="true" src="/live/image/gid/68/width/800/height/450/crop/1/15182_LibKey-Nomad-logo-text.png" loading="lazy" data-optimized="true"/></picture>
+													</div>
+													<div class="col-md-6">
+														<a class="link" href="https://brockport.libanswers.com/faq/397731" target="_blank" rel="noopener">LibKey Nomad</a>
+														<p>LibKey Nomad is a browser extension that links you to the full text of a scholarly article through Brockport’s subscriptions.</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="small-6 medium-3 columns">
+										<section class="section-base"><div class="container"><div class="section__title"><h2>Recent News</h2></div><!-- /.section__title --><div class="section__content"><div class="news-horizontal-list"><div class="news-horizontal-item"><div class="news__content"><p class="h4"><a href="https://www.brockport.edu/live/news/11936-drake-memorial-library-has-new-accessible-entrance">Drake Memorial Library Has New Accessible Entrance</a></p>Drake Memorial Library welcomes Spring 2026 with open arms and an important accessibility improvement announcement: the opening of a new Ground Floor Entrance.  </div><!-- /.news__content --></div><!-- /.news-horizontal-item --><div class="news-horizontal-item"><figure class="news__media"><picture class="lw_image"><source type="image/png" srcset="/live/image/gid/68/width/204/height/117/crop/1/src_region/0,0,274,394/ignore_cropper/1/16477_Fredrick_Douglass.rev.1769432408.png 1x" data-origin="responsive"/><img src="/live/image/gid/68/width/204/height/117/crop/1/src_region/0,0,274,394/ignore_cropper/1/16477_Fredrick_Douglass.rev.1769432408.png" alt="" width="204" height="117" data-max-w="274" data-max-h="394" loading="lazy" data-optimized="true"/></picture></figure><div class="news__content"><p class="h4"><a href="https://www.brockport.edu/live/news/11908-celebrate-douglass-day-2026">Celebrate Douglass Day 2026</a></p>There will be a transcribe-a-thon event to celebrate Douglass Day on Friday, February 13, from 3 pm to 4:30 pm in the Kiefer Room at Drake Memorial Library.&#160;  </div><!-- /.news__content --></div><!-- /.news-horizontal-item --><div class="news-horizontal-item"><div class="news__content"><p class="h4"><a href="https://www.brockport.edu/live/news/11891-drake-memorial-library-receives-coordinated-collection">Drake Memorial Library Receives Coordinated Collections Development Aid Award</a></p>Drake Memorial Library has been awarded $12,883&#160;through the Library Coordinated Collections Development Aid (CCDA) for 2025&#x2013;2026, sponsored by the New York State Education Department.  </div><!-- /.news__content --></div><!-- /.news-horizontal-item --></div><!-- /.news --></div><!-- /.section__content --><div class="section__actions"><a href="https://www.brockport.edu/news/archive/?group=Drake%20Memorial%20Library" class="link link--small">See more news</a></div><!-- /.section__actions --></div><!-- /.container --></section>
+									</div>
+								</div>
+							</section>
+							<div id="dbsubj" class="reveal-modal" data-reveal="1" aria-label="Choose a Database" aria-hidden="true" role="dialog"></div>
+						</div>
+						<!-- /.main-content -->
+					</div>
+					<!-- /.section__content -->
+				</div>
+				<!-- /.section__inner -->
+			</div>
+			<!-- /.container -->
+		</div>
+	</div>
+	<!-- /.main -->
+	<div id="lower-page-full-width-content" class="editable">
+		<section>
+			<section class="section-stats bg-color-green txt-color-white"><div class="section__title animate animate--fade-up js-animate"><h3 class="h5">We're Here to Help</h3></div><!-- /.section__title --><div class="section__content"><div class="swiper-aid"><div class="swiper__clip"><div class="swiper-wrapper"><div class="swiper-slide"><p class="h2">226</p><p>Computers</p></div><div class="swiper-slide"><p class="h2">10</p><p>Librarians</p></div><div class="swiper-slide"><p class="h2">24/7</p><p>Online Access</p></div></div><button class="carousel__btn carousel__btn--prev rounded-icon bg-color-white txt-color-green"><i class="ico-arrow-left"><!-- decorative --><span class="lw_sr_only">Previous statistic</span></i></button><button class="carousel__btn carousel__btn--next rounded-icon bg-color-white txt-color-green"><i class="ico-arrow"><!-- decorative --><span class="lw_sr_only">Next statistic</span></i></button></div><!-- /.swiper__clip --></div></div><!-- /.section__content --></section><!-- /.section-aid -->
+		</section>
+	</div>
+	<footer class="footer bg-color-green">
+	<div class="container-fluid-right">
+		<div class="row">
+			<div class="col-md-5 footer-left">
+
+				<a href="https://www.brockport.edu/" class="logo">
+<img src="/live/resource/image/assets/images/logo-footer.rev.1759864101.svg" alt="footer logo suny brockport" loading="lazy"/>
+				</a>
+
+				<div class="contacts">
+					<p>350 New Campus Drive, Brockport, NY 14420 | (585) 395-2211<br /></p>
+				</div><!-- /.contacts -->
+
+				<div class="socials">
+					<ul>
+						<li>
+							<a href="https://www.facebook.com/sunybport" target="_blank">
+								<span class="lw_sr_only">Facebook</span>
+								<svg aria-hidden="true" role="presentation" xmlns="http://www.w3.org/2000/svg" width="11.333" height="21.333"
+									viewBox="0 0 11.333 21.333">
+									<path fill="currentcolor"
+										d="M11.333 3.665h-2.4c-1.6 0-1.6.589-1.6 1.7v2.226h3.533l-.533 3.926h-3v9.816h-4v-9.816H0V7.591h3.333V4.973a4.631 4.631 0 0 1 5-4.973c1.4 0 2.333.131 3 .131Z" />
+								</svg>
+							</a>
+						</li>
+
+						<li>
+							<a href="https://www.twitter.com/brockport" target="_blank" class="twitter" width="12"
+								height="12">
+								<span class="lw_sr_only">X / Twitter</span>
+<img src="/live/resource/image/assets/images/icons/x.rev.1706828540.svg" alt="" aria-hidden="true" role="presentation" loading="lazy"/>
+							</a>
+						</li>
+
+						<li>
+							<a href="https://www.youtube.com/brockportnews" target="_blank">
+								<span class="lw_sr_only">YouTube</span>
+								<svg aria-hidden="true" role="presentation" xmlns="http://www.w3.org/2000/svg" width="24" height="16" viewBox="0 0 24 16">
+									<path fill="currentcolor"
+										d="M12 16c-.075 0-7.526-.005-9.377-.478A2.937 2.937 0 0 1 .5 13.5 28.5 28.5 0 0 1 0 8a28.513 28.513 0 0 1 .5-5.5A2.937 2.937 0 0 1 2.623.478C4.474.005 11.925 0 12 0s7.526.005 9.377.478A2.937 2.937 0 0 1 23.5 2.5 28.512 28.512 0 0 1 24 8a28.5 28.5 0 0 1-.5 5.5 2.937 2.937 0 0 1-2.122 2.021C19.526 15.994 12.075 16 12 16ZM9.546 4.624v6.754L15.818 8Z"
+										data-name="Combined Shape" />
+								</svg>
+							</a>
+						</li>
+
+						<li>
+							<a href="https://www.instagram.com/brockport" target="_blank">
+								<span class="lw_sr_only">Instagram</span>
+								<svg aria-hidden="true" role="presentation" xmlns="http://www.w3.org/2000/svg" width="21.334" height="21.334"
+									viewBox="0 0 21.334 21.334">
+									<path fill="currentcolor"
+										d="M10.667 21.334c-1.5 0-2.916 0-4.409-.071a6.465 6.465 0 0 1-4.481-1.708 6.209 6.209 0 0 1-1.706-4.48C0 13.583 0 12.166 0 10.667s0-2.916.071-4.409a6.469 6.469 0 0 1 1.706-4.481A6.214 6.214 0 0 1 6.258.071C7.751 0 9.167 0 10.667 0s2.916 0 4.409.071a6.463 6.463 0 0 1 4.48 1.706 6.21 6.21 0 0 1 1.708 4.481c.071 1.493.071 2.909.071 4.409s0 2.916-.071 4.409a6.459 6.459 0 0 1-1.708 4.48 6.206 6.206 0 0 1-4.48 1.708c-1.493.07-2.91.07-4.409.07Zm.071-2.063c.223 0 .481 0 .78.007.366 0 .78.009 1.213.009A13.968 13.968 0 0 0 17 18.845a3.532 3.532 0 0 0 1.208-.782 2.753 2.753 0 0 0 .782-1.21c.484-1.211.454-3.782.434-5.483 0-.3-.007-.552-.007-.774s0-.477.007-.774c.02-1.7.051-4.273-.434-5.484a3.536 3.536 0 0 0-.782-1.21A2.762 2.762 0 0 0 17 2.347a14.3 14.3 0 0 0-4.289-.447c-.427 0-.836 0-1.2.009-.3 0-.556.007-.777.007s-.478 0-.776-.007c-.366 0-.78-.009-1.212-.009a13.956 13.956 0 0 0-4.269.443 3.519 3.519 0 0 0-1.208.781 2.788 2.788 0 0 0-.782 1.21C2 5.548 2.036 8.117 2.056 9.817c0 .3.007.556.007.779s0 .481-.007.78C2.036 13.1 2 15.7 2.489 16.853a3.535 3.535 0 0 0 .782 1.21 2.777 2.777 0 0 0 1.208.782 14.323 14.323 0 0 0 4.282.442c.427 0 .836 0 1.2-.009.297-.004.554-.007.777-.007Zm-.071-3.128a5.417 5.417 0 0 1-5.476-5.476 5.417 5.417 0 0 1 5.476-5.476 5.417 5.417 0 0 1 5.476 5.476 5.417 5.417 0 0 1-5.476 5.475Zm0-9.031a3.556 3.556 0 1 0 3.556 3.556 3.56 3.56 0 0 0-3.556-3.557Zm5.689-.853a1.28 1.28 0 1 1 1.279-1.28 1.282 1.282 0 0 1-1.279 1.279Z"
+										data-name="Combined Shape" />
+								</svg>
+							</a>
+						</li>
+					</ul>
+				</div><!-- /.socials -->
+				<div class="footer__content">
+					<div class="row">
+						<div class="col-md-6">
+
+<ul>
+  <li>
+    <a href="https://www.brockport.edu/about/contact-us/">Contact Us</a>
+  </li>
+  <li>
+    <a href="https://webapp.brockport.edu/map/" target="_blank">Campus Map</a>
+  </li>
+  <li>
+    <a href="https://www.brockport.edu/directory/">Directory</a>
+  </li>
+  <li>
+    <a href="https://www.brockport.edu/support/human-resources/careers/">Careers @ Brockport</a>
+  </li>
+  <li>
+    <a href="https://www.brockport.edu/support/emergency/">Emergency Info</a>
+  </li>
+</ul>
+
+						</div>
+
+						<div class="col-md-6">
+
+<ul>
+  <li>
+    <a href="https://www.brockport.edu/support/human-resources/nondiscrimination/">Notice of Nondiscrimination</a>
+  </li>
+  <li>
+    <a href="https://www.brockport.edu/live/profiles/5360-web-privacy-policy">Privacy Policy</a>
+  </li>
+  <li>
+    <a href="https://www.brockport.edu/support/digital-accessibility/">Digital Accessibility</a>
+  </li>
+  <li>
+    <a href="https://www.brockport.edu/support/university-police/safety-report/">Campus Safety Report</a>
+  </li>
+  <li>
+    <a href="https://www.brockport.edu/about/title-ix/">Title IX</a>
+  </li>
+</ul>
+
+						</div>
+					</div>
+					<div class='footer-horizontal footer_copyright'>
+						copyright &#169; 2025 SUNY Brockport
+					</div>
+					<div class="editor-login">
+						<a href="https://www.brockport.edu/livewhale/?login&amp;referer=1">Editor login</a>
+					</div>
+				</div>
+			</div><!-- /.col-md-6 -->
+
+			<div class="col-md-7 footer-right">
+				<div class="border-bottom-left border-size-m2 ">
+
+					<img src="/livewhale/nocache.php?livewhale=image_cycle&amp;widget=image&amp;args=eyJjcm9wIjoidHJ1ZSIsImNvbGxlY3Rpb24iOiIyMCIsInRhZyI6InNlYXNvbmFsIGZvb3RlciBpbWFnZSIsInNvcnRfb3JkZXIiOlsicmFuZG9tIl0sIndpZHRoIjoiMTA1MCIsImhlaWdodCI6IjYxNSIsImV4Y2x1ZGVfZ3JvdXAiOlsiQnJvY2twb3J0IFRlc3RpbmcgR3JvdXAiLCJHZW5lcmFsIEVkdWNhdGlvbiAtIG5ldyIsIlNjaG9vbCBvZiBCdXNpbmVzcyAmYW1wOyBNYW5hZ2VtZW50IFZpZGVvIFdhbGwiXSwibWF4IjoyMDAsImRpc2FibGVfcHJldmlldyI6InRydWUiLCJ0b2tlbiI6ImI0YTllZTRmIn0%3D" class="lw_image" alt="" loading="lazy"/>
+
+				</div><!-- /.widget__content -->
+			</div><!-- /.col-md-6 -->
+		</div>
+	</div>
+	<a href="#skip-to-top" class="skip-to-link">Back to top</a>
+</footer>
+
+</div>
+<!-- START FOOTER SCRIPTS -->
+<script src="/live/resource/js/%5Clivewhale%5Cthirdparty%5Cjquery%5Cjquery.no-conflict-header.js/%5Clivewhale%5Cthirdparty%5Cjquery%5Cjquery.js/%5Clivewhale%5Cthirdparty%5Cjquery%5Cjquery.browser.js/%5Clivewhale%5Cthirdparty%5Cjquery%5Cjquery.fitvids.js/%5Clivewhale%5Cthirdparty%5Cjqueryui%5Cjquery-ui.widget.js/%5Clivewhale%5Cthirdparty%5Cimagesloaded.js/%5Clivewhale%5Cthirdparty%5Clodash.rev.1767818351.js"></script>
+<script src="/live/resource/js/%5Clivewhale%5Cscripts%5Clwui%5Cjquery.lw-overlay.js/%5Clivewhale%5Cscripts%5Clwui%5Cjquery.lw-notify.js/%5Clivewhale%5Cscripts%5Ccommon.rev.1767818351.js"></script>
+<script src="/live/resource/js/%5Clivewhale%5Ctheme%5Ccore%5Cscripts%5Cfrontend.js/%5Clivewhale%5Ctheme%5Ccore%5Cscripts%5Cquickaccess.rev.1767818351.js"></script>
+<script src="/live/resource/js/livewhale/thirdparty/jquery/jquery.no-conflict-footer.rev.1767818351.js"></script>
+<script src="/live/resource/js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5C0-data-tables.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5C0-mobile-navigation.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5C0-skip-links.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5C05-bootstrap.bundle.min.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5C05-isotope.pkgd.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5C05-jquery.magnific-popup.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5C05-jquery.selectric.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5C05-mCustomScrollbar_jquery.min.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5C05-skrollr.min.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5C05-swiper-bundle.min.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5C1-lw_tabs.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5C2-sitewide-alert.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5Cadded-scripts.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5Capp.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5Ccalendar-custom.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5Cform_select.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5Clw_accordion.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5Cstory_playlist.js/%5C_i%5Cthemes%5Cglobal%5Cscripts%5Cyoutube_videos.rev.1767818351.js"></script>
+
+<!-- END FOOTER SCRIPTS -->
+
+<!-- /.wrapper -->
+
+<script>/*<![CDATA[*/
+        window._monsido = window._monsido || {
+                token: "lMWzAoWXDkHRoYgLmOa88Q",
+                statistics: {
+                        enabled: true,
+                        cookieLessTracking: true,
+                        documentTracking: {
+                                enabled: true,
+                                documentCls: "monsido_download",
+                                documentIgnoreCls: "monsido_ignore_download",
+                                documentExt: [".pdf .doc .docx .xsl .xslx"],
+                        },
+                },
+                heatmap: {
+                        enabled: true,
+                },
+        };
+/*]]>*/</script> <script async="async" src="https://app-script.monsido.com/v2/monsido-script.js"></script> <!-- begin CBE code -->
+<script>/*<![CDATA[*/
+
+(function(a,b,c,d,e,f,g) {
+a[e] = a[e] || function() {(a[e].q = a[e].q || []).push(arguments)};f=b.createElement(c);
+g=b.getElementsByTagName(c)[0];f.async=1;f.src=d+"/cbe/cbe.js";g.parentNode.insertBefore(f,g);
+})(window,document,"script","https://cbe.capturehighered.net","_cbe");
+
+_cbe("create","06742f1c");
+_cbe("log","pageview");
+/*]]>*/</script> <!-- end CBE code -->
+
+	<!-- GOOGLE TAG MANAGER -->
+	<noscript><iframe id="lw_gtm" src="//www.googletagmanager.com/ns.html?id=GTM-MQXR63P" longdesc="Google Tag Manager"></iframe></noscript>
+	<script>
+	/*<![CDATA[*/
+	(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-MQXR63P');
+	/*]]>*/
+	</script>
+	<!-- END GOOGLE TAG MANAGER -->
+	</body>
 </html>
