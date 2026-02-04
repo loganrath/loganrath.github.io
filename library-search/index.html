@@ -633,8 +633,8 @@ color: #262626;}
                                                 facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources,lk" />';
                                                 break;
                                         case "reserves":
-                                                facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbr,1" />';
-                                                facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="location_code,include,4805–160973130004805–rbrvd,1" />';
+                                                document.getElementById('primoScope').value = 'CourseReserves';
+                                                document.getElementById('primoTab').value = 'CourseReserves';
                                                 break;
                                 }
                         }
