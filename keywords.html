@@ -180,6 +180,7 @@ layout: tool
       'Academic Search Complete' : 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=a9h&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
       'All EBSCO Databases' : 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=all&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
       'JSTOR' : 'https://brockport.idm.oclc.org/login?url=https://www.jstor.org/action/doBasicSearch?Query=SEARCH_QUERY&acc=on&wc=on&fc=off&group=none',
+      'Literature Resource Center' : 'https://brockport.idm.oclc.org/login?url=https://go.gale.com/ps/advancedSearch.do?operators%5B999%5D=And&inputFieldValues%5B999%5D=&inputFieldNames%5B999%5D=KE&inputFieldValues%5B0%5D=SEARCH_QUERY&inputFieldNames%5B0%5D=KE&operators%5B1%5D=And&inputFieldValues%5B1%5D=&inputFieldNames%5B1%5D=WO&operators%5B2%5D=And&inputFieldValues%5B2%5D=&inputFieldNames%5B2%5D=PZ&standAloneLimiters=RE&_singleLimiterFieldValues%5BRE%5D=on&_singleLimiterFieldValues%5BPDF_EX%5D=on&dateLimiterValues%5BDA%5D.dateMode=0&dateIndices=DA&dateLimiterValues%5BDA%5D.fromYear=&dateLimiterValues%5BDA%5D.toYear=&standAloneLimiters=DA&singleDateLimiterValue%28DA%29.dateMode=1&limiterTypes%5BPC%5D=OR&standAloneLimiters=PC&limiterTypes%5BDG%5D=OR&limiterFieldValues%5BPU%5D=&standAloneLimiters=PU&limiterTypes%5BTY%5D=OR&standAloneLimiters=TY&limiterTypes%5BLG%5D=OR&standAloneLimiters=LG&limiterTypes%5BAE%5D=OR&standAloneLimiters=AE&method=doSearch&noOfRows=3&searchType=AdvancedSearchForm&userGroupName=brockport&prodId=LitRC&searchResultsType=SingleTab&searchMethod=advanced',
       'Business Source': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=bth&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
       'Education Source + ERIC': 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=eue&db=eric&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
       'SportDISCUS + Academic Search' : 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=s3h&db=a9h&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
@@ -475,7 +476,7 @@ layout: tool
     document.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.ctrlKey) {
       const target = e.target;
-    
+
     // Step 2: Adding keywords
     if (currentStep === 2 && target.classList.contains('keyword-input')) {
       e.preventDefault();
@@ -492,7 +493,7 @@ layout: tool
         }, 50);
       }
     }
-    
+
     // Step 3: Adding synonyms
     if (currentStep === 3 && target.classList.contains('synonym-input')) {
       e.preventDefault();
