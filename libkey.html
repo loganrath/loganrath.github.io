@@ -7,6 +7,7 @@ layout: page
   <p>Enter a DOI or PMID to look up an article:</p>
   <input type="text" id="doiInput" placeholder="Enter DOI or PMID" class="w-75 h4">
   <button class="btn btn-primary btn-lg mt-n2" onclick="lookupArticle()">Lookup Article</button>
+  <h2 class="text-center">Results</h2>
   <div id="libkeyoutput" style="margin-top: 20px;"></div>
 </div>
 </div>
@@ -14,10 +15,10 @@ layout: page
     async function lookupArticle() {
       const input = document.getElementById("doiInput").value.trim();
       const outputDiv = document.getElementById("libkeyoutput");
-      outputDiv.innerHTML = "";
+      outputDiv.innerHTML += "";
 
       if (!input) {
-        outputDiv.innerHTML = "<p style='color: red;'>Please enter a valid DOI or PMID.</p>";
+        outputDiv.innerHTML += "<p style='color: red;'>Please enter a valid DOI or PMID.</p><hr />";
         return;
       }
 
@@ -38,7 +39,7 @@ layout: page
         identifier = input;
         endpoint = `https://api.thirdiron.com/public/v1/libraries/${LIBRARY_ID}/articles/pmid/${encodeURIComponent(identifier)}`;
       } else {
-        outputDiv.innerHTML = "<p style='color: red;'>Invalid input. Please enter a valid DOI or PMID.</p>";
+        outputDiv.innerHTML += "<p style='color: red;'>Invalid input. Please enter a valid DOI or PMID.</p><hr />";
         return;
       }
 
@@ -52,7 +53,7 @@ layout: page
         });
 
         if (response.status === 404) {
-          outputDiv.innerHTML = "<p style='color: red;'>Error 404: Article not found. Please check the DOI/PMID and try again.</p>";
+          outputDiv.innerHTML += "<p style='color: red;'>Error 404: Article not found. Please check the DOI/PMID and try again.</p><hr />";
           return;
         }
 
@@ -80,19 +81,18 @@ layout: page
 
         // Display the citation and the "Find Through Brockport" button
         outputDiv.innerHTML += `
-          <h2 class="text-center">Results</h2>
           <p><strong>Article Found:</strong> ${chicagoCitation}</p>
           ${
             bestLink
               ? `<button class="btn btn-primary" onclick="window.open('${bestLink}', '_blank')">Find Through Brockport</button>`
               : "<p style='color: red;'>No link available to access the article.</p>"
           }
-          <a class="btn btn-primary" target="_blank" href="${ILLiad}${openurl}">Request via ILL</a>
+          <button class="btn btn-primary" target="_blank" href="${ILLiad}${openurl}">Request via ILLiad</button>
           <hr />
         `;
       } catch (error) {
         console.error("An error occurred:", error);
-        outputDiv.innerHTML = `<p style='color: red;'>An error occurred: ${error.message}</p>`;
+        outputDiv.innerHTML += `<p style='color: red;'>An error occurred: ${error.message}</p>`;
       }
     }
 
