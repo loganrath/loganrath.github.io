@@ -65,8 +65,8 @@ layout: page
         const date = article.date || "n.d.";
         const doi = article.doi || "";
         const pmid = article.pmid || "";
-        const linkresolveropenurl = data.linkResolverOpenUrl.split("?");
-        const openurl = linkresolveropenurl[1];
+        const linkResolverOpenUrl = article.linkResolverOpenUrl.split("?");
+        const openurl = linkResolverOpenUrl[1];
         const bestLink = article.bestIntegratorLink?.bestLink || null;
 
         // Generate Chicago-style citation
