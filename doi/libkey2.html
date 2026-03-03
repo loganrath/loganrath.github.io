@@ -1,0 +1,113 @@
+---
+title: Item Lookup by DOI or pmid
+layout: page
+---
+  <p>Enter a DOI or PMID to look up an article:</p>
+  <input type="text" id="doiInput" placeholder="Enter DOI or PMID">
+  <button onclick="lookupArticle()">Lookup Article</button>
+  <div id="libkeyoutput" style="margin-top: 20px;"></div>
+
+  <script>
+    async function lookupArticle() {
+      const input = document.getElementById("doiInput").value.trim();
+      const outputDiv = document.getElementById("libkeyoutput");
+      outputDiv.innerHTML = "";
+
+      if (!input) {
+        outputDiv.innerHTML = "<p style='color: red;'>Please enter a valid DOI or PMID.</p>";
+        return;
+      }
+
+      const LIBKEY_API_KEY = "0a776d9c-1749-4b60-8c60-337784a0678a";
+      const LIBRARY_ID = "3415";
+      let endpoint = "";
+      let identifier = "";
+
+      // Detect if input is a DOI or PMID
+      if (input.startsWith("https://doi.org/") || input.startsWith("http://doi.org/")) {
+        identifier = input.substring(input.indexOf("10."));
+        endpoint = `https://api.thirdiron.com/public/v1/libraries/${LIBRARY_ID}/articles/doi/${encodeURIComponent(identifier)}`;
+      } else if (input.startsWith("10.")) {
+        identifier = input;
+        endpoint = `https://api.thirdiron.com/public/v1/libraries/${LIBRARY_ID}/articles/doi/${encodeURIComponent(identifier)}`;
+      } else if (!isNaN(input)) {
+        identifier = input;
+        endpoint = `https://api.thirdiron.com/public/v1/libraries/${LIBRARY_ID}/articles/pmid/${encodeURIComponent(identifier)}`;
+      } else {
+        outputDiv.innerHTML = "<p style='color: red;'>Invalid input. Please enter a valid DOI or PMID.</p>";
+        return;
+      }
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${LIBKEY_API_KEY}`,
+            "Content-Type": "application/json"
+          }
+        });
+
+        if (response.status === 404) {
+          outputDiv.innerHTML = "<p style='color: red;'>Error 404: Article not found. Please check the DOI/PMID and try again.</p>";
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        // Extract data from the response
+        const article = data.data || {};
+        const title = article.title || "Title not available";
+        const authors = article.authors || "Authors not available";
+        const date = article.date || "Date not available";
+        const doi = article.doi || "";
+        const pmid = article.pmid || "";
+        const bestLink = article.bestIntegratorLink?.bestLink || null;
+
+        // Generate Chicago-style citation
+        const chicagoCitation = `${formatAuthors(authors)}. "${title}." <i>Cochrane Library</i> (${date}). ${
+          doi ? `<a href="https://doi.org/${doi}" target="_blank">${doi}</a>` : ""
+        }`;
+
+        // Display the citation and the "Find Through Brockport" button
+        outputDiv.innerHTML = `
+          <h3>Chicago-Style Citation</h3>
+          <p>${chicagoCitation}</p>
+          ${
+            bestLink
+              ? `<button onclick="window.open('${bestLink}', '_blank')" style="background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">Find Through Brockport</button>`
+              : "<p style='color: red;'>No link available to access the article.</p>"
+          }
+        `;
+      } catch (error) {
+        console.error("An error occurred:", error);
+        outputDiv.innerHTML = `<p style='color: red;'>An error occurred: ${error.message}</p>`;
+      }
+    }
+
+    // Helper function to format authors for Chicago-style citation
+    function formatAuthors(authors) {
+      if (!authors || authors === "Authors not available") return "Authors not available";
+
+      const authorList = authors.split(";").map((author) => author.trim());
+      if (authorList.length === 1) {
+        const [lastName, firstName] = authorList[0].split(", ");
+        return `${lastName}, ${firstName}`;
+      } else if (authorList.length === 2 || authorList.length === 3) {
+        return authorList
+          .map((author, index) => {
+            const [lastName, firstName] = author.split(", ");
+            if (index === 0) return `${lastName}, ${firstName}`;
+            return `${firstName} ${lastName}`;
+          })
+          .join(", ")
+          .replace(/, ([^,]*)$/, " and $1");
+      } else {
+        const [firstLastName, firstFirstName] = authorList[0].split(", ");
+        return `${firstLastName}, ${firstFirstName}, et al.`;
+      }
+    }
+  </script>
