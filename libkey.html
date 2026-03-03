@@ -2,11 +2,14 @@
 title: Item Lookup by DOI or pmid
 layout: page
 ---
+<div class="container">
+	<div class="row">
   <p>Enter a DOI or PMID to look up an article:</p>
   <input type="text" id="doiInput" placeholder="Enter DOI or PMID">
   <button onclick="lookupArticle()">Lookup Article</button>
   <div id="libkeyoutput" style="margin-top: 20px;"></div>
-
+</div>
+</div>
   <script>
     async function lookupArticle() {
       const input = document.getElementById("doiInput").value.trim();
