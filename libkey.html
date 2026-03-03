@@ -5,8 +5,8 @@ layout: page
 <div class="container">
 	<div class="row">
   <p>Enter a DOI or PMID to look up an article:</p>
-  <input type="text" id="doiInput" placeholder="Enter DOI or PMID">
-  <button onclick="lookupArticle()">Lookup Article</button>
+  <input type="text" id="doiInput" placeholder="Enter DOI or PMID" class="w-75 h4">
+  <button class="btn btn-primary btn-lg mt-n2" onclick="lookupArticle()">Lookup Article</button>
   <div id="libkeyoutput" style="margin-top: 20px;"></div>
 </div>
 </div>
@@ -23,6 +23,7 @@ layout: page
 
       const LIBKEY_API_KEY = "0a776d9c-1749-4b60-8c60-337784a0678a";
       const LIBRARY_ID = "3415";
+      const ILLiad = "https://brockport.idm.oclc.org/login?url=https://brockport.illiad.oclc.org/illiad/illiad.dll/OpenURL?sid=Library%20DOI%20Resolver%20outside%20of%20ILLiad&"
       let endpoint = "";
       let identifier = "";
 
@@ -78,7 +79,7 @@ layout: page
         }`;
 
         // Display the citation and the "Find Through Brockport" button
-        outputDiv.innerHTML = `
+        outputDiv.innerHTML += `
           <h2 class="text-center">Results</h2>
           <p><strong>Article Found:</strong> ${chicagoCitation}</p>
           ${
@@ -86,6 +87,8 @@ layout: page
               ? `<button class="btn btn-primary" onclick="window.open('${bestLink}', '_blank')">Find Through Brockport</button>`
               : "<p style='color: red;'>No link available to access the article.</p>"
           }
+          <a class="btn btn-primary" target="_blank" href="${ILLiad}${openurl}">Request via ILL</a>
+          <hr />
         `;
       } catch (error) {
         console.error("An error occurred:", error);
