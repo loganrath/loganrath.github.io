@@ -4,10 +4,14 @@ layout: page
 ---
 <div class="container">
 	<div class="row">
-  <p>Enter a DOI or PMID to look up an article:</p>
-  <input type="text" id="doiInput" placeholder="Enter DOI or PMID" class="w-75 h4">
-  <button class="btn btn-primary btn-lg mt-n2" onclick="lookupArticle()">Lookup Article</button>
-  <h2 class="text-center">Results</h2>
+    <div id="doiSearchBox" class="col-12 mb-4">
+  		<div class="text-center">
+  					<p>If you enter a DOI or PMID on this page, this tool will resolve the DOI and provide links to download or request the item.</p>
+  		<input type="text" id="doiInput" placeholder="Enter DOI or PMID" class="w-75 h4" />
+      <button class="btn btn-primary btn-lg mt-n2" onclick="lookupArticle()">Lookup Item</button>
+  		</div>
+  		</div>
+  <h2 class="text-center mt-4">Results</h2>
   <div id="libkeyoutput" style="margin-top: 20px;"></div>
 </div>
 </div>
