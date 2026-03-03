@@ -24,7 +24,7 @@ layout: page
       let identifier = "";
 
       // Detect if input is a DOI or PMID
-      if (input.startsWith("https://doi.org/") || input.startsWith("http://doi.org/")) {
+      if (input.startsWith("https://doi.org/") || input.startsWith("http://doi.org/") || input.startsWith("doi")) {
         identifier = input.substring(input.indexOf("10."));
         endpoint = `https://api.thirdiron.com/public/v1/libraries/${LIBRARY_ID}/articles/doi/${encodeURIComponent(identifier)}`;
       } else if (input.startsWith("10.")) {
@@ -62,9 +62,11 @@ layout: page
         const article = data.data || {};
         const title = article.title || "Title not available";
         const authors = article.authors || "Authors not available";
-        const date = article.date || "Date not available";
+        const date = article.date || "n.d.";
         const doi = article.doi || "";
         const pmid = article.pmid || "";
+        const linkresolveropenurl = data.linkResolverOpenUrl.split("?");
+        const openurl = linkresolveropenurl[1];
         const bestLink = article.bestIntegratorLink?.bestLink || null;
 
         // Generate Chicago-style citation
@@ -74,11 +76,11 @@ layout: page
 
         // Display the citation and the "Find Through Brockport" button
         outputDiv.innerHTML = `
-          <h3>Chicago-Style Citation</h3>
-          <p>${chicagoCitation}</p>
+          <h2 class="text-center">Results</h2>
+          <p><strong>Article Found:</strong> ${chicagoCitation}</p>
           ${
             bestLink
-              ? `<button onclick="window.open('${bestLink}', '_blank')" style="background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">Find Through Brockport</button>`
+              ? `<button class="btn btn-primary" onclick="window.open('${bestLink}', '_blank')">Find Through Brockport</button>`
               : "<p style='color: red;'>No link available to access the article.</p>"
           }
         `;
