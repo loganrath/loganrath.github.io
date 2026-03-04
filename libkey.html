@@ -25,6 +25,11 @@ layout: page
     const ILLIAD_OPENURL =
       "https://brockport.idm.oclc.org/login?url=https://brockport.illiad.oclc.org/illiad/illiad.dll/OpenURL?sid=Library%20DOI%20Resolver%20outside%20of%20ILLiad&";
 
+    // button styling configuration – change class names or color codes as needed
+    const BEST_LINK_BUTTON_CLASS = "btn-success";      // color for direct access link
+    const DISCOVERY_BUTTON_CLASS = "btn-primary";      // color for discovery layer request
+    const ILLIAD_BUTTON_CLASS = "btn-secondary";       // color for ILLiad request
+
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("lookupBtn").addEventListener("click", lookupArticle);
       document.getElementById("doiInput").addEventListener("keydown", (e) => {
@@ -99,7 +104,7 @@ layout: page
         doi: params.get("rft_id")?.includes("doi") ? params.get("rft_id").split("/").pop() : null,
       };
 
-      const citation = makeChicagoCitation(metadata);
+      const citation = makeCitation(metadata);
 
       const bestLinkObj = article.bestIntegratorLink || {};
       const bestLink = bestLinkObj.bestLink || "";
@@ -109,20 +114,20 @@ layout: page
 
       let html = `<p><strong>Article Found:</strong> ${citation}</p>`;
       if (bestLink) {
-        html += `<a class="btn btn-success" href="${bestLink}" target="_blank" rel="noopener">${bestLinkText}</a> `;
+        html += `<a class="btn ${BEST_LINK_BUTTON_CLASS}" href="${bestLink}" target="_blank" rel="noopener">${bestLinkText}</a> `;
       } else {
         html += `<p class="text-danger">No link available to access the article.</p>`;
       }
-      html += `<a class="btn btn-primary" href="${DISCOVERY_LAYER_OPENURL}${openUrl}" target="_blank" rel="noopener">` +
+      html += `<a class="btn ${DISCOVERY_BUTTON_CLASS}" href="${DISCOVERY_LAYER_OPENURL}${openUrl}" target="_blank" rel="noopener">` +
               `Request via ${DISCOVERY_LAYER_NAME}</a> `;
-      html += `<a class="btn btn-secondary" href="${ILLIAD_OPENURL}${openUrl}" target="_blank" rel="noopener">` +
+      html += `<a class="btn ${ILLIAD_BUTTON_CLASS}" href="${ILLIAD_OPENURL}${openUrl}" target="_blank" rel="noopener">` +
               `Request via ILLiad</a>`;
       html += '<hr />';
 
       outputDiv.innerHTML = html + outputDiv.innerHTML;
     }
 
-    function makeChicagoCitation({ title, authors, journal, volume, issue, date, startPage, endPage, doi }) {
+    function makeCitation({ title, authors, journal, volume, issue, date, startPage, endPage, doi }) {
       const authorText = formatAuthors(authors);
       let cite = `${authorText}. "(${date}). ${title}." <i>${journal}</i>`;
       if (volume) cite += ` ${volume}`;
