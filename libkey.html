@@ -10,6 +10,19 @@ layout: page
   		<input type="text" id="doiInput" placeholder="Enter DOI or PMID" class="w-75 h4" />
       <button id="lookupBtn" type="button" class="btn btn-primary btn-lg mt-n2">Lookup Item</button>
   		</div>
+  		<div class="form-check mb-2">
+  <input class="form-check-input" type="checkbox" id="multiCheck">
+  <label class="form-check-label" for="multiCheck">
+    Multiple DOIs/PMIDs (one per line)
+  </label>
+</div>
+
+<div id="singleInputContainer">
+  <input type="text" id="doiInput" placeholder="Enter DOI or PMID" class="w-75 h4" />
+</div>
+<div id="multiInputContainer" style="display: none;">
+  <textarea id="doiTextarea" rows="4"></textarea>
+</div>
   		</div>
   <h2 class="text-center mt-4">Results</h2>
   <div id="libkeyoutput" style="margin-top: 20px;"></div>
