@@ -1,0 +1,215 @@
+---
+title: Resolve DOIs and PMIDs
+layout: page
+---
+<div class="container">
+	<div class="row">
+    <div id="doiSearchBox" class="col-12 mb-4">
+  		<div class="text-center">
+            <p>Enter one DOI, PMID, contents of an .ris file, or full citation per line and the tool will help you download or request the item.</p>
+          <div class="mb-2 mx-auto w-75">
+            <label for="doiTextarea" class="form-label visually-hidden">DOIs or PMIDs</label>
+            <textarea id="doiTextarea" class="form-control" rows="5" placeholder="Enter DOI(s), PMID(s), citation(s), or paste a .ris file"></textarea>
+          </div>
+          <button id="lookupBtn" type="button" class="btn btn-primary btn-lg">
+            Lookup Item(s)
+          </button>
+  		</div>
+  <h2 class="text-center mt-4">Results</h2>
+  <div id="libkeyoutput" class="mt-3"></div>
+</div>
+</div>
+  <script>
+    // configuration constants
+    const LIBKEY_API_KEY = "0a776d9c-1749-4b60-8c60-337784a0678a"; // swap with secure value in production
+    const LIBRARY_ID = "3415"; // Third Iron library ID
+    const DISCOVERY_LAYER_NAME = "Library Search";
+    const DISCOVERY_LAYER_OPENURL =
+      "https://suny-bro.primo.exlibrisgroup.com/openurl/01SUNY_BRO/01SUNY_BRO:01SUNY_BRO?";
+    const ILLIAD_OPENURL =
+      "https://brockport.idm.oclc.org/login?url=https://brockport.illiad.oclc.org/illiad/illiad.dll/OpenURL?sid=Library%20DOI%20Resolver%20outside%20of%20ILLiad&";
+
+    // button styling configuration – change class names or color codes as needed
+    const BEST_LINK_BUTTON_CLASS = "success";      // color for direct access link
+    const DISCOVERY_BUTTON_CLASS = "warning";      // color for discovery layer request
+    const ILLIAD_BUTTON_CLASS = "primary";       // color for ILLiad request
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const lookupBtn = document.getElementById("lookupBtn");
+      const doiTextarea = document.getElementById("doiTextarea");
+
+      lookupBtn.addEventListener("click", lookupArticle);
+      // allow quick submit from textarea via Ctrl/Cmd+Enter
+      doiTextarea.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") lookupArticle();
+      });
+    });
+
+    function showError(message) {
+      const outputDiv = document.getElementById("libkeyoutput");
+      // errors get a divider only if there's already content
+      const prefix = outputDiv.innerHTML.trim() ? '<hr />' : '';
+      outputDiv.innerHTML = `${prefix}<p class="text-danger">${message}</p>` + outputDiv.innerHTML;
+    }
+
+    function parseInput(raw) {
+      // Detect plain PMID (single numeric string)
+      const pmidRegex = /^\d+$/;
+      if (pmidRegex.test(raw)) return { type: "pmid", identifier: raw };
+
+      // Robust DOI extraction from arbitrary text (handles doi: prefix, info:doi/, https://doi.org/, or bare 10.x/...)
+      // Capture group 1 is the DOI itself; allow most non-whitespace, non-delimiter chars
+      const doiRegex = /(?:doi:\s*|doi:\/\/|https?:\/\/doi\.org\/|info:\/?doi\/)?(10\.\d{4,9}\/[^\s"'<>,;\)\]]+)/i;
+      const doiMatch = doiRegex.exec(raw);
+      if (doiMatch) {
+        // strip trailing punctuation that often appears when pasting citations
+        let doi = doiMatch[1].replace(/[.,;:]+$/g, "");
+        return { type: "doi", identifier: doi };
+      }
+
+      return {};
+    }
+
+    function detectRisFormat(text) {
+      // RIS format has specific markers: TY  -, DO  -, ER  -, etc.
+      return /^(TY|AU|TI|JO|DO|ER|ID|DA|PY|SN|TT|URL)\s+\-/m.test(text);
+    }
+
+    function parseRisFormat(text) {
+      // Extract DOIs from RIS format records (separated by "ER  -")
+      // RIS records look like: TY  - JOUR\nAU  - Author\nDO  - 10.xxx/yyy\n...\nER  -
+      const identifiers = [];
+      const records = text.split(/ER\s+\-/);
+      
+      for (const record of records) {
+        // Extract DO (Digital Object Identifier) lines
+        const doiMatches = record.match(/^DO\s+\-\s*(.+?)$/gm);
+        if (doiMatches) {
+          for (const match of doiMatches) {
+            const doi = match.replace(/^DO\s+\-\s*/, "").trim().replace(/[.,;:]+$/g, "");
+            if (doi && /^10\.\d{4,9}\//.test(doi)) {
+              identifiers.push({ type: "doi", identifier: doi });
+            }
+          }
+        }
+      }
+      return identifiers;
+    }
+
+    function buildEndpoint(type, id) {
+      return `https://api.thirdiron.com/public/v1/libraries/${LIBRARY_ID}/articles/${type}/${encodeURIComponent(
+        id
+      )}`;
+    }
+
+    async function lookupArticle() {
+      let raw = document.getElementById("doiTextarea").value || "";
+      raw = raw.trim();
+      if (!raw) return showError("Please enter a valid DOI or PMID.");
+
+      // Determine format and extract identifiers
+      let identifiers = [];
+      if (detectRisFormat(raw)) {
+        // RIS format detected
+        identifiers = parseRisFormat(raw);
+        if (identifiers.length === 0) {
+          return showError("No DOIs found in RIS format. Ensure records contain DO  - fields.");
+        }
+      } else {
+        // Plain text format: one identifier per line (DOI, PMID, or citation)
+        const lines = raw.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+        for (const line of lines) {
+          const parsed = parseInput(line);
+          if (parsed.identifier) {
+            identifiers.push(parsed);
+          } else {
+            showError(`Invalid input: ${line}`);
+          }
+        }
+      }
+
+      // Fetch and render each identifier
+      for (const { type, identifier } of identifiers) {
+        const endpoint = buildEndpoint(type, identifier);
+
+        try {
+          const response = await fetch(endpoint, {
+            headers: {
+              Authorization: `Bearer ${LIBKEY_API_KEY}`,
+              "Content-Type": "application/json",
+            },
+          });
+          if (response.status === 404) throw new Error("Article not found.");
+          if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+
+          const data = await response.json();
+          renderArticle(data);
+        } catch (err) {
+          console.error(err);
+          showError(`An error occurred (${identifier}): ${err.message}`);
+        }
+      }
+    }
+
+    function renderArticle(data) {
+      const article = data.data || {};
+      const openUrl = article.linkResolverOpenUrl || "";
+      const params = new URLSearchParams((openUrl.split("?")[1] || ""));
+
+      const rftId = params.get("rft_id") || "";
+      const doiMatch = /(10\.\d{4,9}\/\S+)/.exec(rftId);
+      const metadata = {
+        title: params.get("atitle") || "Title not available",
+        authors: article.authors || "Authors not available",
+        journal: params.get("title") || "Journal not available",
+        volume: params.get("volume"),
+        issue: params.get("issue"),
+        date: params.get("date") || "n.d.",
+        startPage: params.get("spage"),
+        endPage: params.get("epage"),
+        doi: doiMatch ? doiMatch[0] : null,
+      };
+
+      const citation = makeCitation(metadata);
+
+      const bestLinkObj = article.bestIntegratorLink || {};
+      const bestLink = bestLinkObj.bestLink || "";
+      const bestLinkText = bestLinkObj.recommendedLinkText || "View article";
+
+      const outputDiv = document.getElementById("libkeyoutput");
+
+      let html = `<p><strong>Article Found:</strong> ${citation}</p>`;
+      if (bestLink) {
+        html += `<a class="btn btn-${BEST_LINK_BUTTON_CLASS}" href="${bestLink}" target="_blank" rel="noopener">${bestLinkText}</a> `;
+      } else {
+        html += `<p class="text-danger">No link available to access the article.</p>`;
+      }
+      html += `<a class="btn btn-${DISCOVERY_BUTTON_CLASS}" href="${DISCOVERY_LAYER_OPENURL}${openUrl}" target="_blank" rel="noopener">` +
+              `Request via ${DISCOVERY_LAYER_NAME}</a> `;
+      html += `<a class="btn btn-${ILLIAD_BUTTON_CLASS}" href="${ILLIAD_OPENURL}${openUrl}" target="_blank" rel="noopener">` +
+              `Request via ILLiad</a>`;
+
+      // insert a horizontal rule separating this result from any previous ones
+      outputDiv.innerHTML = '<hr />' + html + outputDiv.innerHTML;
+    }
+
+    function makeCitation({ title, authors, journal, volume, issue, date, startPage, endPage, doi }) {
+      const authorText = formatAuthors(authors);
+      let cite = `${authorText}. (${date}). ${title}. <em>${journal},</em> `;
+      if (volume) cite += `<em>${volume}</em>`;
+      if (issue) cite += `(${issue})`;
+      if (startPage) cite += `, ${startPage}`;
+      if (endPage && endPage !== startPage) cite += `-${endPage}. `;
+      if (endPage === startPage) cite += ". ";
+      if (doi) cite += `<a href="https://doi.org/${doi}" target="_blank" rel="noopener">https://doi.org/${doi}</a>`;
+      return cite;
+    }
+
+    function formatAuthors(str) {
+      if (!str || str === "Authors not available") return str;
+      const list = str.split(";").map((s) => s.trim());
+      if (list.length === 1) return list[0];
+      if (list.length === 2) return `${list[0]} and ${list[1]}`;
+      return `${list[0]}, et al.`;
+    }
+  </script>
