@@ -182,9 +182,37 @@ layout: page
       for (const item of identifiers) {
         if (item.type === "citation") {
           renderCitationWithoutIdentifier(item.text);
-          continue;
+          continue;          // don’t try to look up a citation as a DOI/PMID
         }
-        // …existing DOI/PMID lookup code…
+
+        const { type, identifier } = item;
+        const endpoint = buildEndpoint(type, identifier);
+
+        try {
+          const response = await fetch(endpoint, {
+            headers: {
+              Authorization: `Bearer ${LIBKEY_API_KEY}`,
+              "Content-Type": "application/json",
+            },
+          });
+          if (response.status === 404) throw new Error("Article not found in LibKey.");
+          if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+
+          const data = await response.json();
+          renderArticle(data);
+        } catch (err) {
+          console.error(err);
+          if (type === "doi") {
+            const crossrefData = await lookupCrossref(identifier);
+            if (crossrefData) {
+              renderCrossrefArticle(crossrefData, identifier);
+            } else {
+              showError(`An error occurred (${identifier}): ${err.message} and Crossref lookup also failed.`);
+            }
+          } else {
+            showError(`An error occurred (${identifier}): ${err.message}`);
+          }
+        }
       }
     }
 
