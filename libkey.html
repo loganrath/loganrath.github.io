@@ -128,7 +128,7 @@ layout: page
 
     function makeCitation({ title, authors, journal, volume, issue, date, startPage, endPage, doi }) {
       const authorText = formatAuthors(authors);
-      let cite = `${authorText} (${date}). ${title}. <em>${journal}</em>, `;
+      let cite = `${authorText}. (${date}). ${title}. <em>${journal},</em> `;
       if (volume) cite += `<em>${volume}</em>`;
       if (issue) cite += `(${issue})`;
       if (startPage) cite += `, ${startPage}`;
