@@ -96,6 +96,8 @@ div.apa {
 .main-content a:hover {color: #005899 !important; text-decoration: underline !important;}
 .main-content {font-size: 18px;}
 .main-content a.btn-primary:link,.main-content a.btn-primary:visited {color: #ffffff !important;}
-.main-content a.btn-success:link,.main-content a.btn-success:visited {color: #ffffff !important;}
+.main-content a.btn-secondary:link,.main-content a.btn-secondary:visited {color: #ffffff !important;}
+.main-content a.btn-success:link,.main-content a.btn-success:visited {color: #000000 !important;}
 .main-content a.btn-danger:link,.main-content a.btn-danger:visited {color: #ffffff !important;}
+.main-content a.btn-info:link,.main-content a.btn-info:visited {color: #000000 !important;}
 .main-content a.btn-warning:link,.main-content a.btn-warning:visited {color: #000000 !important;}

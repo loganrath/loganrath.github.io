@@ -8,7 +8,7 @@ layout: page
   		<div class="text-center">
   					<p>If you enter a DOI or PMID on this page, this tool will resolve the DOI and provide links to download or request the item.</p>
   		<input type="text" id="doiInput" placeholder="Enter DOI or PMID" class="w-75 h4" />
-      <button class="btn btn-primary btn-lg mt-n2" onclick="lookupArticle()">Lookup Item</button>
+      <button id="lookupBtn" type="button" class="btn btn-primary btn-lg mt-n2">Lookup Item</button>
   		</div>
   		</div>
   <h2 class="text-center mt-4">Results</h2>
@@ -16,132 +16,128 @@ layout: page
 </div>
 </div>
   <script>
-    async function lookupArticle() {
-      const input = document.getElementById("doiInput").value.trim();
+    // configuration constants
+    const LIBKEY_API_KEY = "0a776d9c-1749-4b60-8c60-337784a0678a"; // swap with secure value in production
+    const LIBRARY_ID = "3415"; // Third Iron library ID
+    const DISCOVERY_LAYER_NAME = "Library Search";
+    const DISCOVERY_LAYER_OPENURL =
+      "https://suny-bro.primo.exlibrisgroup.com/openurl/01SUNY_BRO/01SUNY_BRO:01SUNY_BRO?";
+    const ILLIAD_OPENURL =
+      "https://brockport.idm.oclc.org/login?url=https://brockport.illiad.oclc.org/illiad/illiad.dll/OpenURL?sid=Library%20DOI%20Resolver%20outside%20of%20ILLiad&";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("lookupBtn").addEventListener("click", lookupArticle);
+      document.getElementById("doiInput").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") lookupArticle();
+      });
+    });
+
+    function showError(message) {
       const outputDiv = document.getElementById("libkeyoutput");
-      outputDiv.innerHTML += "";
+      outputDiv.innerHTML = `<p class="text-danger">${message}</p><hr />` + outputDiv.innerHTML;
+    }
 
-      if (!input) {
-        outputDiv.innerHTML = "<p style='color: red;'>Please enter a valid DOI or PMID.</p><hr />" + outputDiv.innerHTML;
-        return;
-      }
+    function parseInput(raw) {
+      const doiRegex = /(10\.\d{4,9}\/\S+)/i;
+      const pmidRegex = /^\d+$/;
+      const doiMatch = doiRegex.exec(raw);
+      if (doiMatch) return { type: "doi", identifier: doiMatch[1] };
+      if (pmidRegex.test(raw)) return { type: "pmid", identifier: raw };
+      return {};
+    }
 
-      const LIBKEY_API_KEY = "0a776d9c-1749-4b60-8c60-337784a0678a";
-      const LIBRARY_ID = "3415";
-      const UNIVERSITY_NAME = "Brockport";
-      const ILLiad = "https://brockport.idm.oclc.org/login?url=https://brockport.illiad.oclc.org/illiad/illiad.dll/OpenURL?sid=Library%20DOI%20Resolver%20outside%20of%20ILLiad&"
-      let endpoint = "";
-      let identifier = "";
+    function buildEndpoint(type, id) {
+      return `https://api.thirdiron.com/public/v1/libraries/${LIBRARY_ID}/articles/${type}/${encodeURIComponent(
+        id
+      )}`;
+    }
 
-      // Detect if input is a DOI or PMID
-      if (input.startsWith("https://doi.org/") || input.startsWith("http://doi.org/") || input.startsWith("doi")) {
-        identifier = input.substring(input.indexOf("10."));
-        endpoint = `https://api.thirdiron.com/public/v1/libraries/${LIBRARY_ID}/articles/doi/${encodeURIComponent(identifier)}`;
-      } else if (input.startsWith("10.")) {
-        identifier = input;
-        endpoint = `https://api.thirdiron.com/public/v1/libraries/${LIBRARY_ID}/articles/doi/${encodeURIComponent(identifier)}`;
-      } else if (!isNaN(input)) {
-        identifier = input;
-        endpoint = `https://api.thirdiron.com/public/v1/libraries/${LIBRARY_ID}/articles/pmid/${encodeURIComponent(identifier)}`;
-      } else {
-        outputDiv.innerHTML = "<p style='color: red;'>Invalid input. Please enter a valid DOI or PMID.</p><hr />" + outputDiv.innerHTML;
-        return;
-      }
+    async function lookupArticle() {
+      const raw = document.getElementById("doiInput").value.trim();
+      const outputDiv = document.getElementById("libkeyoutput");
+      outputDiv.innerHTML = "";
+
+      if (!raw) return showError("Please enter a valid DOI or PMID.");
+
+      const { type, identifier } = parseInput(raw);
+      if (!identifier) return showError("Invalid input. Please enter a valid DOI or PMID.");
+
+      const endpoint = buildEndpoint(type, identifier);
 
       try {
         const response = await fetch(endpoint, {
-          method: "GET",
           headers: {
-            "Authorization": `Bearer ${LIBKEY_API_KEY}`,
-            "Content-Type": "application/json"
-          }
+            Authorization: `Bearer ${LIBKEY_API_KEY}`,
+            "Content-Type": "application/json",
+          },
         });
-
-        if (response.status === 404) {
-          outputDiv.innerHTML = "<p style='color: red;'>Error 404: Article not found. Please check the DOI/PMID and try again.</p><hr />" + outputDiv.innerHTML;
-          return;
-        }
-
-        if (!response.ok) {
-          throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
+        if (response.status === 404) throw new Error("Article not found.");
+        if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
 
         const data = await response.json();
-
-        // Extract data from the response
-        const article = data.data || {};
-        const linkResolverOpenUrl = article.linkResolverOpenUrl || "";
-        const openUrlParams = new URLSearchParams(linkResolverOpenUrl.split("?")[1]);
-
-        // Extract metadata from OpenURL
-        const title = openUrlParams.get("atitle") || "Title not available";
-        const authors = article.authors || "Authors not available";
-        const journal = openUrlParams.get("title") || "Journal not available";
-        const volume = openUrlParams.get("volume") || null;
-        const issue = openUrlParams.get("issue") || null;
-        const date = openUrlParams.get("date") || "n.d.";
-        const startPage = openUrlParams.get("spage") || null;
-        const endPage = openUrlParams.get("epage") || null;
-        const doi = openUrlParams.get("rft_id")?.includes("doi") ? openUrlParams.get("rft_id").split("/").pop() : null;
-        const bestLink = article.bestIntegratorLink?.bestLink || null;
-        const bestLinkText = article.bestIntegratorLink.recommendedLinkText;
-
-        // Format authors for Chicago-style citation
-        function formatAuthors(authors) {
-          if (!authors || authors === "Authors not available") return "Authors not available";
-
-          const authorList = authors.split(";").map((author) => author.trim());
-          if (authorList.length === 1) {
-            return authorList[0];
-          } else if (authorList.length === 2) {
-            return `${authorList[0]} and ${authorList[1]}`;
-          } else {
-            return `${authorList[0]}, et al.`;
-          }
-        }
-
-        // Generate Chicago-style citation
-        const chicagoCitation = `${formatAuthors(authors)}. "${title}." <i>${journal}</i> ${volume ? volume : ""}${issue ? `, no. ${issue}` : ""} (${date}): ${
-          startPage && endPage ? `${startPage}-${endPage}` : "n.p."
-        }. ${doi ? `<a href="https://doi.org/${doi}" target="_blank">${doi}</a>` : ""}`;
-
-        // Display the citation and the "Find Through Brockport" button
-        outputDiv.innerHTML = `
-          <p><strong>Article Found:</strong> ${chicagoCitation}</p>
-          ${
-            bestLink
-              ? `<a class="btn btn-primary" href="${bestLink}" target="_blank">${bestLinkText}</a>`
-              : "<p style='color: red;'>No link available to access the article.</p>"
-          }
-          <button class="btn btn-primary" target="_blank" href="${ILLiad}${linkResolverOpenUrl}">Request via ILLiad</button>
-          <hr />
-        ` + outputDiv.innerHTML;
-      } catch (error) {
-        console.error("An error occurred:", error);
-        outputDiv.innerHTML = `<p style='color: red;'>An error occurred: ${error.message}</p>` + outputDiv.innerHTML;
+        renderArticle(data);
+      } catch (err) {
+        console.error(err);
+        showError(`An error occurred: ${err.message}`);
       }
     }
 
-    // Helper function to format authors for Chicago-style citation
-    function formatAuthors(authors) {
-      if (!authors || authors === "Authors not available") return "Authors not available";
+    function renderArticle(data) {
+      const article = data.data || {};
+      const openUrl = article.linkResolverOpenUrl || "";
+      const params = new URLSearchParams((openUrl.split("?")[1] || ""));
 
-      const authorList = authors.split(";").map((author) => author.trim());
-      if (authorList.length === 1) {
-        const [lastName, firstName] = authorList[0].split(", ");
-        return `${lastName}, ${firstName}`;
-      } else if (authorList.length === 2 || authorList.length === 3) {
-        return authorList
-          .map((author, index) => {
-            const [lastName, firstName] = author.split(", ");
-            if (index === 0) return `${lastName}, ${firstName}`;
-            return `${firstName} ${lastName}`;
-          })
-          .join(", ")
-          .replace(/, ([^,]*)$/, " and $1");
+      const metadata = {
+        title: params.get("atitle") || "Title not available",
+        authors: article.authors || "Authors not available",
+        journal: params.get("title") || "Journal not available",
+        volume: params.get("volume"),
+        issue: params.get("issue"),
+        date: params.get("date") || "n.d.",
+        startPage: params.get("spage"),
+        endPage: params.get("epage"),
+        doi: params.get("rft_id")?.includes("doi") ? params.get("rft_id").split("/").pop() : null,
+      };
+
+      const citation = makeChicagoCitation(metadata);
+
+      const bestLinkObj = article.bestIntegratorLink || {};
+      const bestLink = bestLinkObj.bestLink || "";
+      const bestLinkText = bestLinkObj.recommendedLinkText || "View article";
+
+      const outputDiv = document.getElementById("libkeyoutput");
+
+      let html = `<p><strong>Article Found:</strong> ${citation}</p>`;
+      if (bestLink) {
+        html += `<a class="btn btn-success" href="${bestLink}" target="_blank" rel="noopener">${bestLinkText}</a> `;
       } else {
-        const [firstLastName, firstFirstName] = authorList[0].split(", ");
-        return `${firstLastName}, ${firstFirstName}, et al.`;
+        html += `<p class="text-danger">No link available to access the article.</p>`;
       }
+      html += `<a class="btn btn-primary" href="${DISCOVERY_LAYER_OPENURL}${openUrl}" target="_blank" rel="noopener">` +
+              `Request via ${DISCOVERY_LAYER_NAME}</a> `;
+      html += `<a class="btn btn-secondary" href="${ILLIAD_OPENURL}${openUrl}" target="_blank" rel="noopener">` +
+              `Request via ILLiad</a>`;
+      html += '<hr />';
+
+      outputDiv.innerHTML = html + outputDiv.innerHTML;
+    }
+
+    function makeChicagoCitation({ title, authors, journal, volume, issue, date, startPage, endPage, doi }) {
+      const authorText = formatAuthors(authors);
+      let cite = `${authorText}. "${title}." <i>${journal}</i>`;
+      if (volume) cite += ` ${volume}`;
+      if (issue) cite += `, no. ${issue}`;
+      cite += ` (${date}): `;
+      cite += startPage && endPage ? `${startPage}-${endPage}` : "n.p.";
+      if (doi) cite += `. <a href="https://doi.org/${doi}" target="_blank" rel="noopener">${doi}</a>`;
+      return cite;
+    }
+
+    function formatAuthors(str) {
+      if (!str || str === "Authors not available") return str;
+      const list = str.split(";").map((s) => s.trim());
+      if (list.length === 1) return list[0];
+      if (list.length === 2) return `${list[0]} and ${list[1]}`;
+      return `${list[0]}, et al.`;
     }
   </script>
