@@ -27,8 +27,8 @@ layout: page
 
     // button styling configuration – change class names or color codes as needed
     const BEST_LINK_BUTTON_CLASS = "success";      // color for direct access link
-    const DISCOVERY_BUTTON_CLASS = "primary";      // color for discovery layer request
-    const ILLIAD_BUTTON_CLASS = "secondary";       // color for ILLiad request
+    const DISCOVERY_BUTTON_CLASS = "warning";      // color for discovery layer request
+    const ILLIAD_BUTTON_CLASS = "primary";       // color for ILLiad request
 
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("lookupBtn").addEventListener("click", lookupArticle);
@@ -133,6 +133,7 @@ layout: page
       if (issue) cite += `(${issue})`;
       if (startPage) cite += `, ${startPage}`;
       if (endPage && endPage !== startPage) cite += `-${endPage}. `;
+      if (endPage === startPage) cite += ". ";
       if (doi) cite += `<a href="https://doi.org/${doi}" target="_blank" rel="noopener">https://doi.org/${doi}</a>`;
       return cite;
     }
