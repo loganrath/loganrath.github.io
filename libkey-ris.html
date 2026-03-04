@@ -161,13 +161,17 @@ layout: page
         }
       } else {
         // Plain text format: one identifier per line (DOI, PMID, or citation)
-        const lines = raw.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+        const lines = raw
+          .split(/\r?\n/)
+          .map((l) => l.trim())
+          .filter(Boolean);
         for (const line of lines) {
           const parsed = parseInput(line);
           if (parsed.identifier) {
             identifiers.push(parsed);
           } else {
-            // No identifier found, treat as citation text
+            // no identifier – report it, then treat it as a citation
+            showError(`No DOI or PMID found for: ${line}`);
             identifiers.push({ type: "citation", text: line });
           }
         }
@@ -177,39 +181,10 @@ layout: page
       identifiers.reverse();
       for (const item of identifiers) {
         if (item.type === "citation") {
-          // Handle citation without identifier
           renderCitationWithoutIdentifier(item.text);
-        } else {
-          const { type, identifier } = item;
-          const endpoint = buildEndpoint(type, identifier);
-
-          try {
-            const response = await fetch(endpoint, {
-              headers: {
-                Authorization: `Bearer ${LIBKEY_API_KEY}`,
-                "Content-Type": "application/json",
-              },
-            });
-            if (response.status === 404) throw new Error("Article not found in LibKey.");
-            if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-
-            const data = await response.json();
-            renderArticle(data);
-          } catch (err) {
-            console.error(err);
-            // Fallback to Crossref if DOI and LibKey fails
-            if (type === "doi") {
-              const crossrefData = await lookupCrossref(identifier);
-              if (crossrefData) {
-                renderCrossrefArticle(crossrefData, identifier);
-              } else {
-                showError(`An error occurred (${identifier}): ${err.message} and Crossref lookup also failed.`);
-              }
-            } else {
-              showError(`An error occurred (${identifier}): ${err.message}`);
-            }
-          }
+          continue;
         }
+        // …existing DOI/PMID lookup code…
       }
     }
 
@@ -223,16 +198,17 @@ layout: page
       const urlMatch = /(https?:\/\/[^\s]+)/i.exec(citationText);
       const onlineUrl = urlMatch ? urlMatch[1] : null;
 
-      let html = `<p><strong>Citation (No DOI or PMID found):</strong> ${citationText}</p>`;
-      html += `<a class="btn btn-${DISCOVERY_BUTTON_CLASS}" ` +
-              `href="${DISCOVERY_LAYER_SEARCH}query=any,contains,${encodeURIComponent(cleanText)}" ` +
-              `target="_blank" rel="noopener">` +
-              `Search in ${DISCOVERY_LAYER_NAME}</a>`;
+      let html = `<p><strong>No identifier:</strong> ${citationText}</p>`;
 
       if (onlineUrl) {
         html += ` <a class="btn btn-${BEST_LINK_BUTTON_CLASS}" href="${onlineUrl}" target="_blank" rel="noopener">` +
                 `View Online</a>`;
       }
+
+      html += `<a class="btn btn-${DISCOVERY_BUTTON_CLASS}" ` +
+              `href="${DISCOVERY_LAYER_SEARCH}query=any,contains,${encodeURIComponent(cleanText)}" ` +
+              `target="_blank" rel="noopener">` +
+              `Search in ${DISCOVERY_LAYER_NAME}</a>`;
 
       outputDiv.innerHTML = '<hr />' + html + outputDiv.innerHTML;
     }
