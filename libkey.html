@@ -7,20 +7,20 @@ layout: page
     <div id="doiSearchBox" class="col-12 mb-4">
   		<div class="text-center">
   					<p>If you enter a DOI or PMID on this page, this tool will resolve the DOI and provide links to download or request the item.</p>
-  		<div class="form-check form-switch mb-3">
+  <div id="singleInputContainer" class="mb-2 mx-auto w-75">
+    <input type="text" id="doiInput" class="form-control"
+           placeholder="Enter DOI or PMID" />
+  </div>
+  <div id="multiInputContainer" class="mb-2 mx-auto w-75"
+       style="display: none;">
+    <textarea id="doiTextarea" class="form-control" rows="4"
+              placeholder="One DOI or PMID per line"></textarea>
+  </div>
+    <div class="form-check form-switch mb-3 mx-auto w-50">
     <input class="form-check-input" type="checkbox" id="multiCheck">
     <label class="form-check-label" for="multiCheck">
       Multiple DOIs/PMIDs (one per line)
     </label>
-  </div>
-  <div id="singleInputContainer" class="mb-2 mx-auto" style="max-width:500px;">
-    <input type="text" id="doiInput" class="form-control"
-           placeholder="Enter DOI or PMID" />
-  </div>
-  <div id="multiInputContainer" class="mb-2 mx-auto"
-       style="display: none; max-width:500px;">
-    <textarea id="doiTextarea" class="form-control" rows="4"
-              placeholder="One DOI or PMID per line"></textarea>
   </div>
   <button id="lookupBtn" type="button" class="btn btn-primary btn-lg">
     Lookup Item(s)
