@@ -53,20 +53,11 @@ layout: page
     }
 
     function parseInput(raw) {
-      // Detect plain PMID (single numeric string)
+      const doiRegex = /(10\.\d{4,9}\/\S+)/i;
       const pmidRegex = /^\d+$/;
-      if (pmidRegex.test(raw)) return { type: "pmid", identifier: raw };
-
-      // Robust DOI extraction from arbitrary text (handles doi: prefix, info:doi/, https://doi.org/, or bare 10.x/...)
-      // Capture group 1 is the DOI itself; allow most non-whitespace, non-delimiter chars
-      const doiRegex = /(?:doi:\s*|doi:\/\/|https?:\/\/doi\.org\/|info:\/?doi\/)?(10\.\d{4,9}\/[^\s"'<>,;\)\]]+)/i;
       const doiMatch = doiRegex.exec(raw);
-      if (doiMatch) {
-        // strip trailing punctuation that often appears when pasting citations
-        let doi = doiMatch[1].replace(/[.,;:]+$/g, "");
-        return { type: "doi", identifier: doi };
-      }
-
+      if (doiMatch) return { type: "doi", identifier: doiMatch[1] };
+      if (pmidRegex.test(raw)) return { type: "pmid", identifier: raw };
       return {};
     }
 
