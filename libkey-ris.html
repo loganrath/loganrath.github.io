@@ -3,9 +3,9 @@ title: Resolve DOIs and PMIDs
 layout: page
 ---
 <div class="container">
-	<div class="row">
+    <div class="row">
     <div id="doiSearchBox" class="col-12 mb-4">
-  		<div class="text-center">
+          <div class="text-center">
             <p>Enter one DOI, PMID, contents of an .ris file, or full citation per line and the tool will help you download or request the item.</p>
           <div class="mb-2 mx-auto w-75">
             <label for="doiTextarea" class="form-label visually-hidden">DOIs or PMIDs</label>
@@ -14,7 +14,7 @@ layout: page
           <button id="lookupBtn" type="button" class="btn btn-primary btn-lg">
             Lookup Item(s)
           </button>
-  		</div>
+          </div>
   <h2 class="text-center mt-4">Results</h2>
   <div id="libkeyoutput" class="mt-3"></div>
 </div>
@@ -28,6 +28,7 @@ layout: page
       "https://suny-bro.primo.exlibrisgroup.com/openurl/01SUNY_BRO/01SUNY_BRO:01SUNY_BRO?";
     const ILLIAD_OPENURL =
       "https://brockport.idm.oclc.org/login?url=https://brockport.illiad.oclc.org/illiad/illiad.dll/OpenURL?sid=Library%20DOI%20Resolver%20outside%20of%20ILLiad&";
+    const CROSSREF_API_URL = "https://api.crossref.org/v1/works/";
 
     // button styling configuration – change class names or color codes as needed
     const BEST_LINK_BUTTON_CLASS = "success";      // color for direct access link
@@ -102,6 +103,47 @@ layout: page
       )}`;
     }
 
+    async function lookupCrossref(doi) {
+      try {
+        const response = await fetch(`${CROSSREF_API_URL}${encodeURIComponent(doi)}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) throw new Error(`Crossref error ${response.status}`);
+        
+        const data = await response.json();
+        return data.message || null;
+      } catch (err) {
+        console.error("Crossref lookup failed:", err);
+        return null;
+      }
+    }
+
+    function renderCrossrefArticle(crossrefData, identifier) {
+      const { title, author, "container-title": journal, volume, issue, issued, page, DOI } = crossrefData;
+      
+      const metadata = {
+        title: title?.[0] || "Title not available",
+        authors: author ? author.map(a => `${a.given} ${a.family}`).join("; ") : "Authors not available",
+        journal: journal?.[0] || "Journal not available",
+        volume: volume,
+        issue: issue,
+        date: issued?.["date-parts"]?.[0]?.[0] || "n.d.",
+        startPage: page?.split("-")?.[0],
+        endPage: page?.split("-")?.[1],
+        doi: DOI || null,
+      };
+
+      const citation = makeCitation(metadata);
+      const outputDiv = document.getElementById("libkeyoutput");
+
+      let html = `<p><strong>Article Found (via Crossref):</strong> ${citation}</p>`;
+      html += `<p class="text-muted"><small>Full access link not available through library.</small></p>`;
+
+      outputDiv.innerHTML = '<hr />' + html + outputDiv.innerHTML;
+    }
+
     async function lookupArticle() {
       let raw = document.getElementById("doiTextarea").value || "";
       raw = raw.trim();
@@ -140,14 +182,24 @@ layout: page
               "Content-Type": "application/json",
             },
           });
-          if (response.status === 404) throw new Error("Article not found.");
+          if (response.status === 404) throw new Error("Article not found in LibKey.");
           if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
 
           const data = await response.json();
           renderArticle(data);
         } catch (err) {
           console.error(err);
-          showError(`An error occurred (${identifier}): ${err.message}`);
+          // Fallback to Crossref if DOI and LibKey fails
+          if (type === "doi") {
+            const crossrefData = await lookupCrossref(identifier);
+            if (crossrefData) {
+              renderCrossrefArticle(crossrefData, identifier);
+            } else {
+              showError(`An error occurred (${identifier}): ${err.message} and Crossref lookup also failed.`);
+            }
+          } else {
+            showError(`An error occurred (${identifier}): ${err.message}`);
+          }
         }
       }
     }
