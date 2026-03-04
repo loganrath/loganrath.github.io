@@ -24,6 +24,8 @@ layout: page
     const LIBKEY_API_KEY = "0a776d9c-1749-4b60-8c60-337784a0678a"; // swap with secure value in production
     const LIBRARY_ID = "3415"; // Third Iron library ID
     const DISCOVERY_LAYER_NAME = "Library Search";
+    const DISCOVERY_LAYER_SEARCH =
+      "https://suny-bro.primo.exlibrisgroup.com/discovery/search?institution=01SUNY_BRO&vid=01SUNY_BRO%3A01SUNY_BRO&tab=Everything&search_scope=everythingSLS&mode=Basic&displayMode=full&bulkSize=10&highlight=true&dum=true&displayField=all&pcAvailabiltyMode=true&searchOptionsRadio=everything&";
     const DISCOVERY_LAYER_OPENURL =
       "https://suny-bro.primo.exlibrisgroup.com/openurl/01SUNY_BRO/01SUNY_BRO:01SUNY_BRO?";
     const ILLIAD_OPENURL =
@@ -216,7 +218,7 @@ layout: page
       
       let html = `<p><strong>Citation (No DOI or PMID found):</strong></p>`;
       html += `<p>${citationText}</p>`;
-      html += `<a class="btn btn-${DISCOVERY_BUTTON_CLASS}" href="${DISCOVERY_LAYER_OPENURL}q=${encodeURIComponent(citationText)}" target="_blank" rel="noopener">` +
+      html += `<a class="btn btn-${DISCOVERY_BUTTON_CLASS}" href="${DISCOVERY_LAYER_SEARCH}query=any,contains,${encodeURIComponent(citationText)}" target="_blank" rel="noopener">` +
               `Search in ${DISCOVERY_LAYER_NAME}</a>`;
 
       outputDiv.innerHTML = '<hr />' + html + outputDiv.innerHTML;
