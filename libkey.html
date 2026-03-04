@@ -7,25 +7,27 @@ layout: page
     <div id="doiSearchBox" class="col-12 mb-4">
   		<div class="text-center">
   					<p>If you enter a DOI or PMID on this page, this tool will resolve the DOI and provide links to download or request the item.</p>
-  		<input type="text" id="doiInput" placeholder="Enter DOI or PMID" class="w-75 h4" />
-      <button id="lookupBtn" type="button" class="btn btn-primary btn-lg mt-n2">Lookup Item</button>
-  		</div>
-  		<div class="form-check mb-2">
-  <input class="form-check-input" type="checkbox" id="multiCheck">
-  <label class="form-check-label" for="multiCheck">
-    Multiple DOIs/PMIDs (one per line)
-  </label>
-</div>
-
-<div id="singleInputContainer">
-  <input type="text" id="doiInput" placeholder="Enter DOI or PMID" class="w-75 h4" />
-</div>
-<div id="multiInputContainer" style="display: none;">
-  <textarea id="doiTextarea" rows="4"></textarea>
-</div>
+  		<div class="form-check form-switch mb-3">
+    <input class="form-check-input" type="checkbox" id="multiCheck">
+    <label class="form-check-label" for="multiCheck">
+      Multiple DOIs/PMIDs (one per line)
+    </label>
+  </div>
+  <div id="singleInputContainer" class="mb-2 mx-auto" style="max-width:500px;">
+    <input type="text" id="doiInput" class="form-control"
+           placeholder="Enter DOI or PMID" />
+  </div>
+  <div id="multiInputContainer" class="mb-2 mx-auto"
+       style="display: none; max-width:500px;">
+    <textarea id="doiTextarea" class="form-control" rows="4"
+              placeholder="One DOI or PMID per line"></textarea>
+  </div>
+  <button id="lookupBtn" type="button" class="btn btn-primary btn-lg">
+    Lookup Item(s)
+  </button>
   		</div>
   <h2 class="text-center mt-4">Results</h2>
-  <div id="libkeyoutput" style="margin-top: 20px;"></div>
+  <div id="libkeyoutput" class="mt-3"></div>
 </div>
 </div>
   <script>
