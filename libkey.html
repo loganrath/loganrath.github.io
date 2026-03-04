@@ -31,10 +31,29 @@ layout: page
     const ILLIAD_BUTTON_CLASS = "primary";       // color for ILLiad request
 
     document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("lookupBtn").addEventListener("click", lookupArticle);
-      document.getElementById("doiInput").addEventListener("keydown", (e) => {
+      const lookupBtn = document.getElementById("lookupBtn");
+      const doiInput = document.getElementById("doiInput");
+      const doiTextarea = document.getElementById("doiTextarea");
+      const multiCheck = document.getElementById("multiCheck");
+      const singleContainer = document.getElementById("singleInputContainer");
+      const multiContainer = document.getElementById("multiInputContainer");
+
+      // toggle between single-line and multiline modes
+      multiCheck.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          singleContainer.style.display = "none";
+          multiContainer.style.display = "";
+        } else {
+          singleContainer.style.display = "";
+          multiContainer.style.display = "none";
+        }
+      });
+
+      lookupBtn.addEventListener("click", lookupArticle);
+      doiInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter") lookupArticle();
       });
+      // textarea naturally handles newlines, no enter listener needed
     });
 
     function showError(message) {
@@ -60,32 +79,44 @@ layout: page
     }
 
     async function lookupArticle() {
-      const raw = document.getElementById("doiInput").value.trim();
+      const multi = document.getElementById("multiCheck").checked;
       const outputDiv = document.getElementById("libkeyoutput");
-      // do not scribble a divider until we actually render something
+
+      // pick the correct source and split if multiline
+      let raw = multi
+        ? document.getElementById("doiTextarea").value
+        : document.getElementById("doiInput").value;
+      raw = raw.trim();
 
       if (!raw) return showError("Please enter a valid DOI or PMID.");
 
-      const { type, identifier } = parseInput(raw);
-      if (!identifier) return showError("Invalid input. Please enter a valid DOI or PMID.");
+      const lines = multi
+        ? raw.split(/\r?\n/).map((l) => l.trim()).filter(Boolean)
+        : [raw];
 
-      const endpoint = buildEndpoint(type, identifier);
+      for (const line of lines) {
+        const { type, identifier } = parseInput(line);
+        if (!identifier) {
+          showError(`Invalid input: ${line}`);
+          continue;
+        }
+        const endpoint = buildEndpoint(type, identifier);
+        try {
+          const response = await fetch(endpoint, {
+            headers: {
+              Authorization: `Bearer ${LIBKEY_API_KEY}`,
+              "Content-Type": "application/json",
+            },
+          });
+          if (response.status === 404) throw new Error("Article not found.");
+          if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
 
-      try {
-        const response = await fetch(endpoint, {
-          headers: {
-            Authorization: `Bearer ${LIBKEY_API_KEY}`,
-            "Content-Type": "application/json",
-          },
-        });
-        if (response.status === 404) throw new Error("Article not found.");
-        if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-
-        const data = await response.json();
-        renderArticle(data);
-      } catch (err) {
-        console.error(err);
-        showError(`An error occurred: ${err.message}`);
+          const data = await response.json();
+          renderArticle(data);
+        } catch (err) {
+          console.error(err);
+          showError(`An error occurred (${line}): ${err.message}`);
+        }
       }
     }
 
