@@ -165,43 +165,61 @@ layout: page
           if (parsed.identifier) {
             identifiers.push(parsed);
           } else {
-            showError(`Invalid input: ${line}`);
+            // No identifier found, treat as citation text
+            identifiers.push({ type: "citation", text: line });
           }
         }
       }
 
       // Fetch and render each identifier in reverse order
       identifiers.reverse();
-      for (const { type, identifier } of identifiers) {
-        const endpoint = buildEndpoint(type, identifier);
+      for (const item of identifiers) {
+        if (item.type === "citation") {
+          // Handle citation without identifier
+          renderCitationWithoutIdentifier(item.text);
+        } else {
+          const { type, identifier } = item;
+          const endpoint = buildEndpoint(type, identifier);
 
-        try {
-          const response = await fetch(endpoint, {
-            headers: {
-              Authorization: `Bearer ${LIBKEY_API_KEY}`,
-              "Content-Type": "application/json",
-            },
-          });
-          if (response.status === 404) throw new Error("Article not found in LibKey.");
-          if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+          try {
+            const response = await fetch(endpoint, {
+              headers: {
+                Authorization: `Bearer ${LIBKEY_API_KEY}`,
+                "Content-Type": "application/json",
+              },
+            });
+            if (response.status === 404) throw new Error("Article not found in LibKey.");
+            if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
 
-          const data = await response.json();
-          renderArticle(data);
-        } catch (err) {
-          console.error(err);
-          // Fallback to Crossref if DOI and LibKey fails
-          if (type === "doi") {
-            const crossrefData = await lookupCrossref(identifier);
-            if (crossrefData) {
-              renderCrossrefArticle(crossrefData, identifier);
+            const data = await response.json();
+            renderArticle(data);
+          } catch (err) {
+            console.error(err);
+            // Fallback to Crossref if DOI and LibKey fails
+            if (type === "doi") {
+              const crossrefData = await lookupCrossref(identifier);
+              if (crossrefData) {
+                renderCrossrefArticle(crossrefData, identifier);
+              } else {
+                showError(`An error occurred (${identifier}): ${err.message} and Crossref lookup also failed.`);
+              }
             } else {
-              showError(`An error occurred (${identifier}): ${err.message} and Crossref lookup also failed.`);
+              showError(`An error occurred (${identifier}): ${err.message}`);
             }
-          } else {
-            showError(`An error occurred (${identifier}): ${err.message}`);
           }
         }
       }
+    }
+
+    function renderCitationWithoutIdentifier(citationText) {
+      const outputDiv = document.getElementById("libkeyoutput");
+      
+      let html = `<p><strong>Citation (No DOI or PMID found):</strong></p>`;
+      html += `<p>${citationText}</p>`;
+      html += `<a class="btn btn-${DISCOVERY_BUTTON_CLASS}" href="${DISCOVERY_LAYER_OPENURL}q=${encodeURIComponent(citationText)}" target="_blank" rel="noopener">` +
+              `Search in ${DISCOVERY_LAYER_NAME}</a>`;
+
+      outputDiv.innerHTML = '<hr />' + html + outputDiv.innerHTML;
     }
 
     function renderArticle(data) {
