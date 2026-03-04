@@ -124,12 +124,11 @@ layout: page
 
     function makeChicagoCitation({ title, authors, journal, volume, issue, date, startPage, endPage, doi }) {
       const authorText = formatAuthors(authors);
-      let cite = `${authorText}. "${title}." <i>${journal}</i>`;
+      let cite = `${authorText}. "(${date}). ${title}." <i>${journal}</i>`;
       if (volume) cite += ` ${volume}`;
-      if (issue) cite += `,.${issue}`;
-      cite += ` (${date}): `;
-      cite += startPage && endPage ? `${startPage}-${endPage}` : "n.p.";
-      if (doi) cite += `. <a href="https://doi.org/${doi}" target="_blank" rel="noopener">${doi}</a>`;
+      if (issue) cite += `,(${issue})`;
+      cite += startPage && endPage ? `": ". ${startPage}-${endPage}` : "n.p.";
+      if (doi) cite += `. <a href="https://doi.org/${doi}" target="_blank" rel="noopener">https://doi.org/${doi}</a>`;
       return cite;
     }
 
