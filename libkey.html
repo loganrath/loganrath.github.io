@@ -39,7 +39,9 @@ layout: page
 
     function showError(message) {
       const outputDiv = document.getElementById("libkeyoutput");
-      outputDiv.innerHTML = `<p class="text-danger">${message}</p><hr />` + outputDiv.innerHTML;
+      // errors get a divider only if there's already content
+      const prefix = outputDiv.innerHTML.trim() ? '<hr />' : '';
+      outputDiv.innerHTML = `${prefix}<p class="text-danger">${message}</p>` + outputDiv.innerHTML;
     }
 
     function parseInput(raw) {
@@ -60,7 +62,7 @@ layout: page
     async function lookupArticle() {
       const raw = document.getElementById("doiInput").value.trim();
       const outputDiv = document.getElementById("libkeyoutput");
-      outputDiv.innerHTML = "<hr />" + outputDiv.innerHTML; // separate new results
+      // do not scribble a divider until we actually render something
 
       if (!raw) return showError("Please enter a valid DOI or PMID.");
 
@@ -92,6 +94,8 @@ layout: page
       const openUrl = article.linkResolverOpenUrl || "";
       const params = new URLSearchParams((openUrl.split("?")[1] || ""));
 
+      const rftId = params.get("rft_id") || "";
+      const doiMatch = /(10\.\d{4,9}\/\S+)/.exec(rftId);
       const metadata = {
         title: params.get("atitle") || "Title not available",
         authors: article.authors || "Authors not available",
@@ -101,7 +105,7 @@ layout: page
         date: params.get("date") || "n.d.",
         startPage: params.get("spage"),
         endPage: params.get("epage"),
-        doi: params.get("rft_id")?.includes("doi") ? params.get("rft_id").split("/").pop() : null,
+        doi: doiMatch ? doiMatch[0] : null,
       };
 
       const citation = makeCitation(metadata);
@@ -123,7 +127,8 @@ layout: page
       html += `<a class="btn btn-${ILLIAD_BUTTON_CLASS}" href="${ILLIAD_OPENURL}${openUrl}" target="_blank" rel="noopener">` +
               `Request via ILLiad</a>`;
 
-      outputDiv.innerHTML = html + outputDiv.innerHTML;
+      // insert a horizontal rule separating this result from any previous ones
+      outputDiv.innerHTML = '<hr />' + html + outputDiv.innerHTML;
     }
 
     function makeCitation({ title, authors, journal, volume, issue, date, startPage, endPage, doi }) {
