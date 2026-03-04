@@ -28,6 +28,7 @@ layout: page
 
       const LIBKEY_API_KEY = "0a776d9c-1749-4b60-8c60-337784a0678a";
       const LIBRARY_ID = "3415";
+      const UNIVERSITY_NAME = "Brockport";
       const ILLiad = "https://brockport.idm.oclc.org/login?url=https://brockport.illiad.oclc.org/illiad/illiad.dll/OpenURL?sid=Library%20DOI%20Resolver%20outside%20of%20ILLiad&"
       let endpoint = "";
       let identifier = "";
@@ -69,29 +70,49 @@ layout: page
 
         // Extract data from the response
         const article = data.data || {};
-        const title = article.title || "Title not available";
-        const authors = article.authors || "Authors not available";
-        const date = article.date || "n.d.";
-        const doi = article.doi || "";
-        const pmid = article.pmid || "";
-        const linkResolverOpenUrl = article.linkResolverOpenUrl.split("?");
-        const openurl = linkResolverOpenUrl[1];
+        const linkResolverOpenUrl = article.linkResolverOpenUrl || "";
+        const openUrlParams = new URLSearchParams(linkResolverOpenUrl.split("?")[1]);
+
+        // Extract metadata from OpenURL
+        const title = openUrlParams.get("atitle") || "Title not available";
+        const authors = openUrlParams.get("aulast") || "Authors not available";
+        const journal = openUrlParams.get("title") || "Journal not available";
+        const volume = openUrlParams.get("volume") || null;
+        const issue = openUrlParams.get("issue") || null;
+        const date = openUrlParams.get("date") || "n.d.";
+        const startPage = openUrlParams.get("spage") || null;
+        const endPage = openUrlParams.get("epage") || null;
+        const doi = openUrlParams.get("rft_id")?.includes("doi") ? openUrlParams.get("rft_id").split("/").pop() : null;
         const bestLink = article.bestIntegratorLink?.bestLink || null;
 
+        // Format authors for Chicago-style citation
+        function formatAuthors(authors) {
+          if (!authors || authors === "Authors not available") return "Authors not available";
+
+          const authorList = authors.split(";").map((author) => author.trim());
+          if (authorList.length === 1) {
+            return authorList[0];
+          } else if (authorList.length === 2) {
+            return `${authorList[0]} and ${authorList[1]}`;
+          } else {
+            return `${authorList[0]}, et al.`;
+          }
+        }
+
         // Generate Chicago-style citation
-        const chicagoCitation = `${formatAuthors(authors)}. "${title}." <i>Cochrane Library</i> (${date}). ${
-          doi ? `<a href="https://doi.org/${doi}" target="_blank">${doi}</a>` : ""
-        }`;
+        const chicagoCitation = `${formatAuthors(authors)}. "${title}." <i>${journal}</i> ${volume ? volume : ""}${issue ? `, no. ${issue}` : ""} (${date}): ${
+          startPage && endPage ? `${startPage}-${endPage}` : "n.p."
+        }. ${doi ? `<a href="https://doi.org/${doi}" target="_blank">${doi}</a>` : ""}`;
 
         // Display the citation and the "Find Through Brockport" button
         outputDiv.innerHTML = `
           <p><strong>Article Found:</strong> ${chicagoCitation}</p>
           ${
             bestLink
-              ? `<button class="btn btn-primary" onclick="window.open('${bestLink}', '_blank')">Find Through Brockport</button>`
+              ? `<a class="btn btn-primary" href="${bestLink}" target="_blank">Locate through Brockport</a>`
               : "<p style='color: red;'>No link available to access the article.</p>"
           }
-          <button class="btn btn-primary" target="_blank" href="${ILLiad}${openurl}">Request via ILLiad</button>
+          <button class="btn btn-primary" target="_blank" href="${ILLiad}${linkResolverOpenUrl}">Request via ILLiad</button>
           <hr />
         ` + outputDiv.innerHTML;
       } catch (error) {
