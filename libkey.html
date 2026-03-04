@@ -75,7 +75,7 @@ layout: page
 
         // Extract metadata from OpenURL
         const title = openUrlParams.get("atitle") || "Title not available";
-        const authors = openUrlParams.get("aulast") || "Authors not available";
+        const authors = article.authors || "Authors not available";
         const journal = openUrlParams.get("title") || "Journal not available";
         const volume = openUrlParams.get("volume") || null;
         const issue = openUrlParams.get("issue") || null;
