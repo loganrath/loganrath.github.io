@@ -1,5 +1,5 @@
 ---
-title: Item Lookup by DOI or pmid
+title: Item Lookup by DOI or PMID
 layout: page
 ---
 <div class="container">
@@ -84,6 +84,7 @@ layout: page
         const endPage = openUrlParams.get("epage") || null;
         const doi = openUrlParams.get("rft_id")?.includes("doi") ? openUrlParams.get("rft_id").split("/").pop() : null;
         const bestLink = article.bestIntegratorLink?.bestLink || null;
+        const bestLinkText = article.bestIntegratorLink.recommendedLinkText;
 
         // Format authors for Chicago-style citation
         function formatAuthors(authors) {
@@ -109,7 +110,7 @@ layout: page
           <p><strong>Article Found:</strong> ${chicagoCitation}</p>
           ${
             bestLink
-              ? `<a class="btn btn-primary" href="${bestLink}" target="_blank">Locate through Brockport</a>`
+              ? `<a class="btn btn-primary" href="${bestLink}" target="_blank">${bestLinkText}</a>`
               : "<p style='color: red;'>No link available to access the article.</p>"
           }
           <button class="btn btn-primary" target="_blank" href="${ILLiad}${linkResolverOpenUrl}">Request via ILLiad</button>
