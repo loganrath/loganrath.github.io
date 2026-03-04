@@ -128,7 +128,8 @@ layout: page
         }
       }
 
-      // Fetch and render each identifier
+      // Fetch and render each identifier in reverse order
+      identifiers.reverse();
       for (const { type, identifier } of identifiers) {
         const endpoint = buildEndpoint(type, identifier);
 
