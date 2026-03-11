@@ -270,6 +270,7 @@ layout: page
     }
 
     function discoverySearchUrl(term) {
-      return `${DISCOVERY_LAYER_SEARCH}${encodeURIComponent(term)}`;
+      const q = `query=any,contains,${encodeURIComponent(term)}`;
+      return `${DISCOVERY_LAYER_SEARCH}${q}`;
     }
   </script>
