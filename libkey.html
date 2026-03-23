@@ -37,6 +37,7 @@ layout: page
     const BEST_LINK_BUTTON_CLASS = "success";      // direct-access link
     const DISCOVERY_BUTTON_CLASS = "warning";      // discovery layer request
     const ILLIAD_BUTTON_CLASS = "primary";       // ILLiad request
+    const GOOGLE_SCHOLAR_BUTTON_CLASS = "secondary"; // Google Scholar search (not implemented in this version)
 
     document.addEventListener("DOMContentLoaded", () => {
       const lookupBtn = document.getElementById("lookupBtn");
@@ -246,6 +247,7 @@ layout: page
       }
       html += makeButton(`Request via ${DISCOVERY_LAYER_NAME}`, DISCOVERY_BUTTON_CLASS, `${DISCOVERY_LAYER_OPENURL}${openUrl}`, 'target="_blank" rel="noopener"') + ' ';
       html += makeButton('Request via ILLiad', ILLIAD_BUTTON_CLASS, `${ILLIAD_OPENURL}${openUrl}`, 'target="_blank" rel="noopener"');
+      html += makeButton('Search Google Scholar', GOOGLE_SCHOLAR_BUTTON_CLASS, `https://scholar.google.com/scholar?q=${encodeURIComponent(metadata.title)}`, 'target="_blank" rel="noopener"');
       appendOutput(html);
     }
 
@@ -270,6 +272,6 @@ layout: page
     }
 
     function discoverySearchUrl(term) {
-      return `${DISCOVERY_LAYER_SEARCH}${encodeURIComponent(term)}`;
+      return `${DISCOVERY_LAYER_SEARCH}&query=any,contains,${encodeURIComponent(term)}`;
     }
   </script>
