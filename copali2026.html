@@ -110,6 +110,41 @@
             color: #0E7490;
         }
 
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #0369A1;
+            font-weight: 700;
+            font-size: 1.05em;
+            cursor: pointer;
+            padding: 10px 15px;
+        }
+
+        .menu-toggle:hover {
+            color: #0E7490;
+        }
+
+        .menu-toggle:focus {
+            outline: 3px solid #0369A1;
+            outline-offset: 2px;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #0369A1;
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -535,6 +570,11 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.2);
         }
 
+        .btn:focus {
+            outline: 3px solid white;
+            outline-offset: 2px;
+        }
+
         .highlight {
             background: #FFD93D;
             padding: 4px 10px;
@@ -572,10 +612,28 @@
                 font-size: 2em;
             }
 
+            .menu-toggle {
+                display: block;
+            }
+
             nav ul {
                 gap: 20px;
                 flex-direction: column;
                 align-items: center;
+                display: none;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            }
+
+            nav ul.menu-active {
+                display: flex;
             }
 
             nav a::after {
@@ -599,13 +657,17 @@
     </style>
 </head>
 <body>
+    <!-- Skip to main content link for keyboard users -->
+    <a href="#main" class="skip-link">Skip to main content</a>
+    
     <header>
         <h1>COPALI Pedagogy</h1>
         <p>A Summer Community of Practice for Academic Librarians</p>
     </header>
 
     <nav>
-        <ul>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">MENU</button>
+        <ul id="navMenu">
             <li><a href="#overview">Overview</a></li>
             <li><a href="#facilitators">For Facilitators</a></li>
             <li><a href="#modules">Modules</a></li>
@@ -614,6 +676,7 @@
         </ul>
     </nav>
 
+    <main id="main">
     <section id="overview" class="intro-section">
         <div class="container">
             <h2>Want to Revitalize Your Teaching?</h2>
@@ -626,15 +689,15 @@
                         <div style="background: linear-gradient(135deg, rgba(3, 105, 161, 0.1), rgba(14, 116, 144, 0.1)); border-radius: 12px; padding: 25px; margin-top: 30px;">
                             <h4 style="color: #0369A1; font-size: 1.1em; margin-bottom: 15px;">You'll Leave With:</h4>
                             <ul style="list-style: none; color: #555; line-height: 2;">
-                                <li>✓ Fresh teaching strategies</li>
-                                <li>✓ Tools for designing new library sessions</li>
-                                <li>✓ New ideas for engaging students</li>
-                                <li>✓ Practical ways to partner with faculty</li>
-                                <li>✓ A new group of librarian colleagues</li>
+                                <li><span aria-hidden="true">✓</span> Fresh teaching strategies</li>
+                                <li><span aria-hidden="true">✓</span> Tools for designing new library sessions</li>
+                                <li><span aria-hidden="true">✓</span> New ideas for engaging students</li>
+                                <li><span aria-hidden="true">✓</span> Practical ways to partner with faculty</li>
+                                <li><span aria-hidden="true">✓</span> A new group of librarian colleagues</li>
                             </ul>
                         </div>
 
-                        <p style="margin-top: 25px; font-weight: 500;"><span class="highlight">🕰️ Most modules take 4 hours or less</span> — perfect for summer!</p>
+                        <p style="margin-top: 25px; font-weight: 500;"><span class="highlight"><span aria-hidden="true">🕰️</span> Most modules take 4 hours or less</span> — perfect for summer!</p>
                     </div>
                 </div>
                 <div class="flex-item">
@@ -657,7 +720,7 @@
                     <p>Are you passionate about library instruction and want to share your expertise? We're seeking energetic volunteers to facilitate one of our six modules this summer!</p>
 
                     <div class="deadline">
-                        <h3>📅 Facilitator Timeline</h3>
+                        <h3><span aria-hidden="true">📅</span> Facilitator Timeline</h3>
                         <ul>
                             <li><strong>April 20, 2026:</strong> Facilitator proposals due</li>
                             <li><strong>May 4:</strong> Facilitators selected</li>
@@ -693,7 +756,7 @@
 
             <div class="modules" style="padding: 0 20px 80px;">
                 <div class="module-card">
-                    <div class="module-image">🧠 Learning & Theory</div>
+                    <div class="module-image"><span aria-hidden="true">🧠</span> Learning & Theory</div>
                     <div class="module-content">
                         <h3>Module 1: Foundations of Instruction</h3>
                         <p><strong>Week of June 29</strong></p>
@@ -702,7 +765,7 @@
                 </div>
 
                 <div class="module-card">
-                    <div class="module-image">📖 Framework & Standards</div>
+                    <div class="module-image"><span aria-hidden="true">📖</span> Framework & Standards</div>
                     <div class="module-content">
                         <h3>Module 2: Unpacking the ACRL Framework</h3>
                         <p><strong>Week of July 6</strong></p>
@@ -711,7 +774,7 @@
                 </div>
 
                 <div class="module-card">
-                    <div class="module-image">⏰ One-Shot Sessions</div>
+                    <div class="module-image"><span aria-hidden="true">⏰</span> One-Shot Sessions</div>
                     <div class="module-content">
                         <h3>Module 3: Working Within the One Shot</h3>
                         <p><strong>Week of July 13</strong></p>
@@ -720,7 +783,7 @@
                 </div>
 
                 <div class="module-card">
-                    <div class="module-image">🎯 Active Learning</div>
+                    <div class="module-image"><span aria-hidden="true">🎯</span> Active Learning</div>
                     <div class="module-content">
                         <h3>Module 4: Active Learning & Classroom Management</h3>
                         <p><strong>Week of July 27</strong></p>
@@ -729,7 +792,7 @@
                 </div>
 
                 <div class="module-card">
-                    <div class="module-image">🤝 Faculty Partnerships</div>
+                    <div class="module-image"><span aria-hidden="true">🤝</span> Faculty Partnerships</div>
                     <div class="module-content">
                         <h3>Module 5: Collaboration with Faculty</h3>
                         <p><strong>Week of August 3</strong></p>
@@ -738,7 +801,7 @@
                 </div>
 
                 <div class="module-card">
-                    <div class="module-image">📊 Assessment & Outcomes</div>
+                    <div class="module-image"><span aria-hidden="true">📊</span> Assessment & Outcomes</div>
                     <div class="module-content">
                         <h3>Module 6: Assessment of Library Instruction</h3>
                         <p><strong>Week of August 10</strong></p>
@@ -776,26 +839,26 @@
                 <h3>Your Summer Timeline</h3>
                 <div class="timeline">
                     <div class="timeline-item">
-                        <h3>🎉 June 24, 2-4pm ET</h3>
+                        <h3><span aria-hidden="true">🎉</span> June 24, 2-4pm ET</h3>
                         <p>Synchronous Kick-off Meeting</p>
                     </div>
                     <div class="timeline-item">
-                        <h3>🗂️ June 29 - Aug 10</h3>
+                        <h3><span aria-hidden="true">🗂️</span> June 29 - Aug 10</h3>
                         <p>Complete modules asynchronously (one each week)</p>
                     </div>
                     <div class="timeline-item">
-                        <h3>🧩 Week of August 17</h3>
+                        <h3><span aria-hidden="true">🧩</span> Week of August 17</h3>
                         <p>Synchronous Wrap-up & Fall Plans</p>
                     </div>
                     <div class="timeline-item">
-                        <h3>🎬 November</h3>
+                        <h3><span aria-hidden="true">🎬</span> November</h3>
                         <p>Fall Showcase Event</p>
                     </div>
                 </div>
             </div>
 
             <div class="deadline" style="margin-top: 35px; max-width: 100%; background: linear-gradient(135deg, #E8F8FF 0%, #E0F7F4 100%); border-left-color: #0369A1; box-shadow: 0 5px 20px rgba(3, 105, 161, 0.12);">
-                <h3 style="color: #0369A1;">📝 Application Process (Coming Soon)</h3>
+                <h3 style="color: #0369A1;"><span aria-hidden="true">📝</span> Application Process (Coming Soon)</h3>
                 <ul>
                     <li>A letter from your supervisor approving your participation during working hours</li>
                     <li>A short essay on why you want to join COPALI Pedagogy</li>
@@ -810,23 +873,42 @@
             <p>Based on the success of our 2023 institute, we're confident this community of practice will make a real difference in your teaching. Join us for a fun, energizing summer!</p>
 
             <div class="deadline" style="background: linear-gradient(135deg, rgba(255,217,61,0.2) 0%, rgba(255,107,107,0.2) 100%); border-left-color: #FFD93D; max-width: 600px;">
-                <h3 style="color: #FFD93D;">⏳ Application Deadline: April 20, 2026</h3>
+                <h3 style="color: #FFD93D;"><span aria-hidden="true">⏳</span> Application Deadline: April 20, 2026</h3>
                 <p style="margin-top: 10px; color: white;">All applications must be submitted by midnight on April 20, 2026. Facilitators will be notified by May 4.</p>
             </div>
 
             <div class="button-group">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLScp59-ePp9-srdFhFfoypR8Hgjp9FHliB5tHt4A9c6k7Py4TQ/viewform?usp=dialog" class="btn btn-primary">Facilitator Application</a>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeGiyQelUqZnCa79fg9HZo41wleRVZwnMchxI34NrBDd-OKqA/viewform?usp=dialog" class="btn btn-secondary">Participant Interest Form</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScp59-ePp9-srdFhFfoypR8Hgjp9FHliB5tHt4A9c6k7Py4TQ/viewform?usp=dialog" class="btn btn-primary" role="button">Facilitator Application</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeGiyQelUqZnCa79fg9HZo41wleRVZwnMchxI34NrBDd-OKqA/viewform?usp=dialog" class="btn btn-secondary" role="button">Participant Interest Form</a>
             </div>
 
             <p style="margin-top: 40px; font-size: 1em; margin-bottom: 40px;">Questions? Contact us for more information.</p>
         </div>
     </section>
+    </main>
 
     <footer>
         <p><strong>COPALI Pedagogy: Summer 2026</strong></p>
         <p>A program for academic librarians committed to improving instructional practice</p>
         <p style="margin-top: 20px; font-size: 0.9em;">Built on the <em>Communities of Practice for the Advancement of Library Instruction</em> curriculum</p>
     </footer>
-</body>
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('menu-active');
+            const isExpanded = navMenu.classList.contains('menu-active');
+            menuToggle.setAttribute('aria-expanded', isExpanded);
+        });
+
+        // Close menu when a link is clicked
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('menu-active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    </script></body>
 </html>
