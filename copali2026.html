@@ -25,13 +25,13 @@
         }
 
         header {
-            background: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 50%, #14B8A6 100%);
+            background: linear-gradient(135deg, #0369A1 0%, #0E7490 50%, #0F766E 100%);
             color: white;
             padding: 80px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(14, 165, 233, 0.3);
+            box-shadow: 0 8px 32px rgba(3, 105, 161, 0.3);
         }
 
         header::before {
@@ -84,7 +84,7 @@
 
         nav a {
             text-decoration: none;
-            color: #0EA5E9;
+            color: #0369A1;
             font-weight: 700;
             transition: all 0.3s;
             font-size: 1.05em;
@@ -107,7 +107,7 @@
         }
 
         nav a:hover {
-            color: #06B6D4;
+            color: #0E7490;
         }
 
         .container {
@@ -122,7 +122,7 @@
         }
 
         section h2 {
-            color: #0EA5E9;
+            color: #0369A1;
             font-size: 2.8em;
             margin-bottom: 40px;
             text-align: center;
@@ -136,7 +136,7 @@
             display: block;
             width: 100px;
             height: 5px;
-            background: linear-gradient(90deg, #FF6B6B, #FFD93D, #14B8A6);
+            background: linear-gradient(90deg, #FF6B6B, #FFD93D, #0F766E);
             margin: 15px auto 0;
             border-radius: 3px;
         }
@@ -173,7 +173,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #1a1a1a;
             font-size: 1.8em;
             text-align: center;
             padding: 30px;
@@ -195,7 +195,7 @@
             transform: translateX(-50%);
             width: 4px;
             height: 100%;
-            background: linear-gradient(180deg, #0EA5E9, #06B6D4, #14B8A6);
+            background: linear-gradient(180deg, #0369A1, #0E7490, #0F766E);
             top: 0;
         }
 
@@ -231,7 +231,7 @@
             right: -62px;
             top: 40px;
             background: white;
-            border: 4px solid #0EA5E9;
+            border: 4px solid #0369A1;
             border-radius: 50%;
             z-index: 1;
         }
@@ -243,16 +243,16 @@
 
         .timeline-item:hover {
             transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(14, 165, 233, 0.2);
+            box-shadow: 0 15px 40px rgba(3, 105, 161, 0.2);
         }
 
         .timeline-item:hover::after {
-            background: #0EA5E9;
-            box-shadow: 0 0 0 8px rgba(14, 165, 233, 0.2);
+            background: #0369A1;
+            box-shadow: 0 0 0 8px rgba(3, 105, 161, 0.2);
         }
 
         .timeline-item h3 {
-            color: #0EA5E9;
+            color: #0369A1;
             margin-bottom: 12px;
             font-size: 1.3em;
         }
@@ -288,6 +288,10 @@
             margin-top: 50px;
         }
 
+        #modules {
+            background: white;
+        }
+
         .module-card {
             background: white;
             border-radius: 20px;
@@ -314,10 +318,10 @@
             font-weight: 600;
         }
 
-        .module-card:nth-child(1) .module-image { background: linear-gradient(135deg, #FF6B6B 0%, #FF8B94 100%); }
-        .module-card:nth-child(2) .module-image { background: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 100%); }
-        .module-card:nth-child(3) .module-image { background: linear-gradient(135deg, #14B8A6 0%, #10B981 100%); }
-        .module-card:nth-child(4) .module-image { background: linear-gradient(135deg, #F59E0B 0%, #F97316 100%); }
+        .module-card:nth-child(1) .module-image { background: linear-gradient(135deg, #E11D48 0%, #BE123C 100%); }
+        .module-card:nth-child(2) .module-image { background: linear-gradient(135deg, #0369A1 0%, #0E7490 100%); }
+        .module-card:nth-child(3) .module-image { background: linear-gradient(135deg, #0F766E 0%, #059669 100%); }
+        .module-card:nth-child(4) .module-image { background: linear-gradient(135deg, #B45309 0%, #C2410C 100%); }
         .module-card:nth-child(5) .module-image { background: linear-gradient(135deg, #8B5CF6 0%, #D946EF 100%); }
         .module-card:nth-child(6) .module-image { background: linear-gradient(135deg, #EC4899 0%, #F43F5E 100%); }
 
@@ -326,7 +330,7 @@
         }
 
         .module-content h3 {
-            color: #0EA5E9;
+            color: #0369A1;
             margin-bottom: 12px;
             font-size: 1.2em;
         }
@@ -338,7 +342,7 @@
         }
 
         .module-content strong {
-            color: #0EA5E9;
+            color: #0369A1;
             font-weight: 600;
         }
 
@@ -362,7 +366,7 @@
         }
 
         .commitment-list li {
-            margin-bottom: 25px;
+            margin-bottom: 0.25em;
             font-size: 1.05em;
             line-height: 1.8;
             color: #1a1a1a;
@@ -379,7 +383,7 @@
         }
 
         .deadline h3 {
-            color: #EA580C;
+            color: #B45309;
             margin-bottom: 15px;
             font-size: 1.3em;
         }
@@ -407,20 +411,21 @@
         }
 
         .highlights-box h3 {
-            color: #0EA5E9;
+            color: #0369A1;
             margin-bottom: 25px;
             font-size: 1.4em;
         }
 
         .highlights-box ul {
             list-style: none;
-            font-size: 1.8em;
-            line-height: 2.2;
+            font-size: 1.05em;
+            line-height: 1.3;
         }
 
         .highlights-box li {
             color: #1a1a1a;
             padding-left: 35px;
+            margin-bottom: 1.2em;
             position: relative;
         }
 
@@ -433,21 +438,21 @@
 
         .timeline-box {
             background: white;
-            border: 3px solid #0EA5E9;
+            border: 3px solid #0369A1;
             border-radius: 20px;
             padding: 40px;
             margin-top: 40px;
-            box-shadow: 0 5px 25px rgba(14, 165, 233, 0.15);
+            box-shadow: 0 5px 25px rgba(3, 105, 161, 0.15);
         }
 
         .timeline-box h3 {
-            color: #0EA5E9;
+            color: #0369A1;
             margin-bottom: 30px;
             font-size: 1.4em;
         }
 
         .cta-section {
-            background: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 50%, #14B8A6 100%);
+            background: linear-gradient(135deg, #0369A1 0%, #0E7490 50%, #0F766E 100%);
             color: white;
             text-align: center;
             position: relative;
@@ -508,7 +513,7 @@
 
         .btn-primary {
             background: white;
-            color: #0EA5E9;
+            color: #0369A1;
             border-color: white;
         }
 
@@ -551,7 +556,7 @@
         }
 
         footer strong {
-            color: #0EA5E9;
+            color: #0369A1;
         }
 
         @media (max-width: 768px) {
@@ -595,7 +600,7 @@
 </head>
 <body>
     <header>
-        <h1>🌊 COPALI Pedagogy</h1>
+        <h1>COPALI Pedagogy</h1>
         <p>A Summer Community of Practice for Academic Librarians</p>
     </header>
 
@@ -611,16 +616,15 @@
 
     <section id="overview" class="intro-section">
         <div class="container">
-            <h2>Dive Into Summer Learning</h2>
+            <h2>Want to Revitalize Your Teaching?</h2>
             <div class="flex-container">
                 <div class="flex-item">
                     <div class="intro-text">
-                        <h3 style="color: #0EA5E9; font-size: 1.5em; margin-bottom: 20px;">Ready for an Energizing Summer?</h3>
-                        <p>Get ready for a fun and energizing summer! Join a vibrant asynchronous community of practice designed to help academic librarians enhance their pedagogy and teaching effectiveness.</p>
-                        <p style="margin-top: 25px;">Building on the success of our 2023 COPALI Institute, this summer-long program brings together librarians who want to deepen their understanding of learning theories, instructional design, and innovative teaching strategies.</p>
+                        <h3 style="color: #0369A1; font-size: 1.5em; margin-bottom: 20px;">About COPALI</h3>
+                        <p><a href="https://copali.pressbooks.sunycreate.cloud/">Communities of Practice for the Advancement of Library Instruction</a> (COPALI) is a framework that developed out of my dissertation where I found that there were not many opportunities for sustained professional learning among academic librarians. I want to fix that. My goal this summer is to create a vibrant (mostly) asynchronous community of practice  to help academic librarians enhance their pedagogy and teaching effectiveness. </p>
 
-                        <div style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(6, 182, 212, 0.1)); border-radius: 12px; padding: 25px; margin-top: 30px;">
-                            <h4 style="color: #0EA5E9; font-size: 1.1em; margin-bottom: 15px;">You'll Leave With:</h4>
+                        <div style="background: linear-gradient(135deg, rgba(3, 105, 161, 0.1), rgba(14, 116, 144, 0.1)); border-radius: 12px; padding: 25px; margin-top: 30px;">
+                            <h4 style="color: #0369A1; font-size: 1.1em; margin-bottom: 15px;">You'll Leave With:</h4>
                             <ul style="list-style: none; color: #555; line-height: 2;">
                                 <li>✓ Fresh teaching strategies</li>
                                 <li>✓ Tools for designing new library sessions</li>
@@ -662,7 +666,7 @@
                         </ul>
                     </div>
 
-                    <h3 style="color: #0EA5E9; margin-top: 40px; font-size: 1.3em;">Your Commitment as a Facilitator</h3>
+                    <h3 style="color: #0369A1; margin-top: 40px; font-size: 1.3em;">Your Commitment as a Facilitator</h3>
                     <div class="commitment-list">
                         <ol>
                             <li>Develop an asynchronous module for participants (4 hours maximum)</li>
@@ -684,7 +688,7 @@
 
     <section id="modules">
         <div class="container" style="background: white; padding: 0; margin: 0 auto;">
-            <h2 style="padding-top: 80px;">Six Weeks of Awesome Learning</h2>
+            <h2>Six Weeks of Awesome Learning</h2>
             <p style="text-align: center; font-size: 1.1em; margin-bottom: 40px; color: #555;">Each week-long module can be completed in 4 hours or less. Learn from expert facilitators, connect with peers, all on your own schedule.</p>
 
             <div class="modules" style="padding: 0 20px 80px;">
@@ -776,25 +780,33 @@
                         <p>Synchronous Kick-off Meeting</p>
                     </div>
                     <div class="timeline-item">
-                        <h3>🌞 June 29 - Aug 10</h3>
+                        <h3>🗂️ June 29 - Aug 10</h3>
                         <p>Complete modules asynchronously (one each week)</p>
                     </div>
                     <div class="timeline-item">
-                        <h3>🌅 August 17</h3>
+                        <h3>🧩 Week of August 17</h3>
                         <p>Synchronous Wrap-up & Fall Plans</p>
                     </div>
                     <div class="timeline-item">
-                        <h3>🏆 November</h3>
+                        <h3>🎬 November</h3>
                         <p>Fall Showcase Event</p>
                     </div>
                 </div>
+            </div>
+
+            <div class="deadline" style="margin-top: 35px; max-width: 100%; background: linear-gradient(135deg, #E8F8FF 0%, #E0F7F4 100%); border-left-color: #0369A1; box-shadow: 0 5px 20px rgba(3, 105, 161, 0.12);">
+                <h3 style="color: #0369A1;">📝 Application Process (Coming Soon)</h3>
+                <ul>
+                    <li>A letter from your supervisor approving your participation during working hours</li>
+                    <li>A short essay on why you want to join COPALI Pedagogy</li>
+                </ul>
             </div>
         </div>
     </section>
 
     <section id="apply" class="cta-section">
         <div class="container cta-content">
-            <h2>Ready to Make a Splash This Summer?</h2>
+            <h2>Interested in Joining?</h2>
             <p>Based on the success of our 2023 institute, we're confident this community of practice will make a real difference in your teaching. Join us for a fun, energizing summer!</p>
 
             <div class="deadline" style="background: linear-gradient(135deg, rgba(255,217,61,0.2) 0%, rgba(255,107,107,0.2) 100%); border-left-color: #FFD93D; max-width: 600px;">
@@ -803,8 +815,8 @@
             </div>
 
             <div class="button-group">
-                <a href="#" class="btn btn-primary">Facilitator Application</a>
-                <a href="#" class="btn btn-secondary">Participant Interest Form</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScp59-ePp9-srdFhFfoypR8Hgjp9FHliB5tHt4A9c6k7Py4TQ/viewform?usp=dialog" class="btn btn-primary">Facilitator Application</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeGiyQelUqZnCa79fg9HZo41wleRVZwnMchxI34NrBDd-OKqA/viewform?usp=dialog" class="btn btn-secondary">Participant Interest Form</a>
             </div>
 
             <p style="margin-top: 40px; font-size: 1em; margin-bottom: 40px;">Questions? Contact us for more information.</p>
@@ -812,7 +824,7 @@
     </section>
 
     <footer>
-        <p><strong>COPALI Pedagogy: Summer Community of Practice</strong></p>
+        <p><strong>COPALI Pedagogy: Summer 2026</strong></p>
         <p>A program for academic librarians committed to improving instructional practice</p>
         <p style="margin-top: 20px; font-size: 0.9em;">Built on the <em>Communities of Practice for the Advancement of Library Instruction</em> curriculum</p>
     </footer>
