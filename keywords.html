@@ -162,6 +162,10 @@ layout: tool
           <div class="database-buttons" id="databaseButtons" style="margin-top:10px">
             <button class="database-btn" disabled>Complete previous steps</button>
           </div>
+          <hr />
+          <h2>Provide Feedback on This Tool</h2>
+            <p>You are asked to provide some brief, anonymous feedback on your use of Dr. Rath’s tool. Participation in this survey is voluntary, and you may skip any question. If you have any questions about participating in this research, please contact Dr. Rath or the Brockport IRB. There is no way to connect your responses to you and your individual responses will not be shared beyond the study team</p>
+            <p>If you are over 18 and would like to participate in a study related to how useful you found this tool, please <a id="feedbackLink" href="https://forms.brockport.edu/view.php?id=9744858&element_1=" target="_blank">click here to provide your feedback</a>.</p>
         </div>
       </div>
     </div>
@@ -188,6 +192,8 @@ layout: tool
       'SportDISCUS + Academic Search' : 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=s3h&db=a9h&expanders=concept&limiters=None&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
       'TESOL Databases' : 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=mlf&db=eue&db=eric&expanders=concept&limiters=RV%3AY%2CDT1%3A2016-01-01%2F2026-12-31&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
     };
+
+    const feedbackBaseUrl = 'https://forms.brockport.edu/view.php?id=9744858&element_1=';
 
     let currentStep = 1;
     let totalSteps = 4;
@@ -380,7 +386,14 @@ layout: tool
 
       searchData.booleanString = parts.join(' AND ');
       document.getElementById('booleanOutput').textContent = searchData.booleanString || 'No search terms entered';
+      updateFeedbackLink();
       document.getElementById('booleanOutput').scrollIntoView({behavior:'smooth', block:'center'});
+    }
+
+    function updateFeedbackLink(){
+      const feedbackLink = document.getElementById('feedbackLink');
+      const currentQuery = document.getElementById('booleanOutput').value.trim();
+      feedbackLink.href = `${feedbackBaseUrl}${encodeURIComponent(currentQuery)}`;
     }
 
     // Database buttons
@@ -474,6 +487,11 @@ layout: tool
       rq.addEventListener('input', ()=>{ searchData.question = rq.value.trim(); if (currentStep>=2) { document.getElementById('displayedQuestion').textContent = `"${searchData.question}"`; }});
     });
 
+    document.getElementById('booleanOutput').addEventListener('input', function(){
+      updateDatabaseButtons();
+      updateFeedbackLink();
+    });
+
     // Enable Enter key to add keywords and synonyms
     document.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.ctrlKey) {
@@ -522,6 +540,7 @@ layout: tool
       // ensure remove buttons hidden initially
       updateKeywordRemoveVisibility();
       updateDatabaseButtons();
+      updateFeedbackLink();
       showStep(1);
       // make sure next/back button states correct
       updateNavButtons();
