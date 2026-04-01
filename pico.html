@@ -167,6 +167,13 @@ layout: page
         <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="CINAHLbtn">Search CINAHL</button><button class="btn" id="MEDLINEbtn">Search MEDLINE</button><button class="btn" id="PSYCINFObtn">Search PsycINFO</button></div>
         <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="CINAHLMEDLINEbtn">Search CINAHL &amp; MEDLINE</button><button class="btn" id="CINAHLMEDLINEPSYCHINFObtn">Search CINAHL, MEDLINE, and PsycINFO Databases</button><button class="btn" id="SCHOLARbtn">Google Scholar</button></div>
 
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid #d7e6fb;">
+          <h2 style="margin:0 0 12px 0">Provide Feedback on This Tool</h2>
+          <p>You are being asked to provide some brief, anonymous feedback on your use of this tool. There is no way to connect your responses to you and your individual responses will not be shared beyond the study team. Participation in this research is voluntary, and you may skip any question. Questions? Please contact <a href="mailto:lrath@brockport.edu" target="_blank">Dr. Rath</a> or the <a href="mailto:irb@brockport.edu" target="_blank">Brockport IRB</a>.</p>
+          <p>If you are over 18 and would like to participate, please use the button below to provide your feedback to Dr. Rath.</p>
+          <a class="btn secondary" id="feedbackLink" href="https://forms.brockport.edu/view.php?id=9744858&amp;element_1=" target="_blank" rel="noopener noreferrer">Provide Feedback</a>
+        </div>
+
       <div style="margin-top:16px;color:var(--muted);font-size:13px">Tip: paste into a database's advanced search. Limit to peer-reviewed articles from the past 5 years.</div>
     </div>
   </div>
@@ -235,6 +242,9 @@ layout: page
       const copyBtn = document.getElementById('copyBtn');
       const editPICO = document.getElementById('editPICO');
       const finishBtn = document.getElementById('finishBtn');
+      const feedbackLink = document.getElementById('feedbackLink');
+
+      const feedbackBaseUrl = 'https://forms.brockport.edu/view.php?id=9744858&element_1=';
 
       // helpers
       function normalizeTerm(t){
@@ -440,12 +450,21 @@ layout: page
         const present = orderForCombine.map(k=>groups[k]).filter(Boolean);
         const combined = present.join(' AND ');
         combinedOutput.value = combined || '[No terms provided yet]';
+        updateFeedbackLink();
+      }
+
+      function updateFeedbackLink(){
+        if(!feedbackLink) return;
+        const currentQuery = combinedOutput.value.trim();
+        feedbackLink.href = `${feedbackBaseUrl}${encodeURIComponent(currentQuery)}`;
       }
 
       copyBtn.addEventListener('click', async ()=>{
         try{ await navigator.clipboard.writeText(combinedOutput.value); copyBtn.textContent='Copied!'; setTimeout(()=>copyBtn.textContent='Copy to clipboard',1200); }
         catch(e){ copyBtn.textContent='Copy failed'; setTimeout(()=>copyBtn.textContent='Copy to clipboard',1200); }
       });
+
+      combinedOutput.addEventListener('input', updateFeedbackLink);
 
       cinahlBtn.addEventListener('click', function() {
         const url = "https://research.ebsco.com/c/mhyfef/search/results?q=" + encodeURIComponent(combinedOutput.value) + "&autocorrect=y&db=cul&expanders=concept&&limiters=RV%3AY%2CDT1%3A2021-01-01%2F2026-12-13&searchMode=all&searchSegment=all-results&skipResultsFetch=true";
@@ -502,6 +521,7 @@ layout: page
       });
 
       // init
+      updateFeedbackLink();
       showMain();
     });
   </script>
