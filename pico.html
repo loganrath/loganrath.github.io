@@ -3,7 +3,7 @@ title: "Dr. Logan Rath's PICO Search Tool"
 layout: page
 ---
   <style>
-    :root{--bg:#f7fbff;--card:#ffffff;--accent:#0b66c3;--muted:#6b7280;--input-border:#6e95c0;--input-focus:rgba(11,102,195,0.18);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;}
+    :root{--bg:#f7fbff;--card:#ffffff;--accent:#0b66c3;--muted:#6b7280;--input-border:#6e95c0;--input-focus:rgba(11,102,195,0.18);--secondary-bg:#d8f0df;--secondary-border:#2f6f46;--secondary-text:#14532d;--secondary-hover-bg:#c3e4cd;--secondary-hover-text:#0f3d22;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;}
     html,body{height:100%;margin:0;background:var(--bg);color:#111;}
     .fullscreen{height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;}
     .card{background:var(--card);width:min(1100px,98%);border-radius:12px;box-shadow:0 10px 30px rgba(11,102,195,0.08);padding:28px;display:flex;flex-direction:column;gap:18px;min-height:380px;}
@@ -16,7 +16,9 @@ layout: page
     .controls{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px}
     .btn{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer}
     .btn:hover{color:#FFFFAA}
-    .btn.secondary{background:#eef6ff;color:var(--accent);border:1px solid rgba(11,102,195,0.08)}
+    .btn.secondary{background:var(--secondary-bg);color:var(--secondary-text);border:2px solid var(--secondary-border)}
+    .btn.secondary:hover{background:var(--secondary-hover-bg);color:var(--secondary-hover-text)}
+    .btn.secondary:focus-visible{outline:3px solid rgba(20,83,45,0.24);outline-offset:2px}
     .small{font-size:13px;color:var(--muted)}
     .chip{background:#f1f7ff;border-radius:999px;padding:8px 12px;border:1px solid rgba(11,102,195,0.05);display:inline-flex;gap:10px;align-items:center;font-weight:600;color:var(--accent)}
     .synonyms-area{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap}
