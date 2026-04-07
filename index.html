@@ -6,12 +6,24 @@ layout: home
   .copali-summer {
 	background: linear-gradient(135deg, #0369A1 0%, #0E7490 50%, #0F766E 100%);
 	color: white;
+	display: block;
 	padding: 16px 4px;
 	text-align: center;
 	position: relative;
 	overflow: hidden;
 	box-shadow: 0 2px 8px rgba(3, 105, 161, 0.3);
 }
+  .copali-summer:visited, .copali-summer:link {
+    color: white;
+    text-decoration: none;
+  }
+  .copali-summer:hover {
+    text-decoration: underline;
+  }
+  .copali-summer:focus-visible {
+	outline: 3px solid rgba(255, 255, 255, 0.8);
+	outline-offset: 3px;
+  }
   .copali-summer::before {
 	content: '';
 	position: absolute;
@@ -52,21 +64,20 @@ layout: home
           <a href="/teaching/"><i class="fa fa-4x d-block fa-person-chalkboard"></i>My Classes</a>
         </div>
       </div>
-      <div class="copali-summer" role="region" aria-label="COPALI Pedagogy Summer Community of Practice">
+      <a class="copali-summer" href="/copali2026" aria-label="COPALI Pedagogy Summer Community of Practice">
         <p class="h1">COPALI Pedagogy</p>
         <p>A Summer Community of Practice for Academic Librarians</p>
-      </div>
-
-      <h2 class="mt-3">Current Research Projects</h2>
+      </a>
+  </div>
+  </div>
+  <div class="row">
+    <h2 class="mt-3">Current Research Projects</h2>
       <ul>
         <li>Perceptions of Generative Artificial Intelligence Among Pre-Service Teachers</li>
         <li>Academic Librarians' Use of the Knowledge Practices and Dispositions in the ACRL 
           <em>Framework for Information Literacy in Higher Education</em></li>
         <li>Longitudinal Study of Undergraduate Students' Library Use</li>
       </ul>
-  </div>
-  </div>
-  <div class="row">
     <h2 class="mt-1">My OERs</h2>
     <div class="col-sm-6 col-md-4 text-center">
             <p><a href="https://copali.pressbooks.suny.edu"><img src="https://copali.pressbooks.sunycreate.cloud/wp-content/uploads/sites/175/2025/05/COPALI-cover-768x960.jpg" class="w-50" alt="COPALI OER book cover"><br />Communities of Practice for the Advancement of Library Instruction: An OER Curriculum</a></p>
