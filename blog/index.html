@@ -2,11 +2,13 @@
 title: Updates
 layout: page
 ---
-{% assign posts = site.posts | sort: 'date' | reverse %}
+{% assign posts = site.posts %}
+{% if posts.size > 0 %}
 {% for post in posts %}
 <article class="post">
   {% if post.img %}
-    <a class="post-thumbnail" style="background-image: url({{"/assets/img/" | prepend: site.baseurl | append : post.img}})" href="{{post.url | prepend: site.baseurl}}"></a>
+    {% assign post_image_url = "/assets/img/" | prepend: site.baseurl | append: post.img %}
+    <a class="post-thumbnail" style="background-image: url('{{ post_image_url }}')" href="{{post.url | prepend: site.baseurl}}"></a>
   {% else %}
   {% endif %}
   <div class="post-content">
@@ -17,6 +19,6 @@ layout: page
   </div>
 </article>
 {% endfor %}
-{% if posts == empty %}
+{% else %}
 <p>No posts published yet.</p>
 {% endif %}
