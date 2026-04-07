@@ -1,0 +1,326 @@
+---
+title: "Multimodal Literacies × Big 6 Reading Skills with Generative AI Activities"
+date: 2026-04-06
+author: "Logan Rath"
+categories: [AI, Multimodal, Technology]
+tags: [AI, Multimodal, Big 6, Technology]
+---
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .grid-wrapper {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 200px repeat(5, 1fr);
+            gap: 2px;
+            background: #e0e0e0;
+            padding: 2px;
+            min-width: 1200px;
+        }
+
+        .grid-cell {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.4;
+            min-height: 120px;
+        }
+
+        .header-modality {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .header-skill {
+            background: #f5f5f5;
+            color: #333;
+            font-weight: bold;
+            font-size: 12px;
+            padding: 12px;
+            border-radius: 6px;
+            border: 2px solid #ddd;
+        }
+
+        /* Modality-specific colors */
+        .modality-linguistic {
+            background: rgba(255, 107, 107, 0.15);
+            border-left: 4px solid #FF6B6B;
+        }
+
+        .modality-visual {
+            background: rgba(78, 205, 196, 0.15);
+            border-left: 4px solid #4ECDC4;
+        }
+
+        .modality-audio {
+            background: rgba(255, 230, 109, 0.15);
+            border-left: 4px solid #FFE66D;
+        }
+
+        .modality-gestural {
+            background: rgba(149, 225, 211, 0.15);
+            border-left: 4px solid #95E1D3;
+        }
+
+        .modality-spatial {
+            background: rgba(199, 206, 234, 0.15);
+            border-left: 4px solid #C7CEEA;
+        }
+
+        .tips-section {
+            margin-top: 40px;
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .tips-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tips-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .tips-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .examples-section {
+            margin-top: 30px;
+            background: #f0f7ff;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #4ECDC4;
+        }
+
+        .examples-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .example-box {
+            background: white;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #4ECDC4;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .example-label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .example-prompt {
+            font-style: italic;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: 150px repeat(5, 1fr);
+                font-size: 11px;
+            }
+
+            .grid-cell {
+                min-height: 100px;
+                padding: 10px;
+            }
+
+            .header-skill {
+                font-size: 11px;
+            }
+        }
+    </style>
+    <div class="container">
+        <div class="header">
+            <div class="title">Multimodal Literacies × Big 6 Reading Skills with Generative AI Activities</div>
+            <div class="subtitle">Each cell shows how to use AI to develop activities combining a reading skill with a multimodal modality (K-1)</div>
+        </div>
+
+        <div class="grid-wrapper">
+            <div class="grid">
+                <!-- Header Row -->
+                <div class="grid-cell header-skill"></div>
+                <div class="grid-cell header-modality">Linguistic/Alphabetic</div>
+                <div class="grid-cell header-modality">Visual</div>
+                <div class="grid-cell header-modality">Audio</div>
+                <div class="grid-cell header-modality">Gestural</div>
+                <div class="grid-cell header-modality">Spatial</div>
+
+                <!-- Phonemic Awareness Row -->
+                <div class="grid-cell header-skill">Phonemic Awareness</div>
+                <div class="grid-cell modality-linguistic">Use AI to generate rhyming word pairs & tongue twisters for phoneme blending games</div>
+                <div class="grid-cell modality-visual">AI creates illustrated rhyming cards with phoneme-focused visuals</div>
+                <div class="grid-cell modality-audio">AI generates voice recordings of rhymes & sound manipulation activities</div>
+                <div class="grid-cell modality-gestural">AI suggests body motions for each phoneme sound (e.g., jump for /j/)</div>
+                <div class="grid-cell modality-spatial">AI designs sound cards arranged in patterns for sequencing activities</div>
+
+                <!-- Phonics Row -->
+                <div class="grid-cell header-skill">Phonics</div>
+                <div class="grid-cell modality-linguistic">AI generates decodable texts with specific letter-sound patterns</div>
+                <div class="grid-cell modality-visual">AI creates letter-sound posters with color-coded blends & digraphs</div>
+                <div class="grid-cell modality-audio">AI produces audio lessons pronouncing letter sounds & word decoding</div>
+                <div class="grid-cell modality-gestural">AI suggests hand shapes to trace letter forms while saying sounds</div>
+                <div class="grid-cell modality-spatial">AI generates letter formation guides with directional arrows</div>
+
+                <!-- Fluency Row -->
+                <div class="grid-cell header-skill">Fluency</div>
+                <div class="grid-cell modality-linguistic">AI creates repeated-reading passages at student reading level</div>
+                <div class="grid-cell modality-visual">AI makes fluency tracking charts with visual progress indicators</div>
+                <div class="grid-cell modality-audio">AI generates model readings for students to echo & practice prosody</div>
+                <div class="grid-cell modality-gestural">AI suggests gestures to match expression & emotion in text</div>
+                <div class="grid-cell modality-spatial">AI designs text layouts with pauses marked for phrasing practice</div>
+
+                <!-- Vocabulary Row -->
+                <div class="grid-cell header-skill">Vocabulary</div>
+                <div class="grid-cell modality-linguistic">AI generates word definition cards & context sentence examples</div>
+                <div class="grid-cell modality-visual">AI creates visual vocabulary cards with illustrations & word families</div>
+                <div class="grid-cell modality-audio">AI produces word pronunciation guides & vocabulary songs</div>
+                <div class="grid-cell modality-gestural">AI suggests movements or signs to represent vocabulary words</div>
+                <div class="grid-cell modality-spatial">AI designs word webs showing relationships between vocabulary terms</div>
+
+                <!-- Comprehension Row -->
+                <div class="grid-cell header-skill">Comprehension</div>
+                <div class="grid-cell modality-linguistic">AI generates comprehension questions & story retelling prompts</div>
+                <div class="grid-cell modality-visual">AI creates story sequence pictures for narrative comprehension</div>
+                <div class="grid-cell modality-audio">AI produces think-aloud recordings modeling comprehension strategies</div>
+                <div class="grid-cell modality-gestural">AI suggests character actions to dramatize & understand story events</div>
+                <div class="grid-cell modality-spatial">AI designs graphic organizers for plot, character, & setting details</div>
+
+                <!-- Print Concepts Row -->
+                <div class="grid-cell header-skill">Print Concepts</div>
+                <div class="grid-cell modality-linguistic">AI generates materials showing letter names & alphabet sequences</div>
+                <div class="grid-cell modality-visual">AI creates labeled diagrams of book parts & text features</div>
+                <div class="grid-cell modality-audio">AI produces alphabet songs & letter-naming practice recordings</div>
+                <div class="grid-cell modality-gestural">AI suggests finger-tracking motions for left-to-right reading</div>
+                <div class="grid-cell modality-spatial">AI designs visual guides showing print direction & page organization</div>
+            </div>
+        </div>
+
+        <div class="tips-section">
+            <div class="tips-title">💡 Implementation Tips</div>
+            <ul class="tips-list">
+                <li>Pick 1-2 combinations per week to focus on</li>
+                <li>Use AI to generate the content, then adapt for your specific students</li>
+                <li>Rotate modalities to ensure students experience all five throughout the year</li>
+                <li>Combine multiple cells for rich, integrated literacy lessons</li>
+                <li>Save successful AI-generated activities for future use and refinement</li>
+            </ul>
+        </div>
+
+        <div class="examples-section">
+            <div class="examples-title">🎯 Example AI Prompts You Could Use</div>
+
+            <div class="example-box">
+                <div class="example-label">Phonemic Awareness + Audio</div>
+                <div class="example-prompt">"Create 5 rhyming word pairs with audio pronunciations for kindergarteners to practice blending sounds together. Include fun sound effects."</div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-label">Vocabulary + Visual</div>
+                <div class="example-prompt">"Design 10 vocabulary word cards for first graders with colorful illustrations, the word, and a simple sentence. Include related word families."</div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-label">Comprehension + Gestural</div>
+                <div class="example-prompt">"Suggest 5 body movements and gestures that first graders can use to act out the main events of 'The Very Hungry Caterpillar.'"</div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-label">Fluency + Audio</div>
+                <div class="example-prompt">"Create a model audio recording of a 100-word decodable passage read with appropriate prosody and pacing for first graders to echo."</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Based on NYS Science of Reading Briefs & Multimodal Literacies Framework | Created for K-1 Educators</p>
+        </div>
+    </div>
