@@ -81,7 +81,9 @@ layout: tool
     .usage-box p,
     .summary-card p,
     .subject-note,
-    .table-note {
+    .table-note,
+    .tools-note,
+    .tool-detail {
         color: #31465b;
         line-height: 1.65;
     }
@@ -89,6 +91,13 @@ layout: tool
     .band-control {
         min-width: 240px;
         max-width: 280px;
+    }
+
+    .control-cluster {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        justify-content: flex-end;
     }
 
     .band-control label {
@@ -141,7 +150,9 @@ layout: tool
     }
 
     .planner-section + .planner-section,
-    .planner-section + .usage-box {
+    .planner-section + .usage-box,
+    .tools-section + .planner-section,
+    .tools-section + .usage-box {
         margin-top: 28px;
     }
 
@@ -258,6 +269,88 @@ layout: tool
         font-weight: 500;
     }
 
+    .tools-section {
+        border-radius: 18px;
+        padding: 22px;
+        border: 1px solid #d8e2ee;
+        box-shadow: 0 10px 30px rgba(16, 32, 51, 0.08);
+        background: #ffffff;
+        margin-top: 28px;
+    }
+
+    .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+    }
+
+    .tool-group {
+        background: #fbfcff;
+        border: 1px solid #d8e2ee;
+        border-radius: 14px;
+        padding: 16px;
+    }
+
+    .tool-group h3 {
+        font-size: 1rem;
+        color: #0d4c8f;
+        margin-bottom: 10px;
+    }
+
+    .tool-list {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+
+    .tool-list li + li {
+        margin-top: 10px;
+    }
+
+    .tool-list a {
+        color: #102033;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .tool-list a:hover,
+    .tool-list a:focus {
+        text-decoration: underline;
+    }
+
+    .tool-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 6px;
+    }
+
+    .tool-badge {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 3px 8px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .tool-badge-cost {
+        background: #edf7ed;
+        color: #1d5f2b;
+    }
+
+    .tool-badge-cost-mixed {
+        background: #fff4dd;
+        color: #8a5a00;
+    }
+
+    .tool-badge-audience {
+        background: #edf3fd;
+        color: #0d4c8f;
+    }
+
     .subject-grid {
         display: grid;
         gap: 18px;
@@ -364,17 +457,23 @@ layout: tool
         <div class="controls-row">
             <div class="controls-copy">
                 <h2 id="controls-title">Choose a grade band</h2>
-                <p id="grade-band-help">The tables below update for K-1, 2-3, 4-6, 5-8, or 9-12. The literacy grid emphasizes the Big 6, and the subject tables highlight disciplinary literacy routines used across major NYS subject areas.</p>
+                <p id="grade-band-help">The tables below update for K-1, 2-3, 4-6, 5-8, or 9-12. The literacy grid emphasizes the Big 6, and the subject dropdown highlights disciplinary literacy routines used across major NYS subject areas.</p>
             </div>
-            <div class="band-control">
-                <label for="grade-band-select">Grade band</label>
-                <select id="grade-band-select" aria-describedby="grade-band-help planner-status">
-                    <option value="k-1">K-1</option>
-                    <option value="2-3">2-3</option>
-                    <option value="4-6">4-6</option>
-                    <option value="5-8">5-8</option>
-                    <option value="9-12">9-12</option>
-                </select>
+            <div class="control-cluster">
+                <div class="band-control">
+                    <label for="grade-band-select">Grade band</label>
+                    <select id="grade-band-select" aria-describedby="grade-band-help planner-status">
+                        <option value="k-1">K-1</option>
+                        <option value="2-3">2-3</option>
+                        <option value="4-6">4-6</option>
+                        <option value="5-8">5-8</option>
+                        <option value="9-12">9-12</option>
+                    </select>
+                </div>
+                <div class="band-control">
+                    <label for="subject-select">Subject</label>
+                    <select id="subject-select" aria-describedby="grade-band-help planner-status"></select>
+                </div>
             </div>
         </div>
         <p class="controls-note">These planning suggestions align broadly to NYS Next Generation Learning Standards, Science Learning Standards, Social Studies Framework, Arts Standards, World Language Standards, Health and Physical Education expectations, Digital Fluency and Computer Science Standards, and common CTE literacy expectations. Use them as a teacher planning layer, then tighten them to your district scope and sequence.</p>
@@ -408,11 +507,63 @@ layout: tool
         <p class="table-note" id="big6-note"></p>
     </section>
 
+    <section class="tools-section" aria-labelledby="tools-title">
+        <h2 id="tools-title" class="section-title">Suggested tools by modality</h2>
+        <p>These are the specific tools that can support planning across the five modalities. Review age requirements, privacy expectations, and district approvals before classroom use.</p>
+        <div class="tools-grid">
+            <section class="tool-group" aria-labelledby="tools-linguistic-title">
+                <h3 id="tools-linguistic-title">Linguistic/Alphabetic</h3>
+                <ul class="tool-list">
+                    <li><a href="https://rath.phd/crisp/" target="_blank" rel="noopener noreferrer">CRISP Builder</a><span class="tool-meta"><span class="tool-badge tool-badge-cost">Free</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Plan and refine prompts before pasting them into an AI tool.</span></li>
+                    <li><a href="https://claude.ai/" target="_blank" rel="noopener noreferrer">Claude</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Draft passages, sentence frames, vocabulary work, and teacher-facing exemplars.</span></li>
+                    <li><a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">Gemini</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Generate decodable text, comprehension questions, and differentiated language supports.</span></li>
+                </ul>
+            </section>
+
+            <section class="tool-group" aria-labelledby="tools-visual-title">
+                <h3 id="tools-visual-title">Visual</h3>
+                <ul class="tool-list">
+                    <li><a href="https://www.canva.com/" target="_blank" rel="noopener noreferrer">Canva</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Create cards, charts, infographics, posters, and slide-based supports.</span></li>
+                    <li><a href="https://new.express.adobe.com/" target="_blank" rel="noopener noreferrer">Adobe Express</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Build quick visuals, storyboards, diagrams, and simple image prompts.</span></li>
+                    <li><a href="https://designer.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft Designer</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Generate simple image-based materials from short prompts.</span></li>
+                </ul>
+            </section>
+
+            <section class="tool-group" aria-labelledby="tools-audio-title">
+                <h3 id="tools-audio-title">Audio</h3>
+                <ul class="tool-list">
+                    <li><a href="https://elevenlabs.io/" target="_blank" rel="noopener noreferrer">ElevenLabs</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Create model read-alouds, pronunciation examples, or short listening scripts.</span></li>
+                    <li><a href="https://notebooklm.google.com/" target="_blank" rel="noopener noreferrer">NotebookLM</a><span class="tool-meta"><span class="tool-badge tool-badge-cost">Free</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Turn notes and sources into spoken summaries or audio-style explanations.</span></li>
+                    <li><a href="https://www.audacityteam.org/" target="_blank" rel="noopener noreferrer">Audacity</a><span class="tool-meta"><span class="tool-badge tool-badge-cost">Free</span><span class="tool-badge tool-badge-audience">Student-safe</span></span><span class="tool-detail">Record and edit teacher-made audio for fluency, pronunciation, and oral rehearsal.</span></li>
+                </ul>
+            </section>
+
+            <section class="tool-group" aria-labelledby="tools-gestural-title">
+                <h3 id="tools-gestural-title">Gestural</h3>
+                <ul class="tool-list">
+                    <li><a href="https://flip.com/" target="_blank" rel="noopener noreferrer">Flip</a><span class="tool-meta"><span class="tool-badge tool-badge-cost">Free</span><span class="tool-badge tool-badge-audience">Student-safe</span></span><span class="tool-detail">Record and share movement-based responses, demonstrations, and retells.</span></li>
+                    <li><a href="https://www.loom.com/" target="_blank" rel="noopener noreferrer">Loom</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Create short teacher demonstrations with gestures, modeling, or tracking.</span></li>
+                    <li><a href="https://web.seesaw.me/" target="_blank" rel="noopener noreferrer">Seesaw</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Student-safe</span></span><span class="tool-detail">Capture student work that combines voice, movement, annotation, and reflection.</span></li>
+                </ul>
+            </section>
+
+            <section class="tool-group" aria-labelledby="tools-spatial-title">
+                <h3 id="tools-spatial-title">Spatial</h3>
+                <ul class="tool-list">
+                    <li><a href="https://www.google.com/slides/about/" target="_blank" rel="noopener noreferrer">Google Slides</a><span class="tool-meta"><span class="tool-badge tool-badge-cost">Free</span><span class="tool-badge tool-badge-audience">Student-safe</span></span><span class="tool-detail">Lay out sequence cards, concept maps, story maps, and drag-and-drop tasks.</span></li>
+                    <li><a href="https://padlet.com/" target="_blank" rel="noopener noreferrer">Padlet</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Student-safe</span></span><span class="tool-detail">Organize ideas on boards, maps, and columns for sorting, sequencing, and discussion.</span></li>
+                    <li><a href="https://miro.com/" target="_blank" rel="noopener noreferrer">Miro</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Build digital organizers, planning boards, and collaborative spatial layouts.</span></li>
+                </ul>
+            </section>
+        </div>
+        <p class="tools-note">Before classroom use, review each tool for age requirements, accessibility features, account needs, and local privacy expectations.</p>
+    </section>
+
     <section class="planner-section" aria-labelledby="disciplinary-title">
         <div class="section-header">
             <div>
                 <h2 id="disciplinary-title" class="section-title">Disciplinary literacy tables by subject</h2>
-                <p class="section-intro">These tables show how AI can help you plan reading, discussion, writing, inquiry, and performance tasks in the major subjects taught in NYS.</p>
+                <p class="section-intro">Use the subject dropdown to switch between disciplinary literacy tables for the major subjects taught in NYS.</p>
             </div>
             <div class="band-chip" id="disciplinary-band-chip">Subject tables for K-1</div>
         </div>
@@ -1028,6 +1179,7 @@ layout: tool
         ];
 
         const bandSelect = document.getElementById("grade-band-select");
+        const subjectSelect = document.getElementById("subject-select");
         const bandSummary = document.getElementById("band-summary");
         const big6Body = document.getElementById("big6-body");
         const big6Chip = document.getElementById("big6-band-chip");
@@ -1052,7 +1204,7 @@ layout: tool
                 intent: prompt.intent,
                 style: prompt.style,
                 parameters: prompt.parameters,
-                format: "detailed"
+                format: "compact"
             });
 
             return "/crisp?" + params.toString();
@@ -1063,7 +1215,7 @@ layout: tool
             const skill = band.skills[skillName];
 
             return {
-                context: "You are helping a " + band.label + " NYS teacher plan a multimodal literacy activity for " + skillName.toLowerCase() + ".",
+                context: "Act as a literacy coachhelping a " + band.label + " NYS teacher plan a multimodal literacy activity for " + skillName.toLowerCase() + ".",
                 request: modality.requestLead + " " + band.label + " students focused on " + skill.focus + ". Align it to broad NYS curriculum expectations for this band.",
                 intent: modality.intent + " Keep the work tightly connected to " + skill.alignment + ".",
                 style: sharedStyle,
@@ -1075,7 +1227,7 @@ layout: tool
             const band = gradeBands[bandKey];
 
             return {
-                context: "You are helping a " + band.label + " NYS " + subjectName + " teacher plan a disciplinary literacy routine.",
+                context: "Act as a literacy coach helping a " + band.label + " NYS " + subjectName + " teacher plan a disciplinary literacy routine.",
                 request: row.move(band),
                 intent: row.intent,
                 style: sharedStyle,
@@ -1114,7 +1266,7 @@ layout: tool
                     const prompt = buildBig6Prompt(bandKey, skillName, modality);
                     const linkText = modality.cellText(skill.focus);
 
-                    return '<td class="' + escapeHtml(modality.className) + '"><a class="cell-link" href="' + escapeHtml(buildCrispUrl(prompt)) + '" aria-label="Open CRISP builder for ' + escapeHtml(skillName) + ' in ' + escapeHtml(modality.label) + ' for ' + escapeHtml(band.label) + '.">' + escapeHtml(linkText) + '</a><span class="cell-note">Aligned to ' + escapeHtml(skill.alignment) + '.</span></td>';
+                    return '<td class="' + escapeHtml(modality.className) + '"><a class="cell-link" href="' + escapeHtml(buildCrispUrl(prompt)) + '" aria-label="Open CRISP builder for ' + escapeHtml(skillName) + ' in ' + escapeHtml(modality.label) + ' for ' + escapeHtml(band.label) + '.">' + escapeHtml(linkText) + '</a></td>';
                 }).join("");
 
                 return '<tr><th scope="row">' + escapeHtml(skillName) + '</th>' + cells + '</tr>';
@@ -1124,31 +1276,46 @@ layout: tool
             big6Note.textContent = band.note;
         }
 
+        function populateSubjectSelect() {
+            subjectSelect.innerHTML = subjects.map(function(subject, index) {
+                const selected = index === 0 ? ' selected' : '';
+
+                return '<option value="' + escapeHtml(subject.name) + '"' + selected + '>' + escapeHtml(subject.name) + '</option>';
+            }).join("");
+        }
+
+        function getSelectedSubject() {
+            const selectedName = subjectSelect.value;
+
+            return subjects.find(function(subject) {
+                return subject.name === selectedName;
+            }) || subjects[0];
+        }
+
         function renderSubjectTables(bandKey) {
             const band = gradeBands[bandKey];
+            const subject = getSelectedSubject();
 
-            disciplinaryTables.innerHTML = subjects.map(function(subject) {
-                const rows = subject.rows.map(function(row) {
-                    const prompt = buildSubjectPrompt(bandKey, subject.name, row);
+            const rows = subject.rows.map(function(row) {
+                const prompt = buildSubjectPrompt(bandKey, subject.name, row);
 
-                    return '<tr>' +
-                        '<th scope="row">' + escapeHtml(row.practice) + '</th>' +
-                        '<td>' + escapeHtml(row.move(band)) + '</td>' +
-                        '<td>' + escapeHtml(row.alignment) + '</td>' +
-                        '<td><a class="action-link" href="' + escapeHtml(buildCrispUrl(prompt)) + '" aria-label="Open CRISP builder for ' + escapeHtml(subject.name) + ' and ' + escapeHtml(row.practice) + ' in ' + escapeHtml(band.label) + '.">Open CRISP builder</a><span class="action-note">Teacher-planning prompt for ' + escapeHtml(band.label) + '.</span></td>' +
-                        '</tr>';
-                }).join("");
-
-                return '<section class="subject-card" aria-labelledby="subject-' + escapeHtml(subject.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")) + '">' +
-                    '<header><h3 id="subject-' + escapeHtml(subject.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")) + '">' + escapeHtml(subject.name) + '</h3><p class="subject-note">' + escapeHtml(subject.note) + '</p></header>' +
-                    '<table class="subject-table">' +
-                    '<thead><tr><th scope="col">Disciplinary literacy move</th><th scope="col">AI-supported planning idea</th><th scope="col">NYS alignment cue</th><th scope="col">Action</th></tr></thead>' +
-                    '<tbody>' + rows + '</tbody>' +
-                    '</table>' +
-                    '</section>';
+                return '<tr>' +
+                    '<th scope="row">' + escapeHtml(row.practice) + '</th>' +
+                    '<td>' + escapeHtml(row.move(band)) + '</td>' +
+                    '<td>' + escapeHtml(row.alignment) + '</td>' +
+                    '<td><a class="action-link" href="' + escapeHtml(buildCrispUrl(prompt)) + '" aria-label="Open CRISP builder for ' + escapeHtml(subject.name) + ' and ' + escapeHtml(row.practice) + ' in ' + escapeHtml(band.label) + '.">Open CRISP builder</a><span class="action-note">Teacher-planning prompt for ' + escapeHtml(band.label) + '.</span></td>' +
+                    '</tr>';
             }).join("");
 
-            disciplinaryChip.textContent = "Subject tables for " + band.label;
+            disciplinaryTables.innerHTML = '<section class="subject-card" aria-labelledby="subject-' + escapeHtml(subject.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")) + '">' +
+                '<header><h3 id="subject-' + escapeHtml(subject.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")) + '">' + escapeHtml(subject.name) + '</h3><p class="subject-note">' + escapeHtml(subject.note) + '</p></header>' +
+                '<table class="subject-table">' +
+                '<thead><tr><th scope="col">Disciplinary literacy move</th><th scope="col">AI-supported planning idea</th><th scope="col">NYS alignment cue</th><th scope="col">Action</th></tr></thead>' +
+                '<tbody>' + rows + '</tbody>' +
+                '</table>' +
+                '</section>';
+
+            disciplinaryChip.textContent = subject.name + ' for ' + band.label;
         }
 
         function renderBand(bandKey) {
@@ -1162,6 +1329,12 @@ layout: tool
             renderBand(event.target.value);
         });
 
+        subjectSelect.addEventListener("change", function() {
+            renderSubjectTables(bandSelect.value);
+            plannerStatus.textContent = "Updated the disciplinary literacy table to show " + subjectSelect.value + " for grade band " + gradeBands[bandSelect.value].label + ".";
+        });
+
+        populateSubjectSelect();
         renderBand(bandSelect.value);
     })();
 </script>
