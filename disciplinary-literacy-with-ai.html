@@ -1,0 +1,838 @@
+---
+title: "Disciplinary Literacy with AI"
+layout: tool
+---
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .page-shell {
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 24px 16px 48px;
+        color: #203042;
+    }
+
+    .page-header {
+        margin-bottom: 24px;
+    }
+
+    .page-eyebrow {
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #0d5aa7;
+        margin-bottom: 10px;
+    }
+
+    .page-title {
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        line-height: 1.08;
+        color: #102033;
+        margin-bottom: 12px;
+    }
+
+    .page-subtitle,
+    .controls-copy p,
+    .summary-card p,
+    .subject-note,
+    .usage-box p,
+    .usage-box li,
+    .footer-note,
+    .table-note,
+    .action-note {
+        color: #31465b;
+        line-height: 1.65;
+    }
+
+    .controls-section,
+    .planner-section,
+    .usage-box {
+        border-radius: 18px;
+        padding: 22px;
+        border: 1px solid #d8e2ee;
+        box-shadow: 0 10px 30px rgba(16, 32, 51, 0.08);
+        background: #ffffff;
+    }
+
+    .controls-section {
+        background: linear-gradient(135deg, #f4fbff 0%, #eef5ff 100%);
+        margin-bottom: 28px;
+    }
+
+    .controls-row,
+    .section-header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: end;
+    }
+
+    .controls-copy {
+        flex: 1 1 420px;
+    }
+
+    .section-title,
+    .controls-copy h2,
+    .usage-box h2 {
+        font-size: 1.35rem;
+        color: #102033;
+        margin-bottom: 10px;
+    }
+
+    .control-cluster {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        justify-content: flex-end;
+    }
+
+    .control-block {
+        min-width: 240px;
+        max-width: 300px;
+    }
+
+    .control-block label {
+        display: block;
+        font-weight: 700;
+        color: #102033;
+        margin-bottom: 8px;
+    }
+
+    .control-block select {
+        width: 100%;
+        border: 2px solid #7aa7d6;
+        border-radius: 12px;
+        background: #ffffff;
+        color: #102033;
+        font-size: 1rem;
+        padding: 12px 14px;
+        box-shadow: 0 6px 18px rgba(13, 90, 167, 0.08);
+    }
+
+    .control-block select:focus {
+        outline: none;
+        border-color: #0d5aa7;
+        box-shadow: 0 0 0 4px rgba(13, 90, 167, 0.18);
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+        margin-top: 18px;
+    }
+
+    .summary-card {
+        border-radius: 16px;
+        padding: 16px;
+        background: rgba(255, 255, 255, 0.88);
+        border: 1px solid #d3e4f6;
+    }
+
+    .summary-card h3 {
+        color: #0d4c8f;
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+    }
+
+    .band-chip {
+        align-self: start;
+        border-radius: 999px;
+        background: #edf3fd;
+        color: #0d4c8f;
+        font-size: 0.88rem;
+        font-weight: 700;
+        padding: 8px 12px;
+    }
+
+    .subject-card {
+        border-radius: 16px;
+        border: 1px solid #d8e2ee;
+        background: #fbfcff;
+        overflow: hidden;
+        margin-top: 18px;
+    }
+
+    .subject-card header {
+        padding: 18px 18px 8px;
+    }
+
+    .subject-card h3 {
+        color: #102033;
+        font-size: 1.1rem;
+        margin-bottom: 6px;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    .subject-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 920px;
+    }
+
+    .subject-table th,
+    .subject-table td {
+        padding: 12px 14px;
+        border-top: 1px solid #d8e2ee;
+        vertical-align: top;
+        text-align: left;
+    }
+
+    .subject-table thead th {
+        background: linear-gradient(135deg, #0d5aa7 0%, #3f7ec6 100%);
+        color: #ffffff;
+        border-top: none;
+    }
+
+    .subject-table tbody th {
+        width: 20%;
+        min-width: 170px;
+        background: #f5f8fc;
+        color: #102033;
+    }
+
+    .action-link,
+    .inline-link {
+        color: #102033;
+        font-weight: 700;
+        text-decoration: none;
+        text-underline-offset: 3px;
+    }
+
+    .action-link:hover,
+    .action-link:focus,
+    .inline-link:hover,
+    .inline-link:focus {
+        text-decoration: underline;
+    }
+
+    .action-link:focus-visible,
+    .inline-link:focus-visible {
+        outline: 3px solid rgba(13, 90, 167, 0.25);
+        outline-offset: 3px;
+    }
+
+    .action-note {
+        display: block;
+        margin-top: 6px;
+        font-size: 0.9rem;
+    }
+
+    .usage-box {
+        margin-top: 28px;
+    }
+
+    .usage-box ul {
+        margin-top: 12px;
+        padding-left: 1.2rem;
+    }
+
+    .footer-note {
+        margin-top: 28px;
+        font-size: 0.92rem;
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    @media (max-width: 780px) {
+        .page-shell {
+            padding: 18px 10px 32px;
+        }
+
+        .controls-section,
+        .planner-section,
+        .usage-box {
+            padding: 18px;
+        }
+
+        .control-block {
+            max-width: none;
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="page-shell">
+    <header class="page-header">
+        <p class="page-eyebrow">NYS planning tool</p>
+        <h1 class="page-title">Disciplinary literacy with AI</h1>
+        <p class="page-subtitle">Use the subject and grade-band dropdowns at the top of the page to switch between NYS-aligned disciplinary literacy planning tables. Each action opens a pre-filled CRISP prompt builder so you can adapt the routine to your texts, units, and students.</p>
+    </header>
+
+    <section class="controls-section" aria-labelledby="controls-title">
+        <div class="controls-row">
+            <div class="controls-copy">
+                <h2 id="controls-title">Choose a subject and grade band</h2>
+                <p id="planner-help">Switch the subject and grade band to update the disciplinary literacy table. This page is designed for teacher planning across major NYS subject areas.</p>
+            </div>
+            <div class="control-cluster">
+                <div class="control-block">
+                    <label for="subject-select">Subject</label>
+                    <select id="subject-select" aria-describedby="planner-help planner-status"></select>
+                </div>
+                <div class="control-block">
+                    <label for="grade-band-select">Grade band</label>
+                    <select id="grade-band-select" aria-describedby="planner-help planner-status">
+                        <option value="k-1">K-1</option>
+                        <option value="2-3">2-3</option>
+                        <option value="4-6">4-6</option>
+                        <option value="5-8">5-8</option>
+                        <option value="9-12">9-12</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="summary-grid" id="band-summary"></div>
+    </section>
+
+    <section class="planner-section" aria-labelledby="disciplinary-title">
+        <div class="section-header">
+            <div>
+                <h2 id="disciplinary-title" class="section-title">Disciplinary literacy planner</h2>
+                <p class="table-note">Use these planning moves to build reading, discussion, writing, inquiry, critique, and communication tasks that match the literacy demands of each subject area.</p>
+            </div>
+            <div class="band-chip" id="disciplinary-band-chip">English Language Arts for K-1</div>
+        </div>
+        <div id="disciplinary-tables"></div>
+    </section>
+
+    <section class="usage-box" aria-labelledby="usage-title">
+        <h2 id="usage-title">How to use this page</h2>
+        <p>Choose the subject and grade band first, then open the CRISP builder for the planning move you want. If you are looking for the multimodal Big 6 grid instead, use <a class="inline-link" href="/multimodal-big6">the multimodal Big 6 page</a>.</p>
+        <ul>
+            <li>Replace the generic source type with your actual text, lab, performance task, problem set, unit question, or media set.</li>
+            <li>Review every AI output for accuracy, accessibility, cultural responsiveness, and local curriculum fit.</li>
+            <li>Use teacher judgment before turning any AI-generated routine into student-facing materials.</li>
+            <li>Adjust language demands, scaffolds, and independence levels for multilingual learners and students with disabilities.</li>
+        </ul>
+    </section>
+
+    <p class="footer-note">This page is intended as a teacher planning aid for disciplinary literacy. It should be narrowed to your district curriculum, course sequence, and student needs before classroom use.</p>
+
+    <p id="planner-status" class="sr-only" role="status" aria-live="polite"></p>
+</div>
+
+<script>
+    (function() {
+        const sharedStyle = "Use clear teacher-friendly language. Format the response with a short rationale, a materials list when needed, numbered steps, differentiation ideas, and one quick formative check.";
+
+        const gradeBands = {
+            "k-1": {
+                label: "K-1",
+                standards: "Foundational literacy, oral language, shared reading, early writing, and supported content learning.",
+                sourceTypes: "pictures, short shared texts, teacher-created models, concrete examples, and brief demonstrations",
+                outputs: "oral responses, drawing, labeling, shared writing, and short dictated or copied responses",
+                instruction: "Model first, keep routines short, and use oral rehearsal, visuals, and guided practice.",
+                parameters: "Keep tasks concrete and brief. Use picture cues, sentence stems, and one-step or two-step routines.",
+                subjectTalk: "whole-group modeling, partner talk, and guided discussion"
+            },
+            "2-3": {
+                label: "2-3",
+                standards: "Developing independence with reading, writing, speaking, and knowledge building across content.",
+                sourceTypes: "short literary and informational texts, diagrams, data displays, maps, and short primary or secondary sources",
+                outputs: "short written responses, labeled diagrams, oral explanation, and paragraph-level writing",
+                instruction: "Blend explicit literacy instruction with more student independence, written response, and text evidence.",
+                parameters: "Use accessible grade-level text demands, clear directions, and opportunities for short written and oral responses.",
+                subjectTalk: "turn-and-talk, partner rehearsal, and short evidence-based discussion"
+            },
+            "4-6": {
+                label: "4-6",
+                standards: "Knowledge building, text evidence, morphology, and deeper literary and informational analysis.",
+                sourceTypes: "complex literary and informational texts, charts, diagrams, data, maps, and curated source sets",
+                outputs: "paragraphs, notes, organizers, summaries, constructed responses, and multimodal explanation",
+                instruction: "Increase student ownership while teaching annotation, discussion, vocabulary transfer, and evidence use.",
+                parameters: "Keep tasks grade-appropriate but rigorous. Include text evidence, academic vocabulary, and structured collaboration.",
+                subjectTalk: "small-group discussion, accountable talk, and explanation with evidence"
+            },
+            "5-8": {
+                label: "5-8",
+                standards: "Middle-grade disciplinary literacy, argumentation, inquiry, and increasingly independent analysis.",
+                sourceTypes: "novels, articles, experiments, maps, media, data sets, and technical or historical source collections",
+                outputs: "notes, short arguments, comparative responses, lab explanations, discussion prep, and presentations",
+                instruction: "Center text evidence, argument, discussion norms, and strategic support for diverse readers and multilingual learners.",
+                parameters: "Use grade-appropriate complexity, discussion structures, and explicit support for academic language and source use.",
+                subjectTalk: "seminars, collaborative analysis, and accountable discourse with evidence"
+            },
+            "9-12": {
+                label: "9-12",
+                standards: "Complex text analysis, synthesis, rhetorical awareness, research, and discipline-specific communication.",
+                sourceTypes: "complex literature, primary sources, technical texts, data sets, media, professional models, and research-based materials",
+                outputs: "analytical writing, argument, annotation, presentations, technical products, and sustained inquiry artifacts",
+                instruction: "Support independent analysis, sustained inquiry, discussion leadership, and polished speaking and writing.",
+                parameters: "Expect rigorous content and evidence use. Include options for analysis, critique, synthesis, and student independence.",
+                subjectTalk: "seminars, presentations, critique, collaborative planning, and formal or informal academic discourse"
+            }
+        };
+
+        const subjects = [
+            {
+                name: "English Language Arts",
+                note: "Use AI to plan reading, writing, discussion, vocabulary, and language work around literary and informational texts.",
+                rows: [
+                    {
+                        practice: "Read closely and discuss craft",
+                        move: function(band) {
+                            return "Build a lesson sequence using " + band.sourceTypes + " so students can notice vocabulary, structure, point of view, and author choices.";
+                        },
+                        alignment: "Aligns to NYS ELA reading, speaking/listening, language, and craft analysis expectations.",
+                        intent: "Help students read, talk, and notice how texts work.",
+                        parameters: "Include text-dependent questions, vocabulary support, and one written or oral response."
+                    },
+                    {
+                        practice: "Write from text and revise",
+                        move: function(band) {
+                            return "Generate a writing routine that moves students from discussion and notes into " + band.outputs + " grounded in evidence from reading.";
+                        },
+                        alignment: "Supports NYS writing expectations for narrative, informational, and argument writing with evidence.",
+                        intent: "Help students plan, draft, revise, and cite evidence in ways that fit the grade band.",
+                        parameters: "Include planning support, a revision cue, and a short rubric or success criteria."
+                    },
+                    {
+                        practice: "Build vocabulary and speaking routines",
+                        move: function(band) {
+                            return "Create discussion and vocabulary routines that use " + band.subjectTalk + " to rehearse precise academic language before writing or response.";
+                        },
+                        alignment: "Supports NYS language, speaking, listening, and vocabulary development standards.",
+                        intent: "Strengthen oral rehearsal, vocabulary transfer, and discussion quality.",
+                        parameters: "Include sentence frames only when the grade band still benefits from them."
+                    }
+                ]
+            },
+            {
+                name: "Mathematics",
+                note: "Mathematics literacy includes reading problems carefully, interpreting representations, explaining reasoning, and critiquing arguments.",
+                rows: [
+                    {
+                        practice: "Read problems and interpret representations",
+                        move: function(band) {
+                            return "Generate a math literacy routine that helps students unpack vocabulary, symbols, diagrams, and multi-step directions using " + band.sourceTypes + ".";
+                        },
+                        alignment: "Aligns to NYS mathematics practices related to making sense of problems and using precise language.",
+                        intent: "Support students in reading mathematics accurately before solving.",
+                        parameters: "Include think-aloud prompts, key vocabulary, and an annotated example."
+                    },
+                    {
+                        practice: "Explain reasoning and critique solutions",
+                        move: function(band) {
+                            return "Create accountable talk prompts that use " + band.subjectTalk + " so students explain strategy choices, compare approaches, and justify answers.";
+                        },
+                        alignment: "Supports reasoning, argument, and mathematical communication in NYS classrooms.",
+                        intent: "Help students speak and listen like mathematicians.",
+                        parameters: "Include one misconception check and one peer response prompt."
+                    },
+                    {
+                        practice: "Write mathematical thinking",
+                        move: function(band) {
+                            return "Design a written reflection or justification task that turns solving work into " + band.outputs + " with clear math vocabulary.";
+                        },
+                        alignment: "Supports communication of mathematical reasoning across written and visual formats.",
+                        intent: "Help students translate problem solving into precise written explanation.",
+                        parameters: "Provide a model response and success criteria for clarity and evidence."
+                    }
+                ]
+            },
+            {
+                name: "Science",
+                note: "Science literacy includes reading phenomena, procedures, and data; speaking from evidence; and writing claims, explanations, and models.",
+                rows: [
+                    {
+                        practice: "Read phenomena, procedures, and data",
+                        move: function(band) {
+                            return "Create a science reading routine that helps students interpret procedures, diagrams, tables, and observation notes from " + band.sourceTypes + ".";
+                        },
+                        alignment: "Supports NYS science expectations for analyzing information, evidence, models, and investigations.",
+                        intent: "Help students read and interpret scientific information accurately.",
+                        parameters: "Include visual or annotation cues and a way to separate observation from inference."
+                    },
+                    {
+                        practice: "Talk through evidence and claims",
+                        move: function(band) {
+                            return "Generate discussion prompts that use " + band.subjectTalk + " so students explain evidence, identify patterns, and connect observations to claims.";
+                        },
+                        alignment: "Supports evidence-based explanation and argument from evidence in NYS science learning.",
+                        intent: "Build scientific discourse grounded in observations and data.",
+                        parameters: "Include claim-evidence-reasoning support appropriate to the grade band."
+                    },
+                    {
+                        practice: "Write explanations and models",
+                        move: function(band) {
+                            return "Design a science notebook, lab write-up, or model explanation task that leads students toward " + band.outputs + ".";
+                        },
+                        alignment: "Supports scientific explanation, modeling, and communication of findings.",
+                        intent: "Help students turn inquiry into clear explanations and records.",
+                        parameters: "Include sentence or structure support only as needed for the selected band."
+                    }
+                ]
+            },
+            {
+                name: "Social Studies",
+                note: "Social studies literacy centers on source analysis, chronology, geography, civics, and evidence-based interpretation.",
+                rows: [
+                    {
+                        practice: "Read maps, timelines, and sources",
+                        move: function(band) {
+                            return "Create a source analysis routine that helps students interpret maps, timelines, visuals, and texts from " + band.sourceTypes + ".";
+                        },
+                        alignment: "Supports the NYS Social Studies Framework focus on source work, chronology, geography, and civic understanding.",
+                        intent: "Help students gather and organize information from historical and civic sources.",
+                        parameters: "Include sourcing questions, vocabulary support, and a note-taking structure."
+                    },
+                    {
+                        practice: "Discuss perspective and evidence",
+                        move: function(band) {
+                            return "Generate discussion prompts that use " + band.subjectTalk + " for perspective-taking, civic reasoning, and evidence-based interpretation.";
+                        },
+                        alignment: "Supports discussion, argument, and interpretation of multiple perspectives in social studies.",
+                        intent: "Help students speak and listen like historians and civic thinkers.",
+                        parameters: "Include at least one question that compares perspectives or sources."
+                    },
+                    {
+                        practice: "Write claims from sources",
+                        move: function(band) {
+                            return "Design a source-based response, quick write, or argument task that moves students toward " + band.outputs + " using cited evidence.";
+                        },
+                        alignment: "Supports source-based writing and civic argument expected in NYS social studies classrooms.",
+                        intent: "Help students write grounded claims, explanations, and interpretations.",
+                        parameters: "Provide a structure for citing or paraphrasing evidence."
+                    }
+                ]
+            },
+            {
+                name: "The Arts",
+                note: "Arts literacy includes interpreting artistic work, using discipline vocabulary, discussing choices, and creating artist statements or reflections.",
+                rows: [
+                    {
+                        practice: "Interpret works and notice artistic choices",
+                        move: function(band) {
+                            return "Generate prompts that help students read, view, or listen to artworks and performances using " + band.sourceTypes + " and discipline vocabulary.";
+                        },
+                        alignment: "Supports NYS Arts Standards for responding to and connecting with artistic work.",
+                        intent: "Help students observe closely and discuss artistic decisions.",
+                        parameters: "Include observation prompts before evaluation or critique."
+                    },
+                    {
+                        practice: "Discuss critique and process",
+                        move: function(band) {
+                            return "Create critique routines that use " + band.subjectTalk + " so students describe, analyze, and respond to artistic work constructively.";
+                        },
+                        alignment: "Supports artistic response, critique, and reflection in NYS arts classrooms.",
+                        intent: "Build respectful critique language and process reflection.",
+                        parameters: "Use age-appropriate critique stems and emphasize evidence from the work."
+                    },
+                    {
+                        practice: "Write or record artist statements",
+                        move: function(band) {
+                            return "Design a brief artist statement, rehearsal reflection, or process note task that results in " + band.outputs + ".";
+                        },
+                        alignment: "Supports creating, presenting, and reflecting in the arts.",
+                        intent: "Help students explain artistic choices, process, and intended impact.",
+                        parameters: "Include vocabulary support related to media, technique, and audience."
+                    }
+                ]
+            },
+            {
+                name: "World Languages",
+                note: "World language literacy includes interpretive reading and listening, interpersonal communication, and presentational speaking and writing.",
+                rows: [
+                    {
+                        practice: "Interpretive reading and listening",
+                        move: function(band) {
+                            return "Create a routine that helps students interpret short texts, visuals, or audio from " + band.sourceTypes + " using target-language supports.";
+                        },
+                        alignment: "Supports NYS world language expectations for interpretive communication and cultural understanding.",
+                        intent: "Help students make meaning from authentic or adapted language input.",
+                        parameters: "Include vocabulary previews, comprehension checks, and cultural context as needed."
+                    },
+                    {
+                        practice: "Interpersonal speaking and exchange",
+                        move: function(band) {
+                            return "Generate speaking routines that use " + band.subjectTalk + " for partner exchange, clarification, and question-and-answer practice in the target language.";
+                        },
+                        alignment: "Supports interpersonal communication and functional language use.",
+                        intent: "Build confidence and accuracy in real-time language use.",
+                        parameters: "Balance fluency, accuracy, and comprehensibility for the grade band."
+                    },
+                    {
+                        practice: "Presentational writing or speaking",
+                        move: function(band) {
+                            return "Design a presentational task that leads students toward " + band.outputs + " in the target language with appropriate supports.";
+                        },
+                        alignment: "Supports presentational communication and language production in context.",
+                        intent: "Help students organize language for an audience and purpose.",
+                        parameters: "Include audience, purpose, and cultural or situational context."
+                    }
+                ]
+            },
+            {
+                name: "Health Education",
+                note: "Health literacy includes reading scenarios and informational texts, discussing decisions, and writing or presenting action-oriented responses.",
+                rows: [
+                    {
+                        practice: "Read scenarios and health information",
+                        move: function(band) {
+                            return "Generate a health literacy routine that helps students interpret scenarios, infographics, and informational texts from " + band.sourceTypes + ".";
+                        },
+                        alignment: "Supports NYS health education expectations for informed decision-making and communication.",
+                        intent: "Help students read and evaluate health-related information and media.",
+                        parameters: "Include media literacy or source credibility when appropriate for the band."
+                    },
+                    {
+                        practice: "Discuss choices and advocacy",
+                        move: function(band) {
+                            return "Create discussion prompts that use " + band.subjectTalk + " to examine healthy choices, communication strategies, and advocacy scenarios.";
+                        },
+                        alignment: "Supports decision-making, interpersonal communication, and advocacy skills.",
+                        intent: "Help students talk through consequences, choices, and support systems.",
+                        parameters: "Keep scenarios age-appropriate and solutions practical."
+                    },
+                    {
+                        practice: "Write plans and reflections",
+                        move: function(band) {
+                            return "Design a reflection, action plan, or informational product that results in " + band.outputs + " around a health topic.";
+                        },
+                        alignment: "Supports health communication, reflection, and goal-setting.",
+                        intent: "Help students turn understanding into action or self-reflection.",
+                        parameters: "Include a realistic audience or purpose when appropriate."
+                    }
+                ]
+            },
+            {
+                name: "Physical Education",
+                note: "Physical education literacy includes reading movement cues, listening to directions, using feedback, and reflecting on goals and performance.",
+                rows: [
+                    {
+                        practice: "Read cues, tasks, and movement information",
+                        move: function(band) {
+                            return "Create task cards or cueing supports that help students read, interpret, and apply movement directions from " + band.sourceTypes + ".";
+                        },
+                        alignment: "Supports NYS physical education communication, strategy, and self-management expectations.",
+                        intent: "Help students understand performance cues, safety directions, and task expectations.",
+                        parameters: "Keep directions concise and movement-focused."
+                    },
+                    {
+                        practice: "Use feedback and verbal coaching",
+                        move: function(band) {
+                            return "Generate peer feedback prompts and coaching language that use " + band.subjectTalk + " during drills, games, or performance practice.";
+                        },
+                        alignment: "Supports communication, teamwork, and reflection in physical education.",
+                        intent: "Help students give and receive useful feedback during movement work.",
+                        parameters: "Include respectful language and one self-assessment cue."
+                    },
+                    {
+                        practice: "Reflect on goals, wellness, and performance",
+                        move: function(band) {
+                            return "Design a reflection routine that turns activity experience into " + band.outputs + " about goals, strategy, effort, or wellness.";
+                        },
+                        alignment: "Supports personal fitness reflection, goal-setting, and communication.",
+                        intent: "Help students connect physical activity to strategy, wellness, and self-management.",
+                        parameters: "Use age-appropriate wellness language and realistic reflection structures."
+                    }
+                ]
+            },
+            {
+                name: "Computer Science and Digital Fluency",
+                note: "Digital literacy includes reading systems and code, explaining processes, collaborating responsibly, and documenting solutions.",
+                rows: [
+                    {
+                        practice: "Read code, diagrams, and digital systems",
+                        move: function(band) {
+                            return "Generate a routine that helps students interpret code snippets, flowcharts, interface directions, or system diagrams from " + band.sourceTypes + ".";
+                        },
+                        alignment: "Supports NYS Digital Fluency and Computer Science expectations for understanding systems, representations, and processes.",
+                        intent: "Help students read digital information with accuracy and purpose.",
+                        parameters: "Adjust the level of technical detail to the selected grade band."
+                    },
+                    {
+                        practice: "Explain algorithms, choices, and debugging",
+                        move: function(band) {
+                            return "Create discussion and reflection prompts that use " + band.subjectTalk + " for explaining steps, debugging choices, and evaluating solutions.";
+                        },
+                        alignment: "Supports algorithmic thinking, problem solving, and digital communication.",
+                        intent: "Help students make their thinking visible when working with digital tools or code.",
+                        parameters: "Include prompts for revision, error analysis, or ethical technology use when relevant."
+                    },
+                    {
+                        practice: "Document and present digital work",
+                        move: function(band) {
+                            return "Design a documentation or presentation task that turns digital work into " + band.outputs + " for peers or teachers.";
+                        },
+                        alignment: "Supports communication, documentation, and responsible digital participation.",
+                        intent: "Help students communicate process, outcomes, and next steps.",
+                        parameters: "Include audience, purpose, and clear success criteria."
+                    }
+                ]
+            },
+            {
+                name: "Career and Technical Education",
+                note: "CTE literacy includes reading workplace and technical texts, communicating professionally, and producing procedural or project documentation.",
+                rows: [
+                    {
+                        practice: "Read technical and workplace documents",
+                        move: function(band) {
+                            return "Create a routine that helps students interpret technical directions, workplace texts, safety information, and diagrams from " + band.sourceTypes + ".";
+                        },
+                        alignment: "Supports literacy demands common across NYS CTE pathways, including procedures, technical vocabulary, and safety communication.",
+                        intent: "Help students read and apply technical information accurately.",
+                        parameters: "Include safety, sequencing, and vocabulary support."
+                    },
+                    {
+                        practice: "Speak and collaborate professionally",
+                        move: function(band) {
+                            return "Generate professional communication routines that use " + band.subjectTalk + " for collaboration, customer scenarios, troubleshooting, or project planning.";
+                        },
+                        alignment: "Supports workplace communication and collaboration expectations within CTE programs.",
+                        intent: "Help students use clear, professional, task-focused language.",
+                        parameters: "Include role-based language and realistic workplace expectations."
+                    },
+                    {
+                        practice: "Write procedures, reflections, and artifacts",
+                        move: function(band) {
+                            return "Design a task that turns hands-on work into " + band.outputs + " such as procedures, logs, proposals, or portfolio reflections.";
+                        },
+                        alignment: "Supports technical writing, reflection, and product documentation in CTE classrooms.",
+                        intent: "Help students document process, quality, and professional learning.",
+                        parameters: "Include audience, format expectations, and quality checks."
+                    }
+                ]
+            }
+        ];
+
+        const subjectSelect = document.getElementById("subject-select");
+        const bandSelect = document.getElementById("grade-band-select");
+        const bandSummary = document.getElementById("band-summary");
+        const disciplinaryChip = document.getElementById("disciplinary-band-chip");
+        const disciplinaryTables = document.getElementById("disciplinary-tables");
+        const plannerStatus = document.getElementById("planner-status");
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/\"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function buildCrispUrl(prompt) {
+            const params = new URLSearchParams({
+                context: prompt.context,
+                request: prompt.request,
+                intent: prompt.intent,
+                style: prompt.style,
+                parameters: prompt.parameters,
+                format: "compact"
+            });
+
+            return "/crisp?" + params.toString();
+        }
+
+        function buildSubjectPrompt(bandKey, subjectName, row) {
+            const band = gradeBands[bandKey];
+
+            return {
+                context: "Act as a literacy coach helping a " + band.label + " NYS " + subjectName + " teacher plan a disciplinary literacy routine.",
+                request: row.move(band),
+                intent: row.intent,
+                style: sharedStyle,
+                parameters: band.parameters + " Use " + band.sourceTypes + ", " + band.subjectTalk + ", and " + band.outputs + " as appropriate. " + row.parameters
+            };
+        }
+
+        function populateSubjectSelect() {
+            subjectSelect.innerHTML = subjects.map(function(subject, index) {
+                const selected = index === 0 ? ' selected' : '';
+
+                return '<option value="' + escapeHtml(subject.name) + '"' + selected + '>' + escapeHtml(subject.name) + '</option>';
+            }).join("");
+        }
+
+        function getSelectedSubject() {
+            const selectedName = subjectSelect.value;
+
+            return subjects.find(function(subject) {
+                return subject.name === selectedName;
+            }) || subjects[0];
+        }
+
+        function renderSummary(bandKey) {
+            const band = gradeBands[bandKey];
+
+            bandSummary.innerHTML = [
+                {
+                    title: "NYS standards lens",
+                    text: band.standards
+                },
+                {
+                    title: "Typical source types",
+                    text: band.sourceTypes
+                },
+                {
+                    title: "Likely student outputs",
+                    text: band.outputs
+                },
+                {
+                    title: "Instructional stance",
+                    text: band.instruction
+                }
+            ].map(function(card) {
+                return '<article class="summary-card"><h3>' + escapeHtml(card.title) + '</h3><p>' + escapeHtml(card.text) + '</p></article>';
+            }).join("");
+        }
+
+        function renderSubjectTable() {
+            const bandKey = bandSelect.value;
+            const band = gradeBands[bandKey];
+            const subject = getSelectedSubject();
+
+            const rows = subject.rows.map(function(row) {
+                const prompt = buildSubjectPrompt(bandKey, subject.name, row);
+
+                return '<tr>' +
+                    '<th scope="row">' + escapeHtml(row.practice) + '</th>' +
+                    '<td>' + escapeHtml(row.move(band)) + '</td>' +
+                    '<td>' + escapeHtml(row.alignment) + '</td>' +
+                    '<td><a class="action-link" href="' + escapeHtml(buildCrispUrl(prompt)) + '" aria-label="Open CRISP builder for ' + escapeHtml(subject.name) + ' and ' + escapeHtml(row.practice) + ' in ' + escapeHtml(band.label) + '.">Open CRISP builder</a><span class="action-note">Teacher-planning prompt for ' + escapeHtml(band.label) + '.</span></td>' +
+                    '</tr>';
+            }).join("");
+
+            disciplinaryTables.innerHTML = '<section class="subject-card" aria-labelledby="subject-' + escapeHtml(subject.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")) + '">' +
+                '<header><h3 id="subject-' + escapeHtml(subject.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")) + '">' + escapeHtml(subject.name) + '</h3><p class="subject-note">' + escapeHtml(subject.note) + '</p></header>' +
+                '<div class="table-wrap"><table class="subject-table">' +
+                '<thead><tr><th scope="col">Disciplinary literacy move</th><th scope="col">AI-supported planning idea</th><th scope="col">NYS alignment cue</th><th scope="col">Action</th></tr></thead>' +
+                '<tbody>' + rows + '</tbody>' +
+                '</table></div>' +
+                '</section>';
+
+            disciplinaryChip.textContent = subject.name + ' for ' + band.label;
+            plannerStatus.textContent = 'Updated the disciplinary literacy planner to show ' + subject.name + ' for grade band ' + band.label + '.';
+        }
+
+        function renderPage() {
+            renderSummary(bandSelect.value);
+            renderSubjectTable();
+        }
+
+        subjectSelect.addEventListener("change", renderPage);
+        bandSelect.addEventListener("change", renderPage);
+
+        populateSubjectSelect();
+        renderPage();
+    })();
+</script>
