@@ -252,6 +252,38 @@ tags: [AI, Multimodal, Big 6, Technology]
         text-decoration: underline;
     }
 
+    .tool-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 6px;
+    }
+
+    .tool-badge {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 3px 8px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .tool-badge-cost {
+        background: #edf7ed;
+        color: #1d5f2b;
+    }
+
+    .tool-badge-cost-mixed {
+        background: #fff4dd;
+        color: #8a5a00;
+    }
+
+    .tool-badge-audience {
+        background: #edf3fd;
+        color: #0d4c8f;
+    }
+
     .tool-detail {
         display: block;
         color: #425466;
@@ -350,26 +382,12 @@ tags: [AI, Multimodal, Big 6, Technology]
                 <div class="grid-cell header-modality">Gestural</div>
                 <div class="grid-cell header-modality">Spatial</div>
 
-                <div class="grid-cell header-skill">Phonemic Awareness</div>
-                <div class="grid-cell modality-linguistic"><div class="cell-content"><a class="cell-link" href="#prompt-phonemic-linguistic">Make rhyme pairs for blending.</a></div></div>
-                <div class="grid-cell modality-visual"><div class="cell-content"><a class="cell-link" href="#prompt-phonemic-visual">Make picture rhyme cards.</a></div></div>
-                <div class="grid-cell modality-audio"><div class="cell-content"><a class="cell-link" href="#prompt-phonemic-audio">Record rhyme and sound games.</a></div></div>
-                <div class="grid-cell modality-gestural"><div class="cell-content"><a class="cell-link" href="#prompt-phonemic-gestural">Add a movement to each sound.</a></div></div>
-                <div class="grid-cell modality-spatial"><div class="cell-content"><a class="cell-link" href="#prompt-phonemic-spatial">Arrange sound cards in order.</a></div></div>
-
-                <div class="grid-cell header-skill">Phonics</div>
-                <div class="grid-cell modality-linguistic"><div class="cell-content"><a class="cell-link" href="#prompt-phonics-linguistic">Write simple decodable text.</a></div></div>
-                <div class="grid-cell modality-visual"><div class="cell-content"><a class="cell-link" href="#prompt-phonics-visual">Make color-coded sound posters.</a></div></div>
-                <div class="grid-cell modality-audio"><div class="cell-content"><a class="cell-link" href="#prompt-phonics-audio">Read letter sounds aloud.</a></div></div>
-                <div class="grid-cell modality-gestural"><div class="cell-content"><a class="cell-link" href="#prompt-phonics-gestural">Trace letters with hand motions.</a></div></div>
-                <div class="grid-cell modality-spatial"><div class="cell-content"><a class="cell-link" href="#prompt-phonics-spatial">Show letter strokes with arrows.</a></div></div>
-
-                <div class="grid-cell header-skill">Fluency</div>
-                <div class="grid-cell modality-linguistic"><div class="cell-content"><a class="cell-link" href="#prompt-fluency-linguistic">Write short rereading passages.</a></div></div>
-                <div class="grid-cell modality-visual"><div class="cell-content"><a class="cell-link" href="#prompt-fluency-visual">Show reading growth on charts.</a></div></div>
-                <div class="grid-cell modality-audio"><div class="cell-content"><a class="cell-link" href="#prompt-fluency-audio">Model smooth reading aloud.</a></div></div>
-                <div class="grid-cell modality-gestural"><div class="cell-content"><a class="cell-link" href="#prompt-fluency-gestural">Match gestures to expression.</a></div></div>
-                <div class="grid-cell modality-spatial"><div class="cell-content"><a class="cell-link" href="#prompt-fluency-spatial">Mark pauses on the page.</a></div></div>
+                <div class="grid-cell header-skill">Oral Language</div>
+                <div class="grid-cell modality-linguistic"><div class="cell-content"><a class="cell-link" href="#prompt-oral-linguistic">Build speaking and listening prompts.</a></div></div>
+                <div class="grid-cell modality-visual"><div class="cell-content"><a class="cell-link" href="#prompt-oral-visual">Use pictures for partner talk.</a></div></div>
+                <div class="grid-cell modality-audio"><div class="cell-content"><a class="cell-link" href="#prompt-oral-audio">Model oral language with recordings.</a></div></div>
+                <div class="grid-cell modality-gestural"><div class="cell-content"><a class="cell-link" href="#prompt-oral-gestural">Pair talk with motions and role-play.</a></div></div>
+                <div class="grid-cell modality-spatial"><div class="cell-content"><a class="cell-link" href="#prompt-oral-spatial">Use talk maps and discussion spots.</a></div></div>
 
                 <div class="grid-cell header-skill">Vocabulary</div>
                 <div class="grid-cell modality-linguistic"><div class="cell-content"><a class="cell-link" href="#prompt-vocabulary-linguistic">Make word cards and sentences.</a></div></div>
@@ -378,19 +396,33 @@ tags: [AI, Multimodal, Big 6, Technology]
                 <div class="grid-cell modality-gestural"><div class="cell-content"><a class="cell-link" href="#prompt-vocabulary-gestural">Use motions for new words.</a></div></div>
                 <div class="grid-cell modality-spatial"><div class="cell-content"><a class="cell-link" href="#prompt-vocabulary-spatial">Build simple word webs.</a></div></div>
 
+                <div class="grid-cell header-skill">Phonics</div>
+                <div class="grid-cell modality-linguistic"><div class="cell-content"><a class="cell-link" href="#prompt-phonics-linguistic">Write simple decodable text.</a></div></div>
+                <div class="grid-cell modality-visual"><div class="cell-content"><a class="cell-link" href="#prompt-phonics-visual">Make color-coded sound posters.</a></div></div>
+                <div class="grid-cell modality-audio"><div class="cell-content"><a class="cell-link" href="#prompt-phonics-audio">Read letter sounds aloud.</a></div></div>
+                <div class="grid-cell modality-gestural"><div class="cell-content"><a class="cell-link" href="#prompt-phonics-gestural">Trace letters with hand motions.</a></div></div>
+                <div class="grid-cell modality-spatial"><div class="cell-content"><a class="cell-link" href="#prompt-phonics-spatial">Show letter strokes with arrows.</a></div></div>
+
+                <div class="grid-cell header-skill">Phonological Awareness</div>
+                <div class="grid-cell modality-linguistic"><div class="cell-content"><a class="cell-link" href="#prompt-phonological-linguistic">Make rhyme pairs for blending.</a></div></div>
+                <div class="grid-cell modality-visual"><div class="cell-content"><a class="cell-link" href="#prompt-phonological-visual">Make picture rhyme cards.</a></div></div>
+                <div class="grid-cell modality-audio"><div class="cell-content"><a class="cell-link" href="#prompt-phonological-audio">Record rhyme and sound games.</a></div></div>
+                <div class="grid-cell modality-gestural"><div class="cell-content"><a class="cell-link" href="#prompt-phonological-gestural">Add a movement to each sound.</a></div></div>
+                <div class="grid-cell modality-spatial"><div class="cell-content"><a class="cell-link" href="#prompt-phonological-spatial">Arrange sound cards in order.</a></div></div>
+
+                <div class="grid-cell header-skill">Fluency</div>
+                <div class="grid-cell modality-linguistic"><div class="cell-content"><a class="cell-link" href="#prompt-fluency-linguistic">Write short rereading passages.</a></div></div>
+                <div class="grid-cell modality-visual"><div class="cell-content"><a class="cell-link" href="#prompt-fluency-visual">Show reading growth on charts.</a></div></div>
+                <div class="grid-cell modality-audio"><div class="cell-content"><a class="cell-link" href="#prompt-fluency-audio">Model smooth reading aloud.</a></div></div>
+                <div class="grid-cell modality-gestural"><div class="cell-content"><a class="cell-link" href="#prompt-fluency-gestural">Match gestures to expression.</a></div></div>
+                <div class="grid-cell modality-spatial"><div class="cell-content"><a class="cell-link" href="#prompt-fluency-spatial">Mark pauses on the page.</a></div></div>
+
                 <div class="grid-cell header-skill">Comprehension</div>
                 <div class="grid-cell modality-linguistic"><div class="cell-content"><a class="cell-link" href="#prompt-comprehension-linguistic">Ask story questions and retells.</a></div></div>
                 <div class="grid-cell modality-visual"><div class="cell-content"><a class="cell-link" href="#prompt-comprehension-visual">Show story order with pictures.</a></div></div>
                 <div class="grid-cell modality-audio"><div class="cell-content"><a class="cell-link" href="#prompt-comprehension-audio">Model think-aloud reading.</a></div></div>
                 <div class="grid-cell modality-gestural"><div class="cell-content"><a class="cell-link" href="#prompt-comprehension-gestural">Act out story events.</a></div></div>
                 <div class="grid-cell modality-spatial"><div class="cell-content"><a class="cell-link" href="#prompt-comprehension-spatial">Map plot, setting, and characters.</a></div></div>
-
-                <div class="grid-cell header-skill">Print Concepts</div>
-                <div class="grid-cell modality-linguistic"><div class="cell-content"><a class="cell-link" href="#prompt-print-linguistic">Practice letter names and order.</a></div></div>
-                <div class="grid-cell modality-visual"><div class="cell-content"><a class="cell-link" href="#prompt-print-visual">Label parts of a book.</a></div></div>
-                <div class="grid-cell modality-audio"><div class="cell-content"><a class="cell-link" href="#prompt-print-audio">Sing alphabet and letter names.</a></div></div>
-                <div class="grid-cell modality-gestural"><div class="cell-content"><a class="cell-link" href="#prompt-print-gestural">Track print left to right.</a></div></div>
-                <div class="grid-cell modality-spatial"><div class="cell-content"><a class="cell-link" href="#prompt-print-spatial">Show how print moves on a page.</a></div></div>
             </div>
         </div>
     </section>
@@ -398,53 +430,54 @@ tags: [AI, Multimodal, Big 6, Technology]
     <section class="tools-section" aria-labelledby="tools-title">
         <h2 id="tools-title" class="tools-title">Suggested tools by modality</h2>
         <p class="tools-intro">These tools can help you build or adapt activities in each modality. Pick tools that fit your students, device access, and privacy requirements.</p>
+        <p class="tools-note">Indicators show whether a tool is free or free with paid upgrades, and whether it is usually best for teacher use or can be student-safe with teacher setup.</p>
         <div class="tools-grid">
             <section class="tool-group" aria-labelledby="tools-linguistic-title">
                 <h3 id="tools-linguistic-title">Linguistic/Alphabetic</h3>
                 <ul class="tool-list">
-                    <li><a href="https://rath.phd/crisp/" target="_blank" rel="noopener noreferrer">CRISP Builder</a><span class="tool-detail">Plan and refine prompts before pasting them into an AI tool.</span></li>
-                    <li><a href="https://claude.ai/" target="_blank" rel="noopener noreferrer">Claude</a><span class="tool-detail">Draft passages, sentence frames, word lists, and teacher directions.</span></li>
-                    <li><a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">Gemini</a><span class="tool-detail">Generate decodable text, comprehension questions, and vocabulary supports.</span></li>
+                    <li><a href="https://rath.phd/crisp/" target="_blank" rel="noopener noreferrer">CRISP Builder</a><span class="tool-meta"><span class="tool-badge tool-badge-cost">Free</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Plan and refine prompts before pasting them into an AI tool.</span></li>
+                    <li><a href="https://claude.ai/" target="_blank" rel="noopener noreferrer">Claude</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Draft passages, sentence frames, word lists, and teacher directions.</span></li>
+                    <li><a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">Gemini</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Generate decodable text, comprehension questions, and vocabulary supports.</span></li>
                 </ul>
             </section>
 
             <section class="tool-group" aria-labelledby="tools-visual-title">
                 <h3 id="tools-visual-title">Visual</h3>
                 <ul class="tool-list">
-                    <li><a href="https://www.canva.com/" target="_blank" rel="noopener noreferrer">Canva</a><span class="tool-detail">Create cards, posters, charts, and picture supports for literacy lessons.</span></li>
-                    <li><a href="https://new.express.adobe.com/" target="_blank" rel="noopener noreferrer">Adobe Express</a><span class="tool-detail">Build quick graphics, story sequence images, and classroom visuals.</span></li>
-                    <li><a href="https://designer.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft Designer</a><span class="tool-detail">Generate simple image-based materials from short prompts.</span></li>
+                    <li><a href="https://www.canva.com/" target="_blank" rel="noopener noreferrer">Canva</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Create cards, posters, charts, and picture supports for literacy lessons.</span></li>
+                    <li><a href="https://new.express.adobe.com/" target="_blank" rel="noopener noreferrer">Adobe Express</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Build quick graphics, story sequence images, and classroom visuals.</span></li>
+                    <li><a href="https://designer.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft Designer</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Generate simple image-based materials from short prompts.</span></li>
                 </ul>
             </section>
 
             <section class="tool-group" aria-labelledby="tools-audio-title">
                 <h3 id="tools-audio-title">Audio</h3>
                 <ul class="tool-list">
-                    <li><a href="https://elevenlabs.io/" target="_blank" rel="noopener noreferrer">ElevenLabs</a><span class="tool-detail">Create model read-alouds, pronunciation examples, or short listening scripts.</span></li>
-                    <li><a href="https://notebooklm.google.com/" target="_blank" rel="noopener noreferrer">NotebookLM</a><span class="tool-detail">Turn notes into spoken summaries or audio-style explanations.</span></li>
-                    <li><a href="https://www.audacityteam.org/" target="_blank" rel="noopener noreferrer">Audacity</a><span class="tool-detail">Record and edit teacher-made audio for fluency and phonemic practice.</span></li>
+                    <li><a href="https://elevenlabs.io/" target="_blank" rel="noopener noreferrer">ElevenLabs</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Create model read-alouds, pronunciation examples, or short listening scripts.</span></li>
+                    <li><a href="https://notebooklm.google.com/" target="_blank" rel="noopener noreferrer">NotebookLM</a><span class="tool-meta"><span class="tool-badge tool-badge-cost">Free</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Turn notes into spoken summaries or audio-style explanations.</span></li>
+                    <li><a href="https://www.audacityteam.org/" target="_blank" rel="noopener noreferrer">Audacity</a><span class="tool-meta"><span class="tool-badge tool-badge-cost">Free</span><span class="tool-badge tool-badge-audience">Student-safe</span></span><span class="tool-detail">Record and edit teacher-made audio for fluency and phonemic practice.</span></li>
                 </ul>
             </section>
 
             <section class="tool-group" aria-labelledby="tools-gestural-title">
                 <h3 id="tools-gestural-title">Gestural</h3>
                 <ul class="tool-list">
-                    <li><a href="https://flip.com/" target="_blank" rel="noopener noreferrer">Flip</a><span class="tool-detail">Record and share movement-based modeling, retells, or gesture responses.</span></li>
-                    <li><a href="https://www.loom.com/" target="_blank" rel="noopener noreferrer">Loom</a><span class="tool-detail">Create short teacher demonstrations that show motions, tracking, or acting.</span></li>
-                    <li><a href="https://web.seesaw.me/" target="_blank" rel="noopener noreferrer">Seesaw</a><span class="tool-detail">Capture student responses that combine movement, voice, and reflection.</span></li>
+                    <li><a href="https://flip.com/" target="_blank" rel="noopener noreferrer">Flip</a><span class="tool-meta"><span class="tool-badge tool-badge-cost">Free</span><span class="tool-badge tool-badge-audience">Student-safe</span></span><span class="tool-detail">Record and share movement-based modeling, retells, or gesture responses.</span></li>
+                    <li><a href="https://www.loom.com/" target="_blank" rel="noopener noreferrer">Loom</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Create short teacher demonstrations that show motions, tracking, or acting.</span></li>
+                    <li><a href="https://web.seesaw.me/" target="_blank" rel="noopener noreferrer">Seesaw</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Student-safe</span></span><span class="tool-detail">Capture student responses that combine movement, voice, and reflection.</span></li>
                 </ul>
             </section>
 
             <section class="tool-group" aria-labelledby="tools-spatial-title">
                 <h3 id="tools-spatial-title">Spatial</h3>
                 <ul class="tool-list">
-                    <li><a href="https://www.google.com/slides/about/" target="_blank" rel="noopener noreferrer">Google Slides</a><span class="tool-detail">Lay out sequence cards, story maps, and drag-and-drop practice tasks.</span></li>
-                    <li><a href="https://padlet.com/" target="_blank" rel="noopener noreferrer">Padlet</a><span class="tool-detail">Organize ideas on boards, maps, and columns for sorting and sequencing.</span></li>
-                    <li><a href="https://miro.com/" target="_blank" rel="noopener noreferrer">Miro</a><span class="tool-detail">Build digital organizers, word webs, and movement pathways on a shared canvas.</span></li>
+                    <li><a href="https://www.google.com/slides/about/" target="_blank" rel="noopener noreferrer">Google Slides</a><span class="tool-meta"><span class="tool-badge tool-badge-cost">Free</span><span class="tool-badge tool-badge-audience">Student-safe</span></span><span class="tool-detail">Lay out sequence cards, story maps, and drag-and-drop practice tasks.</span></li>
+                    <li><a href="https://padlet.com/" target="_blank" rel="noopener noreferrer">Padlet</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Student-safe</span></span><span class="tool-detail">Organize ideas on boards, maps, and columns for sorting and sequencing.</span></li>
+                    <li><a href="https://miro.com/" target="_blank" rel="noopener noreferrer">Miro</a><span class="tool-meta"><span class="tool-badge tool-badge-cost-mixed">Free + paid</span><span class="tool-badge tool-badge-audience">Teacher use</span></span><span class="tool-detail">Build digital organizers, word webs, and movement pathways on a shared canvas.</span></li>
                 </ul>
             </section>
         </div>
-        <p class="tools-note">Before classroom use, review each tool for age requirements, accessibility features, and district privacy policies.</p>
+        <p class="tools-note">Before classroom use, review each tool for age requirements, accessibility features, district privacy policies, and whether your local setup is appropriate for students.</p>
     </section>
 
     <section class="tips-section" aria-labelledby="tips-title">
@@ -470,10 +503,10 @@ tags: [AI, Multimodal, Big 6, Technology]
 
         const promptData = [
             {
-                skill: "Phonemic Awareness",
+                skill: "Phonological Awareness",
                 entries: [
                     {
-                        id: "phonemic-linguistic",
+                        id: "phonological-linguistic",
                         modality: "Linguistic/Alphabetic",
                         activity: "Make rhyme pairs for blending.",
                         request: "Create 6 rhyming word pairs and 3 short tongue-twister lines for a phoneme blending game.",
@@ -481,7 +514,7 @@ tags: [AI, Multimodal, Big 6, Technology]
                         parameters: "Use one-syllable words that are familiar to kindergarten and first grade students. Add one short teacher direction for each example."
                     },
                     {
-                        id: "phonemic-visual",
+                        id: "phonological-visual",
                         modality: "Visual",
                         activity: "Make picture rhyme cards.",
                         request: "Create 8 rhyming card ideas with a word pair and a simple illustration description for each card.",
@@ -489,7 +522,7 @@ tags: [AI, Multimodal, Big 6, Technology]
                         parameters: "Describe the picture clearly because the output may be text only. Keep the words concrete and familiar."
                     },
                     {
-                        id: "phonemic-audio",
+                        id: "phonological-audio",
                         modality: "Audio",
                         activity: "Record rhyme and sound games.",
                         request: "Write a short script for 5 call-and-response rhyme or sound games that could be read aloud or recorded.",
@@ -497,7 +530,7 @@ tags: [AI, Multimodal, Big 6, Technology]
                         parameters: "Include pauses for repetition and keep each script section under 20 seconds when read aloud."
                     },
                     {
-                        id: "phonemic-gestural",
+                        id: "phonological-gestural",
                         modality: "Gestural",
                         activity: "Add a movement to each sound.",
                         request: "Suggest 8 safe classroom motions that can match individual phonemes during a sound practice routine.",
@@ -505,7 +538,7 @@ tags: [AI, Multimodal, Big 6, Technology]
                         parameters: "Use simple movements that students can do standing beside a desk or sitting on the rug."
                     },
                     {
-                        id: "phonemic-spatial",
+                        id: "phonological-spatial",
                         modality: "Spatial",
                         activity: "Arrange sound cards in order.",
                         request: "Design a simple sound-card sequencing activity with 3 sample patterns for students to build from left to right.",
@@ -691,6 +724,51 @@ tags: [AI, Multimodal, Big 6, Technology]
                         request: "Create a text-only graphic organizer for character, setting, problem, events, and solution.",
                         intent: "Help students see how story elements connect.",
                         parameters: "Include short sample responses and directions for whole-group or partner use."
+                    }
+                ]
+            },
+            {
+                skill: "Oral Language",
+                entries: [
+                    {
+                        id: "oral-linguistic",
+                        modality: "Linguistic/Alphabetic",
+                        activity: "Build speaking and listening prompts.",
+                        request: "Create 6 simple speaking and listening prompts for partner talk in kindergarten or first grade.",
+                        intent: "Help students practice oral language, sentence building, and active listening.",
+                        parameters: "Use plain language, include sentence stems, and keep each prompt easy to answer aloud."
+                    },
+                    {
+                        id: "oral-visual",
+                        modality: "Visual",
+                        activity: "Use pictures for partner talk.",
+                        request: "Create a picture-talk routine with 5 image prompts and short teacher questions for discussion.",
+                        intent: "Help students describe what they see, share ideas, and respond to classmates.",
+                        parameters: "Describe each image clearly in text so a teacher can find or draw a similar picture."
+                    },
+                    {
+                        id: "oral-audio",
+                        modality: "Audio",
+                        activity: "Model oral language with recordings.",
+                        request: "Write 4 short teacher modeling scripts for turn-and-talk, retelling, and answering in complete sentences.",
+                        intent: "Give students clear examples of strong speaking and listening routines.",
+                        parameters: "Keep each script short enough to read aloud in under 30 seconds and include a student response cue."
+                    },
+                    {
+                        id: "oral-gestural",
+                        modality: "Gestural",
+                        activity: "Pair talk with motions and role-play.",
+                        request: "Suggest 5 oral language activities that use gestures, acting, or role-play to support speaking and listening.",
+                        intent: "Help students connect movement with expressive language and conversation skills.",
+                        parameters: "Use safe classroom actions and include one teacher follow-up question for each activity."
+                    },
+                    {
+                        id: "oral-spatial",
+                        modality: "Spatial",
+                        activity: "Use talk maps and discussion spots.",
+                        request: "Design a simple oral language station routine that uses discussion spots, picture cards, or talk maps.",
+                        intent: "Help students organize ideas and practice speaking in structured spaces.",
+                        parameters: "Explain the setup, give one model routine, and include a simple extension for pair or small-group use."
                     }
                 ]
             }
