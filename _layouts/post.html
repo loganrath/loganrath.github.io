@@ -18,7 +18,7 @@ layout: page
     {% endif %}
     <div class="wrap-content">
       <header class="header-page">
-        <div><span class="page-date">{{page.date | date: '%b %d %Y'}}</span> &bull; <span class="page-author">{{page.author}}</span></div>
+        <div class="text-small">Posted <span class="page-date">{{page.date | date: '%F %j, %Y'}}</span></div>
       </header>
       {{content | markdownify}}
       <div class="page-footer">
@@ -27,7 +27,6 @@ layout: page
           <a href="https://bsky.app/intent/compose?text={{ share_text | strip_newlines | normalize_whitespace | uri_escape }}" title="Share on Bluesky" rel="nofollow noopener noreferrer" target="_blank">Bluesky</a>
           <button type="button" class="share-action" data-platform="mastodon" title="Share on Mastodon">Mastodon</button>
           <a href="https://www.facebook.com/sharer/sharer.php?u={{ share_url | uri_escape }}" title="Share on Facebook" rel="nofollow noopener noreferrer" target="_blank">Facebook</a>
-          <button type="button" class="share-action" data-platform="instagram" title="Share on Instagram">Instagram</button>
           <a href="https://www.pinterest.com/pin/create/button/?url={{ share_url | uri_escape }}&description={{ page.title | uri_escape }}" title="Share on Pinterest" rel="nofollow noopener noreferrer" target="_blank">Pinterest</a>
           <p class="share-status" aria-live="polite"></p>
         </div>
