@@ -2,7 +2,8 @@
 title: Updates
 layout: page
 ---
-{% for post in paginator.posts %}
+{% assign posts = site.posts | sort: 'date' | reverse %}
+{% for post in posts %}
 <article class="post">
   {% if post.img %}
     <a class="post-thumbnail" style="background-image: url({{"/assets/img/" | prepend: site.baseurl | append : post.img}})" href="{{post.url | prepend: site.baseurl}}"></a>
@@ -16,5 +17,6 @@ layout: page
   </div>
 </article>
 {% endfor %}
-
-{% include pagination.html %}
+{% if posts == empty %}
+<p>No posts published yet.</p>
+{% endif %}
