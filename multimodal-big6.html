@@ -470,10 +470,6 @@ layout: tool
                         <option value="9-12">9-12</option>
                     </select>
                 </div>
-                <div class="band-control">
-                    <label for="subject-select">Subject</label>
-                    <select id="subject-select" aria-describedby="grade-band-help planner-status"></select>
-                </div>
             </div>
         </div>
         <p class="controls-note">These planning suggestions align broadly to NYS Next Generation Learning Standards, Science Learning Standards, Social Studies Framework, Arts Standards, World Language Standards, Health and Physical Education expectations, Digital Fluency and Computer Science Standards, and common CTE literacy expectations. Use them as a teacher planning layer, then tighten them to your district scope and sequence.</p>
@@ -565,7 +561,13 @@ layout: tool
                 <h2 id="disciplinary-title" class="section-title">Disciplinary literacy tables by subject</h2>
                 <p class="section-intro">Use the subject dropdown to switch between disciplinary literacy tables for the major subjects taught in NYS.</p>
             </div>
-            <div class="band-chip" id="disciplinary-band-chip">Subject tables for K-1</div>
+            <div class="control-cluster">
+                <div class="band-control">
+                    <label for="subject-select">Subject</label>
+                    <select id="subject-select" aria-describedby="disciplinary-title planner-status"></select>
+                </div>
+                <div class="band-chip" id="disciplinary-band-chip">Subject tables for K-1</div>
+            </div>
         </div>
         <div class="subject-grid" id="disciplinary-tables"></div>
     </section>
