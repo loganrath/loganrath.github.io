@@ -396,11 +396,14 @@ layout: tool
 </style>
 
 <div class="page-shell">
-    <header class="page-header">
-        <p class="page-eyebrow">NYS planning tool</p>
-        <h1 class="page-title">AI planning grids by grade band</h1>
-        <p class="page-subtitle">Use the grade-band selector to switch between NYS-aligned Big 6 multimodal literacy planning ideas. Each grid cell opens a pre-filled CRISP prompt builder so you can quickly adapt the idea for your students, texts, and local curriculum.</p>
-    </header>
+   <section class="usage-box" aria-labelledby="usage-title">
+        <h2 id="usage-title">How to Use this Page</h2>
+        <ol>
+            <li>Read the short activity idea in a square.</li>
+            <li>Select the text in that square to open one pre-filled <a href="https://rath.phd/crisp/">prompt builder</a> based on the CRISP Framework for that exact activity.</li>
+            <li>Review the filled-in fields, then copy the prompt from the builder into your AI tool.</li>
+        </ol>
+    </section>
 
     <section class="controls-section" aria-labelledby="controls-title">
         <div class="controls-row">
@@ -428,8 +431,8 @@ layout: tool
     <section class="planner-section" aria-labelledby="big6-title">
         <div class="section-header">
             <div>
-                <h2 id="big6-title" class="section-title">Big 6 multimodal literacy grid</h2>
-                <p class="section-intro">Each square combines a literacy priority with a modality. Select any idea to open one CRISP builder prompt for that exact combination.</p>
+                <h2 id="big6-title" class="section-title">Big 6 Multimodal Literacy Competencies and Skills</h2>
+                <p class="section-intro">Each square combines one of the "Big 6" competencies with a modality. Click on the activity to open an AI prompt builder based on the CRISP Framework for that exact combination. You can then edit that prompt before copying and pasting it into your AI tool of choice.</p>
             </div>
             <div class="band-chip" id="big6-band-chip">Showing K-1</div>
         </div>
@@ -438,7 +441,7 @@ layout: tool
                 <caption id="big6-caption">NYS Big 6 planning grid</caption>
                 <thead>
                     <tr>
-                        <th scope="col">Literacy priority</th>
+                        <th scope="col">Modality:</th>
                         <th scope="col">Linguistic/Alphabetic</th>
                         <th scope="col">Visual</th>
                         <th scope="col">Audio</th>
