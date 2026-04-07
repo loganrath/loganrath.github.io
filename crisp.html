@@ -73,12 +73,13 @@ layout: tool
   <div class="row" style="margin-top:14px">
     <div class="col">
       <h2 style="margin-bottom:6px">Preview</h2>
-      <div id="preview" class="output" aria-live="polite">No prompt built yet — click "Build Prompt".</div>
+      <div id="preview" class="output" aria-live="polite" tabindex="-1">No prompt built yet — click "Build Prompt".</div>
       <div style="margin-top:8px" class="controls">
         <button id="copy">Copy to clipboard</button>
         <button id="download" class="secondary">Download .txt</button>
         <button id="addStep" class="ghost">Add Custom Step</button>
       </div>
+      <div id="status" class="hint" role="status" aria-live="polite" style="margin-top:8px"></div>
     </div>
 
     <div class="col">
@@ -108,10 +109,15 @@ layout: tool
         example: document.getElementById('example'),
         formatSelect: document.getElementById('formatSelect'),
         addStep: document.getElementById('addStep'),
-        stepsContainer: document.getElementById('steps')
+        stepsContainer: document.getElementById('steps'),
+        status: document.getElementById('status')
       };
 
       let customStepCounter = 0;
+
+      function setStatus(message) {
+        elems.status.textContent = message;
+      }
 
       function buildPrompt() {
         const sections = [
@@ -157,6 +163,7 @@ layout: tool
         const time = new Date().toLocaleString();
         const histEntry = `--- ${time} ---\n${prompt}\n\n`;
         elems.history.textContent = histEntry + elems.history.textContent;
+        setStatus('Prompt updated in Preview.');
       }
 
       elems.build.addEventListener('click', buildPrompt);
@@ -164,9 +171,14 @@ layout: tool
       elems.copy.addEventListener('click', async()=>{
         try {
           await navigator.clipboard.writeText(elems.preview.textContent);
-          alert('Prompt copied to clipboard');
+          setStatus('Prompt copied to clipboard. Paste it into your AI tool when ready.');
         } catch(e){
-          alert('Copy failed — select and copy manually.');
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          const range = document.createRange();
+          range.selectNodeContents(elems.preview);
+          selection.addRange(range);
+          setStatus('Copy failed. The Preview text is selected so you can copy it manually.');
         }
       });
 
@@ -180,6 +192,7 @@ layout: tool
         a.click();
         a.remove();
         URL.revokeObjectURL(url);
+        setStatus('Prompt downloaded as crisp-prompt.txt.');
       });
 
       elems.clean.addEventListener('click', ()=>{
@@ -188,6 +201,7 @@ layout: tool
         const customs = elems.stepsContainer.querySelectorAll('.step[data-custom="true"]');
         customs.forEach(n=>n.remove());
         elems.preview.textContent = 'No prompt built yet — click "Build Prompt".';
+        setStatus('All CRISP fields were cleared.');
       });
 
       elems.example.addEventListener('click', ()=>{
@@ -196,6 +210,7 @@ layout: tool
         elems.intent.value = "Help students build a conceptual model of photosynthesis and connect it to real-world examples.";
         elems.style.value = "Concise, teacher-facing, friendly tone; use bullet lists and clear labels.";
         elems.parameters.value = "Max 450 words; include objectives, materials, 3 activities, quick formative checks, and differentiation notes.";
+        setStatus('Example content loaded. Choose Build Prompt to generate the preview.');
       });
 
       elems.addStep.addEventListener('click', ()=>{
@@ -236,6 +251,32 @@ layout: tool
           buildPrompt();
         }
       });
+
+      (function loadFromQuery(){
+        const params = new URLSearchParams(window.location.search);
+        let hasPrefill = false;
+
+        ['context', 'request', 'intent', 'style', 'parameters'].forEach((key)=>{
+          const value = params.get(key);
+          if(value !== null){
+            elems[key].value = value;
+            hasPrefill = true;
+          }
+        });
+
+        const format = params.get('format');
+        if(format && ['detailed', 'compact', 'bullet'].includes(format)){
+          elems.formatSelect.value = format;
+        }
+
+        if(hasPrefill){
+          buildPrompt();
+          setStatus('A ready-made prompt was loaded. Review it, then copy it into your AI tool.');
+          if(window.location.hash === '#preview'){
+            elems.preview.focus();
+          }
+        }
+      })();
 
     })();
   </script>

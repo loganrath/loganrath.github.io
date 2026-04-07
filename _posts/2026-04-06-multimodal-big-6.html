@@ -1,198 +1,436 @@
 ---
 title: "Multimodal Literacies × Big 6 Reading Skills with Generative AI Activities"
 date: 2026-04-06
+layout: post
 author: "Logan Rath"
-categories: [AI, Multimodal, Technology]
 tags: [AI, Multimodal, Big 6, Technology]
 ---
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        .grid-wrapper {
-            overflow-x: auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
+    .page-shell {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 24px 16px 48px;
+        color: #203042;
+    }
 
+    .page-header {
+        margin-bottom: 24px;
+    }
+
+    .page-eyebrow {
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #0d5aa7;
+        margin-bottom: 10px;
+    }
+
+    .page-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 1.1;
+        color: #102033;
+        margin-bottom: 12px;
+    }
+
+    .page-subtitle {
+        max-width: 70ch;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: #425466;
+    }
+
+    .usage-box,
+    .tips-section,
+    .prompt-library {
+        border-radius: 16px;
+        padding: 22px;
+        box-shadow: 0 8px 24px rgba(16, 32, 51, 0.08);
+    }
+
+    .usage-box {
+        background: linear-gradient(135deg, #f4fbff 0%, #eef5ff 100%);
+        border: 1px solid #d7e6f8;
+        margin-bottom: 28px;
+    }
+
+    .usage-box h2,
+    .grid-title,
+    .tips-title,
+    .prompt-library-title {
+        font-size: 1.35rem;
+        color: #102033;
+        margin-bottom: 12px;
+    }
+
+    .usage-box ol {
+        padding-left: 1.25rem;
+        color: #31465b;
+        line-height: 1.7;
+    }
+
+    .usage-box li + li {
+        margin-top: 6px;
+    }
+
+    .grid-wrapper {
+        overflow-x: auto;
+        border-radius: 16px;
+        background: #dbe5f0;
+        padding: 2px;
+        box-shadow: 0 8px 24px rgba(16, 32, 51, 0.08);
+    }
+
+    .grid-title {
+        margin-bottom: 14px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 200px repeat(5, 1fr);
+        gap: 2px;
+        min-width: 1200px;
+    }
+
+    .grid-cell {
+        background: #ffffff;
+        padding: 14px;
+        min-height: 142px;
+        display: flex;
+        align-items: stretch;
+        justify-content: flex-start;
+        text-align: left;
+        line-height: 1.45;
+    }
+
+    .header-modality,
+    .header-skill {
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    .header-modality {
+        background: linear-gradient(135deg, #0d5aa7 0%, #3f7ec6 100%);
+        color: #ffffff;
+        font-size: 0.95rem;
+    }
+
+    .header-skill {
+        background: #f7f9fc;
+        color: #102033;
+        font-size: 0.95rem;
+        border: 1px solid #d7dee8;
+    }
+
+    .modality-linguistic {
+        background: rgba(255, 107, 107, 0.14);
+        border-left: 5px solid #ff6b6b;
+    }
+
+    .modality-visual {
+        background: rgba(78, 205, 196, 0.14);
+        border-left: 5px solid #31b9ae;
+    }
+
+    .modality-audio {
+        background: rgba(255, 230, 109, 0.18);
+        border-left: 5px solid #d6b51f;
+    }
+
+    .modality-gestural {
+        background: rgba(149, 225, 211, 0.18);
+        border-left: 5px solid #3ba891;
+    }
+
+    .modality-spatial {
+        background: rgba(199, 206, 234, 0.22);
+        border-left: 5px solid #7383bf;
+    }
+
+    .cell-content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .cell-text {
+        font-size: 0.96rem;
+        font-weight: 600;
+        color: #14263a;
+    }
+
+    .cell-link {
+        align-self: flex-start;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #0d5aa7;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .cell-link:hover,
+    .cell-link:focus,
+    .builder-link:hover,
+    .builder-link:focus,
+    .jump-link:hover,
+    .jump-link:focus {
+        color: #083b6f;
+    }
+
+    .tips-section {
+        margin-top: 32px;
+        background: #fbfcff;
+        border: 1px solid #d8e2ee;
+    }
+
+    .tips-list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .tips-list li {
+        position: relative;
+        padding-left: 24px;
+        color: #31465b;
+        line-height: 1.6;
+    }
+
+    .tips-list li + li {
+        margin-top: 8px;
+    }
+
+    .tips-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #0d5aa7;
+        font-weight: 700;
+    }
+
+    .prompt-library {
+        margin-top: 32px;
+        background: #ffffff;
+        border: 1px solid #d8e2ee;
+    }
+
+    .prompt-library-title {
+        margin-bottom: 10px;
+    }
+
+    .prompt-library-intro {
+        color: #425466;
+        line-height: 1.7;
+        margin-bottom: 14px;
+        max-width: 75ch;
+    }
+
+    .copy-status {
+        min-height: 1.5rem;
+        font-weight: 700;
+        color: #0d5aa7;
+        margin-bottom: 8px;
+    }
+
+    .prompt-group {
+        border-top: 1px solid #e4ecf3;
+        padding-top: 16px;
+        margin-top: 16px;
+    }
+
+    .prompt-group:first-child {
+        border-top: 0;
+        padding-top: 0;
+        margin-top: 0;
+    }
+
+    .prompt-group summary {
+        cursor: pointer;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #102033;
+    }
+
+    .prompt-group summary + .prompt-grid {
+        margin-top: 16px;
+    }
+
+    .prompt-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+        gap: 16px;
+    }
+
+    .prompt-card {
+        background: #fbfdff;
+        border: 1px solid #dce5ef;
+        border-radius: 14px;
+        padding: 16px;
+        scroll-margin-top: 24px;
+    }
+
+    .prompt-card h3 {
+        font-size: 1rem;
+        color: #102033;
+        margin-bottom: 8px;
+    }
+
+    .prompt-activity {
+        color: #425466;
+        line-height: 1.6;
+        margin-bottom: 12px;
+    }
+
+    .crisp-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+
+    .crisp-list dt {
+        font-weight: 700;
+        color: #102033;
+    }
+
+    .crisp-list dd {
+        margin-left: 0;
+        color: #425466;
+        line-height: 1.55;
+    }
+
+    .prompt-label {
+        display: block;
+        font-weight: 700;
+        color: #102033;
+        margin-bottom: 6px;
+    }
+
+    .prompt-output {
+        width: 100%;
+        min-height: 210px;
+        resize: vertical;
+        border: 1px solid #cfd9e5;
+        border-radius: 10px;
+        padding: 12px;
+        font-size: 0.92rem;
+        line-height: 1.5;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        color: #213548;
+        background: #ffffff;
+    }
+
+    .prompt-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 12px;
+    }
+
+    .copy-button,
+    .builder-link,
+    .jump-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid #0d5aa7;
+        font-weight: 700;
+        font-size: 0.92rem;
+        text-decoration: none;
+        background: #ffffff;
+        color: #0d5aa7;
+        cursor: pointer;
+    }
+
+    .copy-button {
+        background: #0d5aa7;
+        color: #ffffff;
+        border-color: #0d5aa7;
+    }
+
+    .copy-button:hover,
+    .copy-button:focus {
+        background: #083b6f;
+        border-color: #083b6f;
+        color: #ffffff;
+    }
+
+    .footer {
+        margin-top: 40px;
+        text-align: center;
+        color: #617284;
+        font-size: 0.85rem;
+        padding-top: 18px;
+        border-top: 1px solid #e4ecf3;
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    @media (max-width: 1024px) {
         .grid {
-            display: grid;
-            grid-template-columns: 200px repeat(5, 1fr);
-            gap: 2px;
-            background: #e0e0e0;
-            padding: 2px;
-            min-width: 1200px;
+            grid-template-columns: 165px repeat(5, 1fr);
         }
 
         .grid-cell {
-            background: white;
-            padding: 15px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 13px;
-            line-height: 1.4;
-            min-height: 120px;
-        }
-
-        .header-modality {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            font-weight: bold;
-            font-size: 13px;
+            min-height: 152px;
             padding: 12px;
-            border-radius: 6px;
+        }
+    }
+
+    @media (max-width: 680px) {
+        .page-shell {
+            padding: 18px 10px 32px;
         }
 
-        .header-skill {
-            background: #f5f5f5;
-            color: #333;
-            font-weight: bold;
-            font-size: 12px;
-            padding: 12px;
-            border-radius: 6px;
-            border: 2px solid #ddd;
+        .usage-box,
+        .tips-section,
+        .prompt-library {
+            padding: 18px;
         }
+    }
+</style>
 
-        /* Modality-specific colors */
-        .modality-linguistic {
-            background: rgba(255, 107, 107, 0.15);
-            border-left: 4px solid #FF6B6B;
-        }
+<div class="page-shell">
+    <header class="page-header">
+        <p class="page-eyebrow">K-1 literacy planning chart</p>
+        <h1 class="page-title">Multimodal Literacies × Big 6 Reading Skills with Generative AI Activities</h1>
+        <p class="page-subtitle">Each square now uses shorter language. Every square also links to a ready-made CRISP prompt that you can copy or open in the site's CRISP builder.</p>
+    </header>
 
-        .modality-visual {
-            background: rgba(78, 205, 196, 0.15);
-            border-left: 4px solid #4ECDC4;
-        }
+    <section class="usage-box" aria-labelledby="usage-title">
+        <h2 id="usage-title">How to use this chart</h2>
+        <ol>
+            <li>Read the short activity idea in a square.</li>
+            <li>Select View CRISP prompt to jump to the matching prompt card.</li>
+            <li>Copy the prompt or open it in the CRISP builder to edit it before pasting it into your AI tool.</li>
+        </ol>
+    </section>
 
-        .modality-audio {
-            background: rgba(255, 230, 109, 0.15);
-            border-left: 4px solid #FFE66D;
-        }
-
-        .modality-gestural {
-            background: rgba(149, 225, 211, 0.15);
-            border-left: 4px solid #95E1D3;
-        }
-
-        .modality-spatial {
-            background: rgba(199, 206, 234, 0.15);
-            border-left: 4px solid #C7CEEA;
-        }
-
-        .tips-section {
-            margin-top: 40px;
-            background: #f9f9f9;
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-        }
-
-        .tips-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .tips-list {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .tips-list li {
-            padding: 8px 0;
-            padding-left: 25px;
-            position: relative;
-            color: #555;
-            font-size: 14px;
-        }
-
-        .tips-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        .examples-section {
-            margin-top: 30px;
-            background: #f0f7ff;
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 4px solid #4ECDC4;
-        }
-
-        .examples-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .example-box {
-            background: white;
-            padding: 15px;
-            margin-bottom: 12px;
-            border-radius: 6px;
-            border-left: 3px solid #4ECDC4;
-            font-size: 13px;
-            color: #555;
-            line-height: 1.6;
-        }
-
-        .example-label {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .example-prompt {
-            font-style: italic;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .footer {
-            margin-top: 40px;
-            text-align: center;
-            color: #999;
-            font-size: 12px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-
-        @media (max-width: 1024px) {
-            .grid {
-                grid-template-columns: 150px repeat(5, 1fr);
-                font-size: 11px;
-            }
-
-            .grid-cell {
-                min-height: 100px;
-                padding: 10px;
-            }
-
-            .header-skill {
-                font-size: 11px;
-            }
-        }
-    </style>
-    <div class="container">
-        <div class="header">
-            <div class="title">Multimodal Literacies × Big 6 Reading Skills with Generative AI Activities</div>
-            <div class="subtitle">Each cell shows how to use AI to develop activities combining a reading skill with a multimodal modality (K-1)</div>
-        </div>
-
-        <div class="grid-wrapper">
+    <section aria-labelledby="grid-title">
+        <h2 id="grid-title" class="grid-title">Activity grid</h2>
+        <div class="grid-wrapper" role="region" aria-labelledby="grid-title">
             <div class="grid">
-                <!-- Header Row -->
                 <div class="grid-cell header-skill"></div>
                 <div class="grid-cell header-modality">Linguistic/Alphabetic</div>
                 <div class="grid-cell header-modality">Visual</div>
@@ -200,92 +438,474 @@ tags: [AI, Multimodal, Big 6, Technology]
                 <div class="grid-cell header-modality">Gestural</div>
                 <div class="grid-cell header-modality">Spatial</div>
 
-                <!-- Phonemic Awareness Row -->
                 <div class="grid-cell header-skill">Phonemic Awareness</div>
-                <div class="grid-cell modality-linguistic">Use AI to generate rhyming word pairs & tongue twisters for phoneme blending games</div>
-                <div class="grid-cell modality-visual">AI creates illustrated rhyming cards with phoneme-focused visuals</div>
-                <div class="grid-cell modality-audio">AI generates voice recordings of rhymes & sound manipulation activities</div>
-                <div class="grid-cell modality-gestural">AI suggests body motions for each phoneme sound (e.g., jump for /j/)</div>
-                <div class="grid-cell modality-spatial">AI designs sound cards arranged in patterns for sequencing activities</div>
+                <div class="grid-cell modality-linguistic"><div class="cell-content"><div class="cell-text">Make rhyme pairs for blending.</div><a class="cell-link" href="#prompt-phonemic-linguistic">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-visual"><div class="cell-content"><div class="cell-text">Make picture rhyme cards.</div><a class="cell-link" href="#prompt-phonemic-visual">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-audio"><div class="cell-content"><div class="cell-text">Record rhyme and sound games.</div><a class="cell-link" href="#prompt-phonemic-audio">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-gestural"><div class="cell-content"><div class="cell-text">Add a movement to each sound.</div><a class="cell-link" href="#prompt-phonemic-gestural">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-spatial"><div class="cell-content"><div class="cell-text">Arrange sound cards in order.</div><a class="cell-link" href="#prompt-phonemic-spatial">View CRISP prompt</a></div></div>
 
-                <!-- Phonics Row -->
                 <div class="grid-cell header-skill">Phonics</div>
-                <div class="grid-cell modality-linguistic">AI generates decodable texts with specific letter-sound patterns</div>
-                <div class="grid-cell modality-visual">AI creates letter-sound posters with color-coded blends & digraphs</div>
-                <div class="grid-cell modality-audio">AI produces audio lessons pronouncing letter sounds & word decoding</div>
-                <div class="grid-cell modality-gestural">AI suggests hand shapes to trace letter forms while saying sounds</div>
-                <div class="grid-cell modality-spatial">AI generates letter formation guides with directional arrows</div>
+                <div class="grid-cell modality-linguistic"><div class="cell-content"><div class="cell-text">Write simple decodable text.</div><a class="cell-link" href="#prompt-phonics-linguistic">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-visual"><div class="cell-content"><div class="cell-text">Make color-coded sound posters.</div><a class="cell-link" href="#prompt-phonics-visual">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-audio"><div class="cell-content"><div class="cell-text">Read letter sounds aloud.</div><a class="cell-link" href="#prompt-phonics-audio">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-gestural"><div class="cell-content"><div class="cell-text">Trace letters with hand motions.</div><a class="cell-link" href="#prompt-phonics-gestural">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-spatial"><div class="cell-content"><div class="cell-text">Show letter strokes with arrows.</div><a class="cell-link" href="#prompt-phonics-spatial">View CRISP prompt</a></div></div>
 
-                <!-- Fluency Row -->
                 <div class="grid-cell header-skill">Fluency</div>
-                <div class="grid-cell modality-linguistic">AI creates repeated-reading passages at student reading level</div>
-                <div class="grid-cell modality-visual">AI makes fluency tracking charts with visual progress indicators</div>
-                <div class="grid-cell modality-audio">AI generates model readings for students to echo & practice prosody</div>
-                <div class="grid-cell modality-gestural">AI suggests gestures to match expression & emotion in text</div>
-                <div class="grid-cell modality-spatial">AI designs text layouts with pauses marked for phrasing practice</div>
+                <div class="grid-cell modality-linguistic"><div class="cell-content"><div class="cell-text">Write short rereading passages.</div><a class="cell-link" href="#prompt-fluency-linguistic">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-visual"><div class="cell-content"><div class="cell-text">Show reading growth on charts.</div><a class="cell-link" href="#prompt-fluency-visual">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-audio"><div class="cell-content"><div class="cell-text">Model smooth reading aloud.</div><a class="cell-link" href="#prompt-fluency-audio">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-gestural"><div class="cell-content"><div class="cell-text">Match gestures to expression.</div><a class="cell-link" href="#prompt-fluency-gestural">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-spatial"><div class="cell-content"><div class="cell-text">Mark pauses on the page.</div><a class="cell-link" href="#prompt-fluency-spatial">View CRISP prompt</a></div></div>
 
-                <!-- Vocabulary Row -->
                 <div class="grid-cell header-skill">Vocabulary</div>
-                <div class="grid-cell modality-linguistic">AI generates word definition cards & context sentence examples</div>
-                <div class="grid-cell modality-visual">AI creates visual vocabulary cards with illustrations & word families</div>
-                <div class="grid-cell modality-audio">AI produces word pronunciation guides & vocabulary songs</div>
-                <div class="grid-cell modality-gestural">AI suggests movements or signs to represent vocabulary words</div>
-                <div class="grid-cell modality-spatial">AI designs word webs showing relationships between vocabulary terms</div>
+                <div class="grid-cell modality-linguistic"><div class="cell-content"><div class="cell-text">Make word cards and sentences.</div><a class="cell-link" href="#prompt-vocabulary-linguistic">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-visual"><div class="cell-content"><div class="cell-text">Show words with pictures.</div><a class="cell-link" href="#prompt-vocabulary-visual">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-audio"><div class="cell-content"><div class="cell-text">Teach words with chants or songs.</div><a class="cell-link" href="#prompt-vocabulary-audio">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-gestural"><div class="cell-content"><div class="cell-text">Use motions for new words.</div><a class="cell-link" href="#prompt-vocabulary-gestural">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-spatial"><div class="cell-content"><div class="cell-text">Build simple word webs.</div><a class="cell-link" href="#prompt-vocabulary-spatial">View CRISP prompt</a></div></div>
 
-                <!-- Comprehension Row -->
                 <div class="grid-cell header-skill">Comprehension</div>
-                <div class="grid-cell modality-linguistic">AI generates comprehension questions & story retelling prompts</div>
-                <div class="grid-cell modality-visual">AI creates story sequence pictures for narrative comprehension</div>
-                <div class="grid-cell modality-audio">AI produces think-aloud recordings modeling comprehension strategies</div>
-                <div class="grid-cell modality-gestural">AI suggests character actions to dramatize & understand story events</div>
-                <div class="grid-cell modality-spatial">AI designs graphic organizers for plot, character, & setting details</div>
+                <div class="grid-cell modality-linguistic"><div class="cell-content"><div class="cell-text">Ask story questions and retells.</div><a class="cell-link" href="#prompt-comprehension-linguistic">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-visual"><div class="cell-content"><div class="cell-text">Show story order with pictures.</div><a class="cell-link" href="#prompt-comprehension-visual">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-audio"><div class="cell-content"><div class="cell-text">Model think-aloud reading.</div><a class="cell-link" href="#prompt-comprehension-audio">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-gestural"><div class="cell-content"><div class="cell-text">Act out story events.</div><a class="cell-link" href="#prompt-comprehension-gestural">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-spatial"><div class="cell-content"><div class="cell-text">Map plot, setting, and characters.</div><a class="cell-link" href="#prompt-comprehension-spatial">View CRISP prompt</a></div></div>
 
-                <!-- Print Concepts Row -->
                 <div class="grid-cell header-skill">Print Concepts</div>
-                <div class="grid-cell modality-linguistic">AI generates materials showing letter names & alphabet sequences</div>
-                <div class="grid-cell modality-visual">AI creates labeled diagrams of book parts & text features</div>
-                <div class="grid-cell modality-audio">AI produces alphabet songs & letter-naming practice recordings</div>
-                <div class="grid-cell modality-gestural">AI suggests finger-tracking motions for left-to-right reading</div>
-                <div class="grid-cell modality-spatial">AI designs visual guides showing print direction & page organization</div>
+                <div class="grid-cell modality-linguistic"><div class="cell-content"><div class="cell-text">Practice letter names and order.</div><a class="cell-link" href="#prompt-print-linguistic">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-visual"><div class="cell-content"><div class="cell-text">Label parts of a book.</div><a class="cell-link" href="#prompt-print-visual">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-audio"><div class="cell-content"><div class="cell-text">Sing alphabet and letter names.</div><a class="cell-link" href="#prompt-print-audio">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-gestural"><div class="cell-content"><div class="cell-text">Track print left to right.</div><a class="cell-link" href="#prompt-print-gestural">View CRISP prompt</a></div></div>
+                <div class="grid-cell modality-spatial"><div class="cell-content"><div class="cell-text">Show how print moves on a page.</div><a class="cell-link" href="#prompt-print-spatial">View CRISP prompt</a></div></div>
             </div>
         </div>
+    </section>
 
-        <div class="tips-section">
-            <div class="tips-title">💡 Implementation Tips</div>
-            <ul class="tips-list">
-                <li>Pick 1-2 combinations per week to focus on</li>
-                <li>Use AI to generate the content, then adapt for your specific students</li>
-                <li>Rotate modalities to ensure students experience all five throughout the year</li>
-                <li>Combine multiple cells for rich, integrated literacy lessons</li>
-                <li>Save successful AI-generated activities for future use and refinement</li>
-            </ul>
-        </div>
+    <section class="tips-section" aria-labelledby="tips-title">
+        <h2 id="tips-title" class="tips-title">Implementation tips</h2>
+        <ul class="tips-list">
+            <li>Start with one or two combinations each week instead of trying to use the full chart at once.</li>
+            <li>Review every AI output before using it so the wording, examples, and length fit your students.</li>
+            <li>Rotate across the five modalities so students practice literacy in more than one way.</li>
+            <li>Keep a short list of prompts that worked well so you can revise and reuse them later.</li>
+        </ul>
+    </section>
 
-        <div class="examples-section">
-            <div class="examples-title">🎯 Example AI Prompts You Could Use</div>
+    <section class="prompt-library" aria-labelledby="prompt-library-title">
+        <h2 id="prompt-library-title" class="prompt-library-title">CRISP prompt library</h2>
+        <p class="prompt-library-intro">Each prompt card below includes Context, Request, Intent, Style, and Parameters. The Copy prompt button gives you a ready-to-paste version. The Open in CRISP builder link sends the same prompt to the site's builder with the fields already filled in.</p>
+        <p id="copy-status" class="copy-status" aria-live="polite"></p>
+        <div id="prompt-library-container"></div>
+    </section>
 
-            <div class="example-box">
-                <div class="example-label">Phonemic Awareness + Audio</div>
-                <div class="example-prompt">"Create 5 rhyming word pairs with audio pronunciations for kindergarteners to practice blending sounds together. Include fun sound effects."</div>
-            </div>
-
-            <div class="example-box">
-                <div class="example-label">Vocabulary + Visual</div>
-                <div class="example-prompt">"Design 10 vocabulary word cards for first graders with colorful illustrations, the word, and a simple sentence. Include related word families."</div>
-            </div>
-
-            <div class="example-box">
-                <div class="example-label">Comprehension + Gestural</div>
-                <div class="example-prompt">"Suggest 5 body movements and gestures that first graders can use to act out the main events of 'The Very Hungry Caterpillar.'"</div>
-            </div>
-
-            <div class="example-box">
-                <div class="example-label">Fluency + Audio</div>
-                <div class="example-prompt">"Create a model audio recording of a 100-word decodable passage read with appropriate prosody and pacing for first graders to echo."</div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <p>Based on NYS Science of Reading Briefs & Multimodal Literacies Framework | Created for K-1 Educators</p>
-        </div>
+    <div class="footer">
+        <p>Based on NYS Science of Reading Briefs and a multimodal literacies framework. Created for K-1 educators.</p>
     </div>
+</div>
+
+<script>
+    (function() {
+        const sharedStyle = "Use clear teacher-friendly language. Format the response with a short title, a simple materials list when needed, numbered steps, and one quick check for understanding.";
+        const sharedParameters = "Keep the activity appropriate for kindergarten or first grade. Use plain language. Avoid brand-specific materials unless the teacher asks for them.";
+        const promptLibrary = document.getElementById("prompt-library-container");
+        const status = document.getElementById("copy-status");
+
+        const promptData = [
+            {
+                skill: "Phonemic Awareness",
+                entries: [
+                    {
+                        id: "phonemic-linguistic",
+                        modality: "Linguistic/Alphabetic",
+                        activity: "Make rhyme pairs for blending.",
+                        request: "Create 6 rhyming word pairs and 3 short tongue-twister lines for a phoneme blending game.",
+                        intent: "Help students hear, blend, and say sounds in spoken words.",
+                        parameters: "Use one-syllable words that are familiar to kindergarten and first grade students. Add one short teacher direction for each example."
+                    },
+                    {
+                        id: "phonemic-visual",
+                        modality: "Visual",
+                        activity: "Make picture rhyme cards.",
+                        request: "Create 8 rhyming card ideas with a word pair and a simple illustration description for each card.",
+                        intent: "Help students connect shared sounds to easy-to-recognize pictures.",
+                        parameters: "Describe the picture clearly because the output may be text only. Keep the words concrete and familiar."
+                    },
+                    {
+                        id: "phonemic-audio",
+                        modality: "Audio",
+                        activity: "Record rhyme and sound games.",
+                        request: "Write a short script for 5 call-and-response rhyme or sound games that could be read aloud or recorded.",
+                        intent: "Support listening, repeating, and changing sounds in oral language.",
+                        parameters: "Include pauses for repetition and keep each script section under 20 seconds when read aloud."
+                    },
+                    {
+                        id: "phonemic-gestural",
+                        modality: "Gestural",
+                        activity: "Add a movement to each sound.",
+                        request: "Suggest 8 safe classroom motions that can match individual phonemes during a sound practice routine.",
+                        intent: "Help students connect body movement to the sounds they hear and say.",
+                        parameters: "Use simple movements that students can do standing beside a desk or sitting on the rug."
+                    },
+                    {
+                        id: "phonemic-spatial",
+                        modality: "Spatial",
+                        activity: "Arrange sound cards in order.",
+                        request: "Design a simple sound-card sequencing activity with 3 sample patterns for students to build from left to right.",
+                        intent: "Help students notice sound order across a row of cards.",
+                        parameters: "Explain how to set up the cards, model the routine, and give one easy extension."
+                    }
+                ]
+            },
+            {
+                skill: "Phonics",
+                entries: [
+                    {
+                        id: "phonics-linguistic",
+                        modality: "Linguistic/Alphabetic",
+                        activity: "Write simple decodable text.",
+                        request: "Write one short decodable passage that focuses on common short-a patterns and easy consonants such as m, s, t, p, and n.",
+                        intent: "Help students apply letter-sound knowledge while reading connected text.",
+                        parameters: "Keep the passage between 60 and 80 words and use mostly decodable words."
+                    },
+                    {
+                        id: "phonics-visual",
+                        modality: "Visual",
+                        activity: "Make color-coded sound posters.",
+                        request: "Create a poster plan that groups letters, blends, or digraphs with simple color-coding cues and example words.",
+                        intent: "Help students notice and remember spelling patterns at a glance.",
+                        parameters: "Describe the poster sections in plain text so a teacher can build the poster without special software."
+                    },
+                    {
+                        id: "phonics-audio",
+                        modality: "Audio",
+                        activity: "Read letter sounds aloud.",
+                        request: "Write a teacher script for an audio-style letter-sound practice routine with 10 target sounds and echo prompts.",
+                        intent: "Help students match printed letters or letter teams to the sounds they hear and say.",
+                        parameters: "Include repetition cues and short decoding practice with 1 or 2 sample words for each sound."
+                    },
+                    {
+                        id: "phonics-gestural",
+                        modality: "Gestural",
+                        activity: "Trace letters with hand motions.",
+                        request: "Suggest hand motions and air-writing cues for 8 letters or digraphs that students can trace while saying the sound.",
+                        intent: "Reinforce sound-symbol connections with movement and letter formation.",
+                        parameters: "Use quick, safe motions and include one spoken cue for each letter or pattern."
+                    },
+                    {
+                        id: "phonics-spatial",
+                        modality: "Spatial",
+                        activity: "Show letter strokes with arrows.",
+                        request: "Create text directions for letter-formation cards that show where to start, which way to move, and where to stop.",
+                        intent: "Help students form letters correctly and read them more easily later.",
+                        parameters: "Include directional arrows in words, such as start at the top and pull down, so the directions work in plain text."
+                    }
+                ]
+            },
+            {
+                skill: "Fluency",
+                entries: [
+                    {
+                        id: "fluency-linguistic",
+                        modality: "Linguistic/Alphabetic",
+                        activity: "Write short rereading passages.",
+                        request: "Write one short passage for repeated reading plus 3 brief teacher prompts for second and third reads.",
+                        intent: "Build accuracy, pacing, and confidence through rereading.",
+                        parameters: "Keep the passage at a simple K-1 reading level and avoid long sentences."
+                    },
+                    {
+                        id: "fluency-visual",
+                        modality: "Visual",
+                        activity: "Show reading growth on charts.",
+                        request: "Design a simple fluency chart a teacher can print or copy by hand, with child-friendly progress markers.",
+                        intent: "Help students notice their own reading growth over time.",
+                        parameters: "Make the chart text only and include a small reflection question students can answer after reading."
+                    },
+                    {
+                        id: "fluency-audio",
+                        modality: "Audio",
+                        activity: "Model smooth reading aloud.",
+                        request: "Write a model reading script that shows smooth pacing, phrasing, and expression for a short K-1 passage.",
+                        intent: "Give students a clear example of what fluent reading sounds like.",
+                        parameters: "Mark natural pauses and expression cues so the script can be read aloud or recorded."
+                    },
+                    {
+                        id: "fluency-gestural",
+                        modality: "Gestural",
+                        activity: "Match gestures to expression.",
+                        request: "Suggest 6 gestures students can pair with punctuation or emotion while practicing expressive reading.",
+                        intent: "Help students connect meaning, voice, and body language.",
+                        parameters: "Keep the gestures simple and add one short example sentence for each gesture."
+                    },
+                    {
+                        id: "fluency-spatial",
+                        modality: "Spatial",
+                        activity: "Mark pauses on the page.",
+                        request: "Create a short passage with slash marks or spacing that show where students should pause for phrasing.",
+                        intent: "Help students see how words group together when reading smoothly.",
+                        parameters: "Add a brief teacher note that explains how to remove the supports over time."
+                    }
+                ]
+            },
+            {
+                skill: "Vocabulary",
+                entries: [
+                    {
+                        id: "vocabulary-linguistic",
+                        modality: "Linguistic/Alphabetic",
+                        activity: "Make word cards and sentences.",
+                        request: "Create 8 vocabulary cards for a familiar K-1 theme, with a child-friendly meaning and one simple sentence for each word.",
+                        intent: "Help students learn new words and use them in context.",
+                        parameters: "Use plain definitions and choose words that could fit a classroom unit such as weather, school, or animals."
+                    },
+                    {
+                        id: "vocabulary-visual",
+                        modality: "Visual",
+                        activity: "Show words with pictures.",
+                        request: "Create 8 visual vocabulary card ideas with a target word, a picture description, and one sentence stem.",
+                        intent: "Support word learning through image-word connections.",
+                        parameters: "If a word family connection fits, include it. Keep picture descriptions clear enough for a teacher or student illustrator to follow."
+                    },
+                    {
+                        id: "vocabulary-audio",
+                        modality: "Audio",
+                        activity: "Teach words with chants or songs.",
+                        request: "Write a short chant or song routine that teaches 6 vocabulary words with pronunciation help and echo lines.",
+                        intent: "Help students say, hear, and remember new words.",
+                        parameters: "Show syllable breaks when helpful and keep the rhythm easy for a teacher to read aloud."
+                    },
+                    {
+                        id: "vocabulary-gestural",
+                        modality: "Gestural",
+                        activity: "Use motions for new words.",
+                        request: "Suggest 6 movements or simple signs that can represent target vocabulary words in a classroom lesson.",
+                        intent: "Help students embody and remember word meanings.",
+                        parameters: "Use respectful, classroom-safe motions and explain how each motion connects to the word meaning."
+                    },
+                    {
+                        id: "vocabulary-spatial",
+                        modality: "Spatial",
+                        activity: "Build simple word webs.",
+                        request: "Create a text-only word web template for 5 target words that shows related words, examples, and connections.",
+                        intent: "Help students organize and compare vocabulary terms.",
+                        parameters: "Use headings a teacher can place on chart paper or a worksheet without needing graphic design software."
+                    }
+                ]
+            },
+            {
+                skill: "Comprehension",
+                entries: [
+                    {
+                        id: "comprehension-linguistic",
+                        modality: "Linguistic/Alphabetic",
+                        activity: "Ask story questions and retells.",
+                        request: "Write 6 comprehension questions and 2 short retell prompts for a simple K-1 story.",
+                        intent: "Help students recall, discuss, and explain story events.",
+                        parameters: "Include both literal and gentle inferential questions. Keep the wording easy to ask aloud."
+                    },
+                    {
+                        id: "comprehension-visual",
+                        modality: "Visual",
+                        activity: "Show story order with pictures.",
+                        request: "Create a 6-frame story sequence activity with a short description of what each picture should show.",
+                        intent: "Help students follow beginning, middle, and end in a narrative.",
+                        parameters: "Make each frame easy enough for a child to discuss, draw, or sort."
+                    },
+                    {
+                        id: "comprehension-audio",
+                        modality: "Audio",
+                        activity: "Model think-aloud reading.",
+                        request: "Write a short teacher think-aloud script that models predicting, noticing clues, and checking understanding during a read-aloud.",
+                        intent: "Show students what comprehension strategies sound like in real time.",
+                        parameters: "Add clear pause points and keep each think-aloud line brief enough to use during shared reading."
+                    },
+                    {
+                        id: "comprehension-gestural",
+                        modality: "Gestural",
+                        activity: "Act out story events.",
+                        request: "Suggest 5 short dramatization prompts that help students act out important events, feelings, or choices in a story.",
+                        intent: "Deepen understanding of characters and plot through movement.",
+                        parameters: "Keep actions safe and simple. Include one teacher debrief question after each dramatization."
+                    },
+                    {
+                        id: "comprehension-spatial",
+                        modality: "Spatial",
+                        activity: "Map plot, setting, and characters.",
+                        request: "Create a text-only graphic organizer for character, setting, problem, events, and solution.",
+                        intent: "Help students see how story elements connect.",
+                        parameters: "Include short sample responses and directions for whole-group or partner use."
+                    }
+                ]
+            },
+            {
+                skill: "Print Concepts",
+                entries: [
+                    {
+                        id: "print-linguistic",
+                        modality: "Linguistic/Alphabetic",
+                        activity: "Practice letter names and order.",
+                        request: "Create 2 short classroom games that help students practice letter names and alphabet order.",
+                        intent: "Build confidence with basic print knowledge and alphabet sequence.",
+                        parameters: "Use materials that are easy to find in a K-1 classroom, such as cards, chart paper, or sticky notes."
+                    },
+                    {
+                        id: "print-visual",
+                        modality: "Visual",
+                        activity: "Label parts of a book.",
+                        request: "Describe a simple labeled diagram that teaches parts of a book and common text features for young readers.",
+                        intent: "Help students notice how books and pages are organized.",
+                        parameters: "Use clear labels such as cover, title, page, word, letter, and sentence."
+                    },
+                    {
+                        id: "print-audio",
+                        modality: "Audio",
+                        activity: "Sing alphabet and letter names.",
+                        request: "Write a short alphabet song or chant routine with call-and-response prompts for letter naming.",
+                        intent: "Help students practice and remember letter names through repeated listening and speaking.",
+                        parameters: "Use a slow pace and add a quick teacher note for how to pause and repeat sections."
+                    },
+                    {
+                        id: "print-gestural",
+                        modality: "Gestural",
+                        activity: "Track print left to right.",
+                        request: "Create a short finger-tracking routine that teaches left-to-right, top-to-bottom, and return sweep while reading.",
+                        intent: "Help students connect hand movement to how print works on a page.",
+                        parameters: "Include a simple teacher script and keep the routine short enough for daily practice."
+                    },
+                    {
+                        id: "print-spatial",
+                        modality: "Spatial",
+                        activity: "Show how print moves on a page.",
+                        request: "Describe a page-layout guide that uses arrows or boxes to show where reading starts, moves, and stops.",
+                        intent: "Help students see directionality and page organization clearly.",
+                        parameters: "Explain how to model the guide on chart paper, a whiteboard, or a projected page."
+                    }
+                ]
+            }
+        ];
+
+        function buildContext(skill, modality) {
+            return "You are helping a K-1 teacher plan a " + modality.toLowerCase() + " literacy activity that targets " + skill.toLowerCase() + ".";
+        }
+
+        function buildFullPrompt(entry, skill) {
+            const context = buildContext(skill, entry.modality);
+            const parameters = sharedParameters + " " + entry.parameters;
+            return {
+                context: context,
+                request: entry.request,
+                intent: entry.intent,
+                style: sharedStyle,
+                parameters: parameters,
+                fullText: [
+                    "Context",
+                    context,
+                    "",
+                    "Request",
+                    entry.request,
+                    "",
+                    "Intent",
+                    entry.intent,
+                    "",
+                    "Style",
+                    sharedStyle,
+                    "",
+                    "Parameters",
+                    parameters,
+                    "",
+                    "Please produce the requested product now."
+                ].join("\n")
+            };
+        }
+
+        function escapeHtml(value) {
+            return value
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/\"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function buildBuilderUrl(prompt) {
+            const params = new URLSearchParams({
+                context: prompt.context,
+                request: prompt.request,
+                intent: prompt.intent,
+                style: prompt.style,
+                parameters: prompt.parameters,
+                format: "detailed"
+            });
+
+            return "/crisp.html?" + params.toString() + "#preview";
+        }
+
+        function renderPromptLibrary() {
+            const sections = promptData.map(function(group, groupIndex) {
+                const cards = group.entries.map(function(entry) {
+                    const prompt = buildFullPrompt(entry, group.skill);
+                    const textareaId = "prompt-text-" + entry.id;
+                    const label = group.skill + " + " + entry.modality;
+
+                    return "" +
+                        '<article class="prompt-card" id="prompt-' + escapeHtml(entry.id) + '">' +
+                            '<h3>' + escapeHtml(label) + '</h3>' +
+                            '<p class="prompt-activity"><strong>Short activity idea:</strong> ' + escapeHtml(entry.activity) + '</p>' +
+                            '<dl class="crisp-list">' +
+                                '<dt>Context</dt><dd>' + escapeHtml(prompt.context) + '</dd>' +
+                                '<dt>Request</dt><dd>' + escapeHtml(prompt.request) + '</dd>' +
+                                '<dt>Intent</dt><dd>' + escapeHtml(prompt.intent) + '</dd>' +
+                                '<dt>Style</dt><dd>' + escapeHtml(prompt.style) + '</dd>' +
+                                '<dt>Parameters</dt><dd>' + escapeHtml(prompt.parameters) + '</dd>' +
+                            '</dl>' +
+                            '<label class="prompt-label" for="' + escapeHtml(textareaId) + '">Ready-to-use prompt</label>' +
+                            '<textarea class="prompt-output" id="' + escapeHtml(textareaId) + '" readonly>' + escapeHtml(prompt.fullText) + '</textarea>' +
+                            '<div class="prompt-actions">' +
+                                '<button type="button" class="copy-button" data-target="' + escapeHtml(textareaId) + '" data-label="' + escapeHtml(label) + '">Copy prompt</button>' +
+                                '<a class="builder-link" href="' + escapeHtml(buildBuilderUrl(prompt)) + '">Open in CRISP builder</a>' +
+                                '<a class="jump-link" href="#grid-title">Back to grid</a>' +
+                            '</div>' +
+                        '</article>';
+                }).join("");
+
+                return "" +
+                    '<details class="prompt-group"' + (groupIndex === 0 ? ' open' : '') + '>' +
+                        '<summary>' + escapeHtml(group.skill) + '</summary>' +
+                        '<div class="prompt-grid">' + cards + '</div>' +
+                    '</details>';
+            }).join("");
+
+            promptLibrary.innerHTML = sections;
+        }
+
+        async function copyPrompt(textarea, label) {
+            textarea.focus();
+            textarea.select();
+            textarea.setSelectionRange(0, textarea.value.length);
+
+            try {
+                await navigator.clipboard.writeText(textarea.value);
+                status.textContent = label + " prompt copied. Paste it into your AI tool or edit it in the CRISP builder.";
+            } catch (error) {
+                status.textContent = "Copy failed for " + label + ". The prompt is selected so you can copy it manually.";
+            }
+        }
+
+        renderPromptLibrary();
+
+        promptLibrary.addEventListener("click", function(event) {
+            const button = event.target.closest(".copy-button");
+            if (!button) {
+                return;
+            }
+
+            const textarea = document.getElementById(button.getAttribute("data-target"));
+            if (!textarea) {
+                return;
+            }
+
+            copyPrompt(textarea, button.getAttribute("data-label") || "The selected");
+        });
+    })();
+</script>
