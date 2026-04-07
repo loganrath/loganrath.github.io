@@ -92,13 +92,11 @@ layout: tool
         display: grid;
         grid-template-columns: 200px repeat(5, 1fr);
         gap: 2px;
-        min-width: 1200px;
     }
 
     .grid-cell {
         background: #ffffff;
         padding: 14px;
-        min-height: 142px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -208,7 +206,7 @@ layout: tool
 
     .tools-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 16px;
         margin-top: 18px;
     }
@@ -222,7 +220,7 @@ layout: tool
 
     .tool-group h3 {
         font-size: 1rem;
-        color: #102033;
+        color: var(--bs-purple);
         margin-bottom: 10px;
     }
 
