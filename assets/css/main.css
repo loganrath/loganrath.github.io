@@ -1276,30 +1276,58 @@ a.newer-posts:hover {
 }
 
 .page-footer .page-share {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  gap: 6px;
   margin-bottom: 10px;
   text-align: left;
 }
 
-.page-footer .page-share a {
+.page-footer .page-share .share-label {
+  color: #263959;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 2px;
+}
+
+.page-footer .page-share a,
+.page-footer .page-share button {
   display: inline-block;
   text-decoration: none;
   background-color: #fafafa;
   border: 1px solid #ecf0f1;
   padding: 5px 10px;
-  margin-left: 5px;
+  margin-left: 0;
   color: #263959;
   font-size: 12px;
+  font-family: inherit;
+  line-height: 1.4;
+  cursor: pointer;
   -webkit-transition: background-color .3s;
   -o-transition: background-color .3s;
   transition: background-color .3s;
 }
 
-.page-footer .page-share a:first-child {
-  margin-left: 0;
+.page-footer .page-share a:hover,
+.page-footer .page-share button:hover,
+.page-footer .page-share a:focus,
+.page-footer .page-share button:focus {
+  background-color: #ecf0f1;
 }
 
-.page-footer .page-share a:hover {
-  background-color: #ecf0f1;
+.page-footer .page-share .share-status {
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+  margin: 4px 0 0;
+  color: #52637a;
+  font-size: 12px;
 }
 
 .page-footer .page-tag a {

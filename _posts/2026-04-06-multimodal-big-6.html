@@ -47,7 +47,8 @@ tags: [AI, Multimodal, Big 6, Technology]
     }
 
     .usage-box,
-    .tips-section {
+    .tips-section,
+    .tools-section {
         border-radius: 16px;
         padding: 22px;
         box-shadow: 0 8px 24px rgba(16, 32, 51, 0.08);
@@ -61,7 +62,8 @@ tags: [AI, Multimodal, Big 6, Technology]
 
     .usage-box h2,
     .grid-title,
-    .tips-title {
+    .tips-title,
+    .tools-title {
         font-size: 1.35rem;
         color: #102033;
         margin-bottom: 12px;
@@ -101,9 +103,9 @@ tags: [AI, Multimodal, Big 6, Technology]
         padding: 14px;
         min-height: 142px;
         display: flex;
-        align-items: stretch;
-        justify-content: flex-start;
-        text-align: left;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
         line-height: 1.45;
     }
 
@@ -156,8 +158,10 @@ tags: [AI, Multimodal, Big 6, Technology]
     .cell-content {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        align-items: center;
+        justify-content: center;
         width: 100%;
+        text-align: center;
     }
 
     .cell-link {
@@ -167,14 +171,15 @@ tags: [AI, Multimodal, Big 6, Technology]
         font-size: 0.96rem;
         font-weight: 600;
         line-height: 1.45;
-        color: #14263a;
-        text-decoration: underline;
+        color: #000000;
+        text-decoration: none;
         text-underline-offset: 3px;
     }
 
     .cell-link:hover,
     .cell-link:focus {
-        color: #083b6f;
+        color: #000000;
+        text-decoration: underline;
     }
 
     .cell-link:focus-visible {
@@ -186,6 +191,73 @@ tags: [AI, Multimodal, Big 6, Technology]
         margin-top: 32px;
         background: #fbfcff;
         border: 1px solid #d8e2ee;
+    }
+
+    .tools-section {
+        margin-top: 32px;
+        background: #ffffff;
+        border: 1px solid #d8e2ee;
+    }
+
+    .tools-intro,
+    .tools-note {
+        color: #31465b;
+        line-height: 1.6;
+        max-width: 75ch;
+    }
+
+    .tools-note {
+        margin-top: 12px;
+        font-size: 0.95rem;
+    }
+
+    .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+    }
+
+    .tool-group {
+        background: #fbfcff;
+        border: 1px solid #d8e2ee;
+        border-radius: 14px;
+        padding: 16px;
+    }
+
+    .tool-group h3 {
+        font-size: 1rem;
+        color: #102033;
+        margin-bottom: 10px;
+    }
+
+    .tool-list {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+
+    .tool-list li + li {
+        margin-top: 10px;
+    }
+
+    .tool-list a {
+        font-weight: 700;
+        color: #102033;
+        text-decoration: none;
+    }
+
+    .tool-list a:hover,
+    .tool-list a:focus {
+        text-decoration: underline;
+    }
+
+    .tool-detail {
+        display: block;
+        color: #425466;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-top: 2px;
     }
 
     .tips-list {
@@ -250,7 +322,8 @@ tags: [AI, Multimodal, Big 6, Technology]
         }
 
         .usage-box,
-        .tips-section {
+        .tips-section,
+        .tools-section {
             padding: 18px;
         }
     }
@@ -261,7 +334,7 @@ tags: [AI, Multimodal, Big 6, Technology]
         <h2 id="usage-title">How to use this chart</h2>
         <ol>
             <li>Read the short activity idea in a square.</li>
-            <li>Select the link in that square to open one pre-filled CRISP builder for that exact activity.</li>
+            <li>Select the text in that square to open one pre-filled <a href="https://rath.phd/crisp/">CRISP builder</a> for that exact activity.</li>
             <li>Review the filled-in fields, then copy the prompt from the builder into your AI tool.</li>
         </ol>
     </section>
@@ -320,6 +393,58 @@ tags: [AI, Multimodal, Big 6, Technology]
                 <div class="grid-cell modality-spatial"><div class="cell-content"><a class="cell-link" href="#prompt-print-spatial">Show how print moves on a page.</a></div></div>
             </div>
         </div>
+    </section>
+
+    <section class="tools-section" aria-labelledby="tools-title">
+        <h2 id="tools-title" class="tools-title">Suggested tools by modality</h2>
+        <p class="tools-intro">These tools can help you build or adapt activities in each modality. Pick tools that fit your students, device access, and privacy requirements.</p>
+        <div class="tools-grid">
+            <section class="tool-group" aria-labelledby="tools-linguistic-title">
+                <h3 id="tools-linguistic-title">Linguistic/Alphabetic</h3>
+                <ul class="tool-list">
+                    <li><a href="https://rath.phd/crisp/" target="_blank" rel="noopener noreferrer">CRISP Builder</a><span class="tool-detail">Plan and refine prompts before pasting them into an AI tool.</span></li>
+                    <li><a href="https://claude.ai/" target="_blank" rel="noopener noreferrer">Claude</a><span class="tool-detail">Draft passages, sentence frames, word lists, and teacher directions.</span></li>
+                    <li><a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">Gemini</a><span class="tool-detail">Generate decodable text, comprehension questions, and vocabulary supports.</span></li>
+                </ul>
+            </section>
+
+            <section class="tool-group" aria-labelledby="tools-visual-title">
+                <h3 id="tools-visual-title">Visual</h3>
+                <ul class="tool-list">
+                    <li><a href="https://www.canva.com/" target="_blank" rel="noopener noreferrer">Canva</a><span class="tool-detail">Create cards, posters, charts, and picture supports for literacy lessons.</span></li>
+                    <li><a href="https://new.express.adobe.com/" target="_blank" rel="noopener noreferrer">Adobe Express</a><span class="tool-detail">Build quick graphics, story sequence images, and classroom visuals.</span></li>
+                    <li><a href="https://designer.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft Designer</a><span class="tool-detail">Generate simple image-based materials from short prompts.</span></li>
+                </ul>
+            </section>
+
+            <section class="tool-group" aria-labelledby="tools-audio-title">
+                <h3 id="tools-audio-title">Audio</h3>
+                <ul class="tool-list">
+                    <li><a href="https://elevenlabs.io/" target="_blank" rel="noopener noreferrer">ElevenLabs</a><span class="tool-detail">Create model read-alouds, pronunciation examples, or short listening scripts.</span></li>
+                    <li><a href="https://notebooklm.google.com/" target="_blank" rel="noopener noreferrer">NotebookLM</a><span class="tool-detail">Turn notes into spoken summaries or audio-style explanations.</span></li>
+                    <li><a href="https://www.audacityteam.org/" target="_blank" rel="noopener noreferrer">Audacity</a><span class="tool-detail">Record and edit teacher-made audio for fluency and phonemic practice.</span></li>
+                </ul>
+            </section>
+
+            <section class="tool-group" aria-labelledby="tools-gestural-title">
+                <h3 id="tools-gestural-title">Gestural</h3>
+                <ul class="tool-list">
+                    <li><a href="https://flip.com/" target="_blank" rel="noopener noreferrer">Flip</a><span class="tool-detail">Record and share movement-based modeling, retells, or gesture responses.</span></li>
+                    <li><a href="https://www.loom.com/" target="_blank" rel="noopener noreferrer">Loom</a><span class="tool-detail">Create short teacher demonstrations that show motions, tracking, or acting.</span></li>
+                    <li><a href="https://web.seesaw.me/" target="_blank" rel="noopener noreferrer">Seesaw</a><span class="tool-detail">Capture student responses that combine movement, voice, and reflection.</span></li>
+                </ul>
+            </section>
+
+            <section class="tool-group" aria-labelledby="tools-spatial-title">
+                <h3 id="tools-spatial-title">Spatial</h3>
+                <ul class="tool-list">
+                    <li><a href="https://www.google.com/slides/about/" target="_blank" rel="noopener noreferrer">Google Slides</a><span class="tool-detail">Lay out sequence cards, story maps, and drag-and-drop practice tasks.</span></li>
+                    <li><a href="https://padlet.com/" target="_blank" rel="noopener noreferrer">Padlet</a><span class="tool-detail">Organize ideas on boards, maps, and columns for sorting and sequencing.</span></li>
+                    <li><a href="https://miro.com/" target="_blank" rel="noopener noreferrer">Miro</a><span class="tool-detail">Build digital organizers, word webs, and movement pathways on a shared canvas.</span></li>
+                </ul>
+            </section>
+        </div>
+        <p class="tools-note">Before classroom use, review each tool for age requirements, accessibility features, and district privacy policies.</p>
     </section>
 
     <section class="tips-section" aria-labelledby="tips-title">
@@ -566,51 +691,6 @@ tags: [AI, Multimodal, Big 6, Technology]
                         request: "Create a text-only graphic organizer for character, setting, problem, events, and solution.",
                         intent: "Help students see how story elements connect.",
                         parameters: "Include short sample responses and directions for whole-group or partner use."
-                    }
-                ]
-            },
-            {
-                skill: "Print Concepts",
-                entries: [
-                    {
-                        id: "print-linguistic",
-                        modality: "Linguistic/Alphabetic",
-                        activity: "Practice letter names and order.",
-                        request: "Create 2 short classroom games that help students practice letter names and alphabet order.",
-                        intent: "Build confidence with basic print knowledge and alphabet sequence.",
-                        parameters: "Use materials that are easy to find in a K-1 classroom, such as cards, chart paper, or sticky notes."
-                    },
-                    {
-                        id: "print-visual",
-                        modality: "Visual",
-                        activity: "Label parts of a book.",
-                        request: "Describe a simple labeled diagram that teaches parts of a book and common text features for young readers.",
-                        intent: "Help students notice how books and pages are organized.",
-                        parameters: "Use clear labels such as cover, title, page, word, letter, and sentence."
-                    },
-                    {
-                        id: "print-audio",
-                        modality: "Audio",
-                        activity: "Sing alphabet and letter names.",
-                        request: "Write a short alphabet song or chant routine with call-and-response prompts for letter naming.",
-                        intent: "Help students practice and remember letter names through repeated listening and speaking.",
-                        parameters: "Use a slow pace and add a quick teacher note for how to pause and repeat sections."
-                    },
-                    {
-                        id: "print-gestural",
-                        modality: "Gestural",
-                        activity: "Track print left to right.",
-                        request: "Create a short finger-tracking routine that teaches left-to-right, top-to-bottom, and return sweep while reading.",
-                        intent: "Help students connect hand movement to how print works on a page.",
-                        parameters: "Include a simple teacher script and keep the routine short enough for daily practice."
-                    },
-                    {
-                        id: "print-spatial",
-                        modality: "Spatial",
-                        activity: "Show how print moves on a page.",
-                        request: "Describe a page-layout guide that uses arrows or boxes to show where reading starts, moves, and stops.",
-                        intent: "Help students see directionality and page organization clearly.",
-                        parameters: "Explain how to model the guide on chart paper, a whiteboard, or a projected page."
                     }
                 ]
             }

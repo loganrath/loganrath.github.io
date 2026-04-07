@@ -3,6 +3,8 @@ layout: page
 ---
 <article class="article-page">
   <div class="page-content">
+    {% assign share_url = page.url | absolute_url %}
+    {% capture share_text %}{{ page.title }} {{ share_url }}{% endcapture %}
     {% if page.img %}
     <div class="page-cover-image">
       <figure>
@@ -20,10 +22,14 @@ layout: page
       </header>
       {{content | markdownify}}
       <div class="page-footer">
-        <div class="page-share">
-          <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ site.url }}{{ page.url }}" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
-          <a href="https://facebook.com/sharer.php?u={{ site.url }}{{ page.url }}" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
-          <a href="https://plus.google.com/share?url={{ site.url }}{{ page.url }}" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        <div class="page-share" data-share-url="{{ share_url | escape }}" data-share-title="{{ page.title | escape }}" data-share-text="{{ share_text | strip_newlines | normalize_whitespace | escape }}">
+          <span class="share-label">Share:</span>
+          <a href="https://bsky.app/intent/compose?text={{ share_text | strip_newlines | normalize_whitespace | uri_escape }}" title="Share on Bluesky" rel="nofollow noopener noreferrer" target="_blank">Bluesky</a>
+          <button type="button" class="share-action" data-platform="mastodon" title="Share on Mastodon">Mastodon</button>
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ share_url | uri_escape }}" title="Share on Facebook" rel="nofollow noopener noreferrer" target="_blank">Facebook</a>
+          <button type="button" class="share-action" data-platform="instagram" title="Share on Instagram">Instagram</button>
+          <a href="https://www.pinterest.com/pin/create/button/?url={{ share_url | uri_escape }}&description={{ page.title | uri_escape }}" title="Share on Pinterest" rel="nofollow noopener noreferrer" target="_blank">Pinterest</a>
+          <p class="share-status" aria-live="polite"></p>
         </div>
         <div class="page-tag">
           {% for tag in page.tags %}
@@ -35,3 +41,109 @@ layout: page
     </div> <!-- End Wrap Content -->
   </div> <!-- End Page Content -->
 </article> <!-- End Article Page -->
+
+<script>
+  (function() {
+    function normalizeInstance(value) {
+      return value.replace(/^https?:\/\//i, '').replace(/\/$/, '').trim();
+    }
+
+    function openShareWindow(url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
+    async function copyText(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+
+      const helper = document.createElement('textarea');
+      helper.value = text;
+      helper.setAttribute('readonly', 'readonly');
+      helper.style.position = 'absolute';
+      helper.style.left = '-9999px';
+      document.body.appendChild(helper);
+      helper.select();
+      helper.setSelectionRange(0, helper.value.length);
+      const copied = document.execCommand('copy');
+      document.body.removeChild(helper);
+      return copied;
+    }
+
+    function setStatus(node, message) {
+      node.textContent = message;
+    }
+
+    document.querySelectorAll('.page-share').forEach(function(shareBlock) {
+      const shareUrl = shareBlock.dataset.shareUrl;
+      const shareTitle = shareBlock.dataset.shareTitle;
+      const shareText = shareBlock.dataset.shareText;
+      const statusNode = shareBlock.querySelector('.share-status');
+
+      shareBlock.querySelectorAll('.share-action').forEach(function(button) {
+        button.addEventListener('click', async function() {
+          const platform = button.dataset.platform;
+
+          if (platform === 'mastodon') {
+            const storageKey = 'preferredMastodonInstance';
+            let savedInstance = '';
+
+            try {
+              savedInstance = localStorage.getItem(storageKey) || '';
+            } catch (error) {
+              savedInstance = '';
+            }
+
+            const input = window.prompt('Enter your Mastodon server, for example mastodon.social', savedInstance);
+            if (!input) {
+              return;
+            }
+
+            const instance = normalizeInstance(input);
+            if (!instance) {
+              setStatus(statusNode, 'Enter a valid Mastodon server name to share this post.');
+              return;
+            }
+
+            try {
+              localStorage.setItem(storageKey, instance);
+            } catch (error) {
+            }
+
+            openShareWindow('https://' + instance + '/share?text=' + encodeURIComponent(shareText));
+            setStatus(statusNode, 'Opening Mastodon on ' + instance + '.');
+            return;
+          }
+
+          if (platform === 'instagram') {
+            if (navigator.share) {
+              try {
+                await navigator.share({
+                  title: shareTitle,
+                  text: shareTitle,
+                  url: shareUrl
+                });
+                setStatus(statusNode, 'Opened your device share sheet. Choose Instagram if it is available.');
+                return;
+              } catch (error) {
+                if (error && error.name === 'AbortError') {
+                  return;
+                }
+              }
+            }
+
+            try {
+              await copyText(shareText);
+              openShareWindow('https://www.instagram.com/');
+              setStatus(statusNode, 'Instagram does not offer direct web article sharing. The post link was copied and Instagram was opened so you can paste it there.');
+            } catch (error) {
+              openShareWindow('https://www.instagram.com/');
+              setStatus(statusNode, 'Instagram does not offer direct web article sharing. Instagram was opened; copy the page link manually if needed.');
+            }
+          }
+        });
+      });
+    });
+  })();
+</script>
