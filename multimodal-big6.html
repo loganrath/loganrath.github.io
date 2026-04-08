@@ -384,7 +384,7 @@ layout: tool
         </div>
         <div class="table-wrap">
             <table class="planner-table" id="big6-table">
-                <caption id="big6-caption">NYS Big 6 planning grid</caption>
+                <caption id="big6-caption">Big 6 Multimodal Literacy Competencies and Skills for K-1</caption>
                 <thead>
                     <tr>
                         <th scope="col">Modality:</th>
@@ -398,7 +398,6 @@ layout: tool
                 <tbody id="big6-body"></tbody>
             </table>
         </div>
-        <p class="table-note" id="big6-note"></p>
     </section>
 
     <section class="tools-section" aria-labelledby="tools-title">
@@ -546,7 +545,6 @@ layout: tool
                 standards: "Foundational literacy, oral language, shared reading, early writing, and supported content learning.",
                 texts: "Use pictures, read-alouds, decodables, short shared texts, and concrete classroom experiences.",
                 instruction: "Model first, keep routines short, and use oral rehearsal, visuals, and guided practice.",
-                note: "This band aligns most closely to NYS foundational skills, oral language development, shared reading, and supported content exploration.",
                 parameters: "Keep tasks concrete and brief. Use picture cues, sentence stems, and one-step or two-step routines.",
                 subjectSource: "pictures, short shared texts, teacher-created models, concrete examples, and brief demonstrations",
                 subjectOutput: "oral responses, drawing, labeling, shared writing, and short dictated or copied responses",
@@ -583,7 +581,6 @@ layout: tool
                 standards: "Developing independence with reading, writing, speaking, and knowledge building across content.",
                 texts: "Use decodables, short chapter texts, early informational text, diagrams, and teacher-selected sources.",
                 instruction: "Blend explicit literacy instruction with more student independence, written response, and text evidence.",
-                note: "This band aligns to NYS expectations for fluent decoding, paragraph development, vocabulary growth, and reading to build knowledge.",
                 parameters: "Use accessible grade-level text demands, clear directions, and opportunities for short written and oral responses.",
                 subjectSource: "short literary and informational texts, diagrams, data displays, maps, and short primary or secondary sources",
                 subjectOutput: "short written responses, labeled diagrams, oral explanation, and paragraph-level writing",
@@ -620,7 +617,6 @@ layout: tool
                 standards: "Knowledge building, text evidence, morphology, and deeper literary and informational analysis.",
                 texts: "Use complex literary and informational texts, reference tools, data displays, and content-rich source sets.",
                 instruction: "Increase student ownership while teaching annotation, discussion, vocabulary transfer, and evidence use.",
-                note: "This band aligns to NYS upper-elementary expectations for text analysis, evidence-based writing, and cross-curricular literacy.",
                 parameters: "Keep tasks grade-appropriate but rigorous. Include text evidence, academic vocabulary, and structured collaboration.",
                 subjectSource: "complex literary and informational texts, charts, diagrams, data, maps, and curated source sets",
                 subjectOutput: "paragraphs, notes, organizers, summaries, constructed responses, and multimodal explanation",
@@ -657,7 +653,6 @@ layout: tool
                 standards: "Middle-grade disciplinary literacy, argumentation, inquiry, and increasingly independent analysis.",
                 texts: "Use novels, articles, source sets, data, multimedia, and technical texts that require comparison and analysis.",
                 instruction: "Center text evidence, argument, discussion norms, and strategic support for diverse readers and multilingual learners.",
-                note: "This band supports the middle-school transition to deeper disciplinary reading, evidence-based argument, and source analysis in NYS classrooms.",
                 parameters: "Use grade-appropriate complexity, discussion structures, and explicit support for academic language and source use.",
                 subjectSource: "novels, articles, experiments, maps, media, data sets, and technical or historical source collections",
                 subjectOutput: "notes, short arguments, comparative responses, lab explanations, discussion prep, and presentations",
@@ -694,7 +689,6 @@ layout: tool
                 standards: "Complex text analysis, synthesis, rhetorical awareness, research, and discipline-specific communication.",
                 texts: "Use complex literature, primary and secondary sources, technical texts, data sets, media, and scholarly or professional models.",
                 instruction: "Support independent analysis, sustained inquiry, discussion leadership, and polished speaking and writing.",
-                note: "This band aligns to NYS secondary expectations for close reading, argument, synthesis, research, and discipline-specific communication.",
                 parameters: "Expect rigorous content and evidence use. Include options for analysis, critique, synthesis, and student independence.",
                 subjectSource: "complex literature, primary sources, technical texts, data sets, media, professional models, and research-based materials",
                 subjectOutput: "analytical writing, argument, annotation, presentations, technical products, and sustained inquiry artifacts",
@@ -730,8 +724,8 @@ layout: tool
 
         const bandSelect = document.getElementById("grade-band-select");
         const big6Body = document.getElementById("big6-body");
+        const big6Caption = document.getElementById("big6-caption");
         const big6Chip = document.getElementById("big6-band-chip");
-        const big6Note = document.getElementById("big6-note");
         const plannerStatus = document.getElementById("planner-status");
 
         function escapeHtml(value) {
@@ -786,7 +780,7 @@ layout: tool
             }).join("");
 
             big6Chip.textContent = "Showing " + band.label;
-            big6Note.textContent = band.note;
+            big6Caption.textContent = "Big 6 Multimodal Literacy Competencies and Skills for " + band.label;
         }
 
         function renderBand(bandKey) {
