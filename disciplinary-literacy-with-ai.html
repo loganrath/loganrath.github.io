@@ -46,6 +46,27 @@ layout: tool
         line-height: 1.65;
     }
 
+    .usage-box a,
+    .page-subtitle a,
+    .controls-copy a,
+    .table-note a {
+        color: #0b3d91;
+        font-weight: 700;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .usage-box a:hover,
+    .usage-box a:focus,
+    .page-subtitle a:hover,
+    .page-subtitle a:focus,
+    .controls-copy a:hover,
+    .controls-copy a:focus,
+    .table-note a:hover,
+    .table-note a:focus {
+        color: #072c67;
+    }
+
     .controls-section,
     .planner-section,
     .usage-box {
@@ -212,7 +233,8 @@ layout: tool
         padding: 10px 14px;
         border-radius: 999px;
         background: linear-gradient(135deg, #ff7a18 0%, #ff3d81 100%);
-        color: #ffffff;
+        color: #102033;
+        border: 1px solid rgba(16, 32, 51, 0.14);
         box-shadow: 0 10px 24px rgba(255, 61, 129, 0.22);
         transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
     }
@@ -226,7 +248,8 @@ layout: tool
 
     .action-link:hover,
     .action-link:focus {
-        color: #ffffff;
+        color: #102033;
+        text-decoration: none;
         transform: translateY(-1px);
         filter: saturate(1.08);
         box-shadow: 0 12px 28px rgba(255, 61, 129, 0.28);
