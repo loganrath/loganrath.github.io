@@ -36,7 +36,6 @@ layout: tool
 
     .page-subtitle,
     .controls-copy p,
-    .summary-card p,
     .subject-note,
     .usage-box p,
     .usage-box li,
@@ -139,26 +138,6 @@ layout: tool
         box-shadow: 0 0 0 4px rgba(13, 90, 167, 0.18);
     }
 
-    .summary-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 14px;
-        margin-top: 18px;
-    }
-
-    .summary-card {
-        border-radius: 16px;
-        padding: 16px;
-        background: rgba(255, 255, 255, 0.88);
-        border: 1px solid #d3e4f6;
-    }
-
-    .summary-card h3 {
-        color: #0d4c8f;
-        font-size: 0.95rem;
-        margin-bottom: 8px;
-    }
-
     .band-chip {
         align-self: start;
         border-radius: 999px;
@@ -218,6 +197,11 @@ layout: tool
         color: #102033;
     }
 
+    .subject-table td:last-child {
+        width: 180px;
+        white-space: nowrap;
+    }
+
     .action-link,
     .inline-link {
         color: #102033;
@@ -230,13 +214,24 @@ layout: tool
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 10px 14px;
-        border-radius: 999px;
-        background: linear-gradient(135deg, #ff7a18 0%, #ff3d81 100%);
-        color: #102033;
-        border: 1px solid rgba(16, 32, 51, 0.14);
-        box-shadow: 0 10px 24px rgba(255, 61, 129, 0.22);
+        gap: 8px;
+        min-width: 148px;
+        padding: 11px 16px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #0d5aa7 0%, #147fc2 54%, #15a38d 100%);
+        color: #ffffff;
+        border: 1px solid rgba(7, 44, 103, 0.18);
+        box-shadow: 0 12px 28px rgba(13, 90, 167, 0.22);
         transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+        line-height: 1.2;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+    }
+
+    .action-link::after {
+        content: "->";
+        font-size: 0.95rem;
+        transition: transform .15s ease;
     }
 
     .action-link:hover,
@@ -248,11 +243,16 @@ layout: tool
 
     .action-link:hover,
     .action-link:focus {
-        color: #102033;
+        color: #ffffff;
         text-decoration: none;
         transform: translateY(-1px);
-        filter: saturate(1.08);
-        box-shadow: 0 12px 28px rgba(255, 61, 129, 0.28);
+        filter: saturate(1.06);
+        box-shadow: 0 14px 30px rgba(13, 90, 167, 0.28);
+    }
+
+    .action-link:hover::after,
+    .action-link:focus::after {
+        transform: translateX(1px);
     }
 
     .inline-link:hover,
@@ -338,7 +338,6 @@ layout: tool
                 </div>
             </div>
         </div>
-        <div class="summary-grid" id="band-summary"></div>
     </section>
 
     <section class="planner-section" aria-labelledby="disciplinary-title">
@@ -755,7 +754,6 @@ layout: tool
 
         const subjectSelect = document.getElementById("subject-select");
         const bandSelect = document.getElementById("grade-band-select");
-        const bandSummary = document.getElementById("band-summary");
         const disciplinaryChip = document.getElementById("disciplinary-band-chip");
         const disciplinaryTables = document.getElementById("disciplinary-tables");
         const plannerStatus = document.getElementById("planner-status");
@@ -810,31 +808,6 @@ layout: tool
             }) || subjects[0];
         }
 
-        function renderSummary(bandKey) {
-            const band = gradeBands[bandKey];
-
-            bandSummary.innerHTML = [
-                {
-                    title: "NYS standards lens",
-                    text: band.standards
-                },
-                {
-                    title: "Typical source types",
-                    text: band.sourceTypes
-                },
-                {
-                    title: "Likely student outputs",
-                    text: band.outputs
-                },
-                {
-                    title: "Instructional stance",
-                    text: band.instruction
-                }
-            ].map(function(card) {
-                return '<article class="summary-card"><h3>' + escapeHtml(card.title) + '</h3><p>' + escapeHtml(card.text) + '</p></article>';
-            }).join("");
-        }
-
         function renderSubjectTable() {
             const bandKey = bandSelect.value;
             const band = gradeBands[bandKey];
@@ -864,7 +837,6 @@ layout: tool
         }
 
         function renderPage() {
-            renderSummary(bandSelect.value);
             renderSubjectTable();
         }
 
