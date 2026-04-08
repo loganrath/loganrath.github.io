@@ -140,16 +140,6 @@ layout: tool
         margin-bottom: 14px;
     }
 
-    .band-chip {
-        align-self: start;
-        border-radius: 999px;
-        background: #edf3fd;
-        color: #0d4c8f;
-        font-size: 0.88rem;
-        font-weight: 700;
-        padding: 8px 12px;
-    }
-
     .table-wrap {
         overflow-x: auto;
         border-radius: 16px;
@@ -397,7 +387,6 @@ layout: tool
                         <option value="9-12">9-12</option>
                     </select>
                 </div>
-                <div class="band-chip" id="big6-band-chip">Showing K-1</div>
             </div>
         </div>
         <div class="table-wrap">
@@ -743,7 +732,6 @@ layout: tool
         const bandSelect = document.getElementById("grade-band-select");
         const big6Body = document.getElementById("big6-body");
         const big6Caption = document.getElementById("big6-caption");
-        const big6Chip = document.getElementById("big6-band-chip");
         const plannerStatus = document.getElementById("planner-status");
 
         function escapeHtml(value) {
@@ -797,7 +785,6 @@ layout: tool
                 return '<tr><th scope="row">' + escapeHtml(skillName) + '</th>' + cells + '</tr>';
             }).join("");
 
-            big6Chip.textContent = "Showing " + band.label;
             big6Caption.textContent = "Big 6 Multimodal Literacy Competencies and Skills for " + band.label;
         }
 
