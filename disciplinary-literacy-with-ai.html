@@ -41,8 +41,7 @@ layout: tool
     .usage-box p,
     .usage-box li,
     .footer-note,
-    .table-note,
-    .action-note {
+    .table-note {
         color: #31465b;
         line-height: 1.65;
     }
@@ -206,6 +205,18 @@ layout: tool
         text-underline-offset: 3px;
     }
 
+    .action-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #ff7a18 0%, #ff3d81 100%);
+        color: #ffffff;
+        box-shadow: 0 10px 24px rgba(255, 61, 129, 0.22);
+        transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+    }
+
     .action-link:hover,
     .action-link:focus,
     .inline-link:hover,
@@ -213,16 +224,23 @@ layout: tool
         text-decoration: underline;
     }
 
+    .action-link:hover,
+    .action-link:focus {
+        color: #ffffff;
+        transform: translateY(-1px);
+        filter: saturate(1.08);
+        box-shadow: 0 12px 28px rgba(255, 61, 129, 0.28);
+    }
+
+    .inline-link:hover,
+    .inline-link:focus {
+        color: #102033;
+    }
+
     .action-link:focus-visible,
     .inline-link:focus-visible {
         outline: 3px solid rgba(13, 90, 167, 0.25);
         outline-offset: 3px;
-    }
-
-    .action-note {
-        display: block;
-        margin-top: 6px;
-        font-size: 0.9rem;
     }
 
     .usage-box {
@@ -806,7 +824,7 @@ layout: tool
                     '<th scope="row">' + escapeHtml(row.practice) + '</th>' +
                     '<td>' + escapeHtml(row.move(band)) + '</td>' +
                     '<td>' + escapeHtml(row.alignment) + '</td>' +
-                    '<td><a class="action-link" href="' + escapeHtml(buildCrispUrl(prompt)) + '" aria-label="Open CRISP builder for ' + escapeHtml(subject.name) + ' and ' + escapeHtml(row.practice) + ' in ' + escapeHtml(band.label) + '.">Open CRISP builder</a><span class="action-note">Teacher-planning prompt for ' + escapeHtml(band.label) + '.</span></td>' +
+                    '<td><a class="action-link" href="' + escapeHtml(buildCrispUrl(prompt)) + '" aria-label="Open CRISP builder for ' + escapeHtml(subject.name) + ' and ' + escapeHtml(row.practice) + ' in ' + escapeHtml(band.label) + '.">Open CRISP builder</a></td>' +
                     '</tr>';
             }).join("");
 
