@@ -41,7 +41,6 @@ layout: tool
         color: #425466;
     }
 
-    .controls-section,
     .planner-section,
     .usage-box {
         border-radius: 18px;
@@ -51,24 +50,6 @@ layout: tool
         background: #ffffff;
     }
 
-    .controls-section {
-        background: linear-gradient(135deg, #f4fbff 0%, #eef5ff 100%);
-        margin-bottom: 28px;
-    }
-
-    .controls-row {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 16px;
-        align-items: end;
-    }
-
-    .controls-copy {
-        flex: 1 1 420px;
-    }
-
-    .controls-copy h2,
     .section-title,
     .usage-box h2 {
         font-size: 1.35rem;
@@ -76,11 +57,8 @@ layout: tool
         margin-bottom: 10px;
     }
 
-    .controls-copy p,
     .section-intro,
     .usage-box p,
-    .summary-card p,
-    .subject-note,
     .table-note,
     .tools-note,
     .tool-detail {
@@ -122,31 +100,6 @@ layout: tool
         outline: none;
         border-color: #0d5aa7;
         box-shadow: 0 0 0 4px rgba(13, 90, 167, 0.18);
-    }
-
-    .controls-note {
-        margin-top: 14px;
-        font-size: 0.95rem;
-    }
-
-    .summary-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 14px;
-        margin-top: 18px;
-    }
-
-    .summary-card {
-        border-radius: 16px;
-        padding: 16px;
-        background: rgba(255, 255, 255, 0.88);
-        border: 1px solid #d3e4f6;
-    }
-
-    .summary-card h3 {
-        color: #0d4c8f;
-        font-size: 0.95rem;
-        margin-bottom: 8px;
     }
 
     .planner-section + .planner-section,
@@ -386,7 +339,6 @@ layout: tool
             padding: 18px 10px 32px;
         }
 
-        .controls-section,
         .planner-section,
         .usage-box {
             padding: 18px;
@@ -405,16 +357,16 @@ layout: tool
         </ol>
     </section>
 
-    <section class="controls-section" aria-labelledby="controls-title">
-        <div class="controls-row">
-            <div class="controls-copy">
-                <h2 id="controls-title">Choose a grade band</h2>
-                <p id="grade-band-help">The table below updates for K-1, 2-3, 4-6, 5-8, or 9-12. This page focuses on Big 6 multimodal literacy planning.</p>
+    <section class="planner-section" aria-labelledby="big6-title">
+        <div class="section-header">
+            <div>
+                <h2 id="big6-title" class="section-title">Big 6 Multimodal Literacy Competencies and Skills</h2>
+                <p class="section-intro">Each square combines one of the "Big 6" competencies with a modality. Click on the activity to open an AI prompt builder based on the CRISP Framework for that exact combination. You can then edit that prompt before copying and pasting it into your AI tool of choice.</p>
             </div>
             <div class="control-cluster">
                 <div class="band-control">
                     <label for="grade-band-select">Grade band</label>
-                    <select id="grade-band-select" aria-describedby="grade-band-help planner-status">
+                    <select id="grade-band-select" aria-describedby="big6-title planner-status">
                         <option value="k-1">K-1</option>
                         <option value="2-3">2-3</option>
                         <option value="4-6">4-6</option>
@@ -422,19 +374,8 @@ layout: tool
                         <option value="9-12">9-12</option>
                     </select>
                 </div>
+                <div class="band-chip" id="big6-band-chip">Showing K-1</div>
             </div>
-        </div>
-        <p class="controls-note">These planning suggestions align broadly to NYS literacy expectations and can be tightened to your district scope and sequence. For subject-specific planning, use <a href="/disciplinary-literacy-with-ai">the disciplinary literacy with AI page</a>.</p>
-        <div class="summary-grid" id="band-summary"></div>
-    </section>
-
-    <section class="planner-section" aria-labelledby="big6-title">
-        <div class="section-header">
-            <div>
-                <h2 id="big6-title" class="section-title">Big 6 Multimodal Literacy Competencies and Skills</h2>
-                <p class="section-intro">Each square combines one of the "Big 6" competencies with a modality. Click on the activity to open an AI prompt builder based on the CRISP Framework for that exact combination. You can then edit that prompt before copying and pasting it into your AI tool of choice.</p>
-            </div>
-            <div class="band-chip" id="big6-band-chip">Showing K-1</div>
         </div>
         <div class="table-wrap">
             <table class="planner-table" id="big6-table">
@@ -783,7 +724,6 @@ layout: tool
         };
 
         const bandSelect = document.getElementById("grade-band-select");
-        const bandSummary = document.getElementById("band-summary");
         const big6Body = document.getElementById("big6-body");
         const big6Chip = document.getElementById("big6-band-chip");
         const big6Note = document.getElementById("big6-note");
@@ -824,27 +764,6 @@ layout: tool
             };
         }
 
-        function renderSummary(bandKey) {
-            const band = gradeBands[bandKey];
-
-            bandSummary.innerHTML = [
-                {
-                    title: "NYS standards lens",
-                    text: band.standards
-                },
-                {
-                    title: "Texts and tasks",
-                    text: band.texts
-                },
-                {
-                    title: "Instructional moves",
-                    text: band.instruction
-                }
-            ].map(function(card) {
-                return '<article class="summary-card"><h3>' + escapeHtml(card.title) + '</h3><p>' + escapeHtml(card.text) + '</p></article>';
-            }).join("");
-        }
-
         function renderBig6Table(bandKey) {
             const band = gradeBands[bandKey];
 
@@ -866,7 +785,6 @@ layout: tool
         }
 
         function renderBand(bandKey) {
-            renderSummary(bandKey);
             renderBig6Table(bandKey);
             plannerStatus.textContent = "Updated the Big 6 planner to show NYS literacy ideas for grade band " + gradeBands[bandKey].label + ".";
         }
