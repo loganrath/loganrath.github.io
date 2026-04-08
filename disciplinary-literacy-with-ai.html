@@ -67,7 +67,6 @@ layout: tool
     }
 
     .controls-section,
-    .planner-section,
     .usage-box {
         border-radius: 18px;
         padding: 22px;
@@ -138,14 +137,8 @@ layout: tool
         box-shadow: 0 0 0 4px rgba(13, 90, 167, 0.18);
     }
 
-    .band-chip {
-        align-self: start;
-        border-radius: 999px;
-        background: #edf3fd;
-        color: #0d4c8f;
-        font-size: 0.88rem;
-        font-weight: 700;
-        padding: 8px 12px;
+    .planner-heading {
+        margin: 28px 0 14px;
     }
 
     .subject-card {
@@ -298,7 +291,6 @@ layout: tool
         }
 
         .controls-section,
-        .planner-section,
         .usage-box {
             padding: 18px;
         }
@@ -339,18 +331,12 @@ layout: tool
             </div>
         </div>
     </section>
-    <div id="disciplinary-tables"></div>
-
-    <section class="planner-section" aria-labelledby="disciplinary-title">
-        <div class="section-header">
-            <div>
-                <h2 id="disciplinary-title" class="section-title">Disciplinary literacy planner</h2>
-                <p class="table-note">Use these planning moves to build reading, discussion, writing, inquiry, critique, and communication tasks that match the literacy demands of each subject area.</p>
-            </div>
-            <div class="band-chip" id="disciplinary-band-chip">English Language Arts for K-1</div>
-        </div>
-        
+    <section class="planner-heading" aria-labelledby="disciplinary-title">
+        <h2 id="disciplinary-title" class="section-title">Disciplinary literacy planner</h2>
+        <p class="table-note">Use these planning moves to build reading, discussion, writing, inquiry, critique, and communication tasks that match the literacy demands of each subject area.</p>
     </section>
+
+    <div id="disciplinary-tables"></div>
 
     <section class="usage-box" aria-labelledby="usage-title">
         <h2 id="usage-title">How to use this page</h2>
@@ -755,7 +741,6 @@ layout: tool
 
         const subjectSelect = document.getElementById("subject-select");
         const bandSelect = document.getElementById("grade-band-select");
-        const disciplinaryChip = document.getElementById("disciplinary-band-chip");
         const disciplinaryTables = document.getElementById("disciplinary-tables");
         const plannerStatus = document.getElementById("planner-status");
 
@@ -833,7 +818,6 @@ layout: tool
                 '</table></div>' +
                 '</section>';
 
-            disciplinaryChip.textContent = subject.name + ' for ' + band.label;
             plannerStatus.textContent = 'Updated the disciplinary literacy planner to show ' + subject.name + ' for grade band ' + band.label + '.';
         }
 
