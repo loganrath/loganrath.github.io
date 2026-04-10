@@ -470,7 +470,7 @@ layout: tool
         <div class="search-launch-group">
           <button id="librarySearchButton" class="btn search-launch-btn" onclick="launchLibrarySearch()" disabled>Choose a campus to continue</button>
           <div class="campus-change-control">
-            <label class="campus-change-label" for="campusSelectFinal">Change campus</label>
+            <label class="campus-change-label" for="campusSelectFinal">Campus (select to change):</label>
             <select id="campusSelectFinal" class="campus-change-select">
               <option value="">Choose a campus</option>
             </select>
@@ -632,6 +632,17 @@ layout: tool
     }
 
     updateLibrarySearchButton();
+  }
+
+  function getInitialCampusId() {
+    const campusParam = new URLSearchParams(window.location.search).get('campus');
+
+    if (!campusParam) {
+      return '';
+    }
+
+    const normalizedCampusId = campusParam.trim().toLowerCase();
+    return campusConfigById[normalizedCampusId] ? normalizedCampusId : '';
   }
 
   function updateQuestionSummary() {
@@ -1034,8 +1045,17 @@ layout: tool
     populateCampusOptions();
     updateKeywordRemoveVisibility();
     document.getElementById('booleanOutput').value = 'Your search will appear here';
-    updateLibrarySearchButton();
     updateFeedbackLink();
+
+    const initialCampusId = getInitialCampusId();
+
+    if (initialCampusId) {
+      handleCampusSelection(initialCampusId);
+      showStep(2, false);
+      return;
+    }
+
+    updateLibrarySearchButton();
     showStep(1, false);
   })();
 </script>
