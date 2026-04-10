@@ -488,14 +488,13 @@ layout: tool
 </div>
 
 <script>
-  // Update this list to change campus names, search tool names, URLs, and button colors.
+  // Update this list to change campus names, search tool names, default discovery URLs, and button colors.
   const campusConfigs = [
     {
       id: 'albany',
       campusName: 'University at Albany',
       searchName: 'Library Search',
-      searchUrl: 'https://search.library.albany.edu/discovery/search?query=any,contains,SEARCH_QUERY&vid=01SUNY_ALB:01SUNY_ALB&lang=en',
-      buttonLabel: 'Search Library Search',
+      defaultSearchUrl: 'https://search.library.albany.edu/discovery/search?vid=01SUNY_ALB%3A01SUNY_ALB&lang=en',
       buttonColor: '#46166B',
       buttonTextColor: '#FFFFFF'
     },
@@ -503,8 +502,7 @@ layout: tool
       id: 'brockport',
       campusName: 'SUNY Brockport',
       searchName: 'Library Search',
-      searchUrl: 'https://suny-bro.primo.exlibrisgroup.com/discovery/search?institution=01SUNY_BRO&vid=01SUNY_BRO%3A01SUNY_BRO&tab=Everything&search_scope=everythingSLS&mode=Basic&displayMode=full&bulkSize=10&highlight=true&dum=true&query=any%2Ccontains%2CSEARCH_QUERY&displayField=all&pcAvailabiltyMode=true&searchOptionsRadio=everything',
-      buttonLabel: 'Search Library Search',
+      defaultSearchUrl: 'https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO%3A01SUNY_BRO&lang=en',
       buttonColor: '#005BBB',
       buttonTextColor: '#FFFFFF'
     },
@@ -512,17 +510,15 @@ layout: tool
       id: 'buffalo',
       campusName: 'University at Buffalo',
       searchName: 'Library Search',
-      searchUrl: 'https://search.lib.buffalo.edu/discovery/search?query=any,contains,SEARCH_QUERY&vid=01SUNY_BUF:everything&lang=en',
-      buttonLabel: 'Search Library Search',
+      defaultSearchUrl: 'https://search.lib.buffalo.edu/discovery/search?vid=01SUNY_BUF%3Aeverything&tab=EverythingUBSUNY&search_scope=UBSUNY&query=any%2Ccontains%2C&pcAvailabilty=true',
       buttonColor: '#005BBB',
       buttonTextColor: '#FFFFFF'
     },
     {
       id: 'delhi',
-      campusName: ' Delhi',
+      campusName: 'Delhi',
       searchName: 'Milo',
-      searchUrl: 'https://suny-del.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_DEL:01SUNY_DEL&query=any,contains,SEARCH_QUERY&lang=en',
-      buttonLabel: 'Search Milo',
+      defaultSearchUrl: 'https://suny-del.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_DEL:01SUNY_DEL&tab=Everything&search_scope=MyInst_and_CI&mode=Basic&query=&scopeSelecter=LibraryCatalog&pcAvailabiltyMode=true',
       buttonColor: '#0d280b',
       buttonTextColor: '#FFFFFF'
     },
@@ -530,8 +526,7 @@ layout: tool
       id: 'empire',
       campusName: 'SUNY Empire State University',
       searchName: 'OneSearch',
-      searchUrl: 'https://onesearch.sunyempire.edu/discovery/search?query=any,contains,SEARCH_QUERY&vid=01SUNY_ESC:01SUNY_ESC&lang=en',
-      buttonLabel: 'Search OneSearch',
+      defaultSearchUrl: 'https://onesearch.sunyempire.edu/discovery/search?vid=01SUNY_ESC%3A01SUNY_ESC&lang=en',
       buttonColor: '#007A53',
       buttonTextColor: '#FFFFFF'
     },
@@ -555,6 +550,16 @@ layout: tool
 
   function getSelectedCampusConfig() {
     return campusConfigById[searchData.campusId] || null;
+  }
+
+  function getCampusButtonLabel(campus) {
+    return campus.buttonLabel || `Search ${campus.searchName}`;
+  }
+
+  function buildCampusSearchUrl(campus, query) {
+    const url = new URL(campus.defaultSearchUrl);
+    url.searchParams.set('query', `any,contains,${query}`);
+    return url.toString();
   }
 
   function hexToRgba(hex, alpha) {
@@ -595,7 +600,7 @@ layout: tool
 
     document.getElementById('campusPreviewTitle').textContent = campus.campusName;
     document.getElementById('campusPreviewMeta').textContent = `Final search launches in ${campus.searchName}.`;
-    badge.textContent = campus.buttonLabel;
+    badge.textContent = getCampusButtonLabel(campus);
     badge.style.background = campus.buttonColor;
     badge.style.color = campus.buttonTextColor;
     preview.style.borderColor = hexToRgba(campus.buttonColor, 0.25);
@@ -840,7 +845,7 @@ layout: tool
     badge.style.background = hexToRgba(campus.buttonColor, 0.14);
     badge.style.color = campus.buttonColor;
     intro.textContent = `This button opens ${campus.searchName} for ${campus.campusName}.`;
-    button.textContent = campus.buttonLabel;
+    button.textContent = getCampusButtonLabel(campus);
     button.style.background = campus.buttonColor;
     button.style.color = campus.buttonTextColor;
     button.disabled = !query || query === 'Your search will appear here' || query === 'No search terms entered';
@@ -860,7 +865,7 @@ layout: tool
       return;
     }
 
-    const url = campus.searchUrl.replace('SEARCH_QUERY', encodeURIComponent(query));
+    const url = buildCampusSearchUrl(campus, query);
     window.open(url, '_blank');
   }
 
