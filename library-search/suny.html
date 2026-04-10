@@ -1,5 +1,6 @@
 ---
-title: "Dr. Rath's Search Term Generator"
+title: "Dr. Rath's Search Term Generator
+SUNY Campus Edition"
 layout: tool
 ---
 <style>
@@ -133,17 +134,6 @@ layout: tool
   .campus-preview-meta {
     margin: 0;
     color: #415365;
-  }
-
-  .campus-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 12px;
-    padding: 8px 12px;
-    border-radius: 999px;
-    font-size: 14px;
-    font-weight: 700;
   }
 
   .question-summary {
@@ -363,7 +353,6 @@ layout: tool
       <div id="campusPreview" class="campus-preview" hidden>
         <div id="campusPreviewTitle" class="campus-preview-title"></div>
         <p id="campusPreviewMeta" class="campus-preview-meta"></p>
-        <div id="campusPreviewBadge" class="campus-badge"></div>
       </div>
     </div>
 
@@ -465,7 +454,6 @@ layout: tool
       <div class="library-search-panel">
         <h2>Open your campus library search</h2>
         <p id="librarySearchIntro">Choose your campus in step 1 to enable the final search button.</p>
-        <div id="selectedCampusBadge" class="campus-badge">No campus selected</div>
         <div style="margin-top:14px">
           <button id="librarySearchButton" class="btn search-launch-btn" onclick="launchLibrarySearch()" disabled>Choose a campus to continue</button>
         </div>
@@ -588,7 +576,6 @@ layout: tool
 
   function updateCampusPreview() {
     const preview = document.getElementById('campusPreview');
-    const badge = document.getElementById('campusPreviewBadge');
     const campus = getSelectedCampusConfig();
 
     if (!campus) {
@@ -598,9 +585,6 @@ layout: tool
 
     document.getElementById('campusPreviewTitle').textContent = campus.campusName;
     document.getElementById('campusPreviewMeta').textContent = `Final search launches in ${campus.searchName}.`;
-    badge.textContent = getCampusButtonLabel(campus);
-    badge.style.background = campus.buttonColor;
-    badge.style.color = campus.buttonTextColor;
     preview.style.borderColor = hexToRgba(campus.buttonColor, 0.25);
     preview.style.background = hexToRgba(campus.buttonColor, 0.08);
     preview.hidden = false;
@@ -840,7 +824,6 @@ layout: tool
     const query = document.getElementById('booleanOutput').value.trim();
     const button = document.getElementById('librarySearchButton');
     const intro = document.getElementById('librarySearchIntro');
-    const badge = document.getElementById('selectedCampusBadge');
 
     if (!campus) {
       button.disabled = true;
@@ -848,15 +831,9 @@ layout: tool
       button.style.background = '#bfc6cc';
       button.style.color = '#233140';
       intro.textContent = 'Choose your campus in step 1 to enable the final search button.';
-      badge.textContent = 'No campus selected';
-      badge.style.background = '#e3e7eb';
-      badge.style.color = '#233140';
       return;
     }
 
-    badge.textContent = `${campus.campusName} - ${campus.searchName}`;
-    badge.style.background = hexToRgba(campus.buttonColor, 0.14);
-    badge.style.color = campus.buttonColor;
     intro.textContent = `This button opens ${campus.searchName} for ${campus.campusName}.`;
     button.textContent = getCampusButtonLabel(campus);
     button.style.background = campus.buttonColor;
