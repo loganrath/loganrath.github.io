@@ -240,9 +240,32 @@ layout: tool
     flex-wrap: wrap;
   }
 
+  .search-launch-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 260px;
+  }
+
   .search-launch-btn {
     min-width: 260px;
     font-size: 16px;
+  }
+
+  .campus-change-control {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .campus-change-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #233140;
+  }
+
+  .campus-change-select {
+    min-width: 260px;
   }
 
   .navigation {
@@ -293,6 +316,11 @@ layout: tool
     }
 
     .search-launch-btn {
+      width: 100%;
+    }
+
+    .search-launch-group,
+    .campus-change-select {
       width: 100%;
     }
   }
@@ -409,7 +437,15 @@ layout: tool
       </div>
 
       <div class="action-row">
-        <button id="librarySearchButton" class="btn search-launch-btn" onclick="launchLibrarySearch()" disabled>Choose a campus to continue</button>
+        <div class="search-launch-group">
+          <button id="librarySearchButton" class="btn search-launch-btn" onclick="launchLibrarySearch()" disabled>Choose a campus to continue</button>
+          <div class="campus-change-control">
+            <label class="campus-change-label" for="campusSelectFinal">Change campus</label>
+            <select id="campusSelectFinal" class="campus-change-select">
+              <option value="">Choose a campus</option>
+            </select>
+          </div>
+        </div>
         <button class="btn warn" onclick="copyToClipboard()">Copy search</button>
         <button class="btn red" onclick="editSearch()">Start over</button>
       </div>
@@ -527,7 +563,7 @@ layout: tool
   }
 
   function getCampusButtonLabel(campus) {
-    return campus.buttonLabel || `Search ${campus.searchName}`;
+    return `Search ${campus.searchName} at ${campus.campusName}`;
   }
 
   function getKeywordInputId(keywordId) {
@@ -541,13 +577,31 @@ layout: tool
   }
 
   function populateCampusOptions() {
-    const select = document.getElementById('campusSelect');
-    campusConfigs.forEach(campus => {
-      const option = document.createElement('option');
-      option.value = campus.id;
-      option.textContent = campus.campusName;
-      select.appendChild(option);
+    ['campusSelect', 'campusSelectFinal'].forEach(selectId => {
+      const select = document.getElementById(selectId);
+      campusConfigs.forEach(campus => {
+        const option = document.createElement('option');
+        option.value = campus.id;
+        option.textContent = campus.campusName;
+        select.appendChild(option);
+      });
     });
+  }
+
+  function syncCampusSelections(campusId) {
+    document.getElementById('campusSelect').value = campusId;
+    document.getElementById('campusSelectFinal').value = campusId;
+  }
+
+  function handleCampusSelection(campusId) {
+    searchData.campusId = campusId;
+    syncCampusSelections(campusId);
+
+    if (currentStep === 5) {
+      buildSummary();
+    }
+
+    updateLibrarySearchButton();
   }
 
   function updateQuestionSummary() {
@@ -851,7 +905,7 @@ layout: tool
     };
     keywordCount = 2;
 
-    document.getElementById('campusSelect').value = '';
+    syncCampusSelections('');
     document.getElementById('researchQuestion').value = '';
     document.getElementById('keywordContainer').innerHTML = `<div class="keyword-item" data-keyword-id="1"><div class="keyword-header"><div class="keyword-title">Concept 1</div><button class="btn red" onclick="removeKeyword(1)" style="display:none">Remove</button></div><label for="keyword-1">Main keyword</label><input type="text" id="keyword-1" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media"></div><div class="keyword-item" data-keyword-id="2"><div class="keyword-header"><div class="keyword-title">Concept 2</div><button class="btn red" onclick="removeKeyword(2)" style="display:none">Remove</button></div><label for="keyword-2">Main keyword</label><input type="text" id="keyword-2" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students"></div>`;
     document.getElementById('synonymContainer').innerHTML = '';
@@ -892,8 +946,11 @@ layout: tool
   }
 
   document.getElementById('campusSelect').addEventListener('change', function(event) {
-    searchData.campusId = event.target.value;
-    updateLibrarySearchButton();
+    handleCampusSelection(event.target.value);
+  });
+
+  document.getElementById('campusSelectFinal').addEventListener('change', function(event) {
+    handleCampusSelection(event.target.value);
   });
 
   document.getElementById('researchQuestion').addEventListener('input', function(event) {
