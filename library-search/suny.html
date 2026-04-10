@@ -106,8 +106,7 @@ layout: tool
   }
 
   .keyword-item,
-  .summary-section,
-  .library-search-panel {
+  .summary-section {
     background: #f8f9fa;
     border: 1px solid #e3e7eb;
     border-radius: 10px;
@@ -239,15 +238,6 @@ layout: tool
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-  }
-
-  .library-search-panel {
-    margin-top: 18px;
-    padding: 18px;
-  }
-
-  .library-search-panel h2 {
-    margin: 0 0 8px 0;
   }
 
   .search-launch-btn {
@@ -419,22 +409,16 @@ layout: tool
       </div>
 
       <div class="action-row">
+        <button id="librarySearchButton" class="btn search-launch-btn" onclick="launchLibrarySearch()" disabled>Choose a campus to continue</button>
         <button class="btn warn" onclick="copyToClipboard()">Copy search</button>
         <button class="btn red" onclick="editSearch()">Start over</button>
       </div>
 
-      <div class="library-search-panel">
-        <h2>Open your campus library search</h2>
-        <p id="librarySearchIntro">Choose your campus in step 1 to enable the final search button.</p>
-        <div style="margin-top:14px">
-          <button id="librarySearchButton" class="btn search-launch-btn" onclick="launchLibrarySearch()" disabled>Choose a campus to continue</button>
-        </div>
-        <div class="alert success text-center h6">When you're done, please come back here and scroll down to take a brief survey on how well this tool worked.</div>
-        <hr>
-        <h2>Provide Feedback on This Tool</h2>
-        <p>You are being asked to provide some brief, anonymous feedback on your use of this tool. There is no way to connect your responses to you and your individual responses will not be shared beyond the study team. Participation in this research is voluntary, and you may skip any question. Questions? Please contact <a href="mailto:lrath@brockport.edu" target="_blank">Dr. Rath</a> or the <a href="mailto:irb@brockport.edu" target="_blank">Brockport IRB</a>.</p>
-        <p>If you are over 18 and would like to participate, please <a id="feedbackLink" href="https://forms.brockport.edu/view.php?id=9744858&element_1=" target="_blank">provide your feedback to Dr. Rath</a>.</p>
-      </div>
+      <div class="alert success text-center h6">When you're done, please come back here and scroll down to take a brief survey on how well this tool worked.</div>
+      <hr>
+      <h2>Provide Feedback on This Tool</h2>
+      <p>You are being asked to provide some brief, anonymous feedback on your use of this tool. There is no way to connect your responses to you and your individual responses will not be shared beyond the study team. Participation in this research is voluntary, and you may skip any question. Questions? Please contact <a href="mailto:lrath@brockport.edu" target="_blank">Dr. Rath</a> or the <a href="mailto:irb@brockport.edu" target="_blank">Brockport IRB</a>.</p>
+      <p>If you are over 18 and would like to participate, please <a id="feedbackLink" href="https://forms.brockport.edu/view.php?id=9744858&element_1=" target="_blank">provide your feedback to Dr. Rath</a>.</p>
     </div>
   </div>
 
@@ -799,18 +783,15 @@ layout: tool
     const campus = getSelectedCampusConfig();
     const query = document.getElementById('booleanOutput').value.trim();
     const button = document.getElementById('librarySearchButton');
-    const intro = document.getElementById('librarySearchIntro');
 
     if (!campus) {
       button.disabled = true;
       button.textContent = 'Choose a campus to continue';
       button.style.background = '#bfc6cc';
       button.style.color = '#233140';
-      intro.textContent = 'Choose your campus in step 1 to enable the final search button.';
       return;
     }
 
-    intro.textContent = `This button opens ${campus.searchName} for ${campus.campusName}.`;
     button.textContent = getCampusButtonLabel(campus);
     button.style.background = campus.buttonColor;
     button.style.color = campus.buttonTextColor;
