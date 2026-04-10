@@ -352,8 +352,6 @@ layout: tool
         <h2>Start here</h2>
         <ul>
           <li>Pick the SUNY campus whose library you want to search.</li>
-          <li>Your choice controls the search engine name, the search URL, and the final search button colors.</li>
-          <li>You can update the campus list later by editing the campus configuration block in this page.</li>
         </ul>
       </div>
 
@@ -461,7 +459,7 @@ layout: tool
 
       <div class="action-row">
         <button class="btn warn" onclick="copyToClipboard()">Copy search</button>
-        <button class="btn red" onclick="editSearch()">Start over / edit</button>
+        <button class="btn red" onclick="editSearch()">Start over</button>
       </div>
 
       <div class="library-search-panel">
@@ -503,8 +501,8 @@ layout: tool
       campusName: 'SUNY Brockport',
       searchName: 'Library Search',
       defaultSearchUrl: 'https://suny-bro.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRO%3A01SUNY_BRO&lang=en',
-      buttonColor: '#005BBB',
-      buttonTextColor: '#FFFFFF'
+      buttonColor: '#00533E',
+      buttonTextColor: '#FFC726'
     },
     {
       id: 'buffalo',
@@ -527,8 +525,8 @@ layout: tool
       campusName: 'SUNY Empire State University',
       searchName: 'OneSearch',
       defaultSearchUrl: 'https://onesearch.sunyempire.edu/discovery/search?vid=01SUNY_ESC%3A01SUNY_ESC&lang=en',
-      buttonColor: '#007A53',
-      buttonTextColor: '#FFFFFF'
+      buttonColor: '#1D428A',
+      buttonTextColor: '#FF9800'
     },
   ];
 
@@ -618,7 +616,18 @@ layout: tool
     }
   }
 
-  function showStep(stepNumber) {
+  function scrollToStepTop() {
+    const builder = document.querySelector('.search-builder');
+    if (!builder) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      builder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  function showStep(stepNumber, shouldScroll = true) {
     document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
     document.getElementById(`step${stepNumber}`).classList.add('active');
     currentStep = stepNumber;
@@ -626,6 +635,10 @@ layout: tool
     document.getElementById('stepIndicator').textContent = `Step ${stepNumber} of ${totalSteps}`;
     document.getElementById('progressFill').style.width = `${(stepNumber / totalSteps) * 100}%`;
     updateNavButtons();
+
+    if (shouldScroll) {
+      scrollToStepTop();
+    }
   }
 
   function updateNavButtons() {
@@ -1005,6 +1018,6 @@ layout: tool
     updateCampusPreview();
     updateLibrarySearchButton();
     updateFeedbackLink();
-    showStep(1);
+    showStep(1, false);
   })();
 </script>
