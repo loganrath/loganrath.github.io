@@ -214,21 +214,21 @@ layout: tool
   }
 
   .btn.warn {
-    background: #f39c12;
+    background: #9A5500;
     color: #fff;
   }
 
   .btn.warn:hover:not(:disabled) {
-    background: #e07f1b;
+    background: #7F4500;
   }
 
   .btn.red {
-    background: #e74c3c;
+    background: #B9382B;
     color: #fff;
   }
 
   .btn.red:hover:not(:disabled) {
-    background: #c43830;
+    background: #A61B12;
   }
 
   .summary-section {
@@ -390,14 +390,14 @@ layout: tool
       <div id="keywordContainer">
         <div class="keyword-item" data-keyword-id="1">
           <div class="keyword-header"><div class="keyword-title">Concept 1</div><button class="btn red" onclick="removeKeyword(1)" style="display:none">Remove</button></div>
-          <label>Main keyword</label>
-          <input type="text" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media">
+          <label for="keyword-1">Main keyword</label>
+          <input type="text" id="keyword-1" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media">
         </div>
 
         <div class="keyword-item" data-keyword-id="2">
           <div class="keyword-header"><div class="keyword-title">Concept 2</div><button class="btn red" onclick="removeKeyword(2)" style="display:none">Remove</button></div>
-          <label>Main keyword</label>
-          <input type="text" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students">
+          <label for="keyword-2">Main keyword</label>
+          <input type="text" id="keyword-2" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students">
         </div>
       </div>
 
@@ -513,7 +513,7 @@ layout: tool
       searchName: 'OneSearch',
       defaultSearchUrl: 'https://onesearch.sunyempire.edu/discovery/search?vid=01SUNY_ESC%3A01SUNY_ESC&lang=en',
       buttonColor: '#FF9800',
-      buttonTextColor: '#1D428A'
+      buttonTextColor: '#16366F'
     },
   ];
 
@@ -539,6 +539,10 @@ layout: tool
 
   function getCampusButtonLabel(campus) {
     return campus.buttonLabel || `Search ${campus.searchName}`;
+  }
+
+  function getKeywordInputId(keywordId) {
+    return `keyword-${keywordId}`;
   }
 
   function buildCampusSearchUrl(campus, query) {
@@ -724,9 +728,10 @@ layout: tool
     keywordCount += 1;
     const container = document.getElementById('keywordContainer');
     const keyword = document.createElement('div');
+    const inputId = getKeywordInputId(keywordCount);
     keyword.className = 'keyword-item';
     keyword.dataset.keywordId = keywordCount;
-    keyword.innerHTML = `<div class="keyword-header"><div class="keyword-title">Concept ${keywordCount}</div><button class="btn red" onclick="removeKeyword(${keywordCount})">Remove</button></div><label>Main keyword</label><input type="text" class="keyword-input" data-keyword-id="${keywordCount}" placeholder="Enter keyword">`;
+    keyword.innerHTML = `<div class="keyword-header"><div class="keyword-title">Concept ${keywordCount}</div><button class="btn red" onclick="removeKeyword(${keywordCount})">Remove</button></div><label for="${inputId}">Main keyword</label><input type="text" id="${inputId}" class="keyword-input" data-keyword-id="${keywordCount}" placeholder="Enter keyword">`;
     container.appendChild(keyword);
     updateKeywordRemoveVisibility();
   }
@@ -896,7 +901,7 @@ layout: tool
     document.getElementById('campusSelect').value = '';
     document.getElementById('campusPreview').hidden = true;
     document.getElementById('researchQuestion').value = '';
-    document.getElementById('keywordContainer').innerHTML = `<div class="keyword-item" data-keyword-id="1"><div class="keyword-header"><div class="keyword-title">Concept 1</div><button class="btn red" onclick="removeKeyword(1)" style="display:none">Remove</button></div><label>Main keyword</label><input type="text" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media"></div><div class="keyword-item" data-keyword-id="2"><div class="keyword-header"><div class="keyword-title">Concept 2</div><button class="btn red" onclick="removeKeyword(2)" style="display:none">Remove</button></div><label>Main keyword</label><input type="text" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students"></div>`;
+    document.getElementById('keywordContainer').innerHTML = `<div class="keyword-item" data-keyword-id="1"><div class="keyword-header"><div class="keyword-title">Concept 1</div><button class="btn red" onclick="removeKeyword(1)" style="display:none">Remove</button></div><label for="keyword-1">Main keyword</label><input type="text" id="keyword-1" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media"></div><div class="keyword-item" data-keyword-id="2"><div class="keyword-header"><div class="keyword-title">Concept 2</div><button class="btn red" onclick="removeKeyword(2)" style="display:none">Remove</button></div><label for="keyword-2">Main keyword</label><input type="text" id="keyword-2" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students"></div>`;
     document.getElementById('synonymContainer').innerHTML = '';
     document.getElementById('searchSummary').innerHTML = '';
     document.getElementById('displayedQuestion').textContent = '';
