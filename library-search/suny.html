@@ -105,34 +105,12 @@ layout: tool
     resize: vertical;
   }
 
-  .campus-preview,
   .keyword-item,
   .summary-section,
   .library-search-panel {
     background: #f8f9fa;
     border: 1px solid #e3e7eb;
     border-radius: 10px;
-  }
-
-  .campus-preview {
-    margin-top: 16px;
-    padding: 18px;
-  }
-
-  .campus-preview[hidden] {
-    display: none;
-  }
-
-  .campus-preview-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #233140;
-    margin-bottom: 6px;
-  }
-
-  .campus-preview-meta {
-    margin: 0;
-    color: #415365;
   }
 
   .question-summary {
@@ -336,9 +314,9 @@ layout: tool
 
   <div class="content">
     <div class="step active" id="step1">
-      <div class="step-header"><div class="step-number">1</div><div class="step-title">Choose your SUNY campus</div></div>
+      <div class="step-header"><div class="step-number">1</div><div class="step-title">Start Here</div></div>
       <div class="instructions">
-        <h2>Start here</h2>
+        <h2>Pick Your Campus</h2>
         <ul>
           <li>Pick the SUNY campus whose library you want to search.</li>
         </ul>
@@ -348,11 +326,6 @@ layout: tool
       <select id="campusSelect">
         <option value="">Choose a campus</option>
       </select>
-
-      <div id="campusPreview" class="campus-preview" hidden>
-        <div id="campusPreviewTitle" class="campus-preview-title"></div>
-        <p id="campusPreviewMeta" class="campus-preview-meta"></p>
-      </div>
     </div>
 
     <div class="step" id="step2">
@@ -559,22 +532,6 @@ layout: tool
     return url.toString();
   }
 
-  function hexToRgba(hex, alpha) {
-    const normalized = String(hex || '').replace('#', '');
-    const fullHex = normalized.length === 3
-      ? normalized.split('').map(char => char + char).join('')
-      : normalized;
-
-    if (fullHex.length !== 6) {
-      return `rgba(52, 152, 219, ${alpha})`;
-    }
-
-    const red = parseInt(fullHex.slice(0, 2), 16);
-    const green = parseInt(fullHex.slice(2, 4), 16);
-    const blue = parseInt(fullHex.slice(4, 6), 16);
-    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
-  }
-
   function populateCampusOptions() {
     const select = document.getElementById('campusSelect');
     campusConfigs.forEach(campus => {
@@ -583,22 +540,6 @@ layout: tool
       option.textContent = campus.campusName;
       select.appendChild(option);
     });
-  }
-
-  function updateCampusPreview() {
-    const preview = document.getElementById('campusPreview');
-    const campus = getSelectedCampusConfig();
-
-    if (!campus) {
-      preview.hidden = true;
-      return;
-    }
-
-    document.getElementById('campusPreviewTitle').textContent = campus.campusName;
-    document.getElementById('campusPreviewMeta').textContent = `Searching ${campus.searchName}.`;
-    preview.style.borderColor = hexToRgba(campus.buttonColor, 1);
-    preview.style.background = hexToRgba(campus.buttonColor, 0.25);
-    preview.hidden = false;
   }
 
   function updateQuestionSummary() {
@@ -657,7 +598,6 @@ layout: tool
         return false;
       }
       searchData.campusId = campusId;
-      updateCampusPreview();
       return true;
     }
 
@@ -907,7 +847,6 @@ layout: tool
     keywordCount = 2;
 
     document.getElementById('campusSelect').value = '';
-    document.getElementById('campusPreview').hidden = true;
     document.getElementById('researchQuestion').value = '';
     document.getElementById('keywordContainer').innerHTML = `<div class="keyword-item" data-keyword-id="1"><div class="keyword-header"><div class="keyword-title">Concept 1</div><button class="btn red" onclick="removeKeyword(1)" style="display:none">Remove</button></div><label for="keyword-1">Main keyword</label><input type="text" id="keyword-1" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media"></div><div class="keyword-item" data-keyword-id="2"><div class="keyword-header"><div class="keyword-title">Concept 2</div><button class="btn red" onclick="removeKeyword(2)" style="display:none">Remove</button></div><label for="keyword-2">Main keyword</label><input type="text" id="keyword-2" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students"></div>`;
     document.getElementById('synonymContainer').innerHTML = '';
@@ -949,7 +888,6 @@ layout: tool
 
   document.getElementById('campusSelect').addEventListener('change', function(event) {
     searchData.campusId = event.target.value;
-    updateCampusPreview();
     updateLibrarySearchButton();
   });
 
@@ -1004,7 +942,6 @@ layout: tool
     populateCampusOptions();
     updateKeywordRemoveVisibility();
     document.getElementById('booleanOutput').value = 'Your search will appear here';
-    updateCampusPreview();
     updateLibrarySearchButton();
     updateFeedbackLink();
     showStep(1, false);
