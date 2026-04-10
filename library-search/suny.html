@@ -1,0 +1,996 @@
+---
+title: "Dr. Rath's Search Term Generator"
+layout: tool
+---
+<style>
+  .search-builder {
+    border: 1px solid #e3e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .progress-bar {
+    background: #34495e;
+    height: 8px;
+  }
+
+  .progress-fill {
+    background: #3498db;
+    height: 100%;
+    transition: width .25s ease;
+  }
+
+  .global-alert-slot {
+    padding: 18px 30px 0;
+  }
+
+  .content {
+    padding: 30px;
+    min-height: 420px;
+  }
+
+  .step {
+    display: none;
+  }
+
+  .step.active {
+    display: block;
+  }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+
+  .step-number {
+    background: #3498db;
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-right: 14px;
+  }
+
+  .step-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #233140;
+  }
+
+  .instructions {
+    background: #f8f9fa;
+    font-size: 18px;
+    padding: 18px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    margin-bottom: 18px;
+  }
+
+  .instructions h2 {
+    margin-bottom: 8px;
+    color: #233140;
+  }
+
+  .instructions ul {
+    margin-left: 18px;
+  }
+
+  input[type="text"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    background: #fff;
+  }
+
+  input[type="text"]:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, .06);
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .campus-preview,
+  .keyword-item,
+  .summary-section,
+  .library-search-panel {
+    background: #f8f9fa;
+    border: 1px solid #e3e7eb;
+    border-radius: 10px;
+  }
+
+  .campus-preview {
+    margin-top: 16px;
+    padding: 18px;
+  }
+
+  .campus-preview[hidden] {
+    display: none;
+  }
+
+  .campus-preview-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #233140;
+    margin-bottom: 6px;
+  }
+
+  .campus-preview-meta {
+    margin: 0;
+    color: #415365;
+  }
+
+  .campus-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .question-summary {
+    display: none;
+    margin-bottom: 12px;
+  }
+
+  .keyword-item {
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+
+  .keyword-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .keyword-title {
+    font-weight: 700;
+    color: #233140;
+  }
+
+  .synonym-section {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e3e7eb;
+  }
+
+  .synonym-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .synonym-input {
+    flex: 1;
+  }
+
+  .btn {
+    cursor: pointer;
+    border: 0;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+  }
+
+  .btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(35, 49, 64, .12);
+  }
+
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: .72;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .btn.primary {
+    background: #3498db;
+    color: #fff;
+  }
+
+  .btn.primary:hover:not(:disabled) {
+    background: #2b86c9;
+  }
+
+  .btn.green {
+    background: #27ae60;
+    color: #fff;
+  }
+
+  .btn.green:hover:not(:disabled) {
+    background: #229954;
+  }
+
+  .btn.warn {
+    background: #f39c12;
+    color: #fff;
+  }
+
+  .btn.warn:hover:not(:disabled) {
+    background: #e07f1b;
+  }
+
+  .btn.red {
+    background: #e74c3c;
+    color: #fff;
+  }
+
+  .btn.red:hover:not(:disabled) {
+    background: #c43830;
+  }
+
+  .summary-section {
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+
+  .summary-item {
+    padding: 10px;
+    background: #fff;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    margin-bottom: 10px;
+  }
+
+  .boolean-output {
+    background: #2c3e50;
+    color: #fff;
+    padding: 18px;
+    border-radius: 8px;
+    font-family: Courier, monospace;
+    font-size: 24px;
+    font-weight: bold;
+    min-height: 64px;
+    word-break: break-word;
+  }
+
+  .action-row {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .library-search-panel {
+    margin-top: 18px;
+    padding: 18px;
+  }
+
+  .library-search-panel h2 {
+    margin: 0 0 8px 0;
+  }
+
+  .search-launch-btn {
+    min-width: 260px;
+    font-size: 16px;
+  }
+
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+    border-top: 1px solid #eef2f5;
+  }
+
+  .navigation .center {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .alert {
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 12px;
+  }
+
+  .alert.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .alert.warn {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+  }
+
+  @media (max-width: 720px) {
+    .navigation {
+      flex-direction: column;
+    }
+
+    .navigation .center {
+      order: 3;
+      width: 100%;
+    }
+
+    .synonym-item {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .search-launch-btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="search-builder">
+  <div class="progress-bar"><div id="progressFill" class="progress-fill" style="width:20%"></div></div>
+  <div class="global-alert-slot"><div id="globalAlert"></div></div>
+
+  <div class="content">
+    <div class="step active" id="step1">
+      <div class="step-header"><div class="step-number">1</div><div class="step-title">Choose your SUNY campus</div></div>
+      <div class="instructions">
+        <h2>Start here</h2>
+        <ul>
+          <li>Pick the SUNY campus whose library you want to search.</li>
+          <li>Your choice controls the search engine name, the search URL, and the final search button colors.</li>
+          <li>You can update the campus list later by editing the campus configuration block in this page.</li>
+        </ul>
+      </div>
+
+      <label for="campusSelect"><strong>Select your campus</strong></label>
+      <select id="campusSelect">
+        <option value="">Choose a campus</option>
+      </select>
+
+      <div id="campusPreview" class="campus-preview" hidden>
+        <div id="campusPreviewTitle" class="campus-preview-title"></div>
+        <p id="campusPreviewMeta" class="campus-preview-meta"></p>
+        <div id="campusPreviewBadge" class="campus-badge"></div>
+      </div>
+    </div>
+
+    <div class="step" id="step2">
+      <div class="step-header"><div class="step-number">2</div><div class="step-title">Start with your research question</div></div>
+      <div class="instructions">
+        <h2>What makes a good question?</h2>
+        <ul>
+          <li>Specific and able to be researched</li>
+          <li>Does not have a yes or no answer</li>
+          <li>Only has 2 or 3 main parts</li>
+          <li>Usually starts with <em>how, why, or what</em></li>
+          <li>Example: "How does social media use affect college students' sleep?"</li>
+        </ul>
+      </div>
+      <label for="researchQuestion"><strong>Enter your research question</strong></label>
+      <textarea id="researchQuestion" placeholder="Type your research question here"></textarea>
+    </div>
+
+    <div class="step" id="step3">
+      <div class="step-header"><div class="step-number">3</div><div class="step-title">Identify key concepts</div></div>
+      <div class="instructions">
+        <h2>How to pick keywords</h2>
+        <ul>
+          <li>Look for central nouns or ideas from your question.</li>
+          <li>Pick 2 to 4 main concepts.</li>
+          <li>Example from our question: "college students", "social media", and "sleep".</li>
+        </ul>
+      </div>
+
+      <div class="summary-section question-summary" id="questionSummary">
+        <h2 style="margin-bottom:8px">Your research question</h2>
+        <div class="summary-item"><p style="font-size:18px;font-weight:bold;text-align:center;" id="displayedQuestion"></p></div>
+      </div>
+
+      <div id="keywordContainer">
+        <div class="keyword-item" data-keyword-id="1">
+          <div class="keyword-header"><div class="keyword-title">Concept 1</div><button class="btn red" onclick="removeKeyword(1)" style="display:none">Remove</button></div>
+          <label>Main keyword</label>
+          <input type="text" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media">
+        </div>
+
+        <div class="keyword-item" data-keyword-id="2">
+          <div class="keyword-header"><div class="keyword-title">Concept 2</div><button class="btn red" onclick="removeKeyword(2)" style="display:none">Remove</button></div>
+          <label>Main keyword</label>
+          <input type="text" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students">
+        </div>
+      </div>
+
+      <div style="margin-top:10px"><button class="btn green" onclick="addKeyword()">+ Add another concept</button></div>
+    </div>
+
+    <div class="step" id="step4">
+      <div class="step-header"><div class="step-number">4</div><div class="step-title">Add synonyms and related terms</div></div>
+      <div class="instructions">
+        <h2>Tips for finding synonyms</h2>
+        <ul>
+          <li>Use <a href="https://www.merriam-webster.com/thesaurus" target="_blank">a thesaurus</a>, Google, generative AI, or your brain to make a list.</li>
+          <li>Include alternate spellings and broader or narrower terms.</li>
+          <li>Spell out acronyms completely.</li>
+          <li>Example synonyms for "college students": undergraduates, university students, post-secondary students.</li>
+          <li>Example synonyms for "social media": Instagram, Facebook, Snapchat, messaging, apps, applications.</li>
+          <li>Example synonyms for "sleep": rest, sleeping, tired, night.</li>
+        </ul>
+      </div>
+
+      <div id="synonymContainer"></div>
+    </div>
+
+    <div class="step" id="step5">
+      <div class="step-header"><div class="step-number">5</div><div class="step-title">Review and search</div></div>
+      <div class="instructions">
+        <h2>Boolean basics</h2>
+        <p>Boolean is a way of combining your search terms. For library search, AND and OR have specific meanings.</p>
+        <ul>
+          <li><strong>OR</strong> means ANY and connects synonyms: (A OR B)</li>
+          <li><strong>AND</strong> means BOTH and connects concepts: (A) AND (B)</li>
+          <li>Use quotes for keywords that are more than one word: "social media"</li>
+          <li>Use a * to truncate a word and find multiple endings: adolescen*</li>
+        </ul>
+      </div>
+
+      <div class="summary-section">
+        <h2>Search summary</h2>
+        <div id="searchSummary"></div>
+      </div>
+
+      <div>
+        <h2 style="margin:0 0 8px 0">Your Boolean search</h2>
+        <p>You can edit these terms in the text box below before launching your campus search.</p>
+        <textarea id="booleanOutput" class="boolean-output">Your search will appear here</textarea>
+      </div>
+
+      <div class="action-row">
+        <button class="btn warn" onclick="copyToClipboard()">Copy search</button>
+        <button class="btn red" onclick="editSearch()">Start over / edit</button>
+      </div>
+
+      <div class="library-search-panel">
+        <h2>Open your campus library search</h2>
+        <p id="librarySearchIntro">Choose your campus in step 1 to enable the final search button.</p>
+        <div id="selectedCampusBadge" class="campus-badge">No campus selected</div>
+        <div style="margin-top:14px">
+          <button id="librarySearchButton" class="btn search-launch-btn" onclick="launchLibrarySearch()" disabled>Choose a campus to continue</button>
+        </div>
+        <div class="alert success text-center h6">When you're done, please come back here and scroll down to take a brief survey on how well this tool worked.</div>
+        <hr>
+        <h2>Provide Feedback on This Tool</h2>
+        <p>You are being asked to provide some brief, anonymous feedback on your use of this tool. There is no way to connect your responses to you and your individual responses will not be shared beyond the study team. Participation in this research is voluntary, and you may skip any question. Questions? Please contact <a href="mailto:lrath@brockport.edu" target="_blank">Dr. Rath</a> or the <a href="mailto:irb@brockport.edu" target="_blank">Brockport IRB</a>.</p>
+        <p>If you are over 18 and would like to participate, please <a id="feedbackLink" href="https://forms.brockport.edu/view.php?id=9744858&element_1=" target="_blank">provide your feedback to Dr. Rath</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="navigation">
+    <button id="backBtn" class="btn" onclick="previousStep()" disabled>&lt;- Back</button>
+    <div class="center"><span id="stepIndicator">Step 1 of 5</span></div>
+    <button id="nextBtn" class="btn primary" onclick="nextStep()">Next -&gt;</button>
+  </div>
+</div>
+
+<script>
+  // Update this list to change campus names, search engine names, URLs, and button colors.
+  const campusConfigs = [
+    {
+      id: 'albany',
+      campusName: 'University at Albany',
+      searchEngineName: 'Library Search',
+      searchUrl: 'https://search.library.albany.edu/discovery/search?query=any,contains,SEARCH_QUERY&vid=01SUNY_ALB:01SUNY_ALB&lang=en',
+      buttonLabel: 'Search Library Search',
+      buttonColor: '#46166B',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'brockport',
+      campusName: 'SUNY Brockport',
+      searchEngineName: 'Library Search',
+      searchUrl: 'https://suny-bro.primo.exlibrisgroup.com/discovery/search?institution=01SUNY_BRO&vid=01SUNY_BRO%3A01SUNY_BRO&tab=Everything&search_scope=everythingSLS&mode=Basic&displayMode=full&bulkSize=10&highlight=true&dum=true&query=any%2Ccontains%2CSEARCH_QUERY&displayField=all&pcAvailabiltyMode=true&searchOptionsRadio=everything',
+      buttonLabel: 'Search Library Search',
+      buttonColor: '#005BBB',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'buffalo',
+      campusName: 'University at Buffalo',
+      searchEngineName: 'Library Search',
+      searchUrl: 'https://search.lib.buffalo.edu/discovery/search?query=any,contains,SEARCH_QUERY&vid=01SUNY_BUF:everything&lang=en',
+      buttonLabel: 'Search Library Search',
+      buttonColor: '#005BBB',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'empire',
+      campusName: 'SUNY Empire State University',
+      searchEngineName: 'OneSearch',
+      searchUrl: 'https://onesearch.sunyempire.edu/discovery/search?query=any,contains,SEARCH_QUERY&vid=01SUNY_ESC:01SUNY_ESC&lang=en',
+      buttonLabel: 'Search OneSearch',
+      buttonColor: '#007A53',
+      buttonTextColor: '#FFFFFF'
+    }
+  ];
+
+  const feedbackBaseUrl = 'https://forms.brockport.edu/view.php?id=9744858&element_1=';
+  const campusConfigById = campusConfigs.reduce((lookup, campus) => {
+    lookup[campus.id] = campus;
+    return lookup;
+  }, {});
+
+  let currentStep = 1;
+  const totalSteps = 5;
+  let keywordCount = 2;
+  let searchData = {
+    campusId: '',
+    question: '',
+    keywords: {},
+    booleanString: ''
+  };
+
+  function getSelectedCampusConfig() {
+    return campusConfigById[searchData.campusId] || null;
+  }
+
+  function hexToRgba(hex, alpha) {
+    const normalized = String(hex || '').replace('#', '');
+    const fullHex = normalized.length === 3
+      ? normalized.split('').map(char => char + char).join('')
+      : normalized;
+
+    if (fullHex.length !== 6) {
+      return `rgba(52, 152, 219, ${alpha})`;
+    }
+
+    const red = parseInt(fullHex.slice(0, 2), 16);
+    const green = parseInt(fullHex.slice(2, 4), 16);
+    const blue = parseInt(fullHex.slice(4, 6), 16);
+    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+  }
+
+  function populateCampusOptions() {
+    const select = document.getElementById('campusSelect');
+    campusConfigs.forEach(campus => {
+      const option = document.createElement('option');
+      option.value = campus.id;
+      option.textContent = campus.campusName;
+      select.appendChild(option);
+    });
+  }
+
+  function updateCampusPreview() {
+    const preview = document.getElementById('campusPreview');
+    const badge = document.getElementById('campusPreviewBadge');
+    const campus = getSelectedCampusConfig();
+
+    if (!campus) {
+      preview.hidden = true;
+      return;
+    }
+
+    document.getElementById('campusPreviewTitle').textContent = campus.campusName;
+    document.getElementById('campusPreviewMeta').textContent = `Final search launches in ${campus.searchEngineName}.`;
+    badge.textContent = campus.buttonLabel;
+    badge.style.background = campus.buttonColor;
+    badge.style.color = campus.buttonTextColor;
+    preview.style.borderColor = hexToRgba(campus.buttonColor, 0.25);
+    preview.style.background = hexToRgba(campus.buttonColor, 0.08);
+    preview.hidden = false;
+  }
+
+  function updateQuestionSummary() {
+    const summary = document.getElementById('questionSummary');
+    if (currentStep >= 3 && searchData.question) {
+      document.getElementById('displayedQuestion').textContent = searchData.question;
+      summary.style.display = 'block';
+    } else {
+      summary.style.display = 'none';
+    }
+  }
+
+  function showStep(stepNumber) {
+    document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+    document.getElementById(`step${stepNumber}`).classList.add('active');
+    currentStep = stepNumber;
+    updateQuestionSummary();
+    document.getElementById('stepIndicator').textContent = `Step ${stepNumber} of ${totalSteps}`;
+    document.getElementById('progressFill').style.width = `${(stepNumber / totalSteps) * 100}%`;
+    updateNavButtons();
+  }
+
+  function updateNavButtons() {
+    document.getElementById('backBtn').disabled = currentStep === 1;
+    const nextBtn = document.getElementById('nextBtn');
+
+    if (currentStep === totalSteps) {
+      nextBtn.style.display = 'none';
+      return;
+    }
+
+    nextBtn.style.display = 'inline-block';
+    nextBtn.textContent = currentStep === totalSteps - 1 ? 'Review and Search ->' : 'Next ->';
+  }
+
+  function validateCurrentStep() {
+    if (currentStep === 1) {
+      const campusId = document.getElementById('campusSelect').value;
+      if (!campusId) {
+        showAlert('Please choose your SUNY campus before continuing.', 'warn');
+        return false;
+      }
+      searchData.campusId = campusId;
+      updateCampusPreview();
+      return true;
+    }
+
+    if (currentStep === 2) {
+      const question = document.getElementById('researchQuestion').value.trim();
+      if (!question) {
+        showAlert('Please enter your research question before continuing.', 'warn');
+        return false;
+      }
+      searchData.question = question;
+      return true;
+    }
+
+    if (currentStep === 3) {
+      const keywordInputs = document.querySelectorAll('.keyword-input');
+      let hasKeyword = false;
+      searchData.keywords = {};
+
+      keywordInputs.forEach(input => {
+        const value = input.value.trim();
+        if (value) {
+          hasKeyword = true;
+          searchData.keywords[input.dataset.keywordId] = { main: value, synonyms: [] };
+        }
+      });
+
+      if (!hasKeyword) {
+        showAlert('Please enter at least one keyword or concept.', 'warn');
+        return false;
+      }
+
+      return true;
+    }
+
+    if (currentStep === 4) {
+      Object.keys(searchData.keywords).forEach(id => {
+        const synonymInputs = document.querySelectorAll(`.synonym-container[data-keyword-id="${id}"] .synonym-input`);
+        searchData.keywords[id].synonyms = Array.from(synonymInputs)
+          .map(input => input.value.trim())
+          .filter(Boolean);
+      });
+    }
+
+    return true;
+  }
+
+  function nextStep() {
+    if (!validateCurrentStep()) {
+      return;
+    }
+
+    const nextStepNumber = currentStep + 1;
+
+    if (nextStepNumber === 4) {
+      generateSynonymFields();
+    }
+
+    if (nextStepNumber === 5) {
+      buildSummary();
+      buildBoolean();
+      updateLibrarySearchButton();
+    }
+
+    if (currentStep < totalSteps) {
+      showStep(nextStepNumber);
+    }
+  }
+
+  function previousStep() {
+    if (currentStep > 1) {
+      showStep(currentStep - 1);
+    }
+  }
+
+  function addKeyword() {
+    keywordCount += 1;
+    const container = document.getElementById('keywordContainer');
+    const keyword = document.createElement('div');
+    keyword.className = 'keyword-item';
+    keyword.dataset.keywordId = keywordCount;
+    keyword.innerHTML = `<div class="keyword-header"><div class="keyword-title">Concept ${keywordCount}</div><button class="btn red" onclick="removeKeyword(${keywordCount})">Remove</button></div><label>Main keyword</label><input type="text" class="keyword-input" data-keyword-id="${keywordCount}" placeholder="Enter keyword">`;
+    container.appendChild(keyword);
+    updateKeywordRemoveVisibility();
+  }
+
+  function removeKeyword(id) {
+    const keyword = document.querySelector(`.keyword-item[data-keyword-id="${id}"]`);
+    if (keyword) {
+      keyword.remove();
+    }
+    updateKeywordRemoveVisibility();
+  }
+
+  function updateKeywordRemoveVisibility() {
+    const items = document.querySelectorAll('#keywordContainer .keyword-item');
+    items.forEach(item => {
+      const button = item.querySelector('.btn.red');
+      button.style.display = items.length > 2 ? 'inline-block' : 'none';
+    });
+  }
+
+  function generateSynonymFields() {
+    const container = document.getElementById('synonymContainer');
+    container.innerHTML = '';
+
+    Object.keys(searchData.keywords).forEach(id => {
+      const keyword = searchData.keywords[id];
+      const block = document.createElement('div');
+      block.className = 'keyword-item';
+      block.dataset.keywordId = id;
+      block.innerHTML = `<div class="keyword-header"><div class="keyword-title">Synonyms for: \"${escapeHtml(keyword.main)}\"</div></div><div class="synonym-section"><div class="synonym-container" data-keyword-id="${id}"><div class="synonym-item"><input type="text" class="synonym-input" placeholder="Enter synonym or related term"><button class="btn red" onclick="removeSynonym(this)">Remove</button></div></div><div style="margin-top:8px"><button class="btn green" onclick="addSynonym('${id}')">+ Add another synonym</button></div></div>`;
+      container.appendChild(block);
+    });
+  }
+
+  function addSynonym(keywordId) {
+    const container = document.querySelector(`.synonym-container[data-keyword-id="${keywordId}"]`);
+    const item = document.createElement('div');
+    item.className = 'synonym-item';
+    item.innerHTML = '<input type="text" class="synonym-input" placeholder="Enter synonym or related term"><button class="btn red" onclick="removeSynonym(this)">Remove</button>';
+    container.appendChild(item);
+  }
+
+  function removeSynonym(button) {
+    button.parentElement.remove();
+  }
+
+  function buildSummary() {
+    const summary = document.getElementById('searchSummary');
+    const campus = getSelectedCampusConfig();
+    summary.innerHTML = '';
+
+    if (campus) {
+      const campusSummary = document.createElement('div');
+      campusSummary.className = 'summary-item';
+      campusSummary.innerHTML = `<strong>Campus:</strong> ${escapeHtml(campus.campusName)}<br><em>Search engine:</em> ${escapeHtml(campus.searchEngineName)}`;
+      summary.appendChild(campusSummary);
+    }
+
+    const questionSummary = document.createElement('div');
+    questionSummary.className = 'summary-item';
+    questionSummary.innerHTML = `<strong>Research question:</strong><br>${escapeHtml(searchData.question)}`;
+    summary.appendChild(questionSummary);
+
+    Object.keys(searchData.keywords).forEach(id => {
+      const keyword = searchData.keywords[id];
+      const synonyms = keyword.synonyms.length ? keyword.synonyms.join(', ') : 'No synonyms added';
+      const keywordSummary = document.createElement('div');
+      keywordSummary.className = 'summary-item';
+      keywordSummary.innerHTML = `<strong>Concept:</strong> ${escapeHtml(keyword.main)}<br><em>Synonyms:</em> ${escapeHtml(synonyms)}`;
+      summary.appendChild(keywordSummary);
+    });
+  }
+
+  function buildBoolean() {
+    Object.keys(searchData.keywords).forEach(id => {
+      const synonymInputs = Array.from(document.querySelectorAll(`.synonym-container[data-keyword-id="${id}"] .synonym-input`));
+      searchData.keywords[id].synonyms = synonymInputs.map(input => input.value.trim()).filter(Boolean);
+    });
+
+    const parts = Object.keys(searchData.keywords).map(id => {
+      const keyword = searchData.keywords[id];
+      const terms = [keyword.main].concat(keyword.synonyms || []);
+      const quotedTerms = terms.map(term => term.includes(' ') ? `"${term}"` : term);
+      return quotedTerms.length > 1 ? `(${quotedTerms.join(' OR ')})` : quotedTerms[0];
+    });
+
+    searchData.booleanString = parts.join(' AND ');
+    document.getElementById('booleanOutput').value = searchData.booleanString || 'No search terms entered';
+    updateFeedbackLink();
+  }
+
+  function updateLibrarySearchButton() {
+    const campus = getSelectedCampusConfig();
+    const query = document.getElementById('booleanOutput').value.trim();
+    const button = document.getElementById('librarySearchButton');
+    const intro = document.getElementById('librarySearchIntro');
+    const badge = document.getElementById('selectedCampusBadge');
+
+    if (!campus) {
+      button.disabled = true;
+      button.textContent = 'Choose a campus to continue';
+      button.style.background = '#bfc6cc';
+      button.style.color = '#233140';
+      intro.textContent = 'Choose your campus in step 1 to enable the final search button.';
+      badge.textContent = 'No campus selected';
+      badge.style.background = '#e3e7eb';
+      badge.style.color = '#233140';
+      return;
+    }
+
+    badge.textContent = `${campus.campusName} - ${campus.searchEngineName}`;
+    badge.style.background = hexToRgba(campus.buttonColor, 0.14);
+    badge.style.color = campus.buttonColor;
+    intro.textContent = `This button opens ${campus.searchEngineName} for ${campus.campusName}.`;
+    button.textContent = campus.buttonLabel;
+    button.style.background = campus.buttonColor;
+    button.style.color = campus.buttonTextColor;
+    button.disabled = !query || query === 'Your search will appear here' || query === 'No search terms entered';
+  }
+
+  function launchLibrarySearch() {
+    const campus = getSelectedCampusConfig();
+    const query = document.getElementById('booleanOutput').value.trim();
+
+    if (!campus) {
+      showAlert('Choose your campus before launching the search.', 'warn');
+      return;
+    }
+
+    if (!query || query === 'Your search will appear here' || query === 'No search terms entered') {
+      showAlert('Generate your search before launching the library search.', 'warn');
+      return;
+    }
+
+    const url = campus.searchUrl.replace('SEARCH_QUERY', encodeURIComponent(query));
+    window.open(url, '_blank');
+  }
+
+  function copyToClipboard() {
+    const textarea = document.getElementById('booleanOutput');
+    const text = textarea.value.trim();
+
+    if (!text || text === 'Your search will appear here' || text === 'No search terms entered') {
+      showAlert('Generate your search first.', 'warn');
+      return;
+    }
+
+    navigator.clipboard.writeText(text).then(() => {
+      showAlert('Boolean search copied to clipboard.', 'success');
+    }).catch(() => {
+      const fallback = document.createElement('textarea');
+      fallback.value = text;
+      document.body.appendChild(fallback);
+      fallback.select();
+      document.execCommand('copy');
+      document.body.removeChild(fallback);
+      showAlert('Boolean search copied to clipboard.', 'success');
+    });
+  }
+
+  function editSearch() {
+    if (!confirm('Start over and clear your entries?')) {
+      return;
+    }
+
+    searchData = {
+      campusId: '',
+      question: '',
+      keywords: {},
+      booleanString: ''
+    };
+    keywordCount = 2;
+
+    document.getElementById('campusSelect').value = '';
+    document.getElementById('campusPreview').hidden = true;
+    document.getElementById('researchQuestion').value = '';
+    document.getElementById('keywordContainer').innerHTML = `<div class="keyword-item" data-keyword-id="1"><div class="keyword-header"><div class="keyword-title">Concept 1</div><button class="btn red" onclick="removeKeyword(1)" style="display:none">Remove</button></div><label>Main keyword</label><input type="text" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media"></div><div class="keyword-item" data-keyword-id="2"><div class="keyword-header"><div class="keyword-title">Concept 2</div><button class="btn red" onclick="removeKeyword(2)" style="display:none">Remove</button></div><label>Main keyword</label><input type="text" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students"></div>`;
+    document.getElementById('synonymContainer').innerHTML = '';
+    document.getElementById('searchSummary').innerHTML = '';
+    document.getElementById('displayedQuestion').textContent = '';
+    document.getElementById('booleanOutput').value = 'Your search will appear here';
+    document.getElementById('globalAlert').innerHTML = '';
+    updateKeywordRemoveVisibility();
+    updateFeedbackLink();
+    updateLibrarySearchButton();
+    showStep(1);
+  }
+
+  function updateFeedbackLink() {
+    const feedbackLink = document.getElementById('feedbackLink');
+    const currentQuery = document.getElementById('booleanOutput').value.trim();
+    feedbackLink.href = `${feedbackBaseUrl}${encodeURIComponent(currentQuery)}`;
+  }
+
+  function showAlert(message, type) {
+    const globalAlert = document.getElementById('globalAlert');
+    globalAlert.innerHTML = `<div class="alert ${type === 'success' ? 'success' : 'warn'}">${message}</div>`;
+    setTimeout(() => {
+      if (globalAlert.textContent.includes(message)) {
+        globalAlert.innerHTML = '';
+      }
+    }, 3500);
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, match => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      '\'': '&#39;'
+    }[match]));
+  }
+
+  document.getElementById('campusSelect').addEventListener('change', function(event) {
+    searchData.campusId = event.target.value;
+    updateCampusPreview();
+    updateLibrarySearchButton();
+  });
+
+  document.getElementById('researchQuestion').addEventListener('input', function(event) {
+    searchData.question = event.target.value.trim();
+    updateQuestionSummary();
+  });
+
+  document.getElementById('booleanOutput').addEventListener('input', function() {
+    searchData.booleanString = this.value.trim();
+    updateFeedbackLink();
+    updateLibrarySearchButton();
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key !== 'Enter' || event.ctrlKey) {
+      return;
+    }
+
+    const target = event.target;
+
+    if (currentStep === 3 && target.classList.contains('keyword-input')) {
+      event.preventDefault();
+      const keywordInputs = document.querySelectorAll('.keyword-input');
+      const lastInput = keywordInputs[keywordInputs.length - 1];
+      if (target === lastInput && target.value.trim()) {
+        addKeyword();
+        setTimeout(() => {
+          const updatedInputs = document.querySelectorAll('.keyword-input');
+          updatedInputs[updatedInputs.length - 1].focus();
+        }, 50);
+      }
+    }
+
+    if (currentStep === 4 && target.classList.contains('synonym-input')) {
+      event.preventDefault();
+      const container = target.closest('.synonym-container');
+      const keywordId = container.dataset.keywordId;
+      const synonymInputs = container.querySelectorAll('.synonym-input');
+      const lastInput = synonymInputs[synonymInputs.length - 1];
+      if (target === lastInput && target.value.trim()) {
+        addSynonym(keywordId);
+        setTimeout(() => {
+          const updatedInputs = container.querySelectorAll('.synonym-input');
+          updatedInputs[updatedInputs.length - 1].focus();
+        }, 50);
+      }
+    }
+  });
+
+  (function init() {
+    populateCampusOptions();
+    updateKeywordRemoveVisibility();
+    document.getElementById('booleanOutput').value = 'Your search will appear here';
+    updateCampusPreview();
+    updateLibrarySearchButton();
+    updateFeedbackLink();
+    showStep(1);
+  })();
+</script>
