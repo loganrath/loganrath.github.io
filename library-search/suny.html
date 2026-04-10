@@ -1,6 +1,5 @@
 ---
-title: "Dr. Rath's Search Term Generator
-SUNY Campus Edition"
+title: "Dr. Rath's Search Term Generator<br />SUNY Campus Edition"
 layout: tool
 ---
 <style>
@@ -584,9 +583,9 @@ layout: tool
     }
 
     document.getElementById('campusPreviewTitle').textContent = campus.campusName;
-    document.getElementById('campusPreviewMeta').textContent = `Final search launches in ${campus.searchName}.`;
-    preview.style.borderColor = hexToRgba(campus.buttonColor, 0.25);
-    preview.style.background = hexToRgba(campus.buttonColor, 0.08);
+    document.getElementById('campusPreviewMeta').textContent = `Searching ${campus.searchName}.`;
+    preview.style.borderColor = hexToRgba(campus.buttonColor, 1);
+    preview.style.background = hexToRgba(campus.buttonColor, 0.25);
     preview.hidden = false;
   }
 
