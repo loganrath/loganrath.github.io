@@ -12,7 +12,7 @@ layout: tool
         .step{display:none}
         .step.active{display:block}
         .step-header{display:flex;align-items:center;margin-bottom:18px}
-        .step-number{background:#3498db;color:#fff;width:44px;height:44px;border-radius:50%;
+        .step-number{background:#0b63bc;color:#fff;width:44px;height:44px;border-radius:50%;
         display:flex;align-items:center;justify-content:center;font-weight:700;margin-right:14px}
         .step-title{font-size:1.25rem;font-weight:700;color:#233140}
         .instructions{background:#f8f9fa;font-size:18px;padding:18px;border-radius:8px;border-left:4px solid #3498db;margin-bottom:18px}
@@ -28,14 +28,14 @@ layout: tool
         .synonym-item{display:flex;gap:10px;align-items:center;margin-bottom:10px}
         .synonym-input{flex:1}
         .btn{cursor:pointer;border:0;padding:10px 16px;border-radius:8px;font-weight:700}
-        .btn.primary{background:#3498db;color:#fff}
-        .btn.primary:hover{background:#2b86c9}
-        .btn.green{background:#27ae60;color:#fff}
-        .btn.green:hover{background:#229954}
-        .btn.warn{background:#f39c12;color:#fff}
-        .btn.warn:hover{background:#e07f1b}
-        .btn.red{background:#e74c3c;color:#fff}
-        .btn.red:hover{background:#c43830}
+        .btn.primary{background:#0d75de;color:#fff}
+        .btn.primary:hover{background:#0b63bc}
+        .btn.green{background:#1e8549;color:#fff}
+        .btn.green:hover{background:#166437}
+        .btn.warn{background:#9a5500;color:#fff}
+        .btn.warn:hover{background:#7f4500}
+        .btn.red{background:#b9382b;color:#fff}
+        .btn.red:hover{background:#a61b12}
         .boolean-output{background:#2c3e50;color:#fff;padding:18px;border-radius:8px;font-family:Courier,monospace;font-size:24px;font-weight:bold;min-height:64px;word-break:break-word;field-sizing:content}
         .database-section{margin-top:18px;padding:18px;background:#f8f9fa;border-radius:10px}
         .database-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
@@ -91,14 +91,14 @@ layout: tool
         <div id="keywordContainer">
           <div class="keyword-item" data-keyword-id="1">
             <div class="keyword-header"><div class="keyword-title">Concept 1</div><button class="btn red" onclick="removeKeyword(1)" style="display:none">Remove</button></div>
-            <label>Main keyword</label>
-            <input type="text" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media">
+            <label for="keyword-1">Main keyword</label>
+            <input type="text" id="keyword-1" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media">
           </div>
 
           <div class="keyword-item" data-keyword-id="2">
             <div class="keyword-header"><div class="keyword-title">Concept 2</div><button class="btn red" onclick="removeKeyword(2)" style="display:none">Remove</button></div>
-            <label>Main keyword</label>
-            <input type="text" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students">
+            <label for="keyword-2">Main keyword</label>
+            <input type="text" id="keyword-2" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students">
           </div>
         </div>
 
@@ -145,9 +145,9 @@ layout: tool
         </div>
 
         <div>
-          <h2 style="margin:0 0 8px 0">Your Boolean search</h2>
+          <h2 id="booleanOutputLabel" style="margin:0 0 8px 0">Your Boolean search</h2>
           <p>You can edit these terms using the text-box below:</p>
-          <textarea id="booleanOutput" class="boolean-output">Your search will appear here</textarea>
+          <textarea id="booleanOutput" class="boolean-output" aria-labelledby="booleanOutputLabel">Your search will appear here</textarea>
         </div>
 
         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
@@ -195,6 +195,10 @@ layout: tool
     };
 
     const feedbackBaseUrl = 'https://forms.brockport.edu/view.php?id=9744858&element_1=';
+
+    function getKeywordInputId(keywordId) {
+      return `keyword-${keywordId}`;
+    }
 
     let currentStep = 1;
     let totalSteps = 4;
@@ -278,9 +282,10 @@ layout: tool
       synonymCount[keywordCount]=1;
       const container = document.getElementById('keywordContainer');
       const div = document.createElement('div');
+      const inputId = getKeywordInputId(keywordCount);
       div.className='keyword-item'; div.dataset.keywordId = keywordCount;
       div.innerHTML = `<div class="keyword-header"><div class="keyword-title">Concept ${keywordCount}</div><button class="btn red" onclick="removeKeyword(${keywordCount})">Remove</button></div>
-        <label>Main keyword</label><input type="text" class="keyword-input" data-keyword-id="${keywordCount}" placeholder="Enter keyword">`;
+        <label for="${inputId}">Main keyword</label><input type="text" id="${inputId}" class="keyword-input" data-keyword-id="${keywordCount}" placeholder="Enter keyword">`;
       container.appendChild(div);
       updateKeywordRemoveVisibility();
     }
@@ -457,11 +462,11 @@ layout: tool
       document.getElementById('keywordContainer').innerHTML = `
         <div class="keyword-item" data-keyword-id="1">
           <div class="keyword-header"><div class="keyword-title">Concept 1</div><button class="btn red" onclick="removeKeyword(1)" style="display:none">Remove</button></div>
-          <label>Main keyword</label><input type="text" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media">
+          <label for="keyword-1">Main keyword</label><input type="text" id="keyword-1" class="keyword-input" data-keyword-id="1" placeholder="e.g., social media">
         </div>
         <div class="keyword-item" data-keyword-id="2">
           <div class="keyword-header"><div class="keyword-title">Concept 2</div><button class="btn red" onclick="removeKeyword(2)" style="display:none">Remove</button></div>
-          <label>Main keyword</label><input type="text" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students">
+          <label for="keyword-2">Main keyword</label><input type="text" id="keyword-2" class="keyword-input" data-keyword-id="2" placeholder="e.g., college students">
         </div>`;
       document.getElementById('synonymContainer').innerHTML = '';
       document.getElementById('searchSummary').innerHTML = '';
