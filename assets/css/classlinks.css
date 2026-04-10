@@ -14,11 +14,7 @@ header h1 {font-family: "Open Sans", sans-serif;  }
 #content a:link, #content a:visited {color: #005899;}
 #content a:hover {color: #005A5A;}
 #content p {margin-top: 2em; margin-bottom: 2em; }
-#content div.text-large {font-size: 18px;}#content a:hover,
-#content a:focus {
-  color: #8A4B00;
-  text-decoration: underline;
-}
+#content div.text-large {font-size: 18px;}
 
 a.button {display: block; width: 75%; margin-left: auto; margin-right: auto; padding: 1em; background-color: #334d6c; text-decoration: none; color: white !important; font-size: 2em; line-height: 1em; font-weight: bold !important;}
 a.button:hover {color: #FFD100 !important;}
