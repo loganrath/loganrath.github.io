@@ -349,6 +349,7 @@ layout: tool
   <button class="tab-btn active" onclick="setMode('flashcard',this)">Flashcards</button>
   <button class="tab-btn" onclick="setMode('quiz',this)">Multiple Choice</button>
   <button class="tab-btn" onclick="setMode('match',this)">Match</button>
+  <button class="tab-btn" onclick="setMode('shooter',this)">🚀 Asteroid Shooter</button>
 </div>
 
 <!-- ════════════════════════════════════════════
@@ -520,6 +521,7 @@ function getPromptAndAnswer(ion) {
 }
 
 function setMode(newMode, btn) {
+  if (mode === 'shooter') ag_stopGame();
   mode = newMode;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -528,9 +530,10 @@ function setMode(newMode, btn) {
 
 function restartCurrent() {
   direction = document.getElementById('modeDir').value;
-  if (mode === 'flashcard') initFlashcard();
-  else if (mode === 'quiz')  initQuiz();
-  else if (mode === 'match') initMatch();
+  if (mode === 'flashcard')    initFlashcard();
+  else if (mode === 'quiz')    initQuiz();
+  else if (mode === 'match')   initMatch();
+  else if (mode === 'shooter') initShooter();
 }
 
 /* ────────────────────────────────────────────
@@ -759,6 +762,458 @@ function showMatchResults() {
       <div class="results-score">${m_attempts} attempts</div>
       <div class="results-msg">${accuracy}% accuracy — ${accuracy === 100 ? 'Perfect! 🏆' : accuracy >= 75 ? 'Great job!' : 'Keep practicing!'}</div>
       <button class="btn-restart" onclick="initMatch()">Play Again</button>
+    </div>`;
+}
+
+/* ════════════════════════════════════════════
+   ASTEROID SHOOTER
+════════════════════════════════════════════ */
+let ag_raf         = null;
+let ag_keys        = {};
+let ag_canvas      = null;
+let ag_ctx         = null;
+let ag_running     = false;
+let ag_score       = 0;
+let ag_lives       = 3;
+let ag_frameCount  = 0;
+let ag_speedMult   = 1.0;
+let ag_ship        = null;
+let ag_bullets     = [];
+let ag_rocks       = [];
+let ag_particles   = [];
+let ag_stars       = [];
+let ag_promptText  = '';
+let ag_answerLabel = '';
+let ag_flash       = null;
+let ag_shootCD     = 0;
+const AG_SHOT_CD   = 20;
+
+function initShooter() {
+  if (ag_raf) { cancelAnimationFrame(ag_raf); ag_raf = null; }
+  if (ag_canvas && ag_canvas._cleanup) { ag_canvas._cleanup(); ag_canvas._cleanup = null; }
+
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <div id="ag-wrap" style="width:100%;max-width:640px;">
+      <canvas id="ag-cv" style="display:block;width:100%;border-radius:10px 10px 0 0;cursor:crosshair;touch-action:none;"></canvas>
+      <div style="display:flex;gap:6px;padding:8px;background:#0a1628;border-radius:0 0 10px 10px;">
+        <button id="ag-left"  style="flex:1;padding:14px 0;font-size:1.5rem;background:#132236;color:#90caf9;border:1px solid #1e3a5f;border-radius:8px;cursor:pointer;user-select:none;-webkit-user-select:none;">◀</button>
+        <button id="ag-shoot" style="flex:2;padding:14px 0;font-size:.95rem;font-weight:800;letter-spacing:1px;background:#7b0000;color:#fff;border:1px solid #c62828;border-radius:8px;cursor:pointer;user-select:none;-webkit-user-select:none;">🔫 SHOOT</button>
+        <button id="ag-right" style="flex:1;padding:14px 0;font-size:1.5rem;background:#132236;color:#90caf9;border:1px solid #1e3a5f;border-radius:8px;cursor:pointer;user-select:none;-webkit-user-select:none;">▶</button>
+      </div>
+      <p style="text-align:center;font-size:.75rem;color:#888;margin:5px 0 0;">Arrow keys / A D to move · Space to shoot · or use the buttons above</p>
+    </div>`;
+
+  ag_canvas = document.getElementById('ag-cv');
+  ag_ctx    = ag_canvas.getContext('2d');
+
+  function sizeCanvas() {
+    const w         = ag_canvas.parentElement.offsetWidth;
+    ag_canvas.width  = w;
+    ag_canvas.height = Math.round(Math.min(420, w * 0.62));
+    if (ag_ship) ag_ship.y = ag_canvas.height - 42;
+  }
+  sizeCanvas();
+  window._ag_resize = sizeCanvas;
+  window.addEventListener('resize', window._ag_resize);
+
+  ag_stars = Array.from({ length: 70 }, () => ({
+    x: Math.random() * ag_canvas.width,
+    y: Math.random() * ag_canvas.height,
+    r: Math.random() * 1.4 + 0.3,
+    a: Math.random() * 0.65 + 0.2
+  }));
+
+  ag_running    = true;
+  ag_score      = 0;
+  ag_lives      = 3;
+  ag_frameCount = 0;
+  ag_speedMult  = 1.0;
+  ag_bullets    = [];
+  ag_rocks      = [];
+  ag_particles  = [];
+  ag_flash      = null;
+  ag_shootCD    = 0;
+  ag_keys       = {};
+
+  ag_ship = { x: ag_canvas.width / 2, y: ag_canvas.height - 42, spd: 4.5, w: 18, h: 26 };
+
+  pickShooterTarget();
+
+  const kd = e => {
+    ag_keys[e.code] = true;
+    if (['Space','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.code)) e.preventDefault();
+    if (e.code === 'Space') agShoot();
+  };
+  const ku = e => { ag_keys[e.code] = false; };
+  document.addEventListener('keydown', kd);
+  document.addEventListener('keyup',   ku);
+  ag_canvas._cleanup = () => {
+    document.removeEventListener('keydown', kd);
+    document.removeEventListener('keyup',   ku);
+    if (window._ag_resize) { window.removeEventListener('resize', window._ag_resize); delete window._ag_resize; }
+  };
+
+  const btnL = document.getElementById('ag-left');
+  const btnR = document.getElementById('ag-right');
+  const btnS = document.getElementById('ag-shoot');
+  ['pointerdown','touchstart'].forEach(ev => {
+    btnL.addEventListener(ev, e => { e.preventDefault(); ag_keys['ArrowLeft']  = true;  });
+    btnR.addEventListener(ev, e => { e.preventDefault(); ag_keys['ArrowRight'] = true;  });
+    btnS.addEventListener(ev, e => { e.preventDefault(); agShoot(); });
+  });
+  ['pointerup','touchend','pointerleave','touchcancel'].forEach(ev => {
+    btnL.addEventListener(ev, () => { ag_keys['ArrowLeft']  = false; });
+    btnR.addEventListener(ev, () => { ag_keys['ArrowRight'] = false; });
+  });
+
+  ag_raf = requestAnimationFrame(ag_loop);
+}
+
+function ag_stopGame() {
+  ag_running = false;
+  if (ag_raf) { cancelAnimationFrame(ag_raf); ag_raf = null; }
+  if (ag_canvas && ag_canvas._cleanup) { ag_canvas._cleanup(); ag_canvas._cleanup = null; }
+}
+
+function pickShooterTarget() {
+  const d = direction === 'random'
+    ? (Math.random() < .5 ? 'name2formula' : 'formula2name')
+    : direction;
+  const ion      = ions[Math.floor(Math.random() * ions.length)];
+  ag_answerLabel = d === 'name2formula' ? ion.formula : ion.name;
+  const cue      = d === 'name2formula' ? ion.name    : ion.formula;
+  ag_promptText  = d === 'name2formula'
+    ? `Shoot the FORMULA for: ${cue}`
+    : `Shoot the NAME for: ${cue}`;
+  ag_rocks = ag_rocks.filter(r => r.dead); // keep fading rocks, clear live ones
+  agSpawnRocks(ion, d);
+}
+
+function agMakeRockPts(r) {
+  const n = 8 + Math.floor(Math.random() * 4);
+  return Array.from({ length: n }, (_, i) => ({
+    a: (i / n) * Math.PI * 2 + (Math.random() - .5) * 0.35,
+    r: r * (0.65 + Math.random() * 0.55)
+  }));
+}
+
+function agSpawnRocks(correctIon, d) {
+  const W          = ag_canvas ? ag_canvas.width : 600;
+  const wrongCount = Math.min(4, ions.length - 1);
+  const wrongLabels = shuffle(ions.filter(i => i !== correctIon))
+    .slice(0, wrongCount)
+    .map(i => d === 'name2formula' ? i.formula : i.name);
+  const labels = shuffle([ag_answerLabel, ...wrongLabels]);
+
+  labels.forEach((lbl, i) => {
+    const r   = Math.max(38, Math.min(56, 26 + lbl.length * 1.6));
+    const seg = W / labels.length;
+    const x   = seg * i + seg * 0.5 + (Math.random() - .5) * seg * 0.28;
+    const vy  = (0.4 + Math.random() * 0.5) * ag_speedMult;
+    const vx  = (Math.random() - .5) * 0.5;
+    ag_rocks.push({
+      x:        Math.max(r + 4, Math.min(W - r - 4, x)),
+      y:        -r - i * 26 - Math.random() * 30,
+      vx, vy, r,
+      pts:      agMakeRockPts(r),
+      label:    lbl,
+      isTarget: lbl === ag_answerLabel,
+      dead:     false,
+      alpha:    1.0,
+      color:    `hsl(${18 + Math.random()*28},${28+Math.random()*20}%,${36+Math.random()*16}%)`
+    });
+  });
+}
+
+function agShoot() {
+  if (!ag_running || ag_shootCD > 0 || !ag_ship) return;
+  ag_shootCD = AG_SHOT_CD;
+  ag_bullets.push({ x: ag_ship.x, y: ag_ship.y - ag_ship.h + 4, vy: -11 });
+}
+
+function agLoseLife(msg) {
+  ag_lives = Math.max(0, ag_lives - 1);
+  agSetFlash(msg + (ag_lives > 0 ? `  (${ag_lives} ♥ left)` : ''), '#ef5350');
+  if (ag_lives <= 0) { ag_running = false; setTimeout(ag_gameOver, 700); }
+}
+
+function agSetFlash(text, color) {
+  ag_flash = { text, color, timer: 100 };
+}
+
+function ag_loop() {
+  if (!ag_running) return;
+  ag_frameCount++;
+
+  const W = ag_canvas.width;
+  const H = ag_canvas.height;
+
+  // Ship movement
+  if (ag_ship) {
+    if (ag_keys['ArrowLeft']  || ag_keys['KeyA']) ag_ship.x -= ag_ship.spd;
+    if (ag_keys['ArrowRight'] || ag_keys['KeyD']) ag_ship.x += ag_ship.spd;
+    ag_ship.x = Math.max(ag_ship.w + 4, Math.min(W - ag_ship.w - 4, ag_ship.x));
+  }
+  if (ag_shootCD > 0) ag_shootCD--;
+
+  // Move bullets
+  for (const b of ag_bullets) b.y += b.vy;
+  ag_bullets = ag_bullets.filter(b => b.y > -30);
+
+  // Move rocks / check bottom
+  let needTarget = false;
+  for (const rock of ag_rocks) {
+    if (rock.dead) { rock.alpha = Math.max(0, rock.alpha - 0.055); continue; }
+    rock.x += rock.vx;
+    rock.y += rock.vy;
+    if (rock.x - rock.r > W) rock.x = -rock.r;
+    if (rock.x + rock.r < 0) rock.x = W + rock.r;
+    if (rock.y - rock.r > H) {
+      if (rock.isTarget) {
+        rock.dead  = true;
+        needTarget = true;
+        agLoseLife('Ion escaped!');
+      } else {
+        rock.y = -rock.r * 2 - Math.random() * 60;
+        rock.x = Math.random() * W;
+      }
+    }
+  }
+
+  // Bullet ↔ rock collision
+  outer: for (const b of ag_bullets) {
+    if (b.y < -20) continue;
+    for (const rock of ag_rocks) {
+      if (rock.dead) continue;
+      const dx = b.x - rock.x, dy = b.y - rock.y;
+      if (dx * dx + dy * dy < rock.r * rock.r) {
+        b.y = -9999;
+        rock.dead = true;
+        if (rock.isTarget) {
+          ag_score++;
+          ag_speedMult = 1.0 + ag_score * 0.07;
+          agSpawnParticles(rock.x, rock.y, '#69f0ae', 24);
+          agSetFlash('✓ Correct!', '#69f0ae');
+          needTarget = true;
+        } else {
+          agSpawnParticles(rock.x, rock.y, '#ef5350', 16);
+          agLoseLife(`✗ Wrong! That was ${rock.label}`);
+        }
+        continue outer;
+      }
+    }
+  }
+
+  // Particles
+  for (const p of ag_particles) { p.x += p.vx; p.y += p.vy; p.vy += 0.12; p.life--; }
+  ag_particles = ag_particles.filter(p => p.life > 0);
+
+  // Flash timer
+  if (ag_flash) { ag_flash.timer--; if (ag_flash.timer <= 0) ag_flash = null; }
+
+  // Remove fully faded dead rocks
+  ag_rocks = ag_rocks.filter(r => !r.dead || r.alpha > 0);
+
+  // Spawn new wave if needed
+  if (ag_running && (needTarget || !ag_rocks.some(r => r.isTarget && !r.dead))) {
+    pickShooterTarget();
+  }
+
+  agDraw(W, H);
+  ag_raf = requestAnimationFrame(ag_loop);
+}
+
+function agSpawnParticles(x, y, color, count) {
+  for (let i = 0; i < count; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const s = 1.5 + Math.random() * 4;
+    ag_particles.push({
+      x, y,
+      vx: Math.cos(a) * s,
+      vy: Math.sin(a) * s - 2,
+      life: 28 + Math.floor(Math.random() * 20),
+      maxLife: 46,
+      color, r: 2 + Math.random() * 3
+    });
+  }
+}
+
+function agDrawRockLabel(ctx, rock) {
+  ctx.fillStyle    = '#fff';
+  ctx.textAlign    = 'center';
+  ctx.textBaseline = 'middle';
+  const words = rock.label.split(' ');
+  if (words.length === 1 || rock.label.length <= 9) {
+    let fs = Math.min(14, Math.round(rock.r * 0.38));
+    ctx.font = `bold ${fs}px monospace`;
+    ctx.fillText(rock.label, 0, 0);
+  } else {
+    const mid = Math.ceil(words.length / 2);
+    const l1  = words.slice(0, mid).join(' ');
+    const l2  = words.slice(mid).join(' ');
+    const fs  = Math.min(11, Math.round(rock.r * 0.29));
+    ctx.font  = `bold ${fs}px monospace`;
+    ctx.fillText(l1, 0, -(fs + 1));
+    if (l2) ctx.fillText(l2, 0, fs + 1);
+  }
+  ctx.textBaseline = 'alphabetic';
+}
+
+function agDraw(W, H) {
+  const ctx = ag_ctx;
+  ctx.fillStyle = '#080f1a';
+  ctx.fillRect(0, 0, W, H);
+
+  // Stars
+  for (const s of ag_stars) {
+    ctx.globalAlpha = s.a;
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  // Prompt bar
+  ctx.fillStyle = 'rgba(8,15,26,0.8)';
+  ctx.fillRect(0, 0, W, 38);
+  ctx.fillStyle    = '#ffd54f';
+  ctx.font         = 'bold 14px monospace';
+  ctx.textAlign    = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(ag_promptText, W / 2, 19);
+  ctx.textBaseline = 'alphabetic';
+
+  // Lives
+  ctx.font      = 'bold 13px monospace';
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#ef5350';
+  ctx.fillText('♥'.repeat(ag_lives) + '♡'.repeat(Math.max(0, 3 - ag_lives)), 8, 18);
+  // Score
+  ctx.textAlign = 'right';
+  ctx.fillStyle = '#90caf9';
+  ctx.fillText(`Score: ${ag_score}`, W - 8, 18);
+
+  // Rocks
+  for (const rock of ag_rocks) {
+    ctx.globalAlpha = rock.alpha;
+    ctx.save();
+    ctx.translate(rock.x, rock.y);
+    ctx.beginPath();
+    const pts = rock.pts;
+    ctx.moveTo(Math.cos(pts[0].a) * pts[0].r, Math.sin(pts[0].a) * pts[0].r);
+    for (let i = 1; i < pts.length; i++)
+      ctx.lineTo(Math.cos(pts[i].a) * pts[i].r, Math.sin(pts[i].a) * pts[i].r);
+    ctx.closePath();
+    ctx.fillStyle   = rock.color;
+    ctx.fill();
+    ctx.strokeStyle = rock.isTarget ? '#ffd54f' : '#6a7f95';
+    ctx.lineWidth   = rock.isTarget ? 2.5 : 1.2;
+    ctx.stroke();
+    agDrawRockLabel(ctx, rock);
+    // Target indicator chevron above rock when on screen
+    if (rock.isTarget && rock.y > 40 && rock.y < H - 40) {
+      ctx.fillStyle    = '#ffd54f';
+      ctx.font         = '13px sans-serif';
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.globalAlpha  = 0.55;
+      ctx.fillText('▼', 0, -rock.r - 8);
+      ctx.textBaseline = 'alphabetic';
+      ctx.globalAlpha  = rock.alpha;
+    }
+    ctx.restore();
+    ctx.globalAlpha = 1;
+  }
+
+  // Bullets
+  for (const b of ag_bullets) {
+    if (b.y < -20) continue;
+    ctx.save();
+    ctx.strokeStyle = '#00e5ff';
+    ctx.lineWidth   = 2.5;
+    ctx.shadowBlur  = 10;
+    ctx.shadowColor = '#00e5ff';
+    ctx.beginPath();
+    ctx.moveTo(b.x, b.y);
+    ctx.lineTo(b.x, b.y + 14);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // Particles
+  for (const p of ag_particles) {
+    const t = p.life / p.maxLife;
+    ctx.globalAlpha = t;
+    ctx.fillStyle   = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r * t + 0.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  // Ship
+  if (ag_ship) {
+    const s = ag_ship;
+    ctx.save();
+    ctx.translate(s.x, s.y);
+    // Thruster flame (animates)
+    if (ag_frameCount % 5 < 3) {
+      ctx.fillStyle = `rgba(255,${140 + Math.floor(Math.random()*70)},0,0.62)`;
+      ctx.beginPath();
+      ctx.ellipse(0, s.h * 0.38, 5, 8 + Math.random() * 7, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    // Body
+    ctx.beginPath();
+    ctx.moveTo(0,          -s.h);
+    ctx.lineTo( s.w,        s.h * 0.45);
+    ctx.lineTo( s.w * 0.35, s.h * 0.20);
+    ctx.lineTo(-s.w * 0.35, s.h * 0.20);
+    ctx.lineTo(-s.w,        s.h * 0.45);
+    ctx.closePath();
+    ctx.fillStyle   = '#e3f2fd';
+    ctx.strokeStyle = '#90caf9';
+    ctx.lineWidth   = 1.5;
+    ctx.fill();
+    ctx.stroke();
+    // Cockpit tint
+    ctx.beginPath();
+    ctx.ellipse(0, -s.h * 0.35, s.w * 0.28, s.h * 0.2, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#1e88e5';
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // Flash message
+  if (ag_flash && ag_flash.timer > 0) {
+    ctx.globalAlpha = Math.min(1, ag_flash.timer / 40);
+    ctx.font        = 'bold 20px sans-serif';
+    ctx.textAlign   = 'center';
+    ctx.shadowBlur  = 14;
+    ctx.shadowColor = ag_flash.color;
+    ctx.fillStyle   = ag_flash.color;
+    ctx.fillText(ag_flash.text, W / 2, H * 0.52);
+    ctx.shadowBlur  = 0;
+    ctx.globalAlpha = 1;
+  }
+}
+
+function ag_gameOver() {
+  ag_stopGame();
+  const gameArea = document.getElementById('gameArea');
+  if (!gameArea) return;
+  const grade = ag_score >= 15 ? 'Incredible! 🏆'
+    : ag_score >= 8  ? 'Great job!'
+    : ag_score >= 4  ? 'Good start!'
+    : 'Keep practicing!';
+  gameArea.innerHTML = `
+    <div class="results-panel">
+      <h3>Game Over</h3>
+      <div class="results-score">${ag_score}</div>
+      <div class="results-msg">ions correctly identified<br>${grade}</div>
+      <button class="btn-restart" onclick="initShooter()">Play Again</button>
     </div>`;
 }
 
