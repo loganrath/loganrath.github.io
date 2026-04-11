@@ -1,0 +1,770 @@
+---
+title: "Test Game"
+layout: tool
+---
+<style>
+  /* ── Setup banner ── */
+  .setup-banner {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    color: #5d4037;
+  }
+  .setup-banner summary { font-weight: 700; cursor: pointer; color: #e65100; }
+  .setup-banner ol { margin: 10px 0 0 18px; line-height: 1.8; }
+  .setup-banner code {
+    background: #fce4ec;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+
+  /* ── Config bar ── */
+  .config-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-end;
+    background: #f5f7fa;
+    border: 1px solid #dde3ec;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+  }
+  .config-bar label { font-size: 0.82rem; font-weight: 600; color: #555; display: block; margin-bottom: 3px; }
+  .config-bar input[type="text"] {
+    width: 340px;
+    max-width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 0.9rem;
+  }
+  .config-bar select {
+    padding: 7px 10px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background: #fff;
+  }
+  .btn-load {
+    padding: 8px 18px;
+    background: #1a73e8;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-load:hover { background: #1558b0; }
+  .sheet-status { font-size: 0.8rem; color: #888; margin-top: 4px; }
+  .sheet-status.ok  { color: #2e7d32; }
+  .sheet-status.err { color: #c62828; }
+
+  /* ── Mode tabs ── */
+  .mode-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 8px 24px;
+    border: 2px solid #1a73e8;
+    border-radius: 24px;
+    background: #fff;
+    color: #1a73e8;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .tab-btn.active, .tab-btn:hover { background: #1a73e8; color: #fff; }
+
+  /* ── Shared card shell ── */
+  .game-area {
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  /* ── FLASHCARD ── */
+  .flashcard-wrap { perspective: 900px; width: 100%; max-width: 480px; }
+  .flashcard {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform .55s cubic-bezier(.4,0,.2,1);
+    cursor: pointer;
+    border-radius: 16px;
+  }
+  .flashcard.flipped { transform: rotateY(180deg); }
+  .flashcard-front, .flashcard-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.12);
+    text-align: center;
+  }
+  .flashcard-front {
+    background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+    color: #fff;
+  }
+  .flashcard-back {
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+    color: #fff;
+    transform: rotateY(180deg);
+  }
+  .card-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: .75; margin-bottom: 8px; }
+  .card-main { font-size: 1.9rem; font-weight: 700; line-height: 1.2; }
+  .card-sub  { font-size: 0.9rem; margin-top: 10px; opacity: .85; }
+  .card-hint { font-size: 0.78rem; margin-top: 14px; opacity: .6; }
+  .fc-nav {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 18px;
+    width: 100%;
+    max-width: 480px;
+    justify-content: space-between;
+  }
+  .fc-nav button {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #e8eaf6;
+    color: #333;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .fc-nav button:hover:not(:disabled) { background: #c5cae9; }
+  .fc-nav button:disabled { opacity: .35; cursor: default; }
+  .fc-counter { font-size: 0.88rem; color: #666; }
+
+  /* ── QUIZ ── */
+  .quiz-prompt {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border: 1px solid #a5d6a7;
+    border-radius: 14px;
+    padding: 24px 28px;
+    text-align: center;
+    width: 100%;
+    max-width: 540px;
+    margin-bottom: 20px;
+  }
+  .quiz-question-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #555; }
+  .quiz-question-text  { font-size: 1.5rem; font-weight: 700; color: #1b5e20; margin-top: 6px; }
+  .choices-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    max-width: 540px;
+  }
+  .choice-btn {
+    padding: 14px 10px;
+    border: 2px solid #dde3ec;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .18s;
+    text-align: center;
+    color: #1a2940;
+  }
+  .choice-btn:hover:not(:disabled) { border-color: #1a73e8; background: #e8f0fe; }
+  .choice-btn.correct { border-color: #2e7d32; background: #e8f5e9; color: #2e7d32; }
+  .choice-btn.wrong   { border-color: #c62828; background: #ffebee; color: #c62828; }
+  .choice-btn:disabled { cursor: default; opacity: .75; }
+  .quiz-feedback {
+    margin-top: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    min-height: 24px;
+    text-align: center;
+    width: 100%;
+    max-width: 540px;
+  }
+  .quiz-feedback.correct { color: #2e7d32; }
+  .quiz-feedback.wrong   { color: #c62828; }
+  .quiz-feedback.neutral { color: #555; }
+  .btn-next {
+    margin-top: 14px;
+    padding: 10px 28px;
+    background: #1a73e8;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s;
+    display: none;
+  }
+  .btn-next:hover { background: #1558b0; }
+
+  /* ── MATCH ── */
+  .match-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    max-width: 600px;
+  }
+  .match-col-header {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
+    text-align: center;
+    padding-bottom: 4px;
+  }
+  .match-tile {
+    padding: 12px 10px;
+    border: 2px solid #dde3ec;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all .18s;
+    user-select: none;
+  }
+  .match-tile:hover:not(.matched):not(.selected) { border-color: #1a73e8; background: #e8f0fe; }
+  .match-tile.selected { border-color: #ff9800; background: #fff3e0; }
+  .match-tile.matched  { border-color: #2e7d32; background: #e8f5e9; color: #2e7d32; cursor: default; opacity: .7; }
+  .match-tile.wrong-flash { border-color: #c62828; background: #ffebee; }
+
+  /* ── Score bar ── */
+  .score-bar {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #444;
+    margin-top: 18px;
+    width: 100%;
+    max-width: 540px;
+    justify-content: center;
+  }
+  .score-bar span.correct { color: #2e7d32; }
+  .score-bar span.wrong   { color: #c62828; }
+
+  /* ── Results ── */
+  .results-panel {
+    text-align: center;
+    width: 100%;
+    max-width: 480px;
+    padding: 30px 20px;
+    background: #f5f7fa;
+    border-radius: 16px;
+    border: 1px solid #dde3ec;
+  }
+  .results-panel h3 { font-size: 1.4rem; margin-bottom: 6px; }
+  .results-score { font-size: 3rem; font-weight: 800; color: #1a73e8; }
+  .results-msg   { font-size: 1rem; color: #555; margin-top: 8px; }
+  .btn-restart {
+    margin-top: 18px;
+    padding: 10px 28px;
+    background: #1a73e8;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-restart:hover { background: #1558b0; }
+
+  @media (max-width: 480px) {
+    .choices-grid { grid-template-columns: 1fr; }
+    .match-grid   { grid-template-columns: 1fr 1fr; font-size: 0.82rem; }
+    .config-bar input[type="text"] { width: 100%; }
+  }
+</style>
+
+<!-- ════════════════════════════════════════════
+     SETUP INSTRUCTIONS
+════════════════════════════════════════════ -->
+<details class="setup-banner">
+  <summary>📋 How to connect your Google Sheet</summary>
+  <ol>
+    <li>Create a new Google Sheet. Name the columns in row 1: <code>name</code>, <code>formula</code>, <code>charge</code> (optional), <code>notes</code> (optional).</li>
+    <li>Fill in each row with one polyatomic ion — e.g., <code>Ammonium</code> | <code>NH₄</code> | <code>+1</code>.</li>
+    <li>Share the sheet: click <strong>File → Share → Share with others</strong>, then choose <em>"Anyone with the link"</em> and set access to <strong>Viewer</strong>.</li>
+    <li>Go to <strong>File → Share → Publish to web</strong>. Choose <em>Sheet 1</em> and <em>Comma-separated values (.csv)</em>, then click <strong>Publish</strong>.</li>
+    <li>Copy the <strong>spreadsheet ID</strong> from your sheet's URL:<br>
+        <code>https://docs.google.com/spreadsheets/d/<strong>&lt;SPREADSHEET_ID&gt;</strong>/edit</code></li>
+    <li>Paste the ID into the <em>Spreadsheet ID</em> field below and click <strong>Load Sheet</strong>.</li>
+    <li>If you have multiple tabs, also paste the numeric <strong>Sheet GID</strong> from the URL's <code>#gid=…</code> hash (default is <code>0</code>).</li>
+  </ol>
+  <p style="margin-top:10px;"><strong>Column format:</strong> <code>name</code> (required) · <code>formula</code> (required) · <code>charge</code> (optional) · <code>notes</code> (optional). The first row is treated as a header and is skipped.</p>
+</details>
+
+<!-- ════════════════════════════════════════════
+     CONFIG BAR
+════════════════════════════════════════════ -->
+<div class="config-bar">
+  <div>
+    <label for="sheetId">Spreadsheet ID</label>
+    <input type="text" id="sheetId" placeholder="Paste spreadsheet ID here (optional)">
+    <div class="sheet-status" id="sheetStatus">Using built-in ion list. Paste a Sheet ID and click Load to override.</div>
+  </div>
+  <div>
+    <label for="sheetGid">Sheet GID</label>
+    <input type="text" id="sheetGid" value="0" style="width:90px;">
+  </div>
+  <div>
+    <label for="modeDir">Question direction</label>
+    <select id="modeDir">
+      <option value="name2formula">Name → Formula</option>
+      <option value="formula2name">Formula → Name</option>
+      <option value="random">Random</option>
+    </select>
+  </div>
+  <div style="align-self:flex-end;">
+    <button class="btn-load" onclick="loadSheet()">Load Sheet</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     MODE TABS
+════════════════════════════════════════════ -->
+<div class="mode-tabs">
+  <button class="tab-btn active" onclick="setMode('flashcard',this)">Flashcards</button>
+  <button class="tab-btn" onclick="setMode('quiz',this)">Multiple Choice</button>
+  <button class="tab-btn" onclick="setMode('match',this)">Match</button>
+</div>
+
+<!-- ════════════════════════════════════════════
+     GAME AREA
+════════════════════════════════════════════ -->
+<div class="game-area" id="gameArea">
+  <!-- injected by JS -->
+</div>
+
+<script>
+/* ────────────────────────────────────────────
+   DEFAULT ION DATA (used when no sheet loaded)
+──────────────────────────────────────────── */
+const DEFAULT_IONS = [
+  { name:"Ammonium",          formula:"NH₄",    charge:"+1" },
+  { name:"Acetate",           formula:"C₂H₃O₂", charge:"−1" },
+  { name:"Carbonate",         formula:"CO₃",    charge:"−2" },
+  { name:"Hydrogen carbonate (Bicarbonate)", formula:"HCO₃", charge:"−1" },
+  { name:"Nitrate",           formula:"NO₃",    charge:"−1" },
+  { name:"Nitrite",           formula:"NO₂",    charge:"−1" },
+  { name:"Sulfate",           formula:"SO₄",    charge:"−2" },
+  { name:"Sulfite",           formula:"SO₃",    charge:"−2" },
+  { name:"Thiosulfate",       formula:"S₂O₃",   charge:"−2" },
+  { name:"Phosphate",         formula:"PO₄",    charge:"−3" },
+  { name:"Hydrogen phosphate",formula:"HPO₄",   charge:"−2" },
+  { name:"Dihydrogen phosphate",formula:"H₂PO₄",charge:"−1" },
+  { name:"Hydroxide",         formula:"OH",     charge:"−1" },
+  { name:"Cyanide",           formula:"CN",     charge:"−1" },
+  { name:"Permanganate",      formula:"MnO₄",   charge:"−1" },
+  { name:"Chromate",          formula:"CrO₄",   charge:"−2" },
+  { name:"Dichromate",        formula:"Cr₂O₇",  charge:"−2" },
+  { name:"Oxalate",           formula:"C₂O₄",   charge:"−2" },
+  { name:"Peroxide",          formula:"O₂",     charge:"−2" },
+  { name:"Silicate",          formula:"SiO₄",   charge:"−4" },
+  { name:"Hypochlorite",      formula:"ClO",    charge:"−1" },
+  { name:"Chlorite",          formula:"ClO₂",   charge:"−1" },
+  { name:"Chlorate",          formula:"ClO₃",   charge:"−1" },
+  { name:"Perchlorate",       formula:"ClO₄",   charge:"−1" },
+];
+
+/* ────────────────────────────────────────────
+   STATE
+──────────────────────────────────────────── */
+let ions    = [...DEFAULT_IONS];
+let mode    = "flashcard";
+let direction = "name2formula"; // name2formula | formula2name | random
+
+/* ── flashcard state ── */
+let fc_index   = 0;
+let fc_flipped = false;
+let fc_order   = [];
+
+/* ── quiz state ── */
+let q_queue   = [];
+let q_current = null;
+let q_correct = 0;
+let q_total   = 0;
+let q_answered = false;
+
+/* ── match state ── */
+let m_pairs       = [];
+let m_selected    = null; // { col, idx }
+let m_matched     = new Set();
+let m_correct     = 0;
+let m_attempts    = 0;
+
+/* ────────────────────────────────────────────
+   GOOGLE SHEET LOADER
+──────────────────────────────────────────── */
+function loadSheet() {
+  const id  = document.getElementById('sheetId').value.trim();
+  const gid = document.getElementById('sheetGid').value.trim() || '0';
+  const status = document.getElementById('sheetStatus');
+
+  if (!id) {
+    status.textContent = 'No ID provided — using built-in list.';
+    status.className = 'sheet-status';
+    ions = [...DEFAULT_IONS];
+    restartCurrent();
+    return;
+  }
+
+  // Sanitize: only allow alphanumeric, hyphens, underscores (valid Sheet IDs)
+  if (!/^[\w-]+$/.test(id)) {
+    status.textContent = 'Invalid spreadsheet ID format.';
+    status.className = 'sheet-status err';
+    return;
+  }
+
+  const url = `https://docs.google.com/spreadsheets/d/${encodeURIComponent(id)}/export?format=csv&gid=${encodeURIComponent(gid)}`;
+  status.textContent = 'Loading…';
+  status.className = 'sheet-status';
+
+  fetch(url)
+    .then(r => {
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return r.text();
+    })
+    .then(csv => {
+      const rows = parseCSV(csv);
+      if (rows.length < 2) throw new Error('Sheet appears empty or has no data rows.');
+      // find column indices (case-insensitive)
+      const headers = rows[0].map(h => h.trim().toLowerCase());
+      const nameIdx    = headers.indexOf('name');
+      const formulaIdx = headers.indexOf('formula');
+      const chargeIdx  = headers.indexOf('charge');
+      const notesIdx   = headers.indexOf('notes');
+      if (nameIdx === -1 || formulaIdx === -1)
+        throw new Error('Sheet must have columns named "name" and "formula".');
+      const loaded = rows.slice(1)
+        .filter(r => r[nameIdx] && r[formulaIdx])
+        .map(r => ({
+          name:    r[nameIdx].trim(),
+          formula: r[formulaIdx].trim(),
+          charge:  chargeIdx  !== -1 ? r[chargeIdx].trim()  : '',
+          notes:   notesIdx   !== -1 ? r[notesIdx].trim()   : '',
+        }));
+      if (loaded.length === 0) throw new Error('No valid rows found.');
+      ions = loaded;
+      status.textContent = `✓ Loaded ${ions.length} ions from your sheet.`;
+      status.className = 'sheet-status ok';
+      restartCurrent();
+    })
+    .catch(err => {
+      status.textContent = `Error loading sheet: ${err.message}`;
+      status.className = 'sheet-status err';
+    });
+}
+
+function parseCSV(text) {
+  const rows = [];
+  const lines = text.split(/\r?\n/);
+  for (const line of lines) {
+    if (!line.trim()) continue;
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { cols.push(cur); cur = ''; }
+      else { cur += ch; }
+    }
+    cols.push(cur);
+    rows.push(cols);
+  }
+  return rows;
+}
+
+/* ────────────────────────────────────────────
+   HELPERS
+──────────────────────────────────────────── */
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function getPromptAndAnswer(ion) {
+  let d = direction;
+  if (d === 'random') d = Math.random() < .5 ? 'name2formula' : 'formula2name';
+  if (d === 'name2formula') {
+    return { prompt: ion.name, promptLabel: 'Ion Name', answer: ion.formula, answerLabel: 'Formula', hint: ion.charge ? `Charge: ${ion.charge}` : '' };
+  } else {
+    return { prompt: ion.formula, promptLabel: 'Formula', answer: ion.name, answerLabel: 'Ion Name', hint: ion.charge ? `Charge: ${ion.charge}` : '' };
+  }
+}
+
+function setMode(newMode, btn) {
+  mode = newMode;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  restartCurrent();
+}
+
+function restartCurrent() {
+  direction = document.getElementById('modeDir').value;
+  if (mode === 'flashcard') initFlashcard();
+  else if (mode === 'quiz')  initQuiz();
+  else if (mode === 'match') initMatch();
+}
+
+/* ────────────────────────────────────────────
+   FLASHCARD MODE
+──────────────────────────────────────────── */
+function initFlashcard() {
+  fc_order   = shuffle(ions.map((_, i) => i));
+  fc_index   = 0;
+  fc_flipped = false;
+  renderFlashcard();
+}
+
+function renderFlashcard() {
+  const area = document.getElementById('gameArea');
+  if (fc_order.length === 0) { area.innerHTML = '<p>No ions to display.</p>'; return; }
+  const ion = ions[fc_order[fc_index]];
+  const pa  = getPromptAndAnswer(ion);
+
+  area.innerHTML = `
+    <div class="flashcard-wrap">
+      <div class="flashcard${fc_flipped ? ' flipped' : ''}" id="fc" onclick="flipCard()">
+        <div class="flashcard-front">
+          <div class="card-label">${pa.promptLabel}</div>
+          <div class="card-main">${pa.prompt}</div>
+          ${pa.hint ? `<div class="card-sub">${pa.hint}</div>` : ''}
+          <div class="card-hint">Click to reveal ${pa.answerLabel.toLowerCase()}</div>
+        </div>
+        <div class="flashcard-back">
+          <div class="card-label">${pa.answerLabel}</div>
+          <div class="card-main">${pa.answer}</div>
+          ${ion.notes ? `<div class="card-sub">${ion.notes}</div>` : ''}
+          <div class="card-hint">Click to flip back</div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-nav">
+      <button onclick="fcPrev()" ${fc_index === 0 ? 'disabled' : ''}>← Prev</button>
+      <span class="fc-counter">${fc_index + 1} / ${fc_order.length}</span>
+      <button onclick="fcNext()" ${fc_index === fc_order.length - 1 ? 'disabled' : ''}>Next →</button>
+    </div>
+    <div style="margin-top:10px;">
+      <button class="btn-load" style="font-size:0.8rem;padding:6px 14px;" onclick="initFlashcard()">↺ Shuffle</button>
+    </div>`;
+}
+
+function flipCard() {
+  fc_flipped = !fc_flipped;
+  const fc = document.getElementById('fc');
+  if (fc) fc.classList.toggle('flipped', fc_flipped);
+}
+function fcNext() { if (fc_index < fc_order.length - 1) { fc_index++; fc_flipped = false; renderFlashcard(); } }
+function fcPrev() { if (fc_index > 0) { fc_index--; fc_flipped = false; renderFlashcard(); } }
+
+/* ────────────────────────────────────────────
+   QUIZ MODE
+──────────────────────────────────────────── */
+function initQuiz() {
+  q_queue   = shuffle([...ions]);
+  q_correct = 0;
+  q_total   = 0;
+  q_answered = false;
+  nextQuestion();
+}
+
+function nextQuestion() {
+  if (q_queue.length === 0) { showQuizResults(); return; }
+  q_current  = q_queue.pop();
+  q_answered = false;
+  q_total++;
+
+  const pa = getPromptAndAnswer(q_current);
+
+  // build distractor pool from same column
+  const distractors = shuffle(
+    ions.filter(i => i !== q_current).map(i => direction === 'formula2name' ? i.name : i.formula)
+  ).slice(0, 3);
+  const choices = shuffle([pa.answer, ...distractors]);
+
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <div class="quiz-prompt">
+      <div class="quiz-question-label">${pa.promptLabel}</div>
+      <div class="quiz-question-text">${pa.prompt}</div>
+      ${pa.hint ? `<div style="font-size:.82rem;color:#555;margin-top:6px;">${pa.hint}</div>` : ''}
+    </div>
+    <div class="choices-grid" id="choicesGrid">
+      ${choices.map((c, i) => `<button class="choice-btn" onclick="checkAnswer(this,'${escAttr(c)}','${escAttr(pa.answer)}')">${c}</button>`).join('')}
+    </div>
+    <div class="quiz-feedback neutral" id="qFeedback"></div>
+    <button class="btn-next" id="btnNext" onclick="nextQuestion()">Next question →</button>
+    <div class="score-bar">
+      <span>Question: ${q_total} / ${ions.length}</span>
+      <span class="correct">✓ ${q_correct}</span>
+      <span class="wrong">✗ ${q_total - 1 - q_correct < 0 ? 0 : q_total - 1 - q_correct}</span>
+    </div>`;
+}
+
+function escAttr(s) {
+  return s.replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+}
+
+function checkAnswer(btn, chosen, correct) {
+  if (q_answered) return;
+  q_answered = true;
+  const fb = document.getElementById('qFeedback');
+  const allBtns = document.querySelectorAll('.choice-btn');
+  allBtns.forEach(b => b.disabled = true);
+
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✓ Correct!';
+    fb.className = 'quiz-feedback correct';
+    q_correct++;
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = `✗ Incorrect. The answer is: ${correct}`;
+    fb.className = 'quiz-feedback wrong';
+    allBtns.forEach(b => { if (b.textContent.trim() === correct) b.classList.add('correct'); });
+  }
+  // update score
+  const scoreEl = document.querySelector('.score-bar');
+  if (scoreEl) scoreEl.innerHTML = `
+    <span>Question: ${q_total} / ${ions.length}</span>
+    <span class="correct">✓ ${q_correct}</span>
+    <span class="wrong">✗ ${q_total - q_correct}</span>`;
+
+  document.getElementById('btnNext').style.display = 'inline-block';
+}
+
+function showQuizResults() {
+  const pct = Math.round((q_correct / ions.length) * 100);
+  let msg = pct >= 90 ? 'Excellent work! 🏆' : pct >= 70 ? 'Good job! Keep practicing.' : 'Keep studying — you\'ll get it!';
+  document.getElementById('gameArea').innerHTML = `
+    <div class="results-panel">
+      <h3>Quiz Complete</h3>
+      <div class="results-score">${q_correct} / ${ions.length}</div>
+      <div class="results-msg">${pct}% correct — ${msg}</div>
+      <button class="btn-restart" onclick="initQuiz()">Play Again</button>
+    </div>`;
+}
+
+/* ────────────────────────────────────────────
+   MATCH MODE
+──────────────────────────────────────────── */
+function initMatch() {
+  // pick 6 random ions for matching
+  const pool  = shuffle([...ions]).slice(0, Math.min(6, ions.length));
+  m_pairs     = pool;
+  m_matched   = new Set();
+  m_selected  = null;
+  m_correct   = 0;
+  m_attempts  = 0;
+  renderMatch();
+}
+
+function renderMatch() {
+  if (m_matched.size === m_pairs.length) { showMatchResults(); return; }
+
+  const names    = shuffle(m_pairs.map((p, i) => ({ text: p.name,    idx: i, col: 'name' })));
+  const formulas = shuffle(m_pairs.map((p, i) => ({ text: p.formula, idx: i, col: 'formula' })));
+
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <div style="width:100%;max-width:600px;margin-bottom:8px;">
+      <div class="match-grid">
+        <div class="match-col-header">Ion Name</div>
+        <div class="match-col-header">Formula</div>
+        ${names.map((n, i) => `
+          <div class="match-tile${m_matched.has(n.idx) ? ' matched' : ''}" id="name_${n.idx}" data-col="name" data-idx="${n.idx}" onclick="matchClick(this)">${n.text}</div>
+          <div class="match-tile${m_matched.has(formulas[i].idx) ? ' matched' : ''}" id="formula_${formulas[i].idx}" data-col="formula" data-idx="${formulas[i].idx}" onclick="matchClick(this)">${formulas[i].text}</div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="score-bar">
+      <span class="correct">Matched: ${m_matched.size} / ${m_pairs.length}</span>
+      <span>Attempts: ${m_attempts}</span>
+    </div>`;
+}
+
+function matchClick(tile) {
+  if (tile.classList.contains('matched')) return;
+  const col = tile.dataset.col;
+  const idx = parseInt(tile.dataset.idx);
+
+  if (!m_selected) {
+    m_selected = { col, idx, el: tile };
+    tile.classList.add('selected');
+    return;
+  }
+  // same column — swap selection
+  if (m_selected.col === col) {
+    m_selected.el.classList.remove('selected');
+    m_selected = { col, idx, el: tile };
+    tile.classList.add('selected');
+    return;
+  }
+  // different column — check match
+  m_attempts++;
+  const isMatch = m_selected.idx === idx;
+  m_selected.el.classList.remove('selected');
+
+  if (isMatch) {
+    m_correct++;
+    m_matched.add(idx);
+    m_selected.el.classList.add('matched');
+    tile.classList.add('matched');
+    m_selected = null;
+    if (m_matched.size === m_pairs.length) { setTimeout(showMatchResults, 400); }
+  } else {
+    m_selected.el.classList.add('wrong-flash');
+    tile.classList.add('wrong-flash');
+    const prev = m_selected;
+    m_selected = null;
+    setTimeout(() => {
+      prev.el.classList.remove('wrong-flash');
+      tile.classList.remove('wrong-flash');
+    }, 600);
+  }
+}
+
+function showMatchResults() {
+  const accuracy = m_attempts > 0 ? Math.round((m_pairs.length / m_attempts) * 100) : 100;
+  document.getElementById('gameArea').innerHTML = `
+    <div class="results-panel">
+      <h3>All Matched!</h3>
+      <div class="results-score">${m_attempts} attempts</div>
+      <div class="results-msg">${accuracy}% accuracy — ${accuracy === 100 ? 'Perfect! 🏆' : accuracy >= 75 ? 'Great job!' : 'Keep practicing!'}</div>
+      <button class="btn-restart" onclick="initMatch()">Play Again</button>
+    </div>`;
+}
+
+/* ────────────────────────────────────────────
+   INIT
+──────────────────────────────────────────── */
+document.getElementById('modeDir').addEventListener('change', restartCurrent);
+initFlashcard();
+</script>
