@@ -148,13 +148,13 @@ layout: tool
         align-items: center;
         justify-content: center;
         border-radius: 12px;
-        background: linear-gradient(135deg, #004f9f 0%, #0a6bc6 55%, #e0a323 100%);
+        background: #0f4c81;
         color: #ffffff;
         text-decoration: none;
         padding: 10px 14px;
         font-weight: 700;
         box-shadow: 0 10px 24px rgba(9, 71, 130, 0.24);
-        transition: transform 0.15s ease, box-shadow 0.2s ease;
+        transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
     }
 
     .action-link:hover,
@@ -162,12 +162,53 @@ layout: tool
         color: #ffffff;
         text-decoration: none;
         transform: translateY(-1px);
+        filter: brightness(0.94);
         box-shadow: 0 12px 26px rgba(9, 71, 130, 0.3);
     }
 
     .action-link:focus-visible {
         outline: 3px solid rgba(14, 79, 154, 0.26);
         outline-offset: 3px;
+    }
+
+    .quest-btn-anchor {
+        background: #0b3c5d;
+    }
+
+    .quest-btn-clarity {
+        background: #7a1e3a;
+    }
+
+    .quest-btn-compare {
+        background: #14532d;
+    }
+
+    .quest-btn-critique {
+        background: #4c1d95;
+    }
+
+    .quest-btn-growth {
+        background: #7c2d12;
+    }
+
+    .quest-btn-levelup {
+        background: #1f2937;
+    }
+
+    .quest-btn-mission {
+        background: #005f73;
+    }
+
+    .quest-btn-perspective {
+        background: #6b21a8;
+    }
+
+    .quest-btn-reverse {
+        background: #0b4f6c;
+    }
+
+    .quest-btn-rightsizing {
+        background: #3f3f46;
     }
 
     .usage-panel h2 {
@@ -208,7 +249,6 @@ layout: tool
 
 <div class="quest-shell">
     <header class="quest-hero">
-        <h1 class="quest-title">Quest Planner for K-12 Teaching</h1>
         <p class="quest-subtitle">Use these 10 quest structures to plan discussion, reading, writing, inquiry, and reflection routines. Each quest opens a pre-filled CRISP prompt you can tailor to your lesson, standards, and students.</p>
     </header>
 
@@ -288,60 +328,70 @@ layout: tool
         const questTypes = [
             {
                 name: "ANCHOR QUEST",
+                buttonClass: "quest-btn-anchor",
                 purpose: "Launch a lesson with a central text, image, artifact, or question that anchors all later work.",
                 bestUse: "Use when students need a common starting point and shared vocabulary.",
                 example: "Example move: start with one anchor source and build a short evidence-gathering routine."
             },
             {
                 name: "CLARITY QUEST",
+                buttonClass: "quest-btn-clarity",
                 purpose: "Unpack confusing language, concepts, directions, or representations so all students can access the task.",
                 bestUse: "Use after introducing dense instructions, technical text, or unfamiliar terminology.",
                 example: "Example move: turn complex wording into student-friendly checkpoints without reducing rigor."
             },
             {
                 name: "COMPARE QUEST",
+                buttonClass: "quest-btn-compare",
                 purpose: "Guide students to compare ideas, sources, strategies, or models using clear criteria.",
                 bestUse: "Use when students must identify similarities, differences, trade-offs, or patterns.",
                 example: "Example move: compare two sources and defend which is more useful for a task."
             },
             {
                 name: "CRITIQUE QUEST",
+                buttonClass: "quest-btn-critique",
                 purpose: "Support evidence-based critique of claims, methods, arguments, or design choices.",
                 bestUse: "Use when students need to evaluate quality, credibility, or limitations.",
                 example: "Example move: critique a claim using criteria, evidence, and a revision suggestion."
             },
             {
                 name: "GROWTH QUEST",
+                buttonClass: "quest-btn-growth",
                 purpose: "Help students reflect on progress, identify strengths, and set next-step goals.",
                 bestUse: "Use after formative checks, drafts, or practice cycles.",
                 example: "Example move: compare first and current attempts and set one precise improvement target."
             },
             {
                 name: "LEVEL-UP QUEST",
+                buttonClass: "quest-btn-levelup",
                 purpose: "Increase challenge once students demonstrate readiness, while keeping support available.",
                 bestUse: "Use for extension, enrichment, or deeper transfer tasks.",
                 example: "Example move: add complexity, audience, or constraints to push higher-level thinking."
             },
             {
                 name: "MISSION QUEST",
+                buttonClass: "quest-btn-mission",
                 purpose: "Frame a lesson as a purposeful mission with clear goals, roles, and deliverables.",
                 bestUse: "Use to boost engagement and ownership in project or problem-based learning.",
                 example: "Example move: assign team roles and create a mission brief with success criteria."
             },
             {
                 name: "PERSPECTIVE QUEST",
+                buttonClass: "quest-btn-perspective",
                 purpose: "Examine ideas through multiple viewpoints, voices, or stakeholder positions.",
                 bestUse: "Use when students need empathy, nuance, or disciplinary perspective-taking.",
                 example: "Example move: interpret one issue from at least three role-based perspectives."
             },
             {
                 name: "REVERSE QUEST",
+                buttonClass: "quest-btn-reverse",
                 purpose: "Work backward from a model, final product, or outcome to infer process and strategy.",
                 bestUse: "Use for backward design, analysis of exemplars, or troubleshooting weak products.",
                 example: "Example move: deconstruct a strong sample and identify the hidden decisions behind it."
             },
             {
                 name: "RIGHT-SIZING QUEST",
+                buttonClass: "quest-btn-rightsizing",
                 purpose: "Adjust scope and complexity so a task is demanding but achievable within class constraints.",
                 bestUse: "Use when assignments are too broad, too narrow, or mismatched to available time.",
                 example: "Example move: trim a large task into staged milestones with clear completion checks."
@@ -412,7 +462,7 @@ layout: tool
                     '<p class="quest-purpose">' + escapeHtml(quest.purpose) + '</p>' +
                     '<p class="quest-use"><strong>Best for:</strong> ' + escapeHtml(quest.bestUse) + '</p>' +
                     '<p class="quest-example">' + escapeHtml(quest.example) + '</p>' +
-                    '<div class="quest-action"><a class="action-link" href="' + escapeHtml(buildCrispUrl(prompt)) + '" aria-label="Open CRISP for ' + escapeHtml(quest.name) + '.">Build Prompt</a></div>' +
+                    '<div class="quest-action"><a class="action-link ' + escapeHtml(quest.buttonClass) + '" href="' + escapeHtml(buildCrispUrl(prompt)) + '" aria-label="Open CRISP for ' + escapeHtml(quest.name) + '.">Build Prompt</a></div>' +
                     '</article>';
             }).join("");
 
