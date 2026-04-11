@@ -77,7 +77,8 @@ layout: tool
     }
 
     .control-block select,
-    .control-block input {
+    .control-block input,
+    .control-block textarea {
         width: 100%;
         border: 2px solid #84a9d3;
         border-radius: 12px;
@@ -87,8 +88,15 @@ layout: tool
         background: #ffffff;
     }
 
+    .control-block textarea {
+        min-height: 94px;
+        resize: vertical;
+        line-height: 1.45;
+    }
+
     .control-block select:focus,
-    .control-block input:focus {
+    .control-block input:focus,
+    .control-block textarea:focus {
         outline: none;
         border-color: #0e4f9a;
         box-shadow: 0 0 0 4px rgba(14, 79, 154, 0.16);
@@ -269,11 +277,11 @@ layout: tool
                 <input id="quest-subject" type="text" value="ELA or content-area literacy" aria-describedby="quest-help planner-status">
             </div>
             <div class="control-block">
-                <label for="quest-unit">Lesson or unit focus</label>
-                <input id="quest-unit" type="text" value="current text, topic, or performance task" aria-describedby="quest-help planner-status">
+                <label for="quest-request">Request for the AI</label>
+                <textarea id="quest-request" aria-describedby="quest-help planner-status">Create a classroom-ready quest plan with clear steps and a quick formative check.</textarea>
             </div>
         </div>
-        <p id="quest-help" class="panel-copy">Change the fields above and every Build Prompt button updates automatically.</p>
+        <p id="quest-help" class="panel-copy">Change the fields above and every Build Prompt button updates automatically. Unit context is already included in each generated prompt.</p>
     </section>
 
     <section aria-labelledby="quest-grid-title">
@@ -400,7 +408,7 @@ layout: tool
 
         const gradeBandSelect = document.getElementById("quest-grade-band");
         const subjectInput = document.getElementById("quest-subject");
-        const unitInput = document.getElementById("quest-unit");
+        const requestInput = document.getElementById("quest-request");
         const questGrid = document.getElementById("quest-grid");
         const plannerStatus = document.getElementById("planner-status");
 
@@ -432,21 +440,21 @@ layout: tool
             return value || "ELA or content-area literacy";
         }
 
-        function getUnitValue() {
-            const value = unitInput.value.trim();
+        function getRequestValue() {
+            const value = requestInput.value.trim();
 
-            return value || "current text, topic, or performance task";
+            return value || "Create a classroom-ready quest plan with clear steps and a quick formative check.";
         }
 
         function buildQuestPrompt(quest) {
             const bandKey = gradeBandSelect.value;
             const band = gradeBands[bandKey];
             const subject = getSubjectValue();
-            const unit = getUnitValue();
+            const request = getRequestValue();
 
             return {
-                context: "Act as an instructional coach helping a " + band.label + " " + subject + " teacher design a " + quest.name + " for " + unit + ".",
-                request: "Create a " + quest.name + " that includes a launch, student actions, teacher moves, and an end-of-lesson check aligned to " + unit + ".",
+                context: "Act as an instructional coach helping a " + band.label + " " + subject + " teacher design a " + quest.name + " for their current unit.",
+                request: request + " Use the " + quest.name + " structure.",
                 intent: "Deliver a practical, New York State standards-aware classroom quest structure that improves student thinking and participation.",
                 style: sharedStyle,
                 parameters: "Audience profile: " + band.learnerProfile + ". Expected student outputs: " + band.outputs + ". Scaffolds: " + band.scaffolds + ". Also incorporate this quest purpose: " + quest.purpose + ". Ask any clarifying questions you have before proceeding."
@@ -472,7 +480,7 @@ layout: tool
 
         gradeBandSelect.addEventListener("change", renderQuestCards);
         subjectInput.addEventListener("input", renderQuestCards);
-        unitInput.addEventListener("input", renderQuestCards);
+        requestInput.addEventListener("input", renderQuestCards);
 
         renderQuestCards();
     })();
