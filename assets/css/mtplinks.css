@@ -16,10 +16,10 @@ header h1 {font-family: "Open Sans", sans-serif;  }
 #content p {margin-top: 2em; margin-bottom: 2em; }
 #content div.text-large {font-size: 18px;}
 
-a.button {display: block; width: 75%; margin-left: auto; margin-right: auto; padding: 1em; background-color: #173a79; text-decoration: none; color: white !important; font-size: 2em; line-height: 1em; font-weight: bold !important;}
+a.button {display: block; width: 75%; margin-left: auto; margin-right: auto; padding: 1em; background-color: #173a79; text-decoration: none; color: #A7A5A6 !important; font-size: 2em; line-height: 1em; font-weight: bold !important;}
 a.button:hover {color: #fcd757 !important;}
 
-a.button-sm {display: block; width: 85%%; margin-left: auto; margin-right: auto; padding: 0.5em; background-color: #173a79; text-decoration: none; color: white !important; font-size: 1.25em; font-weight: bold !important;}
+a.button-sm {display: block; width: 85%%; margin-left: auto; margin-right: auto; padding: 0.5em; background-color: #173a79; text-decoration: none; color: #A7A5A6 !important; font-size: 1.25em; font-weight: bold !important;}
 a.button-sm:hover {color: #fcd757 !important;}
 
 .c2 {float: left; width: 45%; margin-left: 2%; margin-right: 2%;}
