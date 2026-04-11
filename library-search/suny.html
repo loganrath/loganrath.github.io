@@ -484,7 +484,7 @@ layout: tool
       <hr>
       <h2>Provide Feedback on This Tool</h2>
       <p>You are being asked to provide some brief, anonymous feedback on your use of this tool. There is no way to connect your responses to you and your individual responses will not be shared beyond the study team. Participation in this research is voluntary, and you may skip any question. Questions? Please contact <a href="mailto:lrath@brockport.edu" target="_blank">Dr. Rath</a> or the <a href="mailto:irb@brockport.edu" target="_blank">Brockport IRB</a>.</p>
-      <p>If you are over 18 and would like to participate, please <a id="feedbackLink" href="https://forms.brockport.edu/view.php?id=9744858&element_1=" target="_blank">provide your feedback to Dr. Rath</a>.</p>
+      <p>If you are over 18 and would like to participate, please <a id="feedbackLink" href="https://forms.brockport.edu/view.php?id=9785892&element_1=" target="_blank">provide your feedback to Dr. Rath</a>.</p>
     </div>
   </div>
 
@@ -572,7 +572,7 @@ layout: tool
     },
   ];
 
-  const feedbackBaseUrl = 'https://forms.brockport.edu/view.php?id=9744858&element_1=';
+  const feedbackBaseUrl = 'https://forms.brockport.edu/view.php?id=9744858';
   const campusConfigById = campusConfigs.reduce((lookup, campus) => {
     lookup[campus.id] = campus;
     return lookup;
@@ -631,6 +631,7 @@ layout: tool
       buildSummary();
     }
 
+    updateFeedbackLink();
     updateLibrarySearchButton();
   }
 
@@ -963,7 +964,14 @@ layout: tool
   function updateFeedbackLink() {
     const feedbackLink = document.getElementById('feedbackLink');
     const currentQuery = document.getElementById('booleanOutput').value.trim();
-    feedbackLink.href = `${feedbackBaseUrl}${encodeURIComponent(currentQuery)}`;
+    const campus = getSelectedCampusConfig();
+    const feedbackUrl = new URL(feedbackBaseUrl);
+
+    feedbackUrl.searchParams.set('id', '9744858');
+    feedbackUrl.searchParams.set('element_1', currentQuery);
+    feedbackUrl.searchParams.set('element_10', campus ? campus.campusName : '');
+
+    feedbackLink.href = feedbackUrl.toString();
   }
 
   function showAlert(message, type) {
