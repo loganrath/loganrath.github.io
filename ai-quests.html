@@ -446,10 +446,10 @@ layout: tool
 
             return {
                 context: "Act as an instructional coach helping a " + band.label + " " + subject + " teacher design a " + quest.name + " for " + unit + ".",
-                request: "Create a " + quest.name + " plan that includes a launch, student actions, teacher moves, and an end-of-lesson check aligned to " + unit + ".",
-                intent: "Deliver a practical, standards-aware classroom quest structure that improves student thinking and participation.",
+                request: "Create a " + quest.name + " that includes a launch, student actions, teacher moves, and an end-of-lesson check aligned to " + unit + ".",
+                intent: "Deliver a practical, New York State standards-aware classroom quest structure that improves student thinking and participation.",
                 style: sharedStyle,
-                parameters: "Audience profile: " + band.learnerProfile + ". Expected student outputs: " + band.outputs + ". Scaffolds: " + band.scaffolds + ". Also incorporate this quest purpose: " + quest.purpose
+                parameters: "Audience profile: " + band.learnerProfile + ". Expected student outputs: " + band.outputs + ". Scaffolds: " + band.scaffolds + ". Also incorporate this quest purpose: " + quest.purpose + ". Ask any clarifying questions you have before proceeding."
             };
         }
 
