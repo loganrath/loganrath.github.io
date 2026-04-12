@@ -3,227 +3,280 @@
   {% include head.html %}
   <style>
     /* =====================================================
-       home2 layout — modern redesign
+       home2 layout — 2026 redesign
+       Dark nav · Dark hero · Off-white bento cards · Dark footer
        ===================================================== */
     :root {
-      --h2-primary:       #005889;
-      --h2-primary-dark:  #00416a;
-      --h2-primary-light: #e8f4fd;
-      --h2-accent:        #0e7490;
-      --h2-text:          #111827;
-      --h2-text-muted:    #6b7280;
-      --h2-bg:            #f8fafc;
-      --h2-surface:       #ffffff;
-      --h2-border:        #e5e7eb;
-      --h2-nav-h:         60px;
-      --h2-font-sans:     'Noto Sans', sans-serif;
-      --h2-font-display:  'Poppins', sans-serif;
+      --bg:       #f4f3f0;
+      --surface:  #ffffff;
+      --ink:      #0f1117;
+      --ink2:     #404040;
+      --ink3:     #9ca3af;
+      --brand:    #005889;
+      --brand-lt: #ddeefa;
+      --teal:     #0e7490;
+      --border:   rgba(0,0,0,0.07);
+      --dark:     #0b0f19;
+      --r:        14px;
+      --sh:       0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
+      --sh-up:    0 8px 32px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.06);
     }
 
-    body { background: var(--h2-bg); }
 
-    /* ---- Sticky frosted-glass navbar ---- */
-    .h2-navbar {
-      position: sticky;
-      top: 0;
-      z-index: 200;
-      height: var(--h2-nav-h);
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--h2-border);
+    /* ── Reset ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: 'Noto Sans', sans-serif; margin: 0; font-size: 16px; line-height: 1.65; }
+
+    /* ── Navigation ─────────────────────────────────────── */
+    .h2-nav {
+      position: sticky; top: 0; z-index: 300;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.75rem; height: 52px;
+      background: rgba(11,15,25,0.92);
+      backdrop-filter: blur(24px) saturate(200%);
+      -webkit-backdrop-filter: blur(24px) saturate(200%);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
-    .h2-navbar-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-    .h2-brand {
-      font-family: var(--h2-font-display);
-      font-weight: 600;
-      font-size: 1.05rem;
-      color: var(--h2-primary);
-      text-decoration: none;
+    .h2-nav-brand {
+      font-family: 'Poppins', sans-serif; font-size: 0.875rem; font-weight: 600;
+      color: rgba(255,255,255,0.9); text-decoration: none; letter-spacing: -0.01em;
       white-space: nowrap;
     }
-    .h2-brand:hover { color: var(--h2-primary-dark); text-decoration: none; }
-    .h2-nav-links {
-      display: flex;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      gap: 0.125rem;
-      flex-wrap: wrap;
-    }
-    .h2-nav-links a {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--h2-text-muted);
-      text-decoration: none;
-      padding: 0.375rem 0.75rem;
-      border-radius: 6px;
+    .h2-nav-brand b { color: var(--teal); }
+    .h2-nav-brand:hover { color: white; text-decoration: none; }
+    .h2-nav-menu { display: flex; list-style: none; margin: 0; padding: 0; gap: 0.1rem; }
+    .h2-nav-menu a {
+      display: block; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.02em;
+      color: rgba(255,255,255,0.5); text-decoration: none;
+      padding: 0.3rem 0.7rem; border-radius: 6px;
       transition: color 0.15s, background 0.15s;
     }
-    .h2-nav-links a:hover {
-      color: var(--h2-primary);
-      background: var(--h2-primary-light);
-    }
+    .h2-nav-menu a:hover { color: white; background: rgba(255,255,255,0.08); }
+    @media (max-width: 560px) { .h2-nav-menu { display: none; } }
 
-    /* ---- Hero ---- */
+    /* ── Hero ───────────────────────────────────────────── */
     .h2-hero {
-      background: linear-gradient(135deg, var(--h2-primary) 0%, var(--h2-accent) 100%);
-      color: white;
-      padding: 4rem 1.5rem 5rem;
-      position: relative;
-      overflow: hidden;
+      background: var(--dark);
+      position: relative; overflow: hidden;
+      padding: 5.5rem 1.75rem 6.5rem;
     }
-    /* Decorative background circles */
+    /* Subtle grain */
     .h2-hero::before {
       content: '';
-      position: absolute;
-      top: -80px;
-      right: -80px;
-      width: 360px;
-      height: 360px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.06);
-      pointer-events: none;
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.045'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
     }
-    /* Curved bottom edge */
+    /* Teal glow orb */
     .h2-hero::after {
       content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      right: 0;
-      height: 56px;
-      background: var(--h2-bg);
-      clip-path: ellipse(56% 100% at 50% 100%);
+      position: absolute; top: -200px; right: -200px;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(14,116,144,0.22) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
     }
     .h2-hero-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
     }
+    /* Eyebrow pill */
+    .h2-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--teal); border: 1px solid rgba(14,116,144,0.4);
+      background: rgba(14,116,144,0.1); border-radius: 100px;
+      padding: 0.28rem 0.9rem; margin-bottom: 2rem;
+    }
+    /* Name */
     .h2-hero-name {
-      font-family: var(--h2-font-display);
-      font-size: clamp(2.25rem, 5vw, 3.5rem);
-      font-weight: 600;
-      margin: 0 0 0.5rem;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(3.25rem, 9vw, 7rem);
+      font-weight: 700; line-height: 0.93;
+      letter-spacing: -0.045em; color: white;
+      margin: 0 0 1.5rem;
     }
-    .h2-hero-degree { opacity: 0.8; }
-    .h2-hero-tagline {
-      font-size: 1.125rem;
-      opacity: 0.82;
-      margin: 0 0 2rem;
-      font-weight: 300;
-      letter-spacing: 0.03em;
+    .h2-hero-name .muted { color: rgba(255,255,255,0.22); font-weight: 300; }
+    .h2-hero-desc {
+      font-size: clamp(0.95rem, 2vw, 1.125rem);
+      color: rgba(255,255,255,0.45); font-weight: 300; line-height: 1.75;
+      max-width: 54ch; margin: 0 0 2.5rem;
     }
-    .h2-social {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.625rem;
+    /* Social chips */
+    .h2-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .h2-chip {
+      display: inline-flex; align-items: center; gap: 0.42rem;
+      font-size: 0.775rem; font-weight: 500;
+      color: rgba(255,255,255,0.62);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px; padding: 0.36rem 0.9rem 0.36rem 0.72rem;
+      text-decoration: none; background: rgba(255,255,255,0.045);
+      transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s;
     }
-    .h2-social a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 2.75rem;
-      height: 2.75rem;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      color: white;
-      font-size: 1.15rem;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s, border-color 0.2s;
-    }
-    .h2-social a:hover {
-      background: rgba(255, 255, 255, 0.3);
-      border-color: rgba(255, 255, 255, 0.5);
-      transform: translateY(-3px);
-      color: white;
+    .h2-chip:hover {
+      color: white; background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.24); transform: translateY(-1px);
       text-decoration: none;
     }
-    .h2-social a:focus-visible {
-      outline: 3px solid rgba(255, 255, 255, 0.8);
-      outline-offset: 2px;
+    .h2-chip i { font-size: 0.85rem; flex-shrink: 0; }
+    .h2-chip:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+    /* ── Content area ───────────────────────────────────── */
+    .h2-body {
+      max-width: 1200px; margin: 0 auto;
+      padding: 2.25rem 1.5rem 5rem;
+    }
+    .h2-body a:link, .h2-body a:visited { color: var(--brand); text-decoration: none; }
+    .h2-body a:hover { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
+    .h2-body h2 {
+      font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 600;
+      letter-spacing: -0.02em; color: var(--ink); margin-top: 0;
+    }
+    .h2-body h3 {
+      font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600;
+      letter-spacing: -0.01em; color: var(--ink); margin-top: 0;
+    }
+    /* Strip Bootstrap container padding */
+    .h2-body .container-fluid { padding-left: 0; padding-right: 0; }
+
+    /* ── Section cards (top-level rows only) ────────────── */
+    .h2-body .container-fluid > .row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.875rem;
+      margin-left: 0 !important; margin-right: 0 !important;
+      box-shadow: var(--sh);
+      margin-bottom: 1.125rem;
+    }
+    /* First row: photo + bio — CSS Grid override */
+    .h2-body .container-fluid > .row:first-child {
+      display: grid !important;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 2.25rem; align-items: start;
+    }
+    .h2-body .container-fluid > .row:first-child > * {
+      padding-left: 0 !important; padding-right: 0 !important;
+      width: auto !important; max-width: none !important;
+    }
+    .h2-body .container-fluid > .row:first-child img {
+      border-radius: 10px; width: 100%; display: block;
+      box-shadow: var(--sh-up);
+    }
+    @media (max-width: 680px) {
+      .h2-body .container-fluid > .row:first-child { grid-template-columns: 1fr; }
     }
 
-    /* ---- Main content ---- */
-    .h2-main {
-      padding: 2.5rem 1.5rem 5rem;
+    /* Quick links — pill tags */
+    .h2-body ul[style*="list-style"] {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+      list-style: none !important; padding: 0; margin: 0 0 1.125rem;
     }
-    .h2-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      font-size: 1.0625rem;
+    .h2-body ul[style*="list-style"] li { text-align: left !important; }
+    .h2-body ul[style*="list-style"] a {
+      display: inline-block; font-size: 0.775rem; font-weight: 600;
+      padding: 0.28rem 0.8rem; background: var(--brand-lt);
+      color: var(--brand) !important; border: 1px solid rgba(0,88,137,0.18);
+      border-radius: 100px; transition: all 0.15s;
     }
-    .h2-content a:link,
-    .h2-content a:visited { color: var(--h2-primary); }
-    .h2-content a:hover   { color: var(--h2-primary-dark); text-decoration: underline; }
-
-    /* ---- Responsive ---- */
-    @media (max-width: 640px) {
-      .h2-nav-links { display: none; }
-      .h2-hero { padding: 2.5rem 1rem 4rem; }
+    .h2-body ul[style*="list-style"] a:hover {
+      background: var(--brand); color: white !important; text-decoration: none;
     }
 
-    /* ---- Print ---- */
+    /* Icon action cards (CV / Bio / Teaching) — nested .col-12.row */
+    .h2-body .col-12.row {
+      background: transparent !important; border: none !important;
+      box-shadow: none !important; padding: 0 !important;
+      margin: 0.75rem 0 0 !important;
+      display: flex !important; gap: 0.625rem; flex-wrap: nowrap;
+    }
+    .h2-body .col-4.d-inline-block {
+      flex: 1; min-width: 0;
+      background: var(--bg) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 10px !important;
+      padding: 0.875rem 0.5rem !important;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .h2-body .col-4.d-inline-block:hover {
+      background: var(--brand) !important; border-color: var(--brand) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,88,137,0.22) !important;
+    }
+    .h2-body .col-4.d-inline-block a { display: block; font-size: 0.72rem; font-weight: 500; color: var(--ink2) !important; }
+    .h2-body .col-4.d-inline-block a i { color: var(--brand); transition: color 0.2s; }
+    .h2-body .col-4.d-inline-block:hover a { color: white !important; }
+    .h2-body .col-4.d-inline-block:hover a i { color: white; }
+    @media (max-width: 480px) { .h2-body .col-12.row { flex-wrap: wrap !important; } }
+
+    /* COPALI banner */
+    .copali-summer { border-radius: 10px !important; margin-top: 1rem !important; }
+
+    /* OER book images */
+    .h2-body .col-sm-6.col-md-4.text-center img {
+      border-radius: 6px; box-shadow: var(--sh);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .h2-body .col-sm-6.col-md-4.text-center img:hover {
+      transform: translateY(-5px) scale(1.02); box-shadow: var(--sh-up);
+    }
+
+    /* Tools list */
+    .h2-body ul li { padding: 0.2rem 0; }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    footer {
+      background: var(--dark) !important;
+      border-top: 1px solid rgba(255,255,255,0.05) !important;
+    }
+    footer .h4 { color: white !important; }
+    footer .h4 a { color: white !important; }
+    footer a:not(.nav-link) { color: rgba(255,255,255,0.45) !important; border-bottom-color: rgba(255,255,255,0.15) !important; }
+    footer a:not(.nav-link):hover { color: white !important; }
+    footer .nav-link { color: rgba(255,255,255,0.45) !important; font-size: 1.25rem !important; }
+    footer .nav-link:hover { color: white !important; }
+    footer .my-3, footer .text-small, footer .mb-1, footer div { color: rgba(255,255,255,0.4); }
+
+    /* ── Print ──────────────────────────────────────────── */
     @media print {
-      .h2-navbar, .h2-hero { display: none !important; }
-      .h2-main { padding: 0; }
-      body { background: white; }
+      .h2-nav, .h2-hero { display: none !important; }
+      .h2-body .container-fluid > .row { box-shadow: none !important; border: 1px solid #ddd !important; }
+      body { background: white !important; }
     }
   </style>
   <body>
 
-    <!-- Sticky frosted-glass navigation -->
-    <nav class="h2-navbar d-print-none" aria-label="Site navigation">
-      <div class="h2-navbar-inner">
-        <a class="h2-brand" href="/">Logan Rath, PhD</a>
-        <ul class="h2-nav-links" role="list">
-          <li><a href="/about/">About</a></li>
-          <li><a href="/teaching/">Teaching</a></li>
-          <li><a href="/publications/">Publications</a></li>
-          <li><a href="/research/">Research</a></li>
-          <li><a href="/presentations/">Presentations</a></li>
-        </ul>
-      </div>
+    <nav class="h2-nav d-print-none" aria-label="Main navigation">
+      <a class="h2-nav-brand" href="/">Logan <b>Rath</b>, PhD</a>
+      <ul class="h2-nav-menu" role="list">
+        <li><a href="/about/">About</a></li>
+        <li><a href="/teaching/">Teaching</a></li>
+        <li><a href="/publications/">Publications</a></li>
+        <li><a href="/research/">Research</a></li>
+        <li><a href="/presentations/">Presentations</a></li>
+      </ul>
     </nav>
 
-    <!-- Hero section -->
-    <header class="h2-hero d-print-none">
+    <header class="h2-hero d-print-none" aria-label="Introduction">
       <div class="h2-hero-inner">
-        <h1 class="h2-hero-name">Logan Rath, <span class="h2-hero-degree">PhD</span></h1>
-        <p class="h2-hero-tagline">Librarian &bull; Researcher &bull; Educator</p>
-        <div class="h2-social" aria-label="Social and professional links">
-          <a href="mailto:logan@rath.phd" title="Email"><i class="fas fa-envelope" aria-hidden="true"></i><span class="visually-hidden">Email</span></a>
-          <a href="/rath_cv_web.pdf" title="Curriculum Vitae"><i class="ai ai-cv-square" aria-hidden="true"></i><span class="visually-hidden">CV</span></a>
-          <a href="https://www.brockport.edu/live/profiles/logan-rath" title="Brockport Profile"><i class="fas fa-university" aria-hidden="true"></i><span class="visually-hidden">Institution profile</span></a>
-          <a href="https://scholar.google.com/citations?user=sfO-kFAAAAAJ&hl=en" title="Google Scholar"><i class="ai ai-google-scholar-square" aria-hidden="true"></i><span class="visually-hidden">Google Scholar</span></a>
-          <a href="https://orcid.org/0000-0002-6221-4536" title="ORCID iD"><i class="fab fa-orcid" aria-hidden="true"></i><span class="visually-hidden">ORCID</span></a>
-          <a href="https://github.com/loganrath" title="GitHub"><i class="fab fa-github" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
-          <a href="https://linkedin.com/in/loganrath" title="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span class="visually-hidden">LinkedIn</span></a>
-          <a rel="me" href="https://kind.social/@logan" title="Mastodon"><i class="fab fa-mastodon" aria-hidden="true"></i><span class="visually-hidden">Mastodon</span></a>
+        <p class="h2-eyebrow">Librarian &middot; Researcher &middot; Educator</p>
+        <h1 class="h2-hero-name">Logan Rath<span class="muted">,&thinsp;PhD</span></h1>
+        <p class="h2-hero-desc">Researching information literacy as a social practice, effective library instruction, and teacher-librarian collaboration &mdash; with a growing interest in multimodality.</p>
+        <div class="h2-chips" aria-label="Links and profiles">
+          <a class="h2-chip" href="mailto:logan@rath.phd"><i class="fas fa-envelope" aria-hidden="true"></i>Email</a>
+          <a class="h2-chip" href="/rath_cv_web.pdf"><i class="ai ai-cv-square" aria-hidden="true"></i>CV</a>
+          <a class="h2-chip" href="https://www.brockport.edu/live/profiles/logan-rath"><i class="fas fa-university" aria-hidden="true"></i>Brockport</a>
+          <a class="h2-chip" href="https://scholar.google.com/citations?user=sfO-kFAAAAAJ&hl=en"><i class="ai ai-google-scholar-square" aria-hidden="true"></i>Scholar</a>
+          <a class="h2-chip" href="https://orcid.org/0000-0002-6221-4536"><i class="fab fa-orcid" aria-hidden="true"></i>ORCID</a>
+          <a class="h2-chip" href="https://github.com/loganrath"><i class="fab fa-github" aria-hidden="true"></i>GitHub</a>
+          <a class="h2-chip" href="https://linkedin.com/in/loganrath"><i class="fab fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
+          <a class="h2-chip" rel="me" href="https://kind.social/@logan"><i class="fab fa-mastodon" aria-hidden="true"></i>Mastodon</a>
         </div>
       </div>
     </header>
 
-    <!-- Page content from index.html -->
-    <main class="h2-main">
-      <div class="h2-content">
-        {{ content }}
-      </div>
+    <main class="h2-body">
+      {{ content }}
     </main>
 
     {% include footer.html %}
