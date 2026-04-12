@@ -97,16 +97,8 @@
     .h3-hero {
       background: var(--hero-grad);
       position: relative; overflow: hidden;
-      padding: 2.75rem 1.75rem 4.5rem;  /* extra bottom for wave overlap */
+      padding: 1.5rem 1.75rem;
       box-shadow: 0 8px 32px rgba(3, 105, 161, 0.25);
-    }
-    /* Wave bottom edge, exact from COPALI */
-    .h3-hero::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 60"><defs><pattern id="wave" x="0" y="0" width="120" height="60" patternUnits="userSpaceOnUse"><path d="M0,30 Q30,10 60,30 T120,30" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/></pattern></defs><rect width="1200" height="60" fill="url(%23wave)"/></svg>') no-repeat bottom;
-      background-size: contain;
-      pointer-events: none;
     }
     /* Decorative top-right glow orb */
     .h3-hero::before {
@@ -143,7 +135,7 @@
     .h3-hero-desc {
       font-size: clamp(0.95rem, 2vw, 1.0625rem);
       color: rgba(255,255,255,0.85); font-weight: 400; line-height: 1.75;
-      max-width: 54ch; margin: 0 0 2rem;
+      margin: 0 0 2rem;
     }
     /* Social chips — white ghost style on gradient */
     .h3-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
@@ -235,10 +227,11 @@
     }
     .h3-body .col-4.d-inline-block {
       flex: 1; min-width: 0;
-      background: var(--bg) !important;
-      border: 1px solid var(--border) !important;
+      background: var(--surface) !important;
+      border: 1px solid rgba(3,105,161,0.18) !important;
       border-radius: 10px !important;
       padding: 0.875rem 0.5rem !important;
+      box-shadow: var(--sh);
       transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
     }
     .h3-body .col-4.d-inline-block:hover {
