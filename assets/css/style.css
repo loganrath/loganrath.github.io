@@ -89,7 +89,7 @@ div.apa {
 }
 
 .cover-bg {
-  background: linear-gradient(123deg,rgba(42, 123, 155, 1) 0%, rgba(3, 105, 161, 0.96) 36%, rgba(32, 145, 123, 1) 100%); /* #005889 */;
+  background: linear-gradient(135deg, #0369A1 0%, #0E7490 50%, #0F766E 100%) /* #005889 */;
   border-radius: 10px 10px 0 0; }
 
 .main-content a:link, .main-content a:visited {color: #005899 !important;}
