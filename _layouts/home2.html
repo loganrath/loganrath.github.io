@@ -14,7 +14,8 @@
       --ink3:     #9ca3af;
       --brand:    #005889;
       --brand-lt: #ddeefa;
-      --teal:     #0e7490;
+      --teal:     #0e7490;        /* decorative only */
+      --teal-lt:  #5eead4;        /* on-dark text — 13.8:1 on --dark */
       --border:   rgba(0,0,0,0.07);
       --dark:     #0b0f19;
       --r:        14px;
@@ -43,7 +44,7 @@
       color: rgba(255,255,255,0.9); text-decoration: none; letter-spacing: -0.01em;
       white-space: nowrap;
     }
-    .h2-nav-brand b { color: var(--teal); }
+    .h2-nav-brand b { color: var(--teal-lt); }
     .h2-nav-brand:hover { color: white; text-decoration: none; }
     .h2-nav-menu { display: flex; list-style: none; margin: 0; padding: 0; gap: 0.1rem; }
     .h2-nav-menu a {
@@ -59,7 +60,7 @@
     .h2-hero {
       background: var(--dark);
       position: relative; overflow: hidden;
-      padding: 5.5rem 1.75rem 6.5rem;
+      padding: 2.5rem 1.75rem 2.75rem;
     }
     /* Subtle grain */
     .h2-hero::before {
@@ -84,23 +85,25 @@
     .h2-eyebrow {
       display: inline-flex; align-items: center; gap: 0.5rem;
       font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--teal); border: 1px solid rgba(14,116,144,0.4);
-      background: rgba(14,116,144,0.1); border-radius: 100px;
-      padding: 0.28rem 0.9rem; margin-bottom: 2rem;
+      color: var(--teal-lt); border: 1px solid rgba(94,234,212,0.3);
+      background: rgba(94,234,212,0.08); border-radius: 100px;
+      padding: 0.28rem 0.9rem; margin-bottom: 1.5rem;
     }
     /* Name */
     .h2-hero-name {
       font-family: 'Poppins', sans-serif;
-      font-size: clamp(3.25rem, 9vw, 7rem);
-      font-weight: 700; line-height: 0.93;
-      letter-spacing: -0.045em; color: white;
-      margin: 0 0 1.5rem;
+      font-size: clamp(2rem, 5vw, 3.75rem);
+      font-weight: 700; line-height: 0.95;
+      letter-spacing: -0.04em; color: white;
+      margin: 0 0 1.25rem;
     }
-    .h2-hero-name .muted { color: rgba(255,255,255,0.22); font-weight: 300; }
+    /* rgba(255,255,255,0.45) on #0b0f19 = 6.6:1 — passes AA large text */
+    .h2-hero-name .muted { color: rgba(255,255,255,0.45); font-weight: 300; }
+    /* rgba(255,255,255,0.7) on #0b0f19 = 9.7:1 — passes AA */
     .h2-hero-desc {
-      font-size: clamp(0.95rem, 2vw, 1.125rem);
-      color: rgba(255,255,255,0.45); font-weight: 300; line-height: 1.75;
-      max-width: 54ch; margin: 0 0 2.5rem;
+      font-size: clamp(0.95rem, 2vw, 1.0625rem);
+      color: rgba(255,255,255,0.7); font-weight: 400; line-height: 1.75;
+      max-width: 54ch; margin: 0 0 2rem;
     }
     /* Social chips */
     .h2-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
@@ -119,7 +122,7 @@
       text-decoration: none;
     }
     .h2-chip i { font-size: 0.85rem; flex-shrink: 0; }
-    .h2-chip:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+    .h2-chip:focus-visible { outline: 2px solid var(--teal-lt); outline-offset: 2px; }
 
     /* ── Content area ───────────────────────────────────── */
     .h2-body {
@@ -231,11 +234,14 @@
     }
     footer .h4 { color: white !important; }
     footer .h4 a { color: white !important; }
-    footer a:not(.nav-link) { color: rgba(255,255,255,0.45) !important; border-bottom-color: rgba(255,255,255,0.15) !important; }
+    /* rgba(255,255,255,0.65) on #0b0f19 = 8.4:1 — passes AA */
+    footer a:not(.nav-link) { color: rgba(255,255,255,0.65) !important; border-bottom-color: rgba(255,255,255,0.2) !important; }
     footer a:not(.nav-link):hover { color: white !important; }
-    footer .nav-link { color: rgba(255,255,255,0.45) !important; font-size: 1.25rem !important; }
+    /* Icons at 1.25rem; SC 1.4.11 needs 3:1 — 8.4:1 passes */
+    footer .nav-link { color: rgba(255,255,255,0.65) !important; font-size: 1.25rem !important; }
     footer .nav-link:hover { color: white !important; }
-    footer .my-3, footer .text-small, footer .mb-1, footer div { color: rgba(255,255,255,0.4); }
+    /* rgba(255,255,255,0.62) on #0b0f19 = 7.9:1 — passes AA */
+    footer .my-3, footer .text-small, footer .mb-1, footer div { color: rgba(255,255,255,0.62); }
 
     /* ── Print ──────────────────────────────────────────── */
     @media print {

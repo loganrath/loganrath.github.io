@@ -1,0 +1,479 @@
+---
+title: "Logan Rath, PhD"
+layout: none
+---
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logan Rath, PhD</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <style>
+    :root {
+      --bg:      #030712;
+      --surface: rgba(255,255,255,0.04);
+      --border:  rgba(255,255,255,0.07);
+      --teal:    #2dd4bf;
+      --blue:    #60a5fa;
+      --violet:  #a78bfa;
+      --text:    rgba(255,255,255,0.87);
+      --muted:   rgba(255,255,255,0.42);
+      --dim:     rgba(255,255,255,0.18);
+      --font:    'Inter', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html  { scroll-behavior: smooth; }
+    body  { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.65; overflow-x: hidden; }
+
+    /* ── Animated aurora orbs ──────────────────────────── */
+    .aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(100px); opacity: 0; /* start invisible, fade in via animation */
+    }
+    .orb-1 {
+      width: 72vw; height: 72vw; max-width: 800px; max-height: 800px;
+      background: radial-gradient(circle at 40% 40%, rgba(45,212,191,0.32) 0%, transparent 65%);
+      top: -25%; left: -20%;
+      animation: drift1 28s ease-in-out infinite, fadein 2s ease-out 0.2s forwards;
+    }
+    .orb-2 {
+      width: 60vw; height: 60vw; max-width: 700px; max-height: 700px;
+      background: radial-gradient(circle at 55% 50%, rgba(167,139,250,0.28) 0%, transparent 65%);
+      top: 5%; right: -18%;
+      animation: drift2 35s ease-in-out infinite, fadein 2s ease-out 0.5s forwards;
+    }
+    .orb-3 {
+      width: 50vw; height: 50vw; max-width: 600px; max-height: 600px;
+      background: radial-gradient(circle at 50% 60%, rgba(96,165,250,0.22) 0%, transparent 65%);
+      bottom: -15%; left: 25%;
+      animation: drift3 22s ease-in-out infinite, fadein 2s ease-out 0.8s forwards;
+    }
+    .orb-4 {
+      width: 40vw; height: 40vw; max-width: 450px; max-height: 450px;
+      background: radial-gradient(circle at 45% 45%, rgba(45,212,191,0.18) 0%, transparent 65%);
+      top: 40%; right: 5%;
+      animation: drift4 30s ease-in-out infinite, fadein 2s ease-out 1s forwards;
+    }
+    @keyframes fadein { to { opacity: 1; } }
+    @keyframes drift1 {
+      0%,100% { transform: translate(0,0) scale(1); }
+      30%     { transform: translate(6vw,-5vh) scale(1.05); }
+      60%     { transform: translate(-4vw,8vh) scale(0.97); }
+    }
+    @keyframes drift2 {
+      0%,100% { transform: translate(0,0) scale(1); }
+      25%     { transform: translate(-8vw,4vh) scale(1.04); }
+      55%     { transform: translate(5vw,-6vh) scale(0.98); }
+    }
+    @keyframes drift3 {
+      0%,100% { transform: translate(0,0) scale(1); }
+      40%     { transform: translate(7vw,-3vh) scale(1.06); }
+      70%     { transform: translate(-3vw,5vh) scale(0.95); }
+    }
+    @keyframes drift4 {
+      0%,100% { transform: translate(0,0) scale(1); }
+      35%     { transform: translate(-5vw,6vh) scale(1.03); }
+      65%     { transform: translate(4vw,-4vh) scale(0.97); }
+    }
+
+    /* ── Everything sits above the aurora ─────────────── */
+    nav, header, main, footer { position: relative; z-index: 10; }
+
+    /* ── Navigation ────────────────────────────────────── */
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 56px;
+      background: rgba(3,7,18,0.6);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand {
+      font-size: 0.875rem; font-weight: 600; letter-spacing: -0.02em;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-brand span { color: var(--teal); }
+    .nav-brand:hover { color: white; text-decoration: none; }
+    .nav-menu { display: flex; list-style: none; gap: 0; }
+    .nav-menu a {
+      display: block; font-size: 0.775rem; font-weight: 500;
+      color: var(--muted); text-decoration: none; padding: 0 0.875rem; line-height: 56px;
+      transition: color 0.15s;
+    }
+    .nav-menu a:hover { color: var(--text); }
+    @media (max-width: 600px) { .nav-menu { display: none; } }
+
+    /* ── Hero ──────────────────────────────────────────── */
+    .hero {
+      min-height: calc(100svh - 56px);
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 6rem 2rem 5rem; max-width: 1000px; margin: 0 auto;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--teal); padding: 0.28rem 0.85rem;
+      border: 1px solid rgba(45,212,191,0.3); border-radius: 100px;
+      background: rgba(45,212,191,0.08); margin-bottom: 2.5rem;
+    }
+    .hero-eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+    .hero-name {
+      font-size: clamp(4rem, 10vw, 8.5rem);
+      font-weight: 900; line-height: 0.88;
+      letter-spacing: -0.055em; color: #fff; margin-bottom: 1rem;
+    }
+    .hero-name .grad {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--blue) 50%, var(--violet) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-bio {
+      font-size: clamp(1rem, 1.8vw, 1.2rem); font-weight: 300; line-height: 1.75;
+      color: var(--muted); max-width: 52ch; margin-bottom: 3rem;
+    }
+    /* Chip row */
+    .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.775rem; font-weight: 500;
+      color: var(--muted); border: 1px solid var(--border);
+      padding: 0.375rem 0.9rem 0.375rem 0.75rem;
+      border-radius: 100px; background: var(--surface);
+      backdrop-filter: blur(12px); text-decoration: none;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .chip:hover { color: var(--teal); border-color: rgba(45,212,191,0.4); background: rgba(45,212,191,0.07); text-decoration: none; }
+    .chip i { font-size: 0.82rem; }
+
+    /* ── Scroll hint ───────────────────────────────────── */
+    .scroll-hint {
+      margin-top: 4rem; display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim);
+    }
+    .scroll-hint::before {
+      content: ''; display: block; width: 30px; height: 1px; background: var(--dim);
+    }
+
+    /* ── Content section ───────────────────────────────── */
+    .content-wrap { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+
+    /* Section label */
+    .sec-label {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;
+    }
+    .sec-label span {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--teal);
+    }
+    .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* Cards */
+    .card-grid { display: grid; gap: 1rem; margin-bottom: 1.5rem; }
+    .cg-2 { grid-template-columns: repeat(2, 1fr); }
+    .cg-3 { grid-template-columns: repeat(3, 1fr); }
+    .cg-43 { grid-template-columns: 5fr 4fr; }
+    @media (max-width: 900px) { .cg-2,.cg-3,.cg-43 { grid-template-columns: 1fr; } }
+    @media (min-width: 601px) and (max-width: 900px) { .cg-3 { grid-template-columns: repeat(2, 1fr); } }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.75rem; backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: border-color 0.25s, background 0.25s, transform 0.25s;
+    }
+    .card:hover { border-color: rgba(255,255,255,0.14); background: rgba(255,255,255,0.06); transform: translateY(-2px); }
+    .card-head {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 1.125rem;
+    }
+    .card-head i { color: var(--teal); font-size: 0.85rem; }
+    .card h2 {
+      font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em;
+      color: #fff; line-height: 1.2; margin-bottom: 0.875rem;
+    }
+    .card p { font-size: 0.9125rem; color: var(--muted); line-height: 1.72; }
+    .card a { color: var(--teal); text-decoration: none; }
+    .card a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .card p a { color: inherit; }
+    .card p a:hover { color: var(--teal); }
+
+    /* Action tiles inside a card */
+    .action-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 1.25rem; }
+    .action-tile {
+      display: block; text-align: center; text-decoration: none;
+      padding: 0.875rem 0.5rem;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--muted);
+      transition: all 0.2s;
+    }
+    .action-tile:hover { background: rgba(45,212,191,0.12); border-color: rgba(45,212,191,0.35); color: var(--teal); transform: translateY(-2px); text-decoration: none; }
+    .action-tile i { display: block; font-size: 1.5rem; margin-bottom: 0.3rem; }
+    .action-tile span { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* Research list */
+    .rlist { list-style: none; padding: 0; }
+    .rlist li {
+      display: grid; grid-template-columns: 1.75rem 1fr;
+      gap: 0.75rem; padding: 0.875rem 0;
+      border-bottom: 1px solid var(--border); align-items: start;
+    }
+    .rlist li:last-child { border-bottom: none; }
+    .rnum {
+      font-size: 1.5rem; font-weight: 800; color: rgba(45,212,191,0.35);
+      line-height: 1.15; font-feature-settings: 'tnum';
+    }
+    .rtext { font-size: 0.875rem; color: var(--muted); line-height: 1.6; padding-top: 0.25rem; }
+
+    /* Link list */
+    .llist { list-style: none; padding: 0; }
+    .llist li { border-bottom: 1px solid var(--border); }
+    .llist li:last-child { border-bottom: none; }
+    .llist a {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.875rem; color: var(--muted); text-decoration: none;
+      padding: 0.55rem 0; transition: color 0.15s;
+    }
+    .llist a::after { content: '→'; font-size: 0.75rem; color: var(--dim); transition: color 0.15s, transform 0.15s; }
+    .llist a:hover { color: var(--teal); }
+    .llist a:hover::after { color: var(--teal); transform: translateX(3px); }
+
+    /* COPALI */
+    .copali-card {
+      display: block; text-decoration: none; color: white;
+      background: linear-gradient(135deg, #0369A1 0%, #0E7490 50%, #0F766E 100%);
+      border: 1px solid rgba(255,255,255,0.12) !important;
+      position: relative; overflow: hidden;
+    }
+    .copali-card::after {
+      content: ''; position: absolute; right: -40px; top: -40px;
+      width: 180px; height: 180px; border-radius: 50%;
+      background: rgba(255,255,255,0.07); pointer-events: none;
+    }
+    .copali-card:hover { color: white; text-decoration: none; transform: translateY(-2px); }
+    .copali-card h2 { color: white !important; font-size: 1.35rem; margin-bottom: 0.3rem; }
+    .copali-card p { color: rgba(255,255,255,0.7) !important; font-size: 0.85rem; }
+
+    /* OER images */
+    .oer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.25rem; }
+    .oer-book a { text-decoration: none; color: var(--muted); }
+    .oer-book img {
+      width: 100%; border-radius: 8px; display: block; margin-bottom: 0.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .oer-book img:hover { transform: scale(1.03) translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.65); }
+    .oer-book small { font-size: 0.78rem; line-height: 1.45; display: block; }
+
+    /* AI tools numbered */
+    .toolist { list-style: none; padding: 0; counter-reset: t; }
+    .toolist li {
+      counter-increment: t; display: grid; grid-template-columns: 1.75rem 1fr;
+      gap: 0.5rem; align-items: start; padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .toolist li:last-child { border-bottom: none; }
+    .toolist li::before { content: counter(t, decimal-leading-zero); font-size: 0.65rem; color: var(--teal); font-weight: 700; padding-top: 0.15rem; opacity: 0.7; }
+    .toolist a { font-size: 0.86rem; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .toolist a:hover { color: var(--teal); }
+
+    /* Pills */
+    .pills { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; padding: 0; }
+    .pills a {
+      display: inline-block; font-size: 0.75rem; font-weight: 500;
+      padding: 0.3rem 0.8rem;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 100px;
+      color: var(--muted); text-decoration: none;
+      transition: all 0.15s;
+    }
+    .pills a:hover { color: var(--teal); border-color: rgba(45,212,191,0.4); background: rgba(45,212,191,0.07); }
+
+    /* Span helpers */
+    .span-2 { grid-column: span 2; }
+    @media (max-width: 900px) { .span-2 { grid-column: span 1; } }
+
+    /* ── Footer ────────────────────────────────────────── */
+    footer {
+      position: relative; z-index: 10;
+      background: rgba(3,7,18,0.8); backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem; text-align: center;
+    }
+    .ft-name { font-size: 1.1rem; font-weight: 700; color: white; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .ft-icons { display: flex; justify-content: center; gap: 0.875rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .ft-icons a { color: var(--dim); font-size: 1.05rem; text-decoration: none; transition: color 0.15s; }
+    .ft-icons a:hover { color: var(--teal); }
+    .ft-copy { font-size: 0.75rem; color: var(--dim); }
+
+    @media print { .aurora, nav { display: none; } body { background: white; color: black; } }
+  </style>
+</head>
+<body>
+
+  <!-- Animated aurora background -->
+  <div class="aurora" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="nav" aria-label="Main navigation">
+    <a class="nav-brand" href="/">Logan <span>Rath</span>, PhD</a>
+    <ul class="nav-menu" role="list">
+      <li><a href="/about/">About</a></li>
+      <li><a href="/teaching/">Teaching</a></li>
+      <li><a href="/publications/">Publications</a></li>
+      <li><a href="/research/">Research</a></li>
+      <li><a href="/presentations/">Talks</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" aria-label="Introduction">
+    <p class="hero-eyebrow">Librarian &middot; Researcher &middot; Educator</p>
+    <h1 class="hero-name">
+      Logan<br>
+      <span class="grad">Rath,&thinsp;PhD</span>
+    </h1>
+    <p class="hero-bio">I research information literacy as a social practice, effective library instruction, and teacher&ndash;librarian collaboration &mdash; with a growing interest in multimodality.</p>
+    <div class="chips" aria-label="Profiles and links">
+      <a class="chip" href="mailto:logan@rath.phd"><i class="fas fa-envelope" aria-hidden="true"></i> Email</a>
+      <a class="chip" href="/rath_cv_web.pdf"><i class="ai ai-cv-square" aria-hidden="true"></i> CV</a>
+      <a class="chip" href="https://www.brockport.edu/live/profiles/logan-rath"><i class="fas fa-university" aria-hidden="true"></i> Brockport</a>
+      <a class="chip" href="https://scholar.google.com/citations?user=sfO-kFAAAAAJ&hl=en"><i class="ai ai-google-scholar-square" aria-hidden="true"></i> Scholar</a>
+      <a class="chip" href="https://orcid.org/0000-0002-6221-4536"><i class="fab fa-orcid" aria-hidden="true"></i> ORCID</a>
+      <a class="chip" href="https://github.com/loganrath"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a>
+      <a class="chip" href="https://linkedin.com/in/loganrath"><i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
+      <a class="chip" rel="me" href="https://kind.social/@logan"><i class="fab fa-mastodon" aria-hidden="true"></i> Mastodon</a>
+    </div>
+    <p class="scroll-hint" aria-hidden="true">Scroll to explore</p>
+  </header>
+
+  <!-- Content -->
+  <main class="content-wrap">
+
+    <!-- About + Research + Quick links -->
+    <div class="sec-label"><span>About &amp; Research</span></div>
+    <div class="card-grid cg-3" style="margin-bottom:1rem;">
+      <div class="card">
+        <p class="card-head"><i class="fas fa-user" aria-hidden="true"></i> About</p>
+        <p>Librarian and adjunct professor at SUNY Brockport. My research sits at the intersection of information literacy, social practice theory, and K&ndash;12 teacher collaboration.</p>
+        <div class="action-tiles" aria-label="Quick actions">
+          <a class="action-tile" href="/rath_cv_web.pdf"><i class="fa fa-file-pdf" aria-hidden="true"></i><span>CV</span></a>
+          <a class="action-tile" href="/about/"><i class="fa fa-id-card" aria-hidden="true"></i><span>Bio</span></a>
+          <a class="action-tile" href="/teaching/"><i class="fa fa-person-chalkboard" aria-hidden="true"></i><span>Classes</span></a>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-head"><i class="fas fa-microscope" aria-hidden="true"></i> Current Research</p>
+        <ul class="rlist" aria-label="Research projects">
+          <li><span class="rnum">1</span><span class="rtext">Perceptions of Generative AI Among Pre-Service Teachers</span></li>
+          <li><span class="rnum">2</span><span class="rtext">Academic Librarians&rsquo; Use of Knowledge Practices in the ACRL <em>Framework</em></span></li>
+          <li><span class="rnum">3</span><span class="rtext">Longitudinal Study of Undergraduate Students&rsquo; Library Use</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <p class="card-head"><i class="fas fa-link" aria-hidden="true"></i> Quick Links</p>
+        <ul class="llist" aria-label="Site tools">
+          <li><a href="/mtp">Geneseo MTP Links</a></li>
+          <li><a href="/pico/">PICO(T) Generator</a></li>
+          <li><a href="/keywords/">Keyword Generator</a></li>
+          <li><a href="/qr">QR Code Generator</a></li>
+          <li><a href="/libkey/">LibKey DOI Resolver</a></li>
+          <li><a href="/kaltura">Kaltura Link Generator</a></li>
+          <li><a href="/ebsco/">EBSCO Permalinks</a></li>
+          <li><a href="/xlh/">XLH Research Links</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- COPALI -->
+    <div class="card-grid" style="grid-template-columns: 1fr; margin-bottom: 1.5rem;">
+      <a class="card copali-card" href="/copali2026" aria-label="COPALI Pedagogy Summer Community of Practice">
+        <p class="card-head" style="color: rgba(255,255,255,0.5);"><i class="fas fa-people-group" aria-hidden="true" style="color:rgba(255,255,255,0.7)"></i> Featured Program</p>
+        <h2>COPALI Pedagogy</h2>
+        <p>A Summer Community of Practice for Academic Librarians</p>
+      </a>
+    </div>
+
+    <!-- OERs + Tools -->
+    <div class="sec-label"><span>Open Educational Resources &amp; Tools</span></div>
+    <div class="card-grid cg-43" style="margin-bottom:1.5rem;">
+      <div class="card">
+        <p class="card-head"><i class="fas fa-book-open" aria-hidden="true"></i> My OERs</p>
+        <div class="oer-grid">
+          <div class="oer-book">
+            <a href="https://copali.pressbooks.suny.edu">
+              <img src="https://copali.pressbooks.sunycreate.cloud/wp-content/uploads/sites/175/2025/05/COPALI-cover-768x960.jpg" alt="COPALI OER book cover">
+              <small>Communities of Practice for the Advancement of Library Instruction: An OER Curriculum</small>
+            </a>
+          </div>
+          <div class="oer-book">
+            <a href="https://big6literacy.pressbooks.sunycreate.cloud">
+              <img src="https://big6literacy.pressbooks.sunycreate.cloud/wp-content/uploads/sites/154/2025/01/Big-6-Handbook-Literacy-Activities-768x1024.jpg" alt="Big 6 Handbook cover">
+              <small>Big 6 Handbook: Activities to Support Literacy in New York State</small>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-head"><i class="fas fa-robot" aria-hidden="true"></i> AI&ndash;Coded Tools</p>
+        <ul class="toolist" aria-label="Tools built with AI assistance">
+          <li><a href="/pico/">PICO(T) Search Term Generator</a></li>
+          <li><a href="/keywords/">General Search Term Generator</a></li>
+          <li><a href="/crisp">CRISP Prompt Builder for GenAI</a></li>
+          <li><a href="/libkey/">DOI &amp; PMID Resolver via LibKey</a></li>
+          <li><a href="/multimodal-big6">Multimodal Big 6 Activity Ideas K&ndash;12</a></li>
+          <li><a href="/disciplinary-literacy-with-ai">AI Disciplinary Literacy Activities K&ndash;12</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- More tools -->
+    <div class="sec-label"><span>More Tools &amp; Links</span></div>
+    <div class="card-grid" style="grid-template-columns:1fr;">
+      <div class="card">
+        <ul class="pills" aria-label="Additional tools">
+          <li><a href="/qr">QR Code Generator</a></li>
+          <li><a href="bpt2alb/">Brockport &harr; Albany</a></li>
+          <li><a href="bpt2buf/">Brockport &harr; Buffalo</a></li>
+          <li><a href="bpt2esc/">Brockport &harr; Empire</a></li>
+          <li><a href="/kaltura">Kaltura Link Generator</a></li>
+          <li><a href="/ebsco/">EBSCO Permalink Generator</a></li>
+          <li><a href="/xlh/">XLH Research Links</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p class="ft-name">Logan Rath, PhD</p>
+    <div class="ft-icons" aria-label="Social profiles">
+      <a href="mailto:logan@rath.phd" title="Email"><i class="fas fa-envelope" aria-hidden="true"></i></a>
+      <a href="/rath_cv_web.pdf" title="CV"><i class="ai ai-cv-square" aria-hidden="true"></i></a>
+      <a href="https://www.brockport.edu/live/profiles/logan-rath" title="Brockport"><i class="fas fa-university" aria-hidden="true"></i></a>
+      <a href="https://scholar.google.com/citations?user=sfO-kFAAAAAJ&hl=en" title="Google Scholar"><i class="ai ai-google-scholar-square" aria-hidden="true"></i></a>
+      <a href="https://orcid.org/0000-0002-6221-4536" title="ORCID"><i class="fab fa-orcid" aria-hidden="true"></i></a>
+      <a href="https://github.com/loganrath" title="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
+      <a href="https://linkedin.com/in/loganrath" title="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+      <a rel="me" href="https://kind.social/@logan" title="Mastodon"><i class="fab fa-mastodon" aria-hidden="true"></i></a>
+    </div>
+    <p class="ft-copy">&copy; Logan Rath</p>
+  </footer>
+
+</body>
+</html>
