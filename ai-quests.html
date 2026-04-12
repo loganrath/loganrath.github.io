@@ -1,0 +1,487 @@
+---
+title: "Quest Planner: AI-Powered Quest Types for K-12"
+layout: tool
+---
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .quest-shell {
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 26px 16px 48px;
+        color: #17304a;
+        font-family: "Trebuchet MS", "Avenir Next", "Segoe UI", sans-serif;
+    }
+
+    .quest-hero {
+        border-radius: 22px;
+        padding: 26px 24px;
+        border: 1px solid #c7d9ee;
+        background: linear-gradient(138deg, #e9f3ff 0%, #f6fbff 38%, #fff7de 100%);
+        box-shadow: 0 12px 30px rgba(16, 46, 76, 0.11);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .quest-hero::after {
+        content: "";
+        position: absolute;
+        right: -40px;
+        top: -46px;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: radial-gradient(circle at center, rgba(234, 182, 63, 0.35), rgba(234, 182, 63, 0));
+        pointer-events: none;
+    }
+
+    .quest-title {
+        margin: 0;
+        font-size: clamp(2rem, 3.8vw, 3rem);
+        line-height: 1.08;
+        color: #0c2744;
+        letter-spacing: 0.01em;
+    }
+
+    .quest-subtitle {
+        margin: 12px 0 0;
+        max-width: 75ch;
+        line-height: 1.68;
+        color: #294664;
+        font-size: 1.03rem;
+    }
+
+    .control-panel,
+    .usage-panel {
+        margin-top: 24px;
+        border-radius: 18px;
+        border: 1px solid #d4e2f0;
+        background: #ffffff;
+        box-shadow: 0 10px 28px rgba(16, 46, 76, 0.08);
+        padding: 20px;
+    }
+
+    .control-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 14px;
+    }
+
+    .control-block label {
+        display: block;
+        font-weight: 700;
+        color: #15304d;
+        margin-bottom: 8px;
+    }
+
+    .control-block select,
+    .control-block input,
+    .control-block textarea {
+        width: 100%;
+        border: 2px solid #84a9d3;
+        border-radius: 12px;
+        padding: 11px 12px;
+        color: #102a43;
+        font-size: 1rem;
+        background: #ffffff;
+    }
+
+    .control-block textarea {
+        min-height: 94px;
+        resize: vertical;
+        line-height: 1.45;
+    }
+
+    .control-block select:focus,
+    .control-block input:focus,
+    .control-block textarea:focus {
+        outline: none;
+        border-color: #0e4f9a;
+        box-shadow: 0 0 0 4px rgba(14, 79, 154, 0.16);
+    }
+
+    .panel-copy {
+        margin-top: 12px;
+        color: #3a5673;
+        line-height: 1.6;
+    }
+
+    .quest-grid {
+        margin-top: 26px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+    }
+
+    .quest-card {
+        border: 1px solid #d8e4f0;
+        border-radius: 16px;
+        padding: 16px;
+        background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+        display: flex;
+        flex-direction: column;
+        min-height: 248px;
+    }
+
+    .quest-name {
+        margin: 0;
+        font-size: 1.05rem;
+        color: #0f2b48;
+        letter-spacing: 0.04em;
+    }
+
+    .quest-purpose,
+    .quest-use,
+    .quest-example {
+        margin-top: 10px;
+        color: #35506b;
+        line-height: 1.55;
+        font-size: 0.96rem;
+    }
+
+    .quest-example {
+        margin-top: 8px;
+        font-style: italic;
+    }
+
+    .quest-action {
+        margin-top: auto;
+        padding-top: 14px;
+    }
+
+    .action-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #0f4c81;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 10px 14px;
+        font-weight: 700;
+        box-shadow: 0 10px 24px rgba(9, 71, 130, 0.24);
+        transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    .action-link:hover,
+    .action-link:focus {
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-1px);
+        filter: brightness(0.94);
+        box-shadow: 0 12px 26px rgba(9, 71, 130, 0.3);
+    }
+
+    .action-link:focus-visible {
+        outline: 3px solid rgba(14, 79, 154, 0.26);
+        outline-offset: 3px;
+    }
+
+    .quest-btn-anchor {
+        background: #0b3c5d;
+    }
+
+    .quest-btn-clarity {
+        background: #7a1e3a;
+    }
+
+    .quest-btn-compare {
+        background: #14532d;
+    }
+
+    .quest-btn-critique {
+        background: #4c1d95;
+    }
+
+    .quest-btn-growth {
+        background: #7c2d12;
+    }
+
+    .quest-btn-levelup {
+        background: #1f2937;
+    }
+
+    .quest-btn-mission {
+        background: #005f73;
+    }
+
+    .quest-btn-perspective {
+        background: #6b21a8;
+    }
+
+    .quest-btn-reverse {
+        background: #0b4f6c;
+    }
+
+    .quest-btn-rightsizing {
+        background: #3f3f46;
+    }
+
+    .usage-panel h2 {
+        color: #0f2b48;
+        margin: 0 0 10px;
+    }
+
+    .usage-panel p,
+    .usage-panel li {
+        color: #35506b;
+        line-height: 1.65;
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    @media (max-width: 720px) {
+        .quest-shell {
+            padding: 18px 10px 32px;
+        }
+
+        .quest-hero,
+        .control-panel,
+        .usage-panel {
+            padding: 16px;
+        }
+    }
+</style>
+
+<div class="quest-shell">
+    <header class="quest-hero">
+        <p class="quest-subtitle">Use these 10 quest structures to plan discussion, reading, writing, inquiry, and reflection routines. Each quest opens a pre-filled CRISP prompt you can tailor to your lesson, standards, and students.</p>
+    </header>
+
+    <section class="control-panel" aria-labelledby="quest-controls-title">
+        <h2 id="quest-controls-title">Customize your quest prompts</h2>
+        <div class="control-row">
+            <div class="control-block">
+                <label for="quest-grade-band">Grade band</label>
+                <select id="quest-grade-band" aria-describedby="quest-help planner-status">
+                    <option value="k-2">K-2</option>
+                    <option value="3-5">3-5</option>
+                    <option value="6-8">6-8</option>
+                    <option value="9-12">9-12</option>
+                </select>
+            </div>
+            <div class="control-block">
+                <label for="quest-subject">Subject or course</label>
+                <input id="quest-subject" type="text" value="ELA or content-area literacy" aria-describedby="quest-help planner-status">
+            </div>
+            <div class="control-block">
+                <label for="quest-request">Request for the AI</label>
+                <textarea id="quest-request" aria-describedby="quest-help planner-status">Create a classroom-ready quest plan with clear steps and a quick formative check.</textarea>
+            </div>
+        </div>
+        <p id="quest-help" class="panel-copy">Change the fields above and every Build Prompt button updates automatically. Unit context is already included in each generated prompt.</p>
+    </section>
+
+    <section aria-labelledby="quest-grid-title">
+        <h2 id="quest-grid-title" class="sr-only">Quest types</h2>
+        <div id="quest-grid" class="quest-grid"></div>
+    </section>
+
+    <section class="usage-panel" aria-labelledby="usage-title">
+        <h2 id="usage-title">How to use quest types well</h2>
+        <p>Choose one quest type at a time based on your lesson goal, then adapt the generated prompt output for your class context and district curriculum.</p>
+        <ul>
+            <li>Swap in your exact texts, media, data sets, labs, or tasks before using anything with students.</li>
+            <li>Check for grade-level appropriateness, accessibility supports, and culturally responsive examples.</li>
+            <li>Use teacher review for accuracy and alignment before turning AI drafts into student-facing materials.</li>
+        </ul>
+    </section>
+
+    <p id="planner-status" class="sr-only" role="status" aria-live="polite"></p>
+</div>
+
+<script>
+    (function() {
+        const sharedStyle = "Use clear teacher-friendly language. Format with a short rationale, materials list, numbered sequence, scaffolds, and a quick formative check.";
+
+        const gradeBands = {
+            "k-2": {
+                label: "K-2",
+                learnerProfile: "early readers and writers who benefit from concrete language, visuals, oral rehearsal, and teacher modeling",
+                outputs: "drawing, labeling, shared writing, oral response, and short sentence frames",
+                scaffolds: "Provide sentence stems, visual cues, and one-step directions"
+            },
+            "3-5": {
+                label: "3-5",
+                learnerProfile: "students building independence with reading, writing, discussion, and evidence use",
+                outputs: "paragraph responses, note-taking, short explanations, and collaborative products",
+                scaffolds: "Include guided annotation, vocabulary support, and explicit evidence cues"
+            },
+            "6-8": {
+                label: "6-8",
+                learnerProfile: "middle-grade learners developing argument, analysis, and cross-text thinking",
+                outputs: "structured discussion notes, comparative responses, short arguments, and inquiry artifacts",
+                scaffolds: "Build in academic language supports and gradual release to independence"
+            },
+            "9-12": {
+                label: "9-12",
+                learnerProfile: "secondary students working with complex ideas, synthesis, and discipline-specific communication",
+                outputs: "analysis writing, critique, evidence-based argument, and presentation products",
+                scaffolds: "Expect rigorous evidence use and include opportunities for choice and independent reasoning"
+            }
+        };
+
+        const questTypes = [
+            {
+                name: "ANCHOR QUEST",
+                buttonClass: "quest-btn-anchor",
+                purpose: "Launch a lesson with a central text, image, artifact, or question that anchors all later work.",
+                bestUse: "Use when students need a common starting point and shared vocabulary.",
+                example: "Example move: start with one anchor source and build a short evidence-gathering routine."
+            },
+            {
+                name: "CLARITY QUEST",
+                buttonClass: "quest-btn-clarity",
+                purpose: "Unpack confusing language, concepts, directions, or representations so all students can access the task.",
+                bestUse: "Use after introducing dense instructions, technical text, or unfamiliar terminology.",
+                example: "Example move: turn complex wording into student-friendly checkpoints without reducing rigor."
+            },
+            {
+                name: "COMPARE QUEST",
+                buttonClass: "quest-btn-compare",
+                purpose: "Guide students to compare ideas, sources, strategies, or models using clear criteria.",
+                bestUse: "Use when students must identify similarities, differences, trade-offs, or patterns.",
+                example: "Example move: compare two sources and defend which is more useful for a task."
+            },
+            {
+                name: "CRITIQUE QUEST",
+                buttonClass: "quest-btn-critique",
+                purpose: "Support evidence-based critique of claims, methods, arguments, or design choices.",
+                bestUse: "Use when students need to evaluate quality, credibility, or limitations.",
+                example: "Example move: critique a claim using criteria, evidence, and a revision suggestion."
+            },
+            {
+                name: "GROWTH QUEST",
+                buttonClass: "quest-btn-growth",
+                purpose: "Help students reflect on progress, identify strengths, and set next-step goals.",
+                bestUse: "Use after formative checks, drafts, or practice cycles.",
+                example: "Example move: compare first and current attempts and set one precise improvement target."
+            },
+            {
+                name: "LEVEL-UP QUEST",
+                buttonClass: "quest-btn-levelup",
+                purpose: "Increase challenge once students demonstrate readiness, while keeping support available.",
+                bestUse: "Use for extension, enrichment, or deeper transfer tasks.",
+                example: "Example move: add complexity, audience, or constraints to push higher-level thinking."
+            },
+            {
+                name: "MISSION QUEST",
+                buttonClass: "quest-btn-mission",
+                purpose: "Frame a lesson as a purposeful mission with clear goals, roles, and deliverables.",
+                bestUse: "Use to boost engagement and ownership in project or problem-based learning.",
+                example: "Example move: assign team roles and create a mission brief with success criteria."
+            },
+            {
+                name: "PERSPECTIVE QUEST",
+                buttonClass: "quest-btn-perspective",
+                purpose: "Examine ideas through multiple viewpoints, voices, or stakeholder positions.",
+                bestUse: "Use when students need empathy, nuance, or disciplinary perspective-taking.",
+                example: "Example move: interpret one issue from at least three role-based perspectives."
+            },
+            {
+                name: "REVERSE QUEST",
+                buttonClass: "quest-btn-reverse",
+                purpose: "Work backward from a model, final product, or outcome to infer process and strategy.",
+                bestUse: "Use for backward design, analysis of exemplars, or troubleshooting weak products.",
+                example: "Example move: deconstruct a strong sample and identify the hidden decisions behind it."
+            },
+            {
+                name: "RIGHT-SIZING QUEST",
+                buttonClass: "quest-btn-rightsizing",
+                purpose: "Adjust scope and complexity so a task is demanding but achievable within class constraints.",
+                bestUse: "Use when assignments are too broad, too narrow, or mismatched to available time.",
+                example: "Example move: trim a large task into staged milestones with clear completion checks."
+            }
+        ];
+
+        const gradeBandSelect = document.getElementById("quest-grade-band");
+        const subjectInput = document.getElementById("quest-subject");
+        const requestInput = document.getElementById("quest-request");
+        const questGrid = document.getElementById("quest-grid");
+        const plannerStatus = document.getElementById("planner-status");
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/\"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function buildCrispUrl(prompt) {
+            const params = new URLSearchParams({
+                context: prompt.context,
+                request: prompt.request,
+                intent: prompt.intent,
+                style: prompt.style,
+                parameters: prompt.parameters,
+                format: "compact"
+            });
+
+            return "/crisp?" + params.toString();
+        }
+
+        function getSubjectValue() {
+            const value = subjectInput.value.trim();
+
+            return value || "ELA or content-area literacy";
+        }
+
+        function getRequestValue() {
+            const value = requestInput.value.trim();
+
+            return value || "Create a classroom-ready quest plan with clear steps and a quick formative check.";
+        }
+
+        function buildQuestPrompt(quest) {
+            const bandKey = gradeBandSelect.value;
+            const band = gradeBands[bandKey];
+            const subject = getSubjectValue();
+            const request = getRequestValue();
+
+            return {
+                context: "Act as an instructional coach helping a " + band.label + " " + subject + " teacher design a " + quest.name + " for their current unit.",
+                request: request + " Use the " + quest.name + " structure.",
+                intent: "Deliver a practical, New York State standards-aware classroom quest structure that improves student thinking and participation.",
+                style: sharedStyle,
+                parameters: "Audience profile: " + band.learnerProfile + ". Expected student outputs: " + band.outputs + ". Scaffolds: " + band.scaffolds + ". Also incorporate this quest purpose: " + quest.purpose + ". Ask any clarifying questions you have before proceeding."
+            };
+        }
+
+        function renderQuestCards() {
+            const cards = questTypes.map(function(quest) {
+                const prompt = buildQuestPrompt(quest);
+
+                return '<article class="quest-card">' +
+                    '<h3 class="quest-name">' + escapeHtml(quest.name) + '</h3>' +
+                    '<p class="quest-purpose">' + escapeHtml(quest.purpose) + '</p>' +
+                    '<p class="quest-use"><strong>Best for:</strong> ' + escapeHtml(quest.bestUse) + '</p>' +
+                    '<p class="quest-example">' + escapeHtml(quest.example) + '</p>' +
+                    '<div class="quest-action"><a class="action-link ' + escapeHtml(quest.buttonClass) + '" href="' + escapeHtml(buildCrispUrl(prompt)) + '" aria-label="Open CRISP for ' + escapeHtml(quest.name) + '.">Build Prompt</a></div>' +
+                    '</article>';
+            }).join("");
+
+            questGrid.innerHTML = cards;
+            plannerStatus.textContent = "Updated quest prompts for " + gradeBands[gradeBandSelect.value].label + " in " + getSubjectValue() + ".";
+        }
+
+        gradeBandSelect.addEventListener("change", renderQuestCards);
+        subjectInput.addEventListener("input", renderQuestCards);
+        requestInput.addEventListener("input", renderQuestCards);
+
+        renderQuestCards();
+    })();
+</script>
