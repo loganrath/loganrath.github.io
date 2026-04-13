@@ -8,12 +8,8 @@ layout: tool
 
   :root {
     --ink: #1a1b1e;
-    --paper: #fff9f2;
     --panel: #ffffff;
     --accent: #0d9488;
-    --accent-deep: #0f766e;
-    --signal: #ef4444;
-    --safe: #15803d;
     --muted: #5f6368;
     --line: #dfd4c6;
   }
@@ -29,28 +25,23 @@ layout: tool
     border-radius: 24px;
     padding: 26px;
     box-shadow: 0 18px 35px rgba(96, 58, 18, 0.08);
-    overflow: hidden;
   }
 
   .hero h1 {
     font-family: "Fraunces", Georgia, serif;
     font-weight: 700;
     font-size: clamp(1.8rem, 4vw, 2.8rem);
-    line-height: 1.15;
     margin: 0;
-    letter-spacing: 0.01em;
   }
 
   .hero p {
     margin: 10px 0 16px;
     max-width: 780px;
     color: #3f454d;
-    font-size: 1rem;
   }
 
   .status-row {
     display: flex;
-    flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 18px;
   }
@@ -61,18 +52,6 @@ layout: tool
     font-size: 0.82rem;
     border: 1px solid var(--line);
     background: #fff;
-    color: #30343a;
-  }
-
-  .chip strong {
-    color: var(--accent-deep);
-  }
-
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(280px, 1fr));
-    gap: 16px;
-    margin-top: 10px;
   }
 
   .panel {
@@ -81,18 +60,21 @@ layout: tool
     border-radius: 18px;
     padding: 16px;
     box-shadow: 0 8px 20px rgba(98, 70, 40, 0.05);
-    animation: rise 0.5s ease both;
   }
 
   .panel h2 {
     font-family: "Fraunces", Georgia, serif;
     margin: 0 0 12px;
     font-size: 1.3rem;
-    color: #272a2e;
+  }
+
+  .inline {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
   }
 
   .input-row {
-    position: relative;
     margin-bottom: 11px;
   }
 
@@ -104,8 +86,7 @@ layout: tool
     font-weight: 600;
   }
 
-  .input-row input,
-  .input-row select {
+  .input-row input {
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #c7bfb3;
@@ -115,17 +96,11 @@ layout: tool
     background: #fff;
   }
 
-  .inline {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(2, minmax(140px, 1fr));
-  }
-
   .button-row {
     display: flex;
-    flex-wrap: wrap;
     gap: 8px;
     margin-top: 10px;
+    flex-wrap: wrap;
   }
 
   button {
@@ -135,61 +110,17 @@ layout: tool
     font-weight: 700;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-  }
-
-  button:hover {
-    transform: translateY(-1px);
   }
 
   .btn-primary {
     background: var(--accent);
     color: white;
-    box-shadow: 0 8px 15px rgba(13, 148, 136, 0.25);
   }
 
   .btn-secondary {
     background: #f7f3ee;
     color: #30343a;
     border: 1px solid #d3c7b8;
-  }
-
-  .result-wrap {
-    margin-top: 22px;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(180px, 1fr));
-    gap: 12px;
-  }
-
-  .result-card {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 14px;
-  }
-
-  .result-card h3 {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #4b5059;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .value {
-    margin-top: 8px;
-    font-size: clamp(1.2rem, 2.8vw, 1.8rem);
-    font-weight: 800;
-  }
-
-  .winner {
-    border: 2px solid #1f9d55;
-    background: #f1fff6;
-  }
-
-  .loser {
-    border: 2px solid #f6c8ce;
-    background: #fff6f6;
   }
 
   .help-text {
@@ -208,6 +139,43 @@ layout: tool
     color: #444a53;
   }
 
+  .result-wrap {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .result-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px;
+  }
+
+  .result-card h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #4b5059;
+    text-transform: uppercase;
+  }
+
+  .value {
+    margin-top: 8px;
+    font-size: clamp(1.2rem, 2.8vw, 1.8rem);
+    font-weight: 800;
+  }
+
+  .winner {
+    border: 2px solid #1f9d55;
+    background: #f1fff6;
+  }
+
+  .loser {
+    border: 2px solid #f6c8ce;
+    background: #fff6f6;
+  }
+
   .calc-modal {
     position: fixed;
     inset: 0;
@@ -216,7 +184,6 @@ layout: tool
     justify-content: center;
     background: rgba(20, 22, 26, 0.45);
     z-index: 1000;
-    backdrop-filter: blur(2px);
   }
 
   .calc-modal.show {
@@ -230,7 +197,6 @@ layout: tool
     border-radius: 16px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.18);
   }
 
   .calc-spinner {
@@ -243,28 +209,12 @@ layout: tool
     animation: spin 0.8s linear infinite;
   }
 
-  .calc-title {
-    font-family: "Fraunces", Georgia, serif;
-    font-size: 1.15rem;
-    margin-bottom: 6px;
-  }
-
-  .calc-message {
-    color: #4b535b;
-    font-size: 0.9rem;
-  }
-
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
 
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
   @media (max-width: 900px) {
-    .form-grid {
+    .inline {
       grid-template-columns: 1fr;
     }
 
@@ -278,8 +228,7 @@ layout: tool
   <div class="hero">
     <h1>Personal Car vs Enterprise Rental</h1>
     <p>
-      Adapted from SUNY Brockport's Personal vs Rental Vehicle Cost Comparison form. Enter trip and cost inputs,
-      then compare your out-of-pocket estimate for driving your own car versus renting.
+      Enter trip values below to compare your personal-vehicle estimate against a rental estimate.
     </p>
   </div>
 
@@ -287,121 +236,56 @@ layout: tool
     <div class="chip">Fuel API: <strong id="fuelStatus">Not requested</strong></div>
   </div>
 
-  <div class="form-grid">
-    <section class="panel">
-      <h2>Trip + Shared Inputs</h2>
-      <div class="help-text">
-        Use a map provider for directions and one-way mileage, then enter that distance below.<br>
-        OpenStreetMap: <a href="https://www.openstreetmap.org/directions" target="_blank" rel="noopener noreferrer">openstreetmap.org/directions</a><br>
-        Google Maps: <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer">maps.google.com</a>
-      </div>
+  <section class="panel">
+    <h2>Trip Inputs</h2>
+    <div class="help-text">
+      Use a map provider for directions and one-way mileage, then enter it below.<br>
+      OpenStreetMap: <a href="https://www.openstreetmap.org/directions" target="_blank" rel="noopener noreferrer">openstreetmap.org/directions</a><br>
+      Google Maps: <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer">maps.google.com</a>
+    </div>
 
-      <div class="inline" style="margin-top: 12px;">
-        <div class="input-row">
-          <label for="milesOneWay">One-Way Mileage</label>
-          <input id="milesOneWay" type="number" min="0" step="0.1" value="60" />
-        </div>
-        <div class="input-row">
-          <label for="gasPrice">Gas Price per Gallon (USD)</label>
-          <input id="gasPrice" type="number" min="0" step="0.001" value="3.65" />
-        </div>
-      </div>
-
-      <div class="button-row">
-        <button class="btn-secondary" id="fuelBtn" type="button">Fetch Current Gas Price</button>
-      </div>
-      <div class="help-text">Uses FuelEconomy.gov national average Regular gasoline price.</div>
-
-      <div class="help-text" style="margin-top: 12px;">
-        For NYS Thruway tolls, use the official calculator and then enter toll totals below:<br>
-        <a href="https://tollcalculator.thruway.ny.gov/" target="_blank" rel="noopener noreferrer">https://tollcalculator.thruway.ny.gov/</a>
-      </div>
-
-      <div class="inline" style="margin-top: 12px;">
-        <div class="input-row">
-          <label for="personalTolls">Personal Vehicle Tolls ($)</label>
-          <input id="personalTolls" type="number" min="0" step="0.01" value="0" />
-        </div>
-        <div class="input-row">
-          <label for="rentalTolls">Rental Vehicle Tolls ($)</label>
-          <input id="rentalTolls" type="number" min="0" step="0.01" value="0" />
-        </div>
-      </div>
-
-      <div class="formula">
-        Round-trip miles = one-way miles x 2<br>
-        Personal total = (round-trip miles x mileage rate) + parking + tolls + extras<br>
-        Rental total = (days x daily rate) + rental fees + rental fuel + parking + tolls
-      </div>
-    </section>
-
-    <section class="panel">
-      <h2>Personal Vehicle Costs</h2>
-      <div class="inline">
-        <div class="input-row">
-          <label for="mileageRate">Mileage Rate ($/mile)</label>
-          <input id="mileageRate" type="number" min="0" step="0.001" value="0.70" />
-        </div>
-        <div class="input-row">
-          <label for="personalMpg">Your Vehicle MPG</label>
-          <input id="personalMpg" type="number" min="1" step="0.1" value="29" />
-        </div>
-      </div>
-      <div class="inline">
-        <div class="input-row">
-          <label for="personalParking">Parking ($)</label>
-          <input id="personalParking" type="number" min="0" step="0.01" value="0" />
-        </div>
+    <div class="inline" style="margin-top: 12px;">
+      <div class="input-row">
+        <label for="milesOneWay">One-way mileage</label>
+        <input id="milesOneWay" type="number" min="0" step="0.1" value="60" />
       </div>
       <div class="input-row">
-        <label for="personalOther">Other Personal Costs ($)</label>
-        <input id="personalOther" type="number" min="0" step="0.01" value="0" />
+        <label for="personalMpg">Your vehicle's MPG</label>
+        <input id="personalMpg" type="number" min="1" step="0.1" value="29" />
       </div>
-      <div class="help-text">Mileage rate is editable to match current policy guidance.</div>
-    </section>
+    </div>
 
-    <section class="panel">
-      <h2>Enterprise Rental Costs</h2>
-      <div class="inline">
-        <div class="input-row">
-          <label for="rentalDays">Rental Days</label>
-          <input id="rentalDays" type="number" min="1" step="1" value="2" />
-        </div>
-        <div class="input-row">
-          <label for="dailyRate">Daily Rate ($)</label>
-          <input id="dailyRate" type="number" min="0" step="0.01" value="40" />
-        </div>
+    <div class="inline" style="margin-top: 12px;">
+      <div class="input-row">
+        <label for="gasPrice">Current Gas Prices ($/gallon)</label>
+        <input id="gasPrice" type="number" min="0" step="0.001" value="3.65" />
       </div>
+      <div class="input-row">
+        <label for="mileageRate">Mileage Rate ($/mile)</label>
+        <input id="mileageRate" type="number" min="0" step="0.001" value="0.70" />
+      </div>
+    </div>
 
-      <div class="inline">
-        <div class="input-row">
-          <label for="rentalFees">Rental Fees/Taxes ($)</label>
-          <input id="rentalFees" type="number" min="0" step="0.01" value="20" />
-        </div>
-        <div class="input-row">
-          <label for="rentalMpg">Rental MPG</label>
-          <input id="rentalMpg" type="number" min="1" step="0.1" value="30" />
-        </div>
+    <div class="inline" style="margin-top: 12px;">
+      <div class="input-row">
+        <label for="rentalPeriods"># of 24 hour periods rental is needed</label>
+        <input id="rentalPeriods" type="number" min="1" step="1" value="2" />
       </div>
+    </div>
 
-      <div class="inline">
-        <div class="input-row">
-          <label for="rentalParking">Parking ($)</label>
-          <input id="rentalParking" type="number" min="0" step="0.01" value="0" />
-        </div>
-      </div>
-      <div class="help-text">Fuel for rental is auto-estimated from miles, MPG, and current gas price.</div>
-    </section>
+    <div class="button-row">
+      <button class="btn-secondary" id="fuelBtn" type="button">Fetch Current Gas Price</button>
+      <button class="btn-primary" id="compareBtn" type="button">Compare Costs</button>
+      <button class="btn-secondary" id="resetBtn" type="button">Reset Defaults</button>
+    </div>
 
-    <section class="panel">
-      <h2>Calculate</h2>
-      <div class="button-row">
-        <button class="btn-primary" id="compareBtn" type="button">Compare Costs</button>
-        <button class="btn-secondary" id="resetBtn" type="button">Reset Defaults</button>
-      </div>
-      <div id="summary" class="help-text" style="margin-top:12px;">Enter your trip details and click Compare Costs.</div>
-    </section>
-  </div>
+    <div class="formula">
+      Round-trip miles = one-way miles x 2<br>
+      Personal total = round-trip miles x mileage rate<br>
+      Rental total = (24-hour periods x $40) + $20 fees + rental fuel at 30 MPG
+    </div>
+    <div id="summary" class="help-text" style="margin-top:12px;">Enter your trip details and click Compare Costs.</div>
+  </section>
 
   <section class="result-wrap" id="results" aria-live="polite">
     <article class="result-card" id="personalCard">
@@ -503,25 +387,21 @@ layout: tool
     const oneWayMiles = asNumber("milesOneWay");
     const roundTripMiles = oneWayMiles * 2;
     const gasPrice = asNumber("gasPrice");
-
+    const personalMpg = Math.max(asNumber("personalMpg"), 1);
     const mileageRate = asNumber("mileageRate");
-    const personalParking = asNumber("personalParking");
-    const personalTolls = asNumber("personalTolls");
-    const personalOther = asNumber("personalOther");
+    const rentalPeriods = Math.max(asNumber("rentalPeriods"), 1);
 
-    const rentalDays = asNumber("rentalDays");
-    const dailyRate = asNumber("dailyRate");
-    const rentalFees = asNumber("rentalFees");
-    const rentalMpg = Math.max(asNumber("rentalMpg"), 1);
-    const rentalParking = asNumber("rentalParking");
-    const rentalTolls = asNumber("rentalTolls");
+    const rentalRate = 40;
+    const rentalFees = 20;
+    const rentalMpg = 30;
 
     const personalMileageCost = roundTripMiles * mileageRate;
-    const personalTotal = personalMileageCost + personalParking + personalTolls + personalOther;
+    const personalFuelEstimate = (roundTripMiles / personalMpg) * gasPrice;
+    const personalTotal = personalMileageCost;
 
-    const rentalBase = rentalDays * dailyRate;
+    const rentalBase = rentalPeriods * rentalRate;
     const rentalFuel = (roundTripMiles / rentalMpg) * gasPrice;
-    const rentalTotal = rentalBase + rentalFees + rentalFuel + rentalParking + rentalTolls;
+    const rentalTotal = rentalBase + rentalFees + rentalFuel;
 
     const personalCard = document.getElementById("personalCard");
     const rentalCard = document.getElementById("rentalCard");
@@ -530,11 +410,13 @@ layout: tool
 
     document.getElementById("personalTotal").textContent = money(personalTotal);
     document.getElementById("personalBreakdown").textContent =
-      "Mileage (" + roundTripMiles.toFixed(1) + " round-trip mi) " + money(personalMileageCost) + " + parking/tolls/extras " + money(personalParking + personalTolls + personalOther);
+      "Mileage (" + roundTripMiles.toFixed(1) + " round-trip mi) " + money(personalMileageCost) +
+      " | est. fuel spend at your MPG: " + money(personalFuelEstimate);
 
     document.getElementById("rentalTotal").textContent = money(rentalTotal);
     document.getElementById("rentalBreakdown").textContent =
-      "Base+fees " + money(rentalBase + rentalFees) + " + fuel (" + roundTripMiles.toFixed(1) + " round-trip mi) " + money(rentalFuel) + " + parking/tolls " + money(rentalParking + rentalTolls);
+      "Base+fees " + money(rentalBase + rentalFees) + " + fuel (" + roundTripMiles.toFixed(1) +
+      " round-trip mi) " + money(rentalFuel);
 
     const delta = Math.abs(personalTotal - rentalTotal);
     const decisionValue = document.getElementById("decisionValue");
@@ -577,18 +459,10 @@ layout: tool
 
   function resetDefaults() {
     document.getElementById("milesOneWay").value = 60;
+    document.getElementById("personalMpg").value = 29;
     document.getElementById("gasPrice").value = 3.65;
     document.getElementById("mileageRate").value = 0.70;
-    document.getElementById("personalMpg").value = 29;
-    document.getElementById("personalParking").value = 0;
-    document.getElementById("personalTolls").value = 0;
-    document.getElementById("personalOther").value = 0;
-    document.getElementById("rentalDays").value = 2;
-    document.getElementById("dailyRate").value = 40;
-    document.getElementById("rentalFees").value = 20;
-    document.getElementById("rentalMpg").value = 30;
-    document.getElementById("rentalParking").value = 0;
-    document.getElementById("rentalTolls").value = 0;
+    document.getElementById("rentalPeriods").value = 2;
     setStatus("fuelStatus", "Not requested", true);
 
     document.getElementById("personalTotal").textContent = "$0.00";
