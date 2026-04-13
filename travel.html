@@ -92,6 +92,7 @@ layout: tool
   }
 
   .input-row {
+    position: relative;
     margin-bottom: 11px;
   }
 
@@ -207,6 +208,89 @@ layout: tool
     color: #444a53;
   }
 
+  .autocomplete-box {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 4px);
+    background: #ffffff;
+    border: 1px solid #d9ccbe;
+    border-radius: 10px;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
+    z-index: 30;
+    overflow: hidden;
+    display: none;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+
+  .autocomplete-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: #ffffff;
+    border-radius: 0;
+    padding: 10px 12px;
+    font-size: 0.88rem;
+    color: #2f3338;
+    cursor: pointer;
+  }
+
+  .autocomplete-option:hover {
+    background: #eef9f7;
+  }
+
+  .calc-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 22, 26, 0.45);
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+  }
+
+  .calc-modal.show {
+    display: flex;
+  }
+
+  .calc-dialog {
+    width: min(92vw, 420px);
+    background: #fffefb;
+    border: 1px solid #e8d9c9;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.18);
+  }
+
+  .calc-spinner {
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    border: 4px solid #d7efe9;
+    border-top-color: #0d9488;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .calc-title {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+  }
+
+  .calc-message {
+    color: #4b535b;
+    font-size: 0.9rem;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
   @keyframes rise {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
@@ -243,13 +327,13 @@ layout: tool
       <h2>Trip + Shared Inputs</h2>
       <div class="input-row">
         <label for="origin">Start Address</label>
-        <input id="origin" type="text" list="originSuggestions" autocomplete="off" placeholder="e.g., 350 New Campus Dr, Brockport, NY" />
-        <datalist id="originSuggestions"></datalist>
+        <input id="origin" type="text" autocomplete="off" placeholder="e.g., 350 New Campus Dr, Brockport, NY" />
+        <div class="autocomplete-box" id="originSuggestions" role="listbox" aria-label="Origin suggestions"></div>
       </div>
       <div class="input-row">
         <label for="destination">Destination Address</label>
-        <input id="destination" type="text" list="destinationSuggestions" autocomplete="off" placeholder="e.g., 395 Hudson St, New York, NY" />
-        <datalist id="destinationSuggestions"></datalist>
+        <input id="destination" type="text" autocomplete="off" placeholder="e.g., 395 Hudson St, New York, NY" />
+        <div class="autocomplete-box" id="destinationSuggestions" role="listbox" aria-label="Destination suggestions"></div>
       </div>
       <div class="button-row">
         <button class="btn-primary" id="distanceBtn" type="button">Auto-Calculate Miles</button>
@@ -388,6 +472,14 @@ layout: tool
       <div class="help-text" id="decisionDelta">Run the calculator to compare.</div>
     </article>
   </section>
+
+  <div class="calc-modal" id="calcModal" aria-live="polite" aria-busy="false">
+    <div class="calc-dialog" role="status">
+      <div class="calc-spinner"></div>
+      <div class="calc-title">Calculating</div>
+      <div class="calc-message" id="calcModalMessage">Please wait...</div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -408,12 +500,34 @@ layout: tool
     el.style.color = ok ? "#15803d" : "#b91c1c";
   }
 
-  const autocompleteTimers = {};
+  let loadingCount = 0;
 
-  async function fetchAddressSuggestions(query) {
+  function showLoading(message) {
+    const modal = document.getElementById("calcModal");
+    const modalMessage = document.getElementById("calcModalMessage");
+    loadingCount += 1;
+    modalMessage.textContent = message || "Please wait...";
+    modal.classList.add("show");
+    modal.setAttribute("aria-busy", "true");
+  }
+
+  function hideLoading() {
+    const modal = document.getElementById("calcModal");
+    loadingCount = Math.max(0, loadingCount - 1);
+    if (loadingCount === 0) {
+      modal.classList.remove("show");
+      modal.setAttribute("aria-busy", "false");
+    }
+  }
+
+  const autocompleteTimers = {};
+  const autocompleteAbortControllers = {};
+
+  async function fetchAddressSuggestions(query, signal) {
     const url = "https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=5&q=" + encodeURIComponent(query);
     const response = await fetch(url, {
-      headers: { "Accept": "application/json" }
+      headers: { "Accept": "application/json" },
+      signal: signal
     });
     if (!response.ok) {
       throw new Error("Address suggestion lookup failed");
@@ -427,6 +541,20 @@ layout: tool
     });
   }
 
+  function escapeHtml(text) {
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function hideAutocompleteList(listEl) {
+    listEl.style.display = "none";
+    listEl.innerHTML = "";
+  }
+
   function wireAddressAutocomplete(inputId, listId) {
     const inputEl = document.getElementById(inputId);
     const listEl = document.getElementById(listId);
@@ -436,22 +564,52 @@ layout: tool
       clearTimeout(autocompleteTimers[inputId]);
 
       if (query.length < 3) {
-        listEl.innerHTML = "";
+        hideAutocompleteList(listEl);
         return;
       }
 
       autocompleteTimers[inputId] = setTimeout(async function () {
+        if (autocompleteAbortControllers[inputId]) {
+          autocompleteAbortControllers[inputId].abort();
+        }
+        const controller = new AbortController();
+        autocompleteAbortControllers[inputId] = controller;
+
         try {
-          const suggestions = await fetchAddressSuggestions(query);
+          const suggestions = await fetchAddressSuggestions(query, controller.signal);
+          if (inputEl.value.trim() !== query) {
+            return;
+          }
+          if (!suggestions.length) {
+            hideAutocompleteList(listEl);
+            return;
+          }
           listEl.innerHTML = suggestions
             .map(function (address) {
-              return "<option value=\"" + address.replace(/\"/g, "&quot;") + "\"></option>";
+              return "<button type=\"button\" class=\"autocomplete-option\" data-value=\"" + escapeHtml(address) + "\">" + escapeHtml(address) + "</button>";
             })
             .join("");
+          listEl.style.display = "block";
         } catch (err) {
-          listEl.innerHTML = "";
+          if (err.name !== "AbortError") {
+            hideAutocompleteList(listEl);
+          }
         }
       }, 280);
+    });
+
+    listEl.addEventListener("click", function (event) {
+      const target = event.target;
+      if (target && target.matches(".autocomplete-option")) {
+        inputEl.value = target.getAttribute("data-value") || "";
+        hideAutocompleteList(listEl);
+      }
+    });
+
+    inputEl.addEventListener("blur", function () {
+      setTimeout(function () {
+        hideAutocompleteList(listEl);
+      }, 150);
     });
   }
 
@@ -645,6 +803,7 @@ layout: tool
 
     setStatus("distanceStatus", "Calculating...", true);
     setStatus("tollStatus", "Checking route...", true);
+    showLoading("Calculating mileage and NYS Thruway toll estimate...");
 
     try {
       const routeDetails = await fetchRouteDetails(origin, destination);
@@ -661,11 +820,14 @@ layout: tool
     } catch (err) {
       setStatus("distanceStatus", "Could not auto-calculate", false);
       setStatus("tollStatus", "Could not evaluate", false);
+    } finally {
+      hideLoading();
     }
   }
 
   async function handleFuelLookup() {
     setStatus("fuelStatus", "Fetching...", true);
+    showLoading("Fetching current gas price...");
 
     try {
       const price = await fetchNationalGasPrice();
@@ -673,6 +835,8 @@ layout: tool
       setStatus("fuelStatus", "National average loaded", true);
     } catch (err) {
       setStatus("fuelStatus", "Could not fetch gas price", false);
+    } finally {
+      hideLoading();
     }
   }
 
