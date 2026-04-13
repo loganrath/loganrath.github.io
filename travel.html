@@ -208,39 +208,6 @@ layout: tool
     color: #444a53;
   }
 
-  .autocomplete-box {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: calc(100% + 4px);
-    background: #ffffff;
-    border: 1px solid #d9ccbe;
-    border-radius: 10px;
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
-    z-index: 30;
-    overflow: hidden;
-    display: none;
-    max-height: 220px;
-    overflow-y: auto;
-  }
-
-  .autocomplete-option {
-    display: block;
-    width: 100%;
-    text-align: left;
-    border: none;
-    background: #ffffff;
-    border-radius: 0;
-    padding: 10px 12px;
-    font-size: 0.88rem;
-    color: #2f3338;
-    cursor: pointer;
-  }
-
-  .autocomplete-option:hover {
-    background: #eef9f7;
-  }
-
   .calc-modal {
     position: fixed;
     inset: 0;
@@ -317,33 +284,22 @@ layout: tool
   </div>
 
   <div class="status-row">
-    <div class="chip">Distance API: <strong id="distanceStatus">Not requested</strong></div>
     <div class="chip">Fuel API: <strong id="fuelStatus">Not requested</strong></div>
-    <div class="chip">NYS Thruway: <strong id="tollStatus">Not checked</strong></div>
   </div>
 
   <div class="form-grid">
     <section class="panel">
       <h2>Trip + Shared Inputs</h2>
-      <div class="input-row">
-        <label for="origin">Start Address</label>
-        <input id="origin" type="text" autocomplete="off" placeholder="e.g., 350 New Campus Dr, Brockport, NY" />
-        <div class="autocomplete-box" id="originSuggestions" role="listbox" aria-label="Origin suggestions"></div>
+      <div class="help-text">
+        Use a map provider for directions and one-way mileage, then enter that distance below.<br>
+        OpenStreetMap: <a href="https://www.openstreetmap.org/directions" target="_blank" rel="noopener noreferrer">openstreetmap.org/directions</a><br>
+        Google Maps: <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer">maps.google.com</a>
       </div>
-      <div class="input-row">
-        <label for="destination">Destination Address</label>
-        <input id="destination" type="text" autocomplete="off" placeholder="e.g., 395 Hudson St, New York, NY" />
-        <div class="autocomplete-box" id="destinationSuggestions" role="listbox" aria-label="Destination suggestions"></div>
-      </div>
-      <div class="button-row">
-        <button class="btn-primary" id="distanceBtn" type="button">Auto-Calculate Miles</button>
-      </div>
-      <div class="help-text">Uses Nominatim geocoding + OSRM driving route distance.</div>
 
       <div class="inline" style="margin-top: 12px;">
         <div class="input-row">
-          <label for="miles">Total Miles (round trip)</label>
-          <input id="miles" type="number" min="0" step="0.1" value="120" />
+          <label for="milesOneWay">One-Way Mileage</label>
+          <input id="milesOneWay" type="number" min="0" step="0.1" value="60" />
         </div>
         <div class="input-row">
           <label for="gasPrice">Gas Price per Gallon (USD)</label>
@@ -361,18 +317,11 @@ layout: tool
           <label for="thruwayRate">Est. NYS Thruway Rate ($/mile)</label>
           <input id="thruwayRate" type="number" min="0" step="0.001" value="0.085" />
         </div>
-        <div class="input-row">
-          <label for="autoApplyThruwayTolls">Auto-Apply Thruway Toll Estimate</label>
-          <select id="autoApplyThruwayTolls">
-            <option value="yes" selected>Yes, apply to both toll fields</option>
-            <option value="no">No, show estimate only</option>
-          </select>
-        </div>
       </div>
-      <div class="help-text" id="thruwayInfo">Thruway toll estimate appears after distance lookup.</div>
 
       <div class="formula">
-        Personal total = (miles x mileage rate) + parking + tolls + extras<br>
+        Round-trip miles = one-way miles x 2<br>
+        Personal total = (round-trip miles x mileage rate) + parking + tolls + extras<br>
         Rental total = (days x daily rate) + rental fees + rental fuel + parking + tolls
       </div>
     </section>
@@ -510,7 +459,6 @@ layout: tool
 </div>
 
 <script>
-  let lastThruwayMilesRoundTrip = 0;
   let lastExitRoundTripToll = 0;
   let thruwayExitData = [];
 
@@ -549,27 +497,6 @@ layout: tool
     }
   }
 
-  const autocompleteTimers = {};
-  const autocompleteAbortControllers = {};
-
-  async function fetchAddressSuggestions(query, signal) {
-    const url = "https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=5&q=" + encodeURIComponent(query);
-    const response = await fetch(url, {
-      headers: { "Accept": "application/json" },
-      signal: signal
-    });
-    if (!response.ok) {
-      throw new Error("Address suggestion lookup failed");
-    }
-    const results = await response.json();
-    if (!Array.isArray(results)) {
-      return [];
-    }
-    return results.map(function (item) {
-      return item.display_name;
-    });
-  }
-
   function escapeHtml(text) {
     return text
       .replace(/&/g, "&amp;")
@@ -577,157 +504,6 @@ layout: tool
       .replace(/>/g, "&gt;")
       .replace(/\"/g, "&quot;")
       .replace(/'/g, "&#39;");
-  }
-
-  function hideAutocompleteList(listEl) {
-    listEl.style.display = "none";
-    listEl.innerHTML = "";
-  }
-
-  function wireAddressAutocomplete(inputId, listId) {
-    const inputEl = document.getElementById(inputId);
-    const listEl = document.getElementById(listId);
-
-    inputEl.addEventListener("input", function () {
-      const query = inputEl.value.trim();
-      clearTimeout(autocompleteTimers[inputId]);
-
-      if (query.length < 3) {
-        hideAutocompleteList(listEl);
-        return;
-      }
-
-      autocompleteTimers[inputId] = setTimeout(async function () {
-        if (autocompleteAbortControllers[inputId]) {
-          autocompleteAbortControllers[inputId].abort();
-        }
-        const controller = new AbortController();
-        autocompleteAbortControllers[inputId] = controller;
-
-        try {
-          const suggestions = await fetchAddressSuggestions(query, controller.signal);
-          if (inputEl.value.trim() !== query) {
-            return;
-          }
-          if (!suggestions.length) {
-            hideAutocompleteList(listEl);
-            return;
-          }
-          listEl.innerHTML = suggestions
-            .map(function (address) {
-              return "<button type=\"button\" class=\"autocomplete-option\" data-value=\"" + escapeHtml(address) + "\">" + escapeHtml(address) + "</button>";
-            })
-            .join("");
-          listEl.style.display = "block";
-        } catch (err) {
-          if (err.name !== "AbortError") {
-            hideAutocompleteList(listEl);
-          }
-        }
-      }, 280);
-    });
-
-    listEl.addEventListener("click", function (event) {
-      const target = event.target;
-      if (target && target.matches(".autocomplete-option")) {
-        inputEl.value = target.getAttribute("data-value") || "";
-        hideAutocompleteList(listEl);
-      }
-    });
-
-    inputEl.addEventListener("blur", function () {
-      setTimeout(function () {
-        hideAutocompleteList(listEl);
-      }, 150);
-    });
-  }
-
-  async function geocodeAddress(address) {
-    const url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + encodeURIComponent(address);
-    const response = await fetch(url, {
-      headers: { "Accept": "application/json" }
-    });
-    if (!response.ok) {
-      throw new Error("Geocoding failed for: " + address);
-    }
-    const results = await response.json();
-    if (!Array.isArray(results) || !results[0]) {
-      throw new Error("No geocoding result for: " + address);
-    }
-    return {
-      lat: Number(results[0].lat),
-      lon: Number(results[0].lon)
-    };
-  }
-
-  function isLikelyNysThruwayStep(step) {
-    const tokens = [step.name, step.ref, step.destinations, step.pronunciation]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
-    return /new york state thruway|nys thruway|thruway|\bi-?90\b|interstate\s*90/.test(tokens);
-  }
-
-  function updateThruwayEstimateUI() {
-    const rate = asNumber("thruwayRate");
-    const estimatedToll = lastThruwayMilesRoundTrip * rate;
-    const info = document.getElementById("thruwayInfo");
-
-    if (lastThruwayMilesRoundTrip <= 0) {
-      info.textContent = "No NYS Thruway segments detected from route steps.";
-      return;
-    }
-
-    info.textContent =
-      "Estimated NYS Thruway distance: " +
-      lastThruwayMilesRoundTrip.toFixed(1) +
-      " miles round trip. Estimated toll: " +
-      money(estimatedToll) +
-      ".";
-
-    if (document.getElementById("autoApplyThruwayTolls").value === "yes") {
-      document.getElementById("personalTolls").value = estimatedToll.toFixed(2);
-      document.getElementById("rentalTolls").value = estimatedToll.toFixed(2);
-    }
-  }
-
-  async function fetchRouteDetails(origin, destination) {
-    const points = await Promise.all([geocodeAddress(origin), geocodeAddress(destination)]);
-    const a = points[0];
-    const b = points[1];
-    const routeUrl = "https://router.project-osrm.org/route/v1/driving/" +
-      a.lon + "," + a.lat + ";" + b.lon + "," + b.lat +
-      "?overview=false&steps=true";
-
-    const routeResponse = await fetch(routeUrl);
-    if (!routeResponse.ok) {
-      throw new Error("Routing request failed");
-    }
-    const routeData = await routeResponse.json();
-    const meters = routeData && routeData.routes && routeData.routes[0] ? routeData.routes[0].distance : null;
-    if (!meters) {
-      throw new Error("No route distance returned");
-    }
-
-    const route = routeData.routes[0];
-    const legs = Array.isArray(route.legs) ? route.legs : [];
-    let thruwayMetersOneWay = 0;
-    legs.forEach(function (leg) {
-      const steps = Array.isArray(leg.steps) ? leg.steps : [];
-      steps.forEach(function (step) {
-        if (isLikelyNysThruwayStep(step)) {
-          thruwayMetersOneWay += Number(step.distance) || 0;
-        }
-      });
-    });
-
-    const milesOneWay = meters / 1609.344;
-    const thruwayMilesRoundTrip = (thruwayMetersOneWay / 1609.344) * 2;
-    return {
-      milesRoundTrip: milesOneWay * 2,
-      thruwayMilesRoundTrip: thruwayMilesRoundTrip,
-      usesThruway: thruwayMetersOneWay > 0
-    };
   }
 
   async function fetchNationalGasPrice() {
@@ -868,7 +644,8 @@ layout: tool
   }
 
   function compareCosts() {
-    const miles = asNumber("miles");
+    const oneWayMiles = asNumber("milesOneWay");
+    const roundTripMiles = oneWayMiles * 2;
     const gasPrice = asNumber("gasPrice");
 
     const mileageRate = asNumber("mileageRate");
@@ -883,11 +660,11 @@ layout: tool
     const rentalParking = asNumber("rentalParking");
     const rentalTolls = asNumber("rentalTolls");
 
-    const personalMileageCost = miles * mileageRate;
+    const personalMileageCost = roundTripMiles * mileageRate;
     const personalTotal = personalMileageCost + personalParking + personalTolls + personalOther;
 
     const rentalBase = rentalDays * dailyRate;
-    const rentalFuel = (miles / rentalMpg) * gasPrice;
+    const rentalFuel = (roundTripMiles / rentalMpg) * gasPrice;
     const rentalTotal = rentalBase + rentalFees + rentalFuel + rentalParking + rentalTolls;
 
     const personalCard = document.getElementById("personalCard");
@@ -897,11 +674,11 @@ layout: tool
 
     document.getElementById("personalTotal").textContent = money(personalTotal);
     document.getElementById("personalBreakdown").textContent =
-      "Mileage " + money(personalMileageCost) + " + parking/tolls/extras " + money(personalParking + personalTolls + personalOther);
+      "Mileage (" + roundTripMiles.toFixed(1) + " round-trip mi) " + money(personalMileageCost) + " + parking/tolls/extras " + money(personalParking + personalTolls + personalOther);
 
     document.getElementById("rentalTotal").textContent = money(rentalTotal);
     document.getElementById("rentalBreakdown").textContent =
-      "Base+fees " + money(rentalBase + rentalFees) + " + fuel " + money(rentalFuel) + " + parking/tolls " + money(rentalParking + rentalTolls);
+      "Base+fees " + money(rentalBase + rentalFees) + " + fuel (" + roundTripMiles.toFixed(1) + " round-trip mi) " + money(rentalFuel) + " + parking/tolls " + money(rentalParking + rentalTolls);
 
     const delta = Math.abs(personalTotal - rentalTotal);
     const decisionValue = document.getElementById("decisionValue");
@@ -927,39 +704,6 @@ layout: tool
     }
   }
 
-  async function handleDistanceLookup() {
-    const origin = document.getElementById("origin").value.trim();
-    const destination = document.getElementById("destination").value.trim();
-
-    if (!origin || !destination) {
-      setStatus("distanceStatus", "Enter both addresses first", false);
-      return;
-    }
-
-    setStatus("distanceStatus", "Calculating...", true);
-    setStatus("tollStatus", "Checking route...", true);
-    showLoading("Calculating mileage and NYS Thruway toll estimate...");
-
-    try {
-      const routeDetails = await fetchRouteDetails(origin, destination);
-      document.getElementById("miles").value = routeDetails.milesRoundTrip.toFixed(1);
-      setStatus("distanceStatus", "Round-trip miles loaded", true);
-      lastThruwayMilesRoundTrip = routeDetails.thruwayMilesRoundTrip;
-      if (routeDetails.usesThruway) {
-        setStatus("tollStatus", "Detected", true);
-        updateThruwayEstimateUI();
-      } else {
-        setStatus("tollStatus", "Not detected", true);
-        updateThruwayEstimateUI();
-      }
-    } catch (err) {
-      setStatus("distanceStatus", "Could not auto-calculate", false);
-      setStatus("tollStatus", "Could not evaluate", false);
-    } finally {
-      hideLoading();
-    }
-  }
-
   async function handleFuelLookup() {
     setStatus("fuelStatus", "Fetching...", true);
     showLoading("Fetching current gas price...");
@@ -976,7 +720,7 @@ layout: tool
   }
 
   function resetDefaults() {
-    document.getElementById("miles").value = 120;
+    document.getElementById("milesOneWay").value = 60;
     document.getElementById("gasPrice").value = 3.65;
     document.getElementById("mileageRate").value = 0.70;
     document.getElementById("personalMpg").value = 29;
@@ -990,14 +734,7 @@ layout: tool
     document.getElementById("rentalParking").value = 0;
     document.getElementById("rentalTolls").value = 0;
     document.getElementById("thruwayRate").value = 0.085;
-    document.getElementById("autoApplyThruwayTolls").value = "yes";
-    document.getElementById("origin").value = "";
-    document.getElementById("destination").value = "";
-
-    setStatus("distanceStatus", "Not requested", true);
     setStatus("fuelStatus", "Not requested", true);
-    setStatus("tollStatus", "Not checked", true);
-    lastThruwayMilesRoundTrip = 0;
     lastExitRoundTripToll = 0;
 
     document.getElementById("personalTotal").textContent = "$0.00";
@@ -1007,7 +744,6 @@ layout: tool
     document.getElementById("personalBreakdown").textContent = "";
     document.getElementById("rentalBreakdown").textContent = "";
     document.getElementById("summary").textContent = "Enter your trip details and click Compare Costs.";
-    document.getElementById("thruwayInfo").textContent = "Thruway toll estimate appears after distance lookup.";
     document.getElementById("thruwayExitResult").textContent = "Choose start and end exits, then calculate toll.";
     document.getElementById("thruwayStartExit").value = "";
     document.getElementById("thruwayEndExit").value = "";
@@ -1016,7 +752,6 @@ layout: tool
     document.getElementById("rentalCard").classList.remove("winner", "loser");
   }
 
-  document.getElementById("distanceBtn").addEventListener("click", handleDistanceLookup);
   document.getElementById("fuelBtn").addEventListener("click", handleFuelLookup);
   document.getElementById("compareBtn").addEventListener("click", compareCosts);
   document.getElementById("resetBtn").addEventListener("click", resetDefaults);
@@ -1025,11 +760,7 @@ layout: tool
   document.getElementById("applyThruwayExitTollBtn").addEventListener("click", applyExitRoundTripToll);
   document.getElementById("thruwayStartExit").addEventListener("change", calculateExitToExitToll);
   document.getElementById("thruwayEndExit").addEventListener("change", calculateExitToExitToll);
-  document.getElementById("thruwayRate").addEventListener("input", updateThruwayEstimateUI);
   document.getElementById("thruwayRate").addEventListener("input", calculateExitToExitToll);
-  document.getElementById("autoApplyThruwayTolls").addEventListener("change", updateThruwayEstimateUI);
-  wireAddressAutocomplete("origin", "originSuggestions");
-  wireAddressAutocomplete("destination", "destinationSuggestions");
   loadThruwayExits();
 
   compareCosts();
