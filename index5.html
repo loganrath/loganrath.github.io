@@ -1,0 +1,438 @@
+---
+title: "Logan Rath, PhD"
+layout: none
+---
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logan Rath, PhD</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <style>
+    :root {
+      --bg:      #ffffff;
+      --bg2:     #f8f8f6;
+      --ink:     #0a0a0a;
+      --ink2:    #3d3d3d;
+      --muted:   #888;
+      --rule:    #ebebeb;
+      --navy:    #0f172a;
+      --sky:     #0ea5e9;
+      --sky-lt:  #e0f2fe;
+      --green:   #16a34a;
+      --green-lt:#dcfce7;
+      --amber:   #d97706;
+      --amber-lt:#fef3c7;
+      --r:       16px;
+      --font:    'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html  { scroll-behavior: smooth; }
+    body  { background: var(--bg2); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.6; }
+
+    /* ── Floating pill nav ─────────────────────────────── */
+    .nav-wrap {
+      position: sticky; top: 0.875rem; z-index: 200;
+      display: flex; justify-content: center; pointer-events: none;
+    }
+    .nav {
+      pointer-events: all;
+      display: flex; align-items: center; gap: 0;
+      background: rgba(10,10,10,0.9); backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 100px; padding: 0 0.25rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.06);
+    }
+    .nav-brand {
+      font-size: 0.8rem; font-weight: 700; color: white; text-decoration: none;
+      padding: 0.5rem 1rem; white-space: nowrap; letter-spacing: -0.02em;
+    }
+    .nav-brand span { color: var(--sky); }
+    .nav-brand:hover { color: white; text-decoration: none; }
+    .nav-sep { width: 1px; height: 18px; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+    .nav-links { display: flex; list-style: none; }
+    .nav-links a {
+      display: block; font-size: 0.75rem; font-weight: 500;
+      color: rgba(255,255,255,0.55); text-decoration: none;
+      padding: 0.5rem 0.75rem; border-radius: 100px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-links a:hover { color: white; background: rgba(255,255,255,0.09); }
+    @media (max-width: 600px) { .nav-sep, .nav-links { display: none; } }
+
+    /* ── Page wrapper ──────────────────────────────────── */
+    .page { max-width: 1280px; margin: 0 auto; padding: 1.25rem 1.25rem 5rem; }
+
+    /* ── Bento grid ────────────────────────────────────── */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: auto;
+      gap: 0.875rem;
+    }
+
+    /* ── Cell base ─────────────────────────────────────── */
+    .cell {
+      background: var(--bg); border-radius: var(--r);
+      padding: 1.75rem; position: relative; overflow: hidden;
+      border: 1px solid var(--rule);
+      transition: transform 0.22s cubic-bezier(.4,0,.2,1), box-shadow 0.22s cubic-bezier(.4,0,.2,1);
+    }
+    .cell:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+
+    /* Column spans */
+    .c-12 { grid-column: span 12; }
+    .c-8  { grid-column: span 8; }
+    .c-7  { grid-column: span 7; }
+    .c-6  { grid-column: span 6; }
+    .c-5  { grid-column: span 5; }
+    .c-4  { grid-column: span 4; }
+    .c-3  { grid-column: span 3; }
+    @media (max-width: 1024px) { .c-7,.c-8 { grid-column: span 12; } .c-5,.c-4 { grid-column: span 6; } .c-3 { grid-column: span 6; } }
+    @media (max-width: 680px)  { .c-12,.c-8,.c-7,.c-6,.c-5,.c-4,.c-3 { grid-column: span 12; } }
+
+    /* ── Cell variants ─────────────────────────────────── */
+    .cell-dark  { background: var(--navy); color: white; border-color: transparent; }
+    .cell-sky   { background: var(--sky-lt); border-color: #bae6fd; }
+    .cell-green { background: var(--green-lt); border-color: #bbf7d0; }
+    .cell-amber { background: var(--amber-lt); border-color: #fde68a; }
+    .cell-photo { padding: 0; border: none; overflow: hidden; min-height: 340px; }
+
+    /* ── Name cell ─────────────────────────────────────── */
+    .cell-name { padding: 2.5rem; }
+    .name-eyebrow {
+      font-size: 0.67rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--sky); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .name-eyebrow::before { content: ''; width: 20px; height: 2px; background: var(--sky); border-radius: 2px; }
+    h1.bento-name {
+      font-size: clamp(2.75rem, 5vw, 4.5rem);
+      font-weight: 800; line-height: 0.95; letter-spacing: -0.04em;
+      color: var(--ink); margin-bottom: 1rem;
+    }
+    h1.bento-name .phd { font-weight: 300; color: var(--muted); font-size: 0.65em; letter-spacing: -0.02em; }
+    .name-role {
+      font-size: 0.875rem; color: var(--muted); font-weight: 400; line-height: 1.6;
+      border-left: 2px solid var(--rule); padding-left: 0.875rem; margin-top: 1rem;
+      max-width: 30ch;
+    }
+
+    /* ── Photo cell ────────────────────────────────────── */
+    .cell-photo img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block;
+    }
+
+    /* ── Labels ────────────────────────────────────────── */
+    .cell-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.4rem;
+    }
+    .cell-dark .cell-label { color: rgba(255,255,255,0.3); }
+    .cell-sky .cell-label { color: #0284c7; }
+    .cell-green .cell-label { color: var(--green); }
+    .cell-amber .cell-label { color: var(--amber); }
+    .cell-label i { font-size: 0.75rem; }
+
+    /* ── Headings inside cells ─────────────────────────── */
+    .cell h2 {
+      font-size: 1.35rem; font-weight: 700; letter-spacing: -0.03em;
+      color: var(--ink); margin-bottom: 0.75rem; line-height: 1.2;
+    }
+    .cell-dark h2 { color: white; }
+    .cell-sky h2  { color: #0c4a6e; }
+    .cell-green h2 { color: #14532d; }
+    .cell-amber h2 { color: #78350f; }
+    .cell p { font-size: 0.9125rem; color: var(--ink2); line-height: 1.7; }
+    .cell-dark p { color: rgba(255,255,255,0.55); }
+    .cell-sky p { color: #0369a1; }
+    .cell a { color: var(--sky); text-decoration: none; }
+    .cell a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .cell-dark a { color: rgba(255,255,255,0.7); }
+    .cell-dark a:hover { color: white; }
+
+    /* ── Social chips ──────────────────────────────────── */
+    .social-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.125rem; }
+    .s-chip {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-size: 0.72rem; font-weight: 600;
+      padding: 0.3rem 0.75rem; border-radius: 100px; text-decoration: none;
+      transition: filter 0.15s, transform 0.15s;
+    }
+    .s-chip:hover { filter: brightness(1.08); transform: translateY(-1px); text-decoration: none; }
+    .s-chip i { font-size: 0.78rem; }
+    /* Individual chip colors */
+    .chip-mail   { background: #fee2e2; color: #991b1b; }
+    .chip-cv     { background: #ede9fe; color: #5b21b6; }
+    .chip-uni    { background: var(--sky-lt); color: #0c4a6e; }
+    .chip-sch    { background: #fef3c7; color: #78350f; }
+    .chip-orcid  { background: var(--green-lt); color: #14532d; }
+    .chip-gh     { background: #f1f5f9; color: #0f172a; }
+    .chip-li     { background: #dbeafe; color: #1e40af; }
+    .chip-masto  { background: #ede9fe; color: #4c1d95; }
+
+    /* ── Action tiles ──────────────────────────────────── */
+    .tile-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 1rem; }
+    .tile {
+      display: block; text-align: center; text-decoration: none; padding: 1rem 0.5rem;
+      background: var(--bg2); border: 1px solid var(--rule); border-radius: 10px;
+      color: var(--ink2); transition: all 0.2s;
+    }
+    .tile:hover { background: var(--sky); color: white; border-color: var(--sky); transform: translateY(-2px); text-decoration: none; }
+    .tile i { display: block; font-size: 1.35rem; margin-bottom: 0.3rem; }
+    .tile span { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* ── Research list ─────────────────────────────────── */
+    .rlist { list-style: none; padding: 0; margin-top: 0.25rem; }
+    .rlist li {
+      display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.6rem;
+      padding: 0.7rem 0; border-bottom: 1px solid var(--rule);
+      align-items: start;
+    }
+    .cell-sky .rlist li { border-bottom-color: #bae6fd; }
+    .rlist li:last-child { border-bottom: none; }
+    .rnum { font-size: 0.7rem; font-weight: 800; color: var(--sky); padding-top: 0.1rem; }
+    .cell-sky .rnum { color: #0284c7; }
+    .rtext { font-size: 0.86rem; color: var(--ink2); line-height: 1.55; }
+    .cell-sky .rtext { color: #0c4a6e; }
+
+    /* ── Link list ─────────────────────────────────────── */
+    .llist { list-style: none; padding: 0; }
+    .llist li { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .llist li:last-child { border-bottom: none; }
+    .llist a {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.86rem; color: rgba(255,255,255,0.6); text-decoration: none;
+      padding: 0.5rem 0; transition: color 0.15s;
+    }
+    .llist a::after { content: '↗'; font-size: 0.7rem; color: rgba(255,255,255,0.2); transition: color 0.15s; }
+    .llist a:hover { color: white; }
+    .llist a:hover::after { color: var(--sky); }
+
+    /* ── COPALI ────────────────────────────────────────── */
+    .cell-copali {
+      background: linear-gradient(135deg, #0369A1 0%, #0E7490 55%, #0F766E 100%);
+      border: none; text-decoration: none; display: block;
+      cursor: pointer;
+    }
+    .cell-copali:hover { text-decoration: none; }
+    .cell-copali .cell-label { color: rgba(255,255,255,0.45); }
+    .cell-copali h2 { color: white; font-size: 1.65rem; margin-bottom: 0.5rem; }
+    .cell-copali p { color: rgba(255,255,255,0.7); }
+    /* decorative ring */
+    .cell-copali::after {
+      content: ''; position: absolute; right: -60px; bottom: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      border: 40px solid rgba(255,255,255,0.07); pointer-events: none;
+    }
+
+    /* ── OER books ─────────────────────────────────────── */
+    .oer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem; }
+    .oer-book a { text-decoration: none; color: var(--ink2); }
+    .oer-book img {
+      width: 100%; border-radius: 8px; display: block; margin-bottom: 0.5rem;
+      box-shadow: 4px 8px 24px rgba(0,0,0,0.12);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .oer-book img:hover { transform: translateY(-5px); box-shadow: 4px 16px 40px rgba(0,0,0,0.2); }
+    .oer-book small { font-size: 0.77rem; line-height: 1.45; display: block; color: var(--muted); }
+
+    /* ── Tools numbered list ───────────────────────────── */
+    .toolist { list-style: none; padding: 0; counter-reset: t; }
+    .toolist li {
+      counter-increment: t; display: grid; grid-template-columns: 1.5rem 1fr;
+      gap: 0.5rem; padding: 0.48rem 0;
+      border-bottom: 1px solid var(--rule); align-items: start;
+    }
+    .toolist li:last-child { border-bottom: none; }
+    .toolist li::before { content: counter(t, decimal-leading-zero); font-size: 0.62rem; font-weight: 700; color: var(--sky); padding-top: 0.1rem; }
+    .toolist a { font-size: 0.875rem; color: var(--ink2); text-decoration: none; transition: color 0.15s; }
+    .toolist a:hover { color: var(--sky); }
+
+    /* ── Pills ─────────────────────────────────────────── */
+    .pills { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; padding: 0; margin-top: 0.25rem; }
+    .pills a {
+      display: inline-block; font-size: 0.75rem; font-weight: 600;
+      padding: 0.3rem 0.8rem; border-radius: 100px;
+      background: var(--bg2); border: 1px solid var(--rule);
+      color: var(--ink2); text-decoration: none;
+      transition: all 0.15s;
+    }
+    .pills a:hover { background: var(--navy); color: white; border-color: var(--navy); }
+
+    /* ── Stats strip ───────────────────────────────────── */
+    .stat-strip { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+    .stat { display: flex; flex-direction: column; gap: 0.15rem; }
+    .stat-num { font-size: 2.25rem; font-weight: 800; color: var(--sky); line-height: 1; letter-spacing: -0.04em; }
+    .stat-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── Footer ────────────────────────────────────────── */
+    footer {
+      background: var(--navy); border-radius: var(--r); margin: 0 1.25rem;
+      padding: 2rem 2.25rem; display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .ft-brand { font-size: 0.9rem; font-weight: 700; color: white; letter-spacing: -0.02em; }
+    .ft-brand span { color: var(--sky); }
+    .ft-icons { display: flex; gap: 0.875rem; flex-wrap: wrap; }
+    .ft-icons a { color: rgba(255,255,255,0.3); font-size: 1rem; text-decoration: none; transition: color 0.15s; }
+    .ft-icons a:hover { color: var(--sky); }
+    .ft-copy { font-size: 0.72rem; color: rgba(255,255,255,0.28); }
+    .ft-wrap { padding-bottom: 1.25rem; }
+
+    @media print { .nav-wrap { display: none; } body { background: white; } }
+  </style>
+</head>
+<body>
+
+  <!-- Floating pill nav -->
+  <div class="nav-wrap" aria-label="Main navigation">
+    <nav class="nav">
+      <a class="nav-brand" href="/">Logan <span>Rath</span>, PhD</a>
+      <div class="nav-sep" aria-hidden="true"></div>
+      <ul class="nav-links" role="list">
+        <li><a href="/about/">About</a></li>
+        <li><a href="/teaching/">Teaching</a></li>
+        <li><a href="/publications/">Publications</a></li>
+        <li><a href="/research/">Research</a></li>
+        <li><a href="/presentations/">Talks</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="page">
+    <main class="bento" aria-label="Home page content">
+
+      <!-- ROW 1: Name · Photo -->
+      <div class="cell cell-name c-7" aria-label="Introduction">
+        <p class="name-eyebrow">SUNY Brockport · 2026</p>
+        <h1 class="bento-name">Logan<br>Rath, <span class="phd">PhD</span></h1>
+        <p class="name-role">Librarian &middot; Researcher &middot; Educator. Exploring information literacy, library instruction, and multimodal practices.</p>
+        <div class="social-chips" aria-label="Profiles and links">
+          <a class="s-chip chip-mail" href="mailto:logan@rath.phd"><i class="fas fa-envelope" aria-hidden="true"></i> Email</a>
+          <a class="s-chip chip-cv" href="/rath_cv_web.pdf"><i class="ai ai-cv-square" aria-hidden="true"></i> CV</a>
+          <a class="s-chip chip-uni" href="https://www.brockport.edu/live/profiles/logan-rath"><i class="fas fa-university" aria-hidden="true"></i> Brockport</a>
+          <a class="s-chip chip-sch" href="https://scholar.google.com/citations?user=sfO-kFAAAAAJ&hl=en"><i class="ai ai-google-scholar-square" aria-hidden="true"></i> Scholar</a>
+          <a class="s-chip chip-orcid" href="https://orcid.org/0000-0002-6221-4536"><i class="fab fa-orcid" aria-hidden="true"></i> ORCID</a>
+          <a class="s-chip chip-gh" href="https://github.com/loganrath"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a>
+          <a class="s-chip chip-li" href="https://linkedin.com/in/loganrath"><i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
+          <a class="s-chip chip-masto" rel="me" href="https://kind.social/@logan"><i class="fab fa-mastodon" aria-hidden="true"></i> Mastodon</a>
+        </div>
+      </div>
+
+      <div class="cell cell-photo c-5" role="img" aria-label="Photo of Logan Rath">
+        <img src="/assets/img/logan2023.jpg" alt="Photo of Logan Rath">
+      </div>
+
+      <!-- ROW 2: About + Quick actions + Research -->
+      <div class="cell c-4">
+        <p class="cell-label"><i class="fas fa-user" aria-hidden="true"></i> About</p>
+        <p>Librarian and adjunct professor. Research sits at the intersection of information literacy, social practice theory, and K&ndash;12 teacher collaboration.</p>
+        <div class="tile-row" aria-label="Quick actions">
+          <a class="tile" href="/rath_cv_web.pdf"><i class="fa fa-file-pdf" aria-hidden="true"></i><span>CV</span></a>
+          <a class="tile" href="/about/"><i class="fa fa-id-card" aria-hidden="true"></i><span>Bio</span></a>
+          <a class="tile" href="/teaching/"><i class="fa fa-person-chalkboard" aria-hidden="true"></i><span>Classes</span></a>
+        </div>
+      </div>
+
+      <div class="cell cell-sky c-8" aria-label="Current research">
+        <p class="cell-label"><i class="fas fa-microscope" aria-hidden="true"></i> Current Research</p>
+        <ul class="rlist">
+          <li><span class="rnum">01</span><span class="rtext">Perceptions of Generative Artificial Intelligence Among Pre-Service Teachers</span></li>
+          <li><span class="rnum">02</span><span class="rtext">Academic Librarians&rsquo; Use of the Knowledge Practices &amp; Dispositions in the ACRL <em>Framework for Information Literacy in Higher Education</em></span></li>
+          <li><span class="rnum">03</span><span class="rtext">Longitudinal Study of Undergraduate Students&rsquo; Library Use</span></li>
+        </ul>
+      </div>
+
+      <!-- ROW 3: COPALI + Links -->
+      <a class="cell cell-copali c-8" href="/copali2026" aria-label="COPALI Pedagogy Summer Community of Practice">
+        <p class="cell-label"><i class="fas fa-people-group" aria-hidden="true"></i> Featured Program</p>
+        <h2>COPALI Pedagogy</h2>
+        <p>A Summer Community of Practice for Academic Librarians</p>
+      </a>
+
+      <div class="cell cell-dark c-4" aria-label="Quick links">
+        <p class="cell-label">Quick Links</p>
+        <ul class="llist">
+          <li><a href="/mtp">Geneseo MTP Links</a></li>
+          <li><a href="/pico/">PICO(T) Generator</a></li>
+          <li><a href="/keywords/">Keyword Generator</a></li>
+          <li><a href="/qr">QR Code Generator</a></li>
+          <li><a href="/libkey/">LibKey DOI Resolver</a></li>
+          <li><a href="/kaltura">Kaltura Links</a></li>
+          <li><a href="/ebsco/">EBSCO Permalinks</a></li>
+          <li><a href="/crisp">CRISP AI Builder</a></li>
+        </ul>
+      </div>
+
+      <!-- ROW 4: OERs + AI Tools -->
+      <div class="cell c-6" aria-label="OER publications">
+        <p class="cell-label"><i class="fas fa-book-open" aria-hidden="true"></i> Open Educational Resources</p>
+        <div class="oer-grid">
+          <div class="oer-book">
+            <a href="https://copali.pressbooks.suny.edu">
+              <img src="https://copali.pressbooks.sunycreate.cloud/wp-content/uploads/sites/175/2025/05/COPALI-cover-768x960.jpg" alt="COPALI OER book cover">
+              <small>Communities of Practice for the Advancement of Library Instruction: An OER Curriculum</small>
+            </a>
+          </div>
+          <div class="oer-book">
+            <a href="https://big6literacy.pressbooks.sunycreate.cloud">
+              <img src="https://big6literacy.pressbooks.sunycreate.cloud/wp-content/uploads/sites/154/2025/01/Big-6-Handbook-Literacy-Activities-768x1024.jpg" alt="Big 6 Handbook cover">
+              <small>Big 6 Handbook: Activities to Support Literacy in New York State</small>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="cell cell-green c-6" aria-label="Tools coded with AI">
+        <p class="cell-label"><i class="fas fa-robot" aria-hidden="true"></i> Tools Coded with AI</p>
+        <ul class="toolist">
+          <li><a href="/pico/">PICO(T) Search Term Generator</a></li>
+          <li><a href="/keywords/">General Search Term Generator</a></li>
+          <li><a href="/crisp">CRISP Prompt Builder for GenAI</a></li>
+          <li><a href="/libkey/">DOI &amp; PMID Resolver via LibKey</a></li>
+          <li><a href="/multimodal-big6">Multimodal Big 6 Activity Ideas K&ndash;12</a></li>
+          <li><a href="/disciplinary-literacy-with-ai">AI Disciplinary Literacy Activities K&ndash;12</a></li>
+        </ul>
+      </div>
+
+      <!-- ROW 5: More tools -->
+      <div class="cell c-12" aria-label="Additional tools and links">
+        <p class="cell-label">More Tools &amp; Links</p>
+        <ul class="pills">
+          <li><a href="/qr">QR Code Generator</a></li>
+          <li><a href="bpt2alb/">Brockport &harr; Albany</a></li>
+          <li><a href="bpt2buf/">Brockport &harr; Buffalo</a></li>
+          <li><a href="bpt2esc/">Brockport &harr; Empire</a></li>
+          <li><a href="/kaltura">Kaltura Link Generator</a></li>
+          <li><a href="/ebsco/">EBSCO Permalink Generator</a></li>
+          <li><a href="/xlh/">XLH Research Links</a></li>
+        </ul>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="ft-wrap">
+    <footer>
+      <span class="ft-brand">Logan <span>Rath</span>, PhD</span>
+      <div class="ft-icons" aria-label="Social profiles">
+        <a href="mailto:logan@rath.phd" title="Email"><i class="fas fa-envelope" aria-hidden="true"></i></a>
+        <a href="/rath_cv_web.pdf" title="CV"><i class="ai ai-cv-square" aria-hidden="true"></i></a>
+        <a href="https://www.brockport.edu/live/profiles/logan-rath" title="Brockport"><i class="fas fa-university" aria-hidden="true"></i></a>
+        <a href="https://scholar.google.com/citations?user=sfO-kFAAAAAJ&hl=en" title="Google Scholar"><i class="ai ai-google-scholar-square" aria-hidden="true"></i></a>
+        <a href="https://orcid.org/0000-0002-6221-4536" title="ORCID"><i class="fab fa-orcid" aria-hidden="true"></i></a>
+        <a href="https://github.com/loganrath" title="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
+        <a href="https://linkedin.com/in/loganrath" title="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+        <a rel="me" href="https://kind.social/@logan" title="Mastodon"><i class="fab fa-mastodon" aria-hidden="true"></i></a>
+      </div>
+      <span class="ft-copy">&copy; Logan Rath</span>
+    </footer>
+  </div>
+
+</body>
+</html>

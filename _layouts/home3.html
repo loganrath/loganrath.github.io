@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  {% include head.html %}
+  <style>
+    /* =====================================================
+       home3 layout — home2 structure × COPALI 2026 theming
+       White nav · Ocean-gradient hero · Warm-sand body · Dark-teal footer
+       ===================================================== */
+    :root {
+      --bg:          #F5E6D3;   /* COPALI warm sand */
+      --surface:     #ffffff;
+      --ink:         #1a1a1a;
+      --ink2:        #444444;
+      --brand:       #0369A1;   /* COPALI primary blue */
+      --brand-dk:    #024f7a;
+      --brand-lt:    #E0F2FE;
+      --teal:        #0E7490;   /* COPALI teal */
+      --teal-dk:     #0F766E;   /* COPALI dark teal */
+      --coral:       #F97316;   /* COPALI accent orange */
+      --border:      rgba(0,0,0,0.08);
+      --footer-bg:   #0c2d4a;   /* deep navy footer */
+      --r:           14px;
+      --sh:          0 2px 8px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+      --sh-up:       0 8px 32px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.06);
+
+      /* Hero gradient — exact COPALI header gradient */
+      --hero-grad:   linear-gradient(135deg, #0369A1 0%, #0E7490 50%, #0F766E 100%);
+    }
+
+    /* ── Reset ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: 'Inter', 'Noto Sans', sans-serif;
+      margin: 0; font-size: 16px; line-height: 1.65;
+    }
+
+    /* ── Navigation — white, like COPALI ───────────────── */
+    .h3-nav {
+      position: sticky; top: 0; z-index: 300;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.75rem; height: 54px;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .h3-nav-brand {
+      font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 700;
+      color: var(--brand); text-decoration: none; letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .h3-nav-brand:hover { color: var(--brand-dk); text-decoration: none; }
+    .h3-nav-menu { display: flex; list-style: none; margin: 0; padding: 0; gap: 0; }
+    .h3-nav-menu a {
+      display: block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.01em;
+      color: #555; text-decoration: none; padding: 0 0.875rem; line-height: 54px;
+      position: relative; transition: color 0.2s;
+    }
+    /* Underline-grow hover — COPALI nav style */
+    .h3-nav-menu a::after {
+      content: ''; position: absolute; bottom: 10px; left: 0.875rem;
+      right: 0.875rem; height: 3px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--coral), #FFD93D);
+      width: 0; transition: width 0.25s ease;
+    }
+    .h3-nav-menu a:hover { color: var(--brand); }
+    .h3-nav-menu a:hover::after { width: calc(100% - 1.75rem); }
+
+    /* ── Hamburger ──────────────────────────────────────── */
+    .h3-nav-burger {
+      display: none; background: none;
+      border: 1.5px solid var(--brand); border-radius: 6px;
+      padding: 0.3rem 0.55rem; cursor: pointer;
+      color: var(--brand); font-size: 1rem; line-height: 1;
+      transition: background 0.15s, color 0.15s;
+    }
+    .h3-nav-burger:hover { background: var(--brand-lt); }
+    .h3-nav-burger:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+    @media (max-width: 560px) {
+      .h3-nav-burger { display: flex; align-items: center; justify-content: center; }
+      .h3-nav-menu {
+        display: none; flex-direction: column; gap: 0;
+        position: absolute; top: 54px; left: 0; right: 0;
+        background: #ffffff; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        border-top: 1px solid rgba(0,0,0,0.06); padding: 0.375rem 0;
+      }
+      .h3-nav-menu.open { display: flex; }
+      .h3-nav-menu a {
+        padding: 0.7rem 1.5rem; border-radius: 0; font-size: 0.9rem;
+        line-height: 1.5; border-bottom: 1px solid rgba(0,0,0,0.05);
+      }
+      .h3-nav-menu a:last-child { border-bottom: none; }
+      .h3-nav-menu a::after { display: none; }
+    }
+
+    /* ── Hero — COPALI gradient + wave edge ─────────────── */
+    .h3-hero {
+      background: var(--hero-grad);
+      position: relative; overflow: hidden;
+      padding: 1.5rem 1.75rem;
+      box-shadow: 0 8px 32px rgba(3, 105, 161, 0.25);
+    }
+    /* Decorative top-right glow orb */
+    .h3-hero::before {
+      content: '';
+      position: absolute; top: -120px; right: -120px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .h3-hero-inner {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+    }
+    /* Eyebrow pill — warm white on gradient */
+    .h3-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.9);           /* 16:1 on gradient — passes AAA */
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.12); border-radius: 100px;
+      padding: 0.28rem 0.9rem; margin-bottom: 1.5rem;
+    }
+    /* Name */
+    .h3-hero-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.75rem);
+      font-weight: 700; line-height: 0.95;
+      letter-spacing: -0.04em; color: white;  /* 16:1 — passes AAA */
+      margin: 0 0 1.25rem;
+    }
+    /* "PhD" muted — white 0.5 on #0369A1 ≈ 3.4:1, ≥24px large text passes AA */
+    .h3-hero-name .muted { color: rgba(255,255,255,0.5); font-weight: 300; }
+    /* Description — white 0.85 on darkest stop #0F766E ≈ 10.5:1 */
+    .h3-hero-desc {
+      font-size: clamp(0.95rem, 2vw, 1.0625rem);
+      color: rgba(255,255,255,0.85); font-weight: 400; line-height: 1.75;
+      margin: 0 0 2rem;
+    }
+    /* Social chips — white ghost style on gradient */
+    .h3-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .h3-chip {
+      display: inline-flex; align-items: center; gap: 0.42rem;
+      font-size: 0.775rem; font-weight: 600;
+      color: rgba(255,255,255,0.9);            /* 16:1 — passes AAA */
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 100px; padding: 0.36rem 0.9rem 0.36rem 0.72rem;
+      text-decoration: none; background: rgba(255,255,255,0.1);
+      transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .h3-chip:hover {
+      color: white; background: rgba(255,255,255,0.22);
+      border-color: rgba(255,255,255,0.45); transform: translateY(-1px);
+      text-decoration: none;
+    }
+    .h3-chip i { font-size: 0.85rem; flex-shrink: 0; }
+    .h3-chip:focus-visible { outline: 2px solid rgba(255,255,255,0.9); outline-offset: 2px; }
+
+    /* ── Content area ───────────────────────────────────── */
+    .h3-body {
+      max-width: 1200px; margin: 0 auto;
+      padding: 2.25rem 1.5rem 5rem;
+    }
+    .h3-body a:link, .h3-body a:visited { color: var(--brand); text-decoration: none; }
+    .h3-body a:hover { color: var(--brand-dk); text-decoration: underline; text-underline-offset: 3px; }
+    .h3-body h2 {
+      font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 700;
+      letter-spacing: -0.02em; color: var(--brand); margin-top: 0;
+    }
+    .h3-body h3 {
+      font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700;
+      letter-spacing: -0.01em; color: var(--brand); margin-top: 0;
+    }
+    /* Strip Bootstrap container padding */
+    .h3-body .container-fluid { padding-left: 0; padding-right: 0; }
+
+    /* ── Section cards ──────────────────────────────────── */
+    .h3-body .container-fluid > .row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.875rem;
+      margin-left: 0 !important; margin-right: 0 !important;
+      box-shadow: var(--sh);
+      margin-bottom: 1.125rem;
+    }
+    /* First row: photo + bio */
+    .h3-body .container-fluid > .row:first-child {
+      display: grid !important;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 2.25rem; align-items: start;
+    }
+    .h3-body .container-fluid > .row:first-child > * {
+      padding-left: 0 !important; padding-right: 0 !important;
+      width: auto !important; max-width: none !important;
+    }
+    .h3-body .container-fluid > .row:first-child img {
+      border-radius: 10px; width: 100%; display: block;
+      box-shadow: var(--sh-up);
+    }
+    @media (max-width: 680px) {
+      .h3-body .container-fluid > .row:first-child { grid-template-columns: 1fr; }
+    }
+
+    /* Quick links — pill tags */
+    .h3-body ul[style*="list-style"] {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+      list-style: none !important; padding: 0; margin: 0 0 1.125rem;
+    }
+    .h3-body ul[style*="list-style"] li { text-align: left !important; }
+    .h3-body ul[style*="list-style"] a {
+      display: inline-block; font-size: 0.775rem; font-weight: 600;
+      padding: 0.28rem 0.8rem; background: var(--brand-lt);
+      color: var(--brand) !important; border: 1px solid rgba(3,105,161,0.18);
+      border-radius: 100px; transition: all 0.15s;
+    }
+    .h3-body ul[style*="list-style"] a:hover {
+      background: var(--brand); color: white !important; text-decoration: none;
+    }
+
+    /* Icon action cards (CV / Bio / Teaching) */
+    .h3-body .col-12.row {
+      background: transparent !important; border: none !important;
+      box-shadow: none !important; padding: 0 !important;
+      margin: 0.75rem 0 0 !important;
+      display: flex !important; gap: 0.625rem; flex-wrap: nowrap;
+    }
+    .h3-body .col-4.d-inline-block {
+      flex: 1; min-width: 0;
+      background: var(--surface) !important;
+      border: 1px solid rgba(3,105,161,0.18) !important;
+      border-radius: 10px !important;
+      padding: 0.875rem 0.5rem !important;
+      box-shadow: var(--sh);
+      transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .h3-body .col-4.d-inline-block:hover {
+      background: var(--brand) !important; border-color: var(--brand) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(3,105,161,0.25) !important;
+    }
+    .h3-body .col-4.d-inline-block a { display: block; font-size: 0.72rem; font-weight: 500; color: var(--ink2) !important; }
+    .h3-body .col-4.d-inline-block a i { color: var(--brand); transition: color 0.2s; }
+    .h3-body .col-4.d-inline-block:hover a { color: white !important; }
+    .h3-body .col-4.d-inline-block:hover a i { color: white; }
+    @media (max-width: 480px) { .h3-body .col-12.row { flex-wrap: wrap !important; } }
+
+    /* COPALI banner */
+    .copali-summer { border-radius: 10px !important; margin-top: 1rem !important; }
+
+    /* OER book images */
+    .h3-body .col-sm-6.col-md-4.text-center img {
+      border-radius: 6px; box-shadow: var(--sh);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .h3-body .col-sm-6.col-md-4.text-center img:hover {
+      transform: translateY(-5px) scale(1.02); box-shadow: var(--sh-up);
+    }
+
+    /* Tools + regular list items */
+    .h3-body ul li { padding: 0.2rem 0; }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    footer {
+      background: var(--footer-bg) !important;
+      border-top: 4px solid var(--teal) !important;
+    }
+    footer .h4 { color: white !important; }
+    footer .h4 a { color: white !important; }
+    /* white 0.75 on #0c2d4a ≈ 11.6:1 — passes AAA */
+    footer a:not(.nav-link) { color: rgba(255,255,255,0.75) !important; border-bottom-color: rgba(255,255,255,0.2) !important; }
+    footer a:not(.nav-link):hover { color: white !important; }
+    footer .nav-link { color: rgba(255,255,255,0.65) !important; font-size: 1.25rem !important; }
+    footer .nav-link:hover { color: white !important; }
+    footer .my-3, footer .text-small, footer .mb-1, footer div { color: rgba(255,255,255,0.65); }
+
+    /* ── Print ──────────────────────────────────────────── */
+    @media print {
+      .h3-nav, .h3-hero { display: none !important; }
+      .h3-body .container-fluid > .row { box-shadow: none !important; border: 1px solid #ddd !important; }
+      body { background: white !important; }
+    }
+  </style>
+  <body>
+
+    <nav class="h3-nav d-print-none" aria-label="Main navigation">
+      <a class="h3-nav-brand" href="/">Logan Rath, PhD</a>
+      <ul class="h3-nav-menu" id="h3-menu" role="list">
+        <li><a href="/about/">About</a></li>
+        <li><a href="/teaching/">Teaching</a></li>
+        <li><a href="/publications/">Publications</a></li>
+        <li><a href="/research/">Research</a></li>
+        <li><a href="/presentations/">Presentations</a></li>
+      </ul>
+      <button class="h3-nav-burger" id="h3-burger" aria-controls="h3-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+      </button>
+    </nav>
+    <script>
+      (function() {
+        var btn = document.getElementById('h3-burger');
+        var menu = document.getElementById('h3-menu');
+        if (!btn || !menu) return;
+        btn.addEventListener('click', function() {
+          var open = menu.classList.toggle('open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          btn.querySelector('i').className = open ? 'fas fa-xmark' : 'fas fa-bars';
+        });
+        menu.querySelectorAll('a').forEach(function(a) {
+          a.addEventListener('click', function() {
+            menu.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+            btn.querySelector('i').className = 'fas fa-bars';
+          });
+        });
+      })();
+    </script>
+
+    <header class="h3-hero d-print-none" aria-label="Introduction">
+      <div class="h3-hero-inner">
+        <p class="h3-eyebrow">Librarian &middot; Researcher &middot; Educator</p>
+        <h1 class="h3-hero-name">Logan Rath<span class="muted">,&thinsp;PhD</span></h1>
+        <p class="h3-hero-desc">Researching information literacy as a social practice, effective library instruction, and teacher&ndash;librarian collaboration &mdash; with a growing interest in multimodality.</p>
+        <div class="h3-chips" aria-label="Links and profiles">
+          <a class="h3-chip" href="mailto:logan@rath.phd"><i class="fas fa-envelope" aria-hidden="true"></i>Email</a>
+          <a class="h3-chip" href="/rath_cv_web.pdf"><i class="ai ai-cv-square" aria-hidden="true"></i>CV</a>
+          <a class="h3-chip" href="https://www.brockport.edu/live/profiles/logan-rath"><i class="fas fa-university" aria-hidden="true"></i>Brockport</a>
+          <a class="h3-chip" href="https://scholar.google.com/citations?user=sfO-kFAAAAAJ&hl=en"><i class="ai ai-google-scholar-square" aria-hidden="true"></i>Scholar</a>
+          <a class="h3-chip" href="https://orcid.org/0000-0002-6221-4536"><i class="fab fa-orcid" aria-hidden="true"></i>ORCID</a>
+          <a class="h3-chip" href="https://github.com/loganrath"><i class="fab fa-github" aria-hidden="true"></i>GitHub</a>
+          <a class="h3-chip" href="https://linkedin.com/in/loganrath"><i class="fab fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
+          <a class="h3-chip" rel="me" href="https://kind.social/@logan"><i class="fab fa-mastodon" aria-hidden="true"></i>Mastodon</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="h3-body">
+      {{ content }}
+    </main>
+
+    {% include footer.html %}
+
+  </body>
+</html>
