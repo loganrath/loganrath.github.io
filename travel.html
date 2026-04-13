@@ -1,0 +1,591 @@
+---
+title: "Drive vs Rental Cost Calculator"
+layout: tool
+---
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap');
+
+  :root {
+    --ink: #1a1b1e;
+    --paper: #fff9f2;
+    --panel: #ffffff;
+    --accent: #0d9488;
+    --accent-deep: #0f766e;
+    --signal: #ef4444;
+    --safe: #15803d;
+    --muted: #5f6368;
+    --line: #dfd4c6;
+  }
+
+  .compare-page {
+    font-family: "Chivo", "Trebuchet MS", "Segoe UI", sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 15% 15%, #ffe8bf 0%, transparent 38%),
+      radial-gradient(circle at 85% 30%, #d5f7ef 0%, transparent 42%),
+      linear-gradient(165deg, #fffaf5 0%, #fff2e2 100%);
+    border: 1px solid #f0dfcc;
+    border-radius: 24px;
+    padding: 26px;
+    box-shadow: 0 18px 35px rgba(96, 58, 18, 0.08);
+    overflow: hidden;
+  }
+
+  .hero h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.15;
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+
+  .hero p {
+    margin: 10px 0 16px;
+    max-width: 780px;
+    color: #3f454d;
+    font-size: 1rem;
+  }
+
+  .status-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .chip {
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 0.82rem;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: #30343a;
+  }
+
+  .chip strong {
+    color: var(--accent-deep);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 10px;
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 8px 20px rgba(98, 70, 40, 0.05);
+    animation: rise 0.5s ease both;
+  }
+
+  .panel h2 {
+    font-family: "Fraunces", Georgia, serif;
+    margin: 0 0 12px;
+    font-size: 1.3rem;
+    color: #272a2e;
+  }
+
+  .input-row {
+    margin-bottom: 11px;
+  }
+
+  .input-row label {
+    display: block;
+    font-size: 0.86rem;
+    color: #40454d;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  .input-row input,
+  .input-row select {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #c7bfb3;
+    border-radius: 10px;
+    padding: 10px 11px;
+    font-size: 0.95rem;
+    background: #fff;
+  }
+
+  .inline {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+  }
+
+  .button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  button {
+    border: none;
+    border-radius: 999px;
+    padding: 10px 15px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+
+  button:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 8px 15px rgba(13, 148, 136, 0.25);
+  }
+
+  .btn-secondary {
+    background: #f7f3ee;
+    color: #30343a;
+    border: 1px solid #d3c7b8;
+  }
+
+  .result-wrap {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .result-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px;
+  }
+
+  .result-card h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #4b5059;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .value {
+    margin-top: 8px;
+    font-size: clamp(1.2rem, 2.8vw, 1.8rem);
+    font-weight: 800;
+  }
+
+  .winner {
+    border: 2px solid #1f9d55;
+    background: #f1fff6;
+  }
+
+  .loser {
+    border: 2px solid #f6c8ce;
+    background: #fff6f6;
+  }
+
+  .help-text {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 0.84rem;
+  }
+
+  .formula {
+    margin-top: 12px;
+    border-radius: 12px;
+    border: 1px dashed #c7b9a7;
+    background: #fffaf2;
+    padding: 12px;
+    font-size: 0.86rem;
+    color: #444a53;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .result-wrap {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="compare-page">
+  <div class="hero">
+    <h1>Personal Car vs Enterprise Rental</h1>
+    <p>
+      Adapted from SUNY Brockport's Personal vs Rental Vehicle Cost Comparison form. Enter trip and cost inputs,
+      then compare your out-of-pocket estimate for driving your own car versus renting.
+    </p>
+  </div>
+
+  <div class="status-row">
+    <div class="chip">Distance API: <strong id="distanceStatus">Not requested</strong></div>
+    <div class="chip">Fuel API: <strong id="fuelStatus">Not requested</strong></div>
+  </div>
+
+  <div class="form-grid">
+    <section class="panel">
+      <h2>Trip + Shared Inputs</h2>
+      <div class="input-row">
+        <label for="origin">Start Address</label>
+        <input id="origin" type="text" placeholder="e.g., 350 New Campus Dr, Brockport, NY" />
+      </div>
+      <div class="input-row">
+        <label for="destination">Destination Address</label>
+        <input id="destination" type="text" placeholder="e.g., 395 Hudson St, New York, NY" />
+      </div>
+      <div class="button-row">
+        <button class="btn-primary" id="distanceBtn" type="button">Auto-Calculate Miles</button>
+      </div>
+      <div class="help-text">Uses Nominatim geocoding + OSRM driving route distance.</div>
+
+      <div class="inline" style="margin-top: 12px;">
+        <div class="input-row">
+          <label for="miles">Total Miles (round trip)</label>
+          <input id="miles" type="number" min="0" step="0.1" value="120" />
+        </div>
+        <div class="input-row">
+          <label for="gasPrice">Gas Price per Gallon (USD)</label>
+          <input id="gasPrice" type="number" min="0" step="0.001" value="3.65" />
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button class="btn-secondary" id="fuelBtn" type="button">Fetch Current Gas Price</button>
+      </div>
+      <div class="help-text">Uses FuelEconomy.gov national average Regular gasoline price.</div>
+
+      <div class="formula">
+        Personal total = (miles x mileage rate) + parking + tolls + extras<br>
+        Rental total = (days x daily rate) + rental fees + rental fuel + parking + tolls
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Personal Vehicle Costs</h2>
+      <div class="inline">
+        <div class="input-row">
+          <label for="mileageRate">Mileage Rate ($/mile)</label>
+          <input id="mileageRate" type="number" min="0" step="0.001" value="0.70" />
+        </div>
+        <div class="input-row">
+          <label for="personalMpg">Your Vehicle MPG</label>
+          <input id="personalMpg" type="number" min="1" step="0.1" value="29" />
+        </div>
+      </div>
+      <div class="inline">
+        <div class="input-row">
+          <label for="personalParking">Parking ($)</label>
+          <input id="personalParking" type="number" min="0" step="0.01" value="0" />
+        </div>
+        <div class="input-row">
+          <label for="personalTolls">Tolls ($)</label>
+          <input id="personalTolls" type="number" min="0" step="0.01" value="0" />
+        </div>
+      </div>
+      <div class="input-row">
+        <label for="personalOther">Other Personal Costs ($)</label>
+        <input id="personalOther" type="number" min="0" step="0.01" value="0" />
+      </div>
+      <div class="help-text">Mileage rate is editable to match current policy guidance.</div>
+    </section>
+
+    <section class="panel">
+      <h2>Enterprise Rental Costs</h2>
+      <div class="inline">
+        <div class="input-row">
+          <label for="rentalDays">Rental Days</label>
+          <input id="rentalDays" type="number" min="1" step="1" value="2" />
+        </div>
+        <div class="input-row">
+          <label for="dailyRate">Daily Rate ($)</label>
+          <input id="dailyRate" type="number" min="0" step="0.01" value="56" />
+        </div>
+      </div>
+
+      <div class="inline">
+        <div class="input-row">
+          <label for="rentalFees">Rental Fees/Taxes ($)</label>
+          <input id="rentalFees" type="number" min="0" step="0.01" value="20" />
+        </div>
+        <div class="input-row">
+          <label for="rentalMpg">Rental MPG</label>
+          <input id="rentalMpg" type="number" min="1" step="0.1" value="30" />
+        </div>
+      </div>
+
+      <div class="inline">
+        <div class="input-row">
+          <label for="rentalParking">Parking ($)</label>
+          <input id="rentalParking" type="number" min="0" step="0.01" value="0" />
+        </div>
+        <div class="input-row">
+          <label for="rentalTolls">Tolls ($)</label>
+          <input id="rentalTolls" type="number" min="0" step="0.01" value="0" />
+        </div>
+      </div>
+      <div class="help-text">Fuel for rental is auto-estimated from miles, MPG, and current gas price.</div>
+    </section>
+
+    <section class="panel">
+      <h2>Calculate</h2>
+      <div class="button-row">
+        <button class="btn-primary" id="compareBtn" type="button">Compare Costs</button>
+        <button class="btn-secondary" id="resetBtn" type="button">Reset Defaults</button>
+      </div>
+      <div id="summary" class="help-text" style="margin-top:12px;">Enter your trip details and click Compare Costs.</div>
+    </section>
+  </div>
+
+  <section class="result-wrap" id="results" aria-live="polite">
+    <article class="result-card" id="personalCard">
+      <h3>Personal Vehicle Total</h3>
+      <div class="value" id="personalTotal">$0.00</div>
+      <div class="help-text" id="personalBreakdown"></div>
+    </article>
+
+    <article class="result-card" id="rentalCard">
+      <h3>Rental Vehicle Total</h3>
+      <div class="value" id="rentalTotal">$0.00</div>
+      <div class="help-text" id="rentalBreakdown"></div>
+    </article>
+
+    <article class="result-card" id="decisionCard">
+      <h3>Cheaper Option</h3>
+      <div class="value" id="decisionValue">-</div>
+      <div class="help-text" id="decisionDelta">Run the calculator to compare.</div>
+    </article>
+  </section>
+</div>
+
+<script>
+  function asNumber(id) {
+    const value = Number(document.getElementById(id).value);
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  function money(amount) {
+    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(amount);
+  }
+
+  function setStatus(id, text, ok) {
+    const el = document.getElementById(id);
+    el.textContent = text;
+    el.style.color = ok ? "#15803d" : "#b91c1c";
+  }
+
+  async function geocodeAddress(address) {
+    const url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + encodeURIComponent(address);
+    const response = await fetch(url, {
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) {
+      throw new Error("Geocoding failed for: " + address);
+    }
+    const results = await response.json();
+    if (!Array.isArray(results) || !results[0]) {
+      throw new Error("No geocoding result for: " + address);
+    }
+    return {
+      lat: Number(results[0].lat),
+      lon: Number(results[0].lon)
+    };
+  }
+
+  async function fetchRouteMiles(origin, destination) {
+    const points = await Promise.all([geocodeAddress(origin), geocodeAddress(destination)]);
+    const a = points[0];
+    const b = points[1];
+    const routeUrl = "https://router.project-osrm.org/route/v1/driving/" +
+      a.lon + "," + a.lat + ";" + b.lon + "," + b.lat +
+      "?overview=false";
+
+    const routeResponse = await fetch(routeUrl);
+    if (!routeResponse.ok) {
+      throw new Error("Routing request failed");
+    }
+    const routeData = await routeResponse.json();
+    const meters = routeData && routeData.routes && routeData.routes[0] ? routeData.routes[0].distance : null;
+    if (!meters) {
+      throw new Error("No route distance returned");
+    }
+    const milesOneWay = meters / 1609.344;
+    return milesOneWay * 2;
+  }
+
+  async function fetchNationalGasPrice() {
+    const source = "https://www.fueleconomy.gov/ws/rest/fuelprices";
+    let text;
+
+    try {
+      const direct = await fetch(source);
+      if (!direct.ok) {
+        throw new Error("Direct request failed");
+      }
+      text = await direct.text();
+    } catch (err) {
+      const proxied = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(source));
+      if (!proxied.ok) {
+        throw new Error("Fuel API request failed");
+      }
+      text = await proxied.text();
+    }
+
+    const xml = new DOMParser().parseFromString(text, "application/xml");
+    const regularNode = xml.querySelector("regular");
+    if (!regularNode) {
+      throw new Error("Could not parse regular gas price");
+    }
+
+    const price = Number(regularNode.textContent);
+    if (!Number.isFinite(price) || price <= 0) {
+      throw new Error("Invalid gas price from API");
+    }
+    return price;
+  }
+
+  function compareCosts() {
+    const miles = asNumber("miles");
+    const gasPrice = asNumber("gasPrice");
+
+    const mileageRate = asNumber("mileageRate");
+    const personalParking = asNumber("personalParking");
+    const personalTolls = asNumber("personalTolls");
+    const personalOther = asNumber("personalOther");
+
+    const rentalDays = asNumber("rentalDays");
+    const dailyRate = asNumber("dailyRate");
+    const rentalFees = asNumber("rentalFees");
+    const rentalMpg = Math.max(asNumber("rentalMpg"), 1);
+    const rentalParking = asNumber("rentalParking");
+    const rentalTolls = asNumber("rentalTolls");
+
+    const personalMileageCost = miles * mileageRate;
+    const personalTotal = personalMileageCost + personalParking + personalTolls + personalOther;
+
+    const rentalBase = rentalDays * dailyRate;
+    const rentalFuel = (miles / rentalMpg) * gasPrice;
+    const rentalTotal = rentalBase + rentalFees + rentalFuel + rentalParking + rentalTolls;
+
+    const personalCard = document.getElementById("personalCard");
+    const rentalCard = document.getElementById("rentalCard");
+    personalCard.classList.remove("winner", "loser");
+    rentalCard.classList.remove("winner", "loser");
+
+    document.getElementById("personalTotal").textContent = money(personalTotal);
+    document.getElementById("personalBreakdown").textContent =
+      "Mileage " + money(personalMileageCost) + " + parking/tolls/extras " + money(personalParking + personalTolls + personalOther);
+
+    document.getElementById("rentalTotal").textContent = money(rentalTotal);
+    document.getElementById("rentalBreakdown").textContent =
+      "Base+fees " + money(rentalBase + rentalFees) + " + fuel " + money(rentalFuel) + " + parking/tolls " + money(rentalParking + rentalTolls);
+
+    const delta = Math.abs(personalTotal - rentalTotal);
+    const decisionValue = document.getElementById("decisionValue");
+    const decisionDelta = document.getElementById("decisionDelta");
+    const summary = document.getElementById("summary");
+
+    if (Math.abs(personalTotal - rentalTotal) < 0.01) {
+      decisionValue.textContent = "Tie";
+      decisionDelta.textContent = "Both options are effectively the same cost.";
+      summary.textContent = "No meaningful cost difference based on current inputs.";
+    } else if (personalTotal < rentalTotal) {
+      personalCard.classList.add("winner");
+      rentalCard.classList.add("loser");
+      decisionValue.textContent = "Drive Personal Vehicle";
+      decisionDelta.textContent = money(delta) + " cheaper than renting.";
+      summary.textContent = "Personal vehicle is the lower-cost option by " + money(delta) + ".";
+    } else {
+      rentalCard.classList.add("winner");
+      personalCard.classList.add("loser");
+      decisionValue.textContent = "Rent Enterprise Vehicle";
+      decisionDelta.textContent = money(delta) + " cheaper than driving personal.";
+      summary.textContent = "Rental vehicle is the lower-cost option by " + money(delta) + ".";
+    }
+  }
+
+  async function handleDistanceLookup() {
+    const origin = document.getElementById("origin").value.trim();
+    const destination = document.getElementById("destination").value.trim();
+
+    if (!origin || !destination) {
+      setStatus("distanceStatus", "Enter both addresses first", false);
+      return;
+    }
+
+    setStatus("distanceStatus", "Calculating...", true);
+
+    try {
+      const milesRoundTrip = await fetchRouteMiles(origin, destination);
+      document.getElementById("miles").value = milesRoundTrip.toFixed(1);
+      setStatus("distanceStatus", "Round-trip miles loaded", true);
+    } catch (err) {
+      setStatus("distanceStatus", "Could not auto-calculate", false);
+    }
+  }
+
+  async function handleFuelLookup() {
+    setStatus("fuelStatus", "Fetching...", true);
+
+    try {
+      const price = await fetchNationalGasPrice();
+      document.getElementById("gasPrice").value = price.toFixed(3);
+      setStatus("fuelStatus", "National average loaded", true);
+    } catch (err) {
+      setStatus("fuelStatus", "Could not fetch gas price", false);
+    }
+  }
+
+  function resetDefaults() {
+    document.getElementById("miles").value = 120;
+    document.getElementById("gasPrice").value = 3.65;
+    document.getElementById("mileageRate").value = 0.70;
+    document.getElementById("personalMpg").value = 29;
+    document.getElementById("personalParking").value = 0;
+    document.getElementById("personalTolls").value = 0;
+    document.getElementById("personalOther").value = 0;
+    document.getElementById("rentalDays").value = 2;
+    document.getElementById("dailyRate").value = 56;
+    document.getElementById("rentalFees").value = 20;
+    document.getElementById("rentalMpg").value = 30;
+    document.getElementById("rentalParking").value = 0;
+    document.getElementById("rentalTolls").value = 0;
+    document.getElementById("origin").value = "";
+    document.getElementById("destination").value = "";
+
+    setStatus("distanceStatus", "Not requested", true);
+    setStatus("fuelStatus", "Not requested", true);
+
+    document.getElementById("personalTotal").textContent = "$0.00";
+    document.getElementById("rentalTotal").textContent = "$0.00";
+    document.getElementById("decisionValue").textContent = "-";
+    document.getElementById("decisionDelta").textContent = "Run the calculator to compare.";
+    document.getElementById("personalBreakdown").textContent = "";
+    document.getElementById("rentalBreakdown").textContent = "";
+    document.getElementById("summary").textContent = "Enter your trip details and click Compare Costs.";
+
+    document.getElementById("personalCard").classList.remove("winner", "loser");
+    document.getElementById("rentalCard").classList.remove("winner", "loser");
+  }
+
+  document.getElementById("distanceBtn").addEventListener("click", handleDistanceLookup);
+  document.getElementById("fuelBtn").addEventListener("click", handleFuelLookup);
+  document.getElementById("compareBtn").addEventListener("click", compareCosts);
+  document.getElementById("resetBtn").addEventListener("click", resetDefaults);
+
+  compareCosts();
+</script>
