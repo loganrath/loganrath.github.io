@@ -378,6 +378,33 @@ layout: tool
     </section>
 
     <section class="panel">
+      <h2>Thruway Travel (2-Axle)</h2>
+      <div class="inline">
+        <div class="input-row">
+          <label for="thruwayStartExit">Start Exit</label>
+          <select id="thruwayStartExit">
+            <option value="">Select start exit</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <label for="thruwayEndExit">End Exit</label>
+          <select id="thruwayEndExit">
+            <option value="">Select end exit</option>
+          </select>
+        </div>
+      </div>
+      <div class="button-row">
+        <button class="btn-secondary" id="loadThruwayExitsBtn" type="button">Load Thruway Exits</button>
+        <button class="btn-primary" id="calcThruwayExitBtn" type="button">Calculate 2-Axle Toll</button>
+      </div>
+      <div class="help-text" id="thruwayExitResult">Choose start and end exits, then calculate toll.</div>
+      <div class="button-row">
+        <button class="btn-secondary" id="applyThruwayExitTollBtn" type="button">Apply Round-Trip Toll to Both Toll Fields</button>
+      </div>
+      <div class="help-text">This calculator uses NYS Thruway exit mileposts and the per-mile rate above. Official toll chart: <a href="https://tollcalculator.thruway.ny.gov/" target="_blank" rel="noopener noreferrer">tollcalculator.thruway.ny.gov</a></div>
+    </section>
+
+    <section class="panel">
       <h2>Personal Vehicle Costs</h2>
       <div class="inline">
         <div class="input-row">
@@ -484,6 +511,8 @@ layout: tool
 
 <script>
   let lastThruwayMilesRoundTrip = 0;
+  let lastExitRoundTripToll = 0;
+  let thruwayExitData = [];
 
   function asNumber(id) {
     const value = Number(document.getElementById(id).value);
@@ -732,6 +761,112 @@ layout: tool
     return price;
   }
 
+  function parseMilepost(value) {
+    const number = Number(value);
+    return Number.isFinite(number) ? number : NaN;
+  }
+
+  function getExitLabel(exit) {
+    return "Exit " + exit.exitid + " - " + exit.description;
+  }
+
+  function getUniqueSortedExits(interchanges) {
+    const seen = new Set();
+    const filtered = interchanges.filter(function (item) {
+      const milepost = parseMilepost(item.milepost);
+      const hasExitId = Boolean(item.exitid);
+      const looksLikeExit = String(item.type || "").toLowerCase().indexOf("interchange") !== -1;
+      if (!hasExitId || !looksLikeExit || !Number.isFinite(milepost)) {
+        return false;
+      }
+      if (seen.has(item.exitid)) {
+        return false;
+      }
+      seen.add(item.exitid);
+      return true;
+    });
+
+    return filtered.sort(function (a, b) {
+      return parseMilepost(a.milepost) - parseMilepost(b.milepost);
+    });
+  }
+
+  function populateExitSelect(selectId, exits) {
+    const select = document.getElementById(selectId);
+    const currentValue = select.value;
+    const options = ["<option value=\"\">Select exit</option>"];
+    exits.forEach(function (exit) {
+      options.push("<option value=\"" + escapeHtml(exit.id) + "\">" + escapeHtml(getExitLabel(exit)) + "</option>");
+    });
+    select.innerHTML = options.join("");
+    if (currentValue && exits.some(function (item) { return item.id === currentValue; })) {
+      select.value = currentValue;
+    }
+  }
+
+  async function loadThruwayExits() {
+    showLoading("Loading NYS Thruway exits...");
+    try {
+      const response = await fetch("https://webdataapi.thruway.ny.gov/api/data/interchanges/json");
+      if (!response.ok) {
+        throw new Error("Could not load Thruway exits");
+      }
+      const data = await response.json();
+      const interchanges = data && data.interchanges && Array.isArray(data.interchanges.interchange)
+        ? data.interchanges.interchange
+        : [];
+      thruwayExitData = getUniqueSortedExits(interchanges);
+      populateExitSelect("thruwayStartExit", thruwayExitData);
+      populateExitSelect("thruwayEndExit", thruwayExitData);
+      document.getElementById("thruwayExitResult").textContent = "Loaded " + thruwayExitData.length + " exits. Select start/end exits to calculate.";
+    } catch (err) {
+      document.getElementById("thruwayExitResult").textContent = "Could not load exits from NYS Thruway API.";
+    } finally {
+      hideLoading();
+    }
+  }
+
+  function calculateExitToExitToll() {
+    const startId = document.getElementById("thruwayStartExit").value;
+    const endId = document.getElementById("thruwayEndExit").value;
+    const result = document.getElementById("thruwayExitResult");
+
+    if (!startId || !endId) {
+      result.textContent = "Please select both a start exit and end exit.";
+      return;
+    }
+
+    const startExit = thruwayExitData.find(function (item) { return item.id === startId; });
+    const endExit = thruwayExitData.find(function (item) { return item.id === endId; });
+    if (!startExit || !endExit) {
+      result.textContent = "Selected exits were not found. Reload exits and try again.";
+      return;
+    }
+
+    const startMile = parseMilepost(startExit.milepost);
+    const endMile = parseMilepost(endExit.milepost);
+    const oneWayMiles = Math.abs(endMile - startMile);
+    const rate = asNumber("thruwayRate");
+    const oneWayToll = oneWayMiles * rate;
+    const roundTripToll = oneWayToll * 2;
+    lastExitRoundTripToll = roundTripToll;
+
+    result.textContent =
+      "2-axle estimate from Exit " + startExit.exitid + " to Exit " + endExit.exitid +
+      ": " + oneWayMiles.toFixed(1) + " miles one-way, " + money(oneWayToll) +
+      " one-way, " + money(roundTripToll) + " round trip.";
+  }
+
+  function applyExitRoundTripToll() {
+    if (lastExitRoundTripToll <= 0) {
+      document.getElementById("thruwayExitResult").textContent = "Calculate an exit-to-exit toll first, then apply it.";
+      return;
+    }
+    document.getElementById("personalTolls").value = lastExitRoundTripToll.toFixed(2);
+    document.getElementById("rentalTolls").value = lastExitRoundTripToll.toFixed(2);
+    compareCosts();
+  }
+
   function compareCosts() {
     const miles = asNumber("miles");
     const gasPrice = asNumber("gasPrice");
@@ -863,6 +998,7 @@ layout: tool
     setStatus("fuelStatus", "Not requested", true);
     setStatus("tollStatus", "Not checked", true);
     lastThruwayMilesRoundTrip = 0;
+    lastExitRoundTripToll = 0;
 
     document.getElementById("personalTotal").textContent = "$0.00";
     document.getElementById("rentalTotal").textContent = "$0.00";
@@ -872,6 +1008,9 @@ layout: tool
     document.getElementById("rentalBreakdown").textContent = "";
     document.getElementById("summary").textContent = "Enter your trip details and click Compare Costs.";
     document.getElementById("thruwayInfo").textContent = "Thruway toll estimate appears after distance lookup.";
+    document.getElementById("thruwayExitResult").textContent = "Choose start and end exits, then calculate toll.";
+    document.getElementById("thruwayStartExit").value = "";
+    document.getElementById("thruwayEndExit").value = "";
 
     document.getElementById("personalCard").classList.remove("winner", "loser");
     document.getElementById("rentalCard").classList.remove("winner", "loser");
@@ -881,10 +1020,17 @@ layout: tool
   document.getElementById("fuelBtn").addEventListener("click", handleFuelLookup);
   document.getElementById("compareBtn").addEventListener("click", compareCosts);
   document.getElementById("resetBtn").addEventListener("click", resetDefaults);
+  document.getElementById("loadThruwayExitsBtn").addEventListener("click", loadThruwayExits);
+  document.getElementById("calcThruwayExitBtn").addEventListener("click", calculateExitToExitToll);
+  document.getElementById("applyThruwayExitTollBtn").addEventListener("click", applyExitRoundTripToll);
+  document.getElementById("thruwayStartExit").addEventListener("change", calculateExitToExitToll);
+  document.getElementById("thruwayEndExit").addEventListener("change", calculateExitToExitToll);
   document.getElementById("thruwayRate").addEventListener("input", updateThruwayEstimateUI);
+  document.getElementById("thruwayRate").addEventListener("input", calculateExitToExitToll);
   document.getElementById("autoApplyThruwayTolls").addEventListener("change", updateThruwayEstimateUI);
   wireAddressAutocomplete("origin", "originSuggestions");
   wireAddressAutocomplete("destination", "destinationSuggestions");
+  loadThruwayExits();
 
   compareCosts();
 </script>
