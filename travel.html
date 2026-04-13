@@ -317,6 +317,17 @@ layout: tool
         <a href="https://tollcalculator.thruway.ny.gov/" target="_blank" rel="noopener noreferrer">https://tollcalculator.thruway.ny.gov/</a>
       </div>
 
+      <div class="inline" style="margin-top: 12px;">
+        <div class="input-row">
+          <label for="personalTolls">Personal Vehicle Tolls ($)</label>
+          <input id="personalTolls" type="number" min="0" step="0.01" value="0" />
+        </div>
+        <div class="input-row">
+          <label for="rentalTolls">Rental Vehicle Tolls ($)</label>
+          <input id="rentalTolls" type="number" min="0" step="0.01" value="0" />
+        </div>
+      </div>
+
       <div class="formula">
         Round-trip miles = one-way miles x 2<br>
         Personal total = (round-trip miles x mileage rate) + parking + tolls + extras<br>
@@ -340,10 +351,6 @@ layout: tool
         <div class="input-row">
           <label for="personalParking">Parking ($)</label>
           <input id="personalParking" type="number" min="0" step="0.01" value="0" />
-        </div>
-        <div class="input-row">
-          <label for="personalTolls">Tolls ($)</label>
-          <input id="personalTolls" type="number" min="0" step="0.01" value="0" />
         </div>
       </div>
       <div class="input-row">
@@ -381,10 +388,6 @@ layout: tool
         <div class="input-row">
           <label for="rentalParking">Parking ($)</label>
           <input id="rentalParking" type="number" min="0" step="0.01" value="0" />
-        </div>
-        <div class="input-row">
-          <label for="rentalTolls">Tolls ($)</label>
-          <input id="rentalTolls" type="number" min="0" step="0.01" value="0" />
         </div>
       </div>
       <div class="help-text">Fuel for rental is auto-estimated from miles, MPG, and current gas price.</div>
