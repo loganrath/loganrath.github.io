@@ -1,0 +1,609 @@
+---
+title: "APA 7 Citation Practice"
+layout: tool
+---
+<style>
+  p.lead { color: #374151; margin-top: 0; }
+  .step { border: 1px solid #d6e3f2; border-radius: 12px; padding: 14px; margin: 12px 0; background: linear-gradient(180deg,#fbfcff 0%,#f5f9ff 100%); }
+  label { display: block; font-weight: 600; margin-bottom: 6px; }
+  select { width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 2px solid #8fb3d9; font-size: 17px; background: #ffffff; transition: border-color .2s; }
+  select:focus { outline: none; border-color: #0b5fff; box-shadow: 0 0 0 4px rgba(11,95,255,0.16); }
+
+  .format-guide { background: #f0f5ff; border: 1px dashed #a0b8e0; border-radius: 10px; padding: 12px 16px; margin: 0 0 14px; }
+  .format-guide .fg-label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
+  .format-guide .fg-pattern { font-family: Georgia, serif; font-size: 16px; line-height: 1.7; }
+  .format-guide .fg-note { font-size: 14px; color: #475569; margin-top: 6px; }
+
+  .toolbar { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .toolbar button { background: #e8edf5; padding: 5px 14px; border-radius: 7px; border: 1.5px solid #c5d5e8; cursor: pointer; font-size: 15px; transition: background .15s, border-color .15s; }
+  .toolbar button:hover { background: #ccd9ee; border-color: #8fb3d9; }
+  .toolbar button.tb-active { background: #0b5fff; color: #fff; border-color: #0b5fff; }
+  .toolbar .tb-italic { font-style: italic; font-weight: 700; }
+  kbd { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 1px 5px; font-size: 13px; font-family: monospace; }
+
+  .editor-area { width: 100%; min-height: 110px; padding: 12px 14px; border-radius: 10px; border: 2px solid #8fb3d9; font-size: 18px; font-family: Georgia, serif; line-height: 1.8; background: #fff; box-shadow: inset 0 1px 2px rgba(15,23,42,.06); box-sizing: border-box; }
+  .editor-area:focus { outline: none; border-color: #0b5fff; box-shadow: 0 0 0 4px rgba(11,95,255,.16), inset 0 1px 2px rgba(15,23,42,.06); }
+  .editor-area:empty:before { content: attr(data-placeholder); color: #9ca3af; }
+
+  .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .btn-check { background: linear-gradient(135deg,#ff7a18 0%,#ff3d81 100%); font-size: 16px; font-weight: 700; color: #fff; padding: 10px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,.25); cursor: pointer; box-shadow: 0 6px 18px rgba(255,61,129,.24); transition: transform .15s,box-shadow .2s; }
+  .btn-check:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(255,61,129,.3); }
+  .btn-good { background: linear-gradient(135deg,#14b8a6 0%,#0ea5e9 100%); color: #fff; font-size: 15px; font-weight: 600; padding: 9px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,.18); cursor: pointer; }
+  .btn-broken { background: linear-gradient(135deg,#f59e0b 0%,#ef4444 100%); color: #fff; font-size: 15px; font-weight: 600; padding: 9px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,.18); cursor: pointer; }
+  .btn-clear { background: #e5e7eb; color: #374151; font-size: 15px; font-weight: 500; padding: 9px 14px; border-radius: 10px; border: 1px solid #d1d5db; cursor: pointer; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; margin-top: 4px; }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+  .feedback-panel { background: #f8faff; border: 2px solid #d0dff4; border-radius: 12px; padding: 16px; min-height: 200px; }
+  .feedback-panel .fp-empty { color: #9ca3af; font-style: italic; }
+
+  .score-bar { font-size: 1.2rem; font-weight: 700; text-align: center; padding: 10px 14px; border-radius: 9px; margin-bottom: 12px; }
+  .score-great { background: #dcfce7; color: #166534; }
+  .score-ok    { background: #fef3c7; color: #92400e; }
+  .score-poor  { background: #fee2e2; color: #991b1b; }
+
+  .fb-item { border-radius: 7px; padding: 7px 11px; margin: 5px 0; font-size: 15px; line-height: 1.5; }
+  .fb-pass { background: #dcfce7; color: #166534; }
+  .fb-fail { background: #fee2e2; color: #991b1b; }
+  .fb-warn { background: #fef3c7; color: #92400e; }
+  .fb-tip  { background: #dbeafe; color: #1e3a5f; }
+  .fb-detail { font-size: 13.5px; margin-top: 4px; opacity: .85; }
+
+  .hint { font-size: 15px; color: #6b7280; margin-top: 4px; }
+  .broken-note { background: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; padding: 8px 12px; font-size: 15px; color: #78350f; margin-bottom: 10px; }
+</style>
+
+<p class="lead">Type or paste an APA 7th edition reference in the editor below, apply italic formatting with the toolbar or <kbd>Ctrl+I</kbd> / <kbd>⌘I</kbd>, then click <strong>Check Format</strong> for feedback.</p>
+
+<div class="step">
+  <label for="refType">Reference Type</label>
+  <select id="refType" onchange="updateUI()">
+    <option value="journal">Journal Article</option>
+    <option value="book">Book</option>
+    <option value="chapter">Book Chapter</option>
+    <option value="webpage">Webpage / Website</option>
+  </select>
+</div>
+
+<div id="formatGuide" class="format-guide"></div>
+
+<div class="two-col">
+  <!-- EDITOR COLUMN -->
+  <div>
+    <div class="step" style="margin-top:0;">
+      <label>Your Reference</label>
+      <div class="hint" style="margin-bottom:8px">Select text, then click <strong>Italic</strong> or press <kbd>Ctrl+I</kbd> / <kbd>⌘I</kbd> to italicize.</div>
+      <div class="toolbar" role="toolbar" aria-label="Formatting toolbar">
+        <button type="button" id="btnItalic" class="tb-italic" onclick="doItalic()" title="Toggle italic on selected text">I  Italic</button>
+        <button type="button" onclick="stripFormatting()" title="Remove all italic/bold formatting">Clear Formatting</button>
+      </div>
+      <div
+        id="editor"
+        contenteditable="true"
+        class="editor-area"
+        spellcheck="false"
+        role="textbox"
+        aria-multiline="false"
+        aria-label="Enter your APA reference here"
+        data-placeholder="Type or paste your APA reference here…"
+      ></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn-check" onclick="checkAPA()">Check Format</button>
+      <button class="btn-good"   onclick="loadCorrectExample()" title="Load a correctly formatted example">✓ Correct Example</button>
+      <button class="btn-broken" onclick="loadBrokenExample()"  title="Load an example with errors to fix">⚠ Example with Errors</button>
+      <button class="btn-clear"  onclick="clearAll()">Clear</button>
+    </div>
+  </div>
+
+  <!-- FEEDBACK COLUMN -->
+  <div>
+    <div id="feedback" class="feedback-panel" aria-live="polite">
+      <p class="fp-empty">Click <strong>Check Format</strong> to see feedback here.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// REFERENCE TYPE DATA
+// ─────────────────────────────────────────────
+const TYPES = {
+  journal: {
+    label: 'Journal Article',
+    pattern: 'Author, A. A., &amp; Author, B. B. (Year). Title of article. <em>Journal Name</em>, <em>Volume</em>(Issue), pages–pages. https://doi.org/xxxxx',
+    note: '<strong>Italicize:</strong> journal name and volume number only. <strong>Do NOT italicize:</strong> article title, issue number, pages, or DOI.',
+    correct: 'Smith, J. D., &amp; Johnson, M. R. (2021). Effects of mindfulness on student performance. <em>Journal of Educational Psychology</em>, <em>115</em>(3), 412–428. https://doi.org/10.1037/edu0000123',
+    broken: 'Smith, J. D., &amp; Johnson, M. R. (2021). <em>Effects of mindfulness on student performance.</em> Journal of Educational Psychology, 115(3), 412–428. doi:10.1037/edu0000123',
+    brokenHint: 'Errors are present. Hint: check what is (and is not) italicized, and check the DOI format.'
+  },
+  book: {
+    label: 'Book',
+    pattern: 'Author, A. A. (Year). <em>Title of book: Subtitle if any</em> (Xth ed.). Publisher.',
+    note: '<strong>Italicize:</strong> book title only. <strong>Do NOT italicize:</strong> author, year, edition, or publisher. APA 7 does <strong>not</strong> include publisher city.',
+    correct: 'Brown, T. A. (2015). <em>Confirmatory factor analysis for applied research</em> (2nd ed.). Guilford Press.',
+    broken: 'Brown, T. A. (2015). Confirmatory factor analysis for applied research (2nd ed.). New York, NY: Guilford Press.',
+    brokenHint: 'Errors are present. Hint: check italics on the title and whether publisher location belongs in APA 7.'
+  },
+  chapter: {
+    label: 'Book Chapter',
+    pattern: 'Author, A. A. (Year). Title of chapter. In E. E. Editor (Ed.), <em>Title of book</em> (pp. XX–XX). Publisher.',
+    note: '<strong>Italicize:</strong> book title only. <strong>Do NOT italicize:</strong> chapter title, author, editor, pages, or publisher.',
+    correct: 'Jones, B. F. (2019). Reading comprehension strategies. In A. B. Smith (Ed.), <em>Handbook of literacy instruction</em> (pp. 45–67). Academic Press.',
+    broken: 'Jones, B. F. (2019). <em>Reading comprehension strategies.</em> In A. B. Smith (Ed.), Handbook of literacy instruction (pp. 45–67). Academic Press.',
+    brokenHint: 'Errors are present. Hint: which title should be italicized — the chapter or the book?'
+  },
+  webpage: {
+    label: 'Webpage / Website',
+    pattern: 'Author, A. A. (Year, Month Day). <em>Title of page</em>. Website Name. URL',
+    note: '<strong>Italicize:</strong> page/article title only. <strong>Do NOT italicize:</strong> author, date, website name, or URL. APA 7 does not require "Retrieved from" for most sources.',
+    correct: 'Centers for Disease Control and Prevention. (2023, March 15). <em>Understanding COVID-19 prevention</em>. CDC. https://www.cdc.gov/covid19',
+    broken: 'Centers for Disease Control and Prevention. (2023, March 15). Understanding COVID-19 prevention. CDC. Retrieved from https://www.cdc.gov/covid19',
+    brokenHint: 'Errors are present. Hint: check italics on the title and whether "Retrieved from" is needed in APA 7.'
+  }
+};
+
+// ─────────────────────────────────────────────
+// UI HELPERS
+// ─────────────────────────────────────────────
+function updateUI() {
+  const t = TYPES[document.getElementById('refType').value];
+  document.getElementById('formatGuide').innerHTML =
+    `<div class="fg-label">APA 7 Format — ${t.label}</div>
+     <div class="fg-pattern">${t.pattern}</div>
+     <div class="fg-note">${t.note}</div>`;
+}
+
+function editor()    { return document.getElementById('editor'); }
+function feedback()  { return document.getElementById('feedback'); }
+
+function doItalic() {
+  document.execCommand('italic', false, null);
+  editor().focus();
+  refreshToolbar();
+}
+
+function refreshToolbar() {
+  document.getElementById('btnItalic').classList.toggle('tb-active', document.queryCommandState('italic'));
+}
+
+function stripFormatting() {
+  const el = editor();
+  const plain = el.innerText;
+  el.innerHTML = '';
+  // Insert as plain text to avoid XSS via innerHTML
+  el.appendChild(document.createTextNode(plain));
+}
+
+function clearAll() {
+  editor().innerHTML = '';
+  feedback().className = 'feedback-panel';
+  feedback().innerHTML = '<p class="fp-empty">Click <strong>Check Format</strong> to see feedback here.</p>';
+}
+
+function loadCorrectExample() {
+  const t = TYPES[document.getElementById('refType').value];
+  editor().innerHTML = t.correct;
+  feedback().className = 'feedback-panel';
+  feedback().innerHTML = '<p class="fp-empty">Click <strong>Check Format</strong> to see feedback here.</p>';
+}
+
+function loadBrokenExample() {
+  const t = TYPES[document.getElementById('refType').value];
+  editor().innerHTML = t.broken;
+  feedback().className = 'feedback-panel';
+  feedback().innerHTML = `<div class="broken-note">⚠ ${t.brokenHint}</div><p class="fp-empty">Click <strong>Check Format</strong> to see feedback here.</p>`;
+}
+
+// ─────────────────────────────────────────────
+// SEGMENT PARSER — returns [{text, italic}]
+// distinguishes which text is italic vs plain
+// ─────────────────────────────────────────────
+function getSegments() {
+  const raw = [];
+
+  function walk(node, italic) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      if (node.textContent) raw.push({ text: node.textContent, italic });
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      const tag = node.tagName.toLowerCase();
+      if (tag === 'br') { raw.push({ text: ' ', italic }); return; }
+      const nowItalic = italic || tag === 'em' || tag === 'i';
+      node.childNodes.forEach(c => walk(c, nowItalic));
+    }
+  }
+
+  walk(editor(), false);
+
+  // Merge adjacent segments with the same italic state
+  const merged = [];
+  for (const s of raw) {
+    const last = merged[merged.length - 1];
+    if (last && last.italic === s.italic) {
+      last.text += s.text;
+    } else {
+      merged.push({ text: s.text, italic: s.italic });
+    }
+  }
+  return merged;
+}
+
+// ─────────────────────────────────────────────
+// RESULT BUILDER
+// ─────────────────────────────────────────────
+function pass(msg, detail) { return { type: 'pass', msg, detail: detail || '' }; }
+function fail(msg, detail) { return { type: 'fail', msg, detail: detail || '' }; }
+function warn(msg, detail) { return { type: 'warn', msg, detail: detail || '' }; }
+function tip (msg, detail) { return { type: 'tip',  msg, detail: detail || '' }; }
+
+// ─────────────────────────────────────────────
+// UNIVERSAL CHECKS
+// ─────────────────────────────────────────────
+function chkDoubleSpaces(text, R) {
+  if (/  +/.test(text))
+    R.push(fail('Double (or extra) spaces found', 'APA references use a single space between all elements.'));
+  else
+    R.push(pass('No extra spaces detected'));
+}
+
+function chkYear(text, R) {
+  if (/\(\d{4}[a-z]?\)\./.test(text))
+    R.push(pass('Year is in parentheses followed by a period — e.g., (2021).'));
+  else if (/\(\d{4}[a-z]?\)/.test(text))
+    R.push(fail('Year in parentheses but missing the period after', 'A period must follow the closing parenthesis: (2021).'));
+  else if (/\b\d{4}\b/.test(text))
+    R.push(fail('Year found but not in parentheses', 'Wrap the year in parentheses: (2021).'));
+  else
+    R.push(fail('No 4-digit year found', 'Every APA reference requires a year in parentheses: (2021).'));
+}
+
+function chkAuthors(text, R) {
+  if (/ and [A-Z]/i.test(text) && !/\(Ed/ .test(text))
+    R.push(fail('Use "&" not "and" between authors', 'In APA references, use an ampersand (&) before the last author's name.'));
+
+  // Very basic format hint — only warn if it truly looks off
+  const firstWord = text.trim().split(/\s+/)[0];
+  if (firstWord && firstWord.match(/^[a-z]/))
+    R.push(warn('Reference may not start with an author name', 'References should begin with the author's last name (capitalized) or the organization name.'));
+}
+
+function chkNoRetrievedFrom(text, R, allowWarning) {
+  if (/retrieved from/i.test(text)) {
+    if (allowWarning)
+      R.push(warn('"Retrieved from" is usually not needed in APA 7', 'APA 7 removed the "Retrieved from" requirement for most sources. Only include it if the content changes over time and you also note a retrieval date.'));
+    else
+      R.push(fail('"Retrieved from" should not appear here in APA 7', 'APA 7 no longer uses "Retrieved from" before DOIs or most URLs.'));
+  }
+}
+
+// ─────────────────────────────────────────────
+// CAPITALIZATION HELPERS
+// ─────────────────────────────────────────────
+const SHORT_WORDS = new Set(['a','an','the','and','but','or','for','nor','on','at','to','by','in','of','up','as','via']);
+
+function isSentenceCase(titleText) {
+  // Flag words (after the first) that start uppercase but aren't initials or after : —
+  const words = titleText.split(/\s+/);
+  const suspects = [];
+  for (let i = 1; i < words.length; i++) {
+    const w = words[i].replace(/[^a-zA-Z]/g, '');
+    if (!w || w.length <= 1) continue;
+    if (words[i - 1].endsWith(':') || words[i - 1].endsWith('-')) continue; // first word of subtitle/compound
+    if (/^[A-Z][a-z]/.test(w)) suspects.push(words[i]); // uppercase letter followed by lower = looks like title case
+  }
+  return suspects;
+}
+
+function isTitleCase(phrase) {
+  const words = phrase.split(/\s+/);
+  let eligible = 0, upped = 0;
+  words.forEach((w, i) => {
+    const clean = w.replace(/[^a-zA-Z]/g, '');
+    if (!clean) return;
+    if (i > 0 && SHORT_WORDS.has(clean.toLowerCase())) return;
+    eligible++;
+    if (/^[A-Z]/.test(clean)) upped++;
+  });
+  return eligible === 0 || upped / eligible >= 0.5;
+}
+
+// ─────────────────────────────────────────────
+// JOURNAL ARTICLE CHECKS
+// ─────────────────────────────────────────────
+function chkJournal(segments, R) {
+  const full  = segments.map(s => s.text).join('');
+  const iSegs = segments.filter(s => s.italic);
+  const nSegs = segments.filter(s => !s.italic);
+  const iText = iSegs.map(s => s.text).join('');
+  const nText = nSegs.map(s => s.text).join('');
+
+  // ── Italics: journal name ──
+  if (iSegs.length === 0) {
+    R.push(fail('No italicized text found', 'The journal name AND volume number must be italicized. Select them and press Ctrl+I / ⌘I.'));
+  } else {
+    const first = iSegs[0].text.trim();
+    if (/^\d+$/.test(first)) {
+      R.push(warn('First italicized text is a plain number', 'The journal name should be italicized and should come before the italicized volume number.'));
+    } else {
+      R.push(pass(`Journal name appears to be italicized: "${first.substring(0, 50)}"`));
+      if (!isTitleCase(first.replace(/,\s*\d.*$/, '').trim()))
+        R.push(warn('Journal name may not be in title case', 'Journal names use title case in APA: capitalize most major words (e.g., Journal of Educational Psychology).'));
+      else
+        R.push(pass('Journal name appears to be in title case'));
+    }
+  }
+
+  // ── Italics: volume number ──
+  if (/\d/.test(iText))
+    R.push(pass('A number is italicized (expected: volume number)'));
+  else if (iSegs.length > 0)
+    R.push(fail('Volume number does not appear to be italicized', 'Italicize the volume number along with or right after the journal name. Example: Journal Name, 12(3) — where "12" is italic but "(3)" is not.'));
+
+  // ── Issue number NOT italicized ──
+  if (/\(\d+\)/.test(nText))
+    R.push(pass('Issue number in parentheses is not italicized'));
+  else if (/\(\d+\)/.test(iText))
+    R.push(fail('Issue number appears to be italicized', 'The issue number in parentheses should NOT be italic. Only the journal name and volume number are italicized.'));
+  else
+    R.push(warn('Issue number not detected', 'If applicable, the issue number goes in parentheses right after the volume (not italicized): Journal Name, 12(3), pages.'));
+
+  // ── Article title NOT italicized ──
+  // Text between (Year). and first italic segment
+  const firstItalicIdx = segments.findIndex(s => s.italic);
+  if (firstItalicIdx === 0) {
+    R.push(warn('Reference starts with italicized text', 'Author names, the year, and the article title should not be italicized. Only the journal name and volume number are italicized.'));
+  } else if (firstItalicIdx > 0) {
+    const beforeItalic = segments.slice(0, firstItalicIdx).map(s => s.text).join('');
+    const titleMatch = beforeItalic.match(/\(\d{4}[a-z]?\)\.\s+(.+?)\.\s*$/);
+    if (titleMatch) {
+      const articleTitle = titleMatch[1].trim();
+      R.push(pass('Article title does not appear to be italicized'));
+      const suspects = isSentenceCase(articleTitle);
+      if (suspects.length > 2)
+        R.push(fail('Article title may not be in sentence case',
+          `APA uses sentence case for article titles: capitalize only the first word, proper nouns, and the first word after a colon. Possible issue with: "${suspects.slice(0,3).join('", "')}" (unless proper nouns).`));
+      else if (suspects.length > 0)
+        R.push(warn('Check article title capitalization',
+          `Only capitalize proper nouns and first words in article titles. Possible issue: "${suspects.join('", "')}" — OK if these are proper nouns.`));
+      else
+        R.push(pass('Article title appears to be in sentence case'));
+    }
+  }
+
+  // ── Page range ──
+  if (/\d+[–\-]\d+/.test(full)) {
+    R.push(pass('Page range found'));
+    if (!/\d+–\d+/.test(full))
+      R.push(tip('Consider an en dash (–) in the page range', 'APA prefers an en dash (–) over a hyphen (-). Insert it with Option + hyphen (Mac) or Alt + 0150 (Windows).'));
+  } else {
+    R.push(warn('Page range not found', 'Most journal articles include a page range, e.g., 412–428.'));
+  }
+
+  // ── DOI ──
+  if (/doi/i.test(full)) {
+    if (/https:\/\/doi\.org\//i.test(full))
+      R.push(pass('DOI is formatted correctly as https://doi.org/…'));
+    else if (/^doi:/im.test(full) || /\bdoi:\d/i.test(full))
+      R.push(fail('DOI prefix format is outdated', 'APA 7 requires the full URL format: https://doi.org/10.xxxx/xxxxx — not "doi:10.xxxx".'));
+    else
+      R.push(warn('DOI detected but format may be incorrect', 'Format DOIs as full URLs: https://doi.org/10.xxxx/xxxxx'));
+  } else {
+    R.push(tip('No DOI detected', 'Include a DOI when available — it is strongly encouraged in APA 7.'));
+  }
+
+  chkNoRetrievedFrom(full, R, false);
+}
+
+// ─────────────────────────────────────────────
+// BOOK CHECKS
+// ─────────────────────────────────────────────
+function chkBook(segments, R) {
+  const full  = segments.map(s => s.text).join('');
+  const iSegs = segments.filter(s => s.italic);
+
+  if (iSegs.length === 0) {
+    R.push(fail('No italicized text found', 'The book title must be italicized. Select it and press Ctrl+I / ⌘I.'));
+  } else {
+    const title = iSegs[0].text.trim();
+    R.push(pass(`Book title appears to be italicized: "${title.substring(0, 60)}"`));
+    // Strip edition info from end if present
+    const cleanTitle = title.replace(/\s*\(.*$/, '').trim();
+    const suspects = isSentenceCase(cleanTitle);
+    if (suspects.length > 2)
+      R.push(fail('Book title may not be in sentence case',
+        `APA uses sentence case for book titles. Capitalize only the first word, proper nouns, and the first word after a colon. Possible issue: "${suspects.slice(0,3).join('", "')}" (unless proper nouns).`));
+    else if (suspects.length > 0)
+      R.push(warn('Check book title capitalization',
+        `Possible capitalization issue in: "${suspects.join('", "')}" — OK if these are proper nouns.`));
+    else
+      R.push(pass('Book title appears to be in sentence case'));
+  }
+
+  // Publisher location — APA 7 removed it
+  if (/[A-Z][a-z]+,\s+[A-Z]{2}:/.test(full) || (/:\s+[A-Z]/.test(full) && /New York|Chicago|London|Boston|San Francisco|Thousand Oaks/i.test(full)))
+    R.push(fail('Publisher location should be removed in APA 7', 'APA 7th edition no longer requires publisher city. Just list the publisher name followed by a period.'));
+
+  // Edition format
+  if (/ed\b/i.test(full)) {
+    if (/\(\d+(?:st|nd|rd|th) ed\.\)/i.test(full))
+      R.push(pass('Edition is in the correct format, e.g., (2nd ed.)'));
+    else
+      R.push(warn('Check edition format', 'The edition should follow this pattern: (2nd ed.) or (3rd ed.) — including the ordinal and period.'));
+  }
+
+  chkNoRetrievedFrom(full, R, false);
+}
+
+// ─────────────────────────────────────────────
+// BOOK CHAPTER CHECKS
+// ─────────────────────────────────────────────
+function chkChapter(segments, R) {
+  const full  = segments.map(s => s.text).join('');
+  const iSegs = segments.filter(s => s.italic);
+
+  // Chapter title (between (Year). and " In ") should NOT be italic
+  const titleMatch = full.match(/\(\d{4}[a-z]?\)\.\s+(.+?)\s+In\s+/);
+  if (titleMatch) {
+    const chapTitle = titleMatch[1].trim();
+    // Check if any italic segment contains the chapter title text
+    const chapIsItalic = iSegs.some(s => s.text.includes(chapTitle) || chapTitle.includes(s.text.trim()));
+    if (chapIsItalic)
+      R.push(fail('Chapter title should NOT be italicized', 'In a book chapter reference, only the book title is italicized — not the chapter title.'));
+    else
+      R.push(pass('Chapter title is not italicized'));
+
+    const suspects = isSentenceCase(chapTitle.replace(/\.$/, ''));
+    if (suspects.length > 2)
+      R.push(fail('Chapter title may not be in sentence case',
+        `Capitalize only the first word, proper nouns, and first word after a colon. Possible issue: "${suspects.slice(0,3).join('", "')}" (unless proper nouns).`));
+    else if (suspects.length > 0)
+      R.push(warn('Check chapter title capitalization', `Possible issue with: "${suspects.join('", "')}" — OK if proper nouns.`));
+    else
+      R.push(pass('Chapter title appears to be in sentence case'));
+  }
+
+  // "In" before editor name
+  if (!/\bIn\b/.test(full))
+    R.push(fail('Missing "In" before editor name', 'Book chapter format: …Title of chapter. In A. B. Editor (Ed.), Book Title (pp. XX–XX). Publisher.'));
+  else
+    R.push(pass('"In" is present before the editor information'));
+
+  // Ed. / Eds.
+  if (/\(Eds?\.\)/.test(full))
+    R.push(pass('Editor designation (Ed.) or (Eds.) is present'));
+  else
+    R.push(fail('Missing editor designation', 'Include (Ed.) for one editor or (Eds.) for multiple editors after the editor\'s name.'));
+
+  // Book title italicized
+  if (iSegs.length === 0) {
+    R.push(fail('No italicized text found', 'The book title must be italicized.'));
+  } else {
+    const bookTitle = iSegs[0].text.trim();
+    R.push(pass(`Book title appears to be italicized: "${bookTitle.substring(0,60)}"`));
+    const suspects = isSentenceCase(bookTitle.replace(/\s*\(.*$/, ''));
+    if (suspects.length > 0)
+      R.push(warn('Check book title capitalization', `Possible issue: "${suspects.join('", "')}" — OK if proper nouns.`));
+    else
+      R.push(pass('Book title appears to be in sentence case'));
+  }
+
+  // pp. for pages
+  if (/\(pp\.\s*\d+/.test(full))
+    R.push(pass('Page range uses "pp." correctly'));
+  else if (/\bpp\b/i.test(full))
+    R.push(warn('Check "pp." format', 'Use: (pp. 45–67) for the chapter page range.'));
+  else
+    R.push(warn('Page range with "pp." not found', 'Include the chapter page range with "pp.": (pp. 45–67).'));
+
+  chkNoRetrievedFrom(full, R, false);
+}
+
+// ─────────────────────────────────────────────
+// WEBPAGE CHECKS
+// ─────────────────────────────────────────────
+function chkWebpage(segments, R) {
+  const full  = segments.map(s => s.text).join('');
+  const iSegs = segments.filter(s => s.italic);
+
+  if (iSegs.length === 0) {
+    R.push(fail('No italicized text found', 'The page title must be italicized for a webpage reference.'));
+  } else {
+    const pageTitle = iSegs[0].text.trim();
+    R.push(pass(`Page title appears to be italicized: "${pageTitle.substring(0,60)}"`));
+    const suspects = isSentenceCase(pageTitle);
+    if (suspects.length > 2)
+      R.push(fail('Page title may not be in sentence case',
+        `Capitalize only the first word, proper nouns, and first word after a colon. Possible issue: "${suspects.slice(0,3).join('", "')}" (unless proper nouns).`));
+    else if (suspects.length > 0)
+      R.push(warn('Check page title capitalization', `Possible issue: "${suspects.join('", "')}" — OK if proper nouns.`));
+    else
+      R.push(pass('Page title appears to be in sentence case'));
+  }
+
+  // URL
+  if (/https?:\/\//.test(full))
+    R.push(pass('URL is present'));
+  else
+    R.push(warn('No URL found', 'Webpage references should include the full URL starting with https://.'));
+
+  chkNoRetrievedFrom(full, R, true);
+}
+
+// ─────────────────────────────────────────────
+// MAIN CHECK DISPATCHER
+// ─────────────────────────────────────────────
+function checkAPA() {
+  const type = document.getElementById('refType').value;
+  const segments = getSegments();
+  const full = segments.map(s => s.text).join('').trim();
+
+  if (!full) {
+    feedback().className = 'feedback-panel';
+    feedback().innerHTML = '<p class="fp-empty">Please enter a reference first.</p>';
+    return;
+  }
+
+  const R = [];
+
+  // Universal checks
+  chkDoubleSpaces(full, R);
+  chkYear(full, R);
+  chkAuthors(full, R);
+
+  // Type-specific checks
+  if      (type === 'journal') chkJournal(segments, R);
+  else if (type === 'book')    chkBook(segments, R);
+  else if (type === 'chapter') chkChapter(segments, R);
+  else if (type === 'webpage') chkWebpage(segments, R);
+
+  renderFeedback(R);
+}
+
+// ─────────────────────────────────────────────
+// RENDER FEEDBACK
+// ─────────────────────────────────────────────
+function renderFeedback(R) {
+  const passes = R.filter(r => r.type === 'pass').length;
+  const fails  = R.filter(r => r.type === 'fail').length;
+  const total  = R.filter(r => r.type === 'pass' || r.type === 'fail').length;
+
+  const scoreClass = fails === 0 ? 'score-great' : fails <= 2 ? 'score-ok' : 'score-poor';
+  const scoreMsg   = fails === 0
+    ? `All checks passed! (${passes}/${total})`
+    : `${fails} issue${fails > 1 ? 's' : ''} found — ${passes}/${total} checks passed`;
+
+  const icons = { pass: '✓', fail: '✗', warn: '⚠', tip: '💡' };
+  let html = `<div class="score-bar ${scoreClass}">${scoreMsg}</div>`;
+
+  for (const r of R) {
+    html += `<div class="fb-item fb-${r.type}">
+      <strong>${icons[r.type] || '•'} ${r.msg}</strong>
+      ${r.detail ? `<div class="fb-detail">${r.detail}</div>` : ''}
+    </div>`;
+  }
+
+  feedback().className = 'feedback-panel';
+  feedback().innerHTML = html;
+}
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  updateUI();
+
+  const el = editor();
+
+  // Paste as plain text only (strip rich formatting)
+  el.addEventListener('paste', e => {
+    e.preventDefault();
+    const plain = (e.clipboardData || window.clipboardData).getData('text/plain');
+    document.execCommand('insertText', false, plain);
+  });
+
+  // Keep toolbar italic button in sync with cursor position
+  document.addEventListener('selectionchange', refreshToolbar);
+});
+</script>
