@@ -314,18 +314,34 @@ function isTitleCase(phrase) {
 // ─────────────────────────────────────────────
 function chkJournal(segments, R) {
   const full  = segments.map(s => s.text).join('');
-  const iSegs = segments.filter(s => s.italic);
-  const nSegs = segments.filter(s => !s.italic);
-  const iText = iSegs.map(s => s.text).join('');
-  const nText = nSegs.map(s => s.text).join('');
+
+  // ── Find the segment index immediately after (Year).  ──
+  // Walk through segments accumulating character offsets until we pass the "). " boundary.
+  const yearDotMatch = full.match(/\(\d{4}[a-z]?\)\.\s*/);
+  let postYearSegIdx = 0;
+  if (yearDotMatch) {
+    const yearDotEnd = yearDotMatch.index + yearDotMatch[0].length;
+    let offset = 0;
+    for (let i = 0; i < segments.length; i++) {
+      offset += segments[i].text.length;
+      if (offset >= yearDotEnd) { postYearSegIdx = i + 1; break; }
+    }
+  }
+
+  // Italic/non-italic views scoped to segments AFTER (Year).
+  const postSegs  = segments.slice(postYearSegIdx);
+  const iSegsPost = postSegs.filter(s => s.italic);
+  const nSegsPost = postSegs.filter(s => !s.italic);
+  const iTextPost = iSegsPost.map(s => s.text).join('');
+  const nTextPost = nSegsPost.map(s => s.text).join('');
 
   // ── Italics: journal name ──
-  if (iSegs.length === 0) {
-    R.push(fail('No italicized text found', 'The journal name AND volume number must be italicized. Select them and press Ctrl+I / ⌘I.'));
+  if (iSegsPost.length === 0) {
+    R.push(fail('No italicized text found after the year', 'The journal name AND volume number must be italicized. Select them and press Ctrl+I / ⌘I.'));
   } else {
-    const first = iSegs[0].text.trim();
+    const first = iSegsPost[0].text.trim();
     if (/^\d+$/.test(first)) {
-      R.push(warn('First italicized text is a plain number', 'The journal name should be italicized and should come before the italicized volume number.'));
+      R.push(warn('First italicized text after the year is a plain number', 'The journal name should be italicized and should come before the italicized volume number.'));
     } else {
       R.push(pass(`Journal name appears to be italicized: "${first.substring(0, 50)}"`));
       if (!isTitleCase(first.replace(/,\s*\d.*$/, '').trim()))
@@ -336,29 +352,28 @@ function chkJournal(segments, R) {
   }
 
   // ── Italics: volume number ──
-  if (/\d/.test(iText))
+  if (/\d/.test(iTextPost))
     R.push(pass('A number is italicized (expected: volume number)'));
-  else if (iSegs.length > 0)
+  else if (iSegsPost.length > 0)
     R.push(fail('Volume number does not appear to be italicized', 'Italicize the volume number along with or right after the journal name. Example: Journal Name, 12(3) — where "12" is italic but "(3)" is not.'));
 
   // ── Issue number NOT italicized ──
-  if (/\(\d+\)/.test(nText))
+  if (/\(\d+\)/.test(nTextPost))
     R.push(pass('Issue number in parentheses is not italicized'));
-  else if (/\(\d+\)/.test(iText))
+  else if (/\(\d+\)/.test(iTextPost))
     R.push(fail('Issue number appears to be italicized', 'The issue number in parentheses should NOT be italic. Only the journal name and volume number are italicized.'));
   else
     R.push(warn('Issue number not detected', 'If applicable, the issue number goes in parentheses right after the volume (not italicized): Journal Name, 12(3), pages.'));
 
-  // ── Article title NOT italicized ──
-  // Text between (Year). and first italic segment
-  const firstItalicIdx = segments.findIndex(s => s.italic);
-  if (firstItalicIdx === 0) {
-    R.push(warn('Reference starts with italicized text', 'Author names, the year, and the article title should not be italicized. Only the journal name and volume number are italicized.'));
-  } else if (firstItalicIdx > 0) {
-    const beforeItalic = segments.slice(0, firstItalicIdx).map(s => s.text).join('');
-    const titleMatch = beforeItalic.match(/\(\d{4}[a-z]?\)\.\s+(.+?)\.\s*$/);
-    if (titleMatch) {
-      const articleTitle = titleMatch[1].trim();
+  // ── Article title: should NOT be italicized, should be between (Year). and first italic ──
+  const firstPostItalicIdx = postSegs.findIndex(s => s.italic);
+  if (firstPostItalicIdx === 0) {
+    R.push(warn('Text immediately after the year is italic', 'The article title should not be italicized — only the journal name and volume number are italic.'));
+  } else if (firstPostItalicIdx > 0) {
+    const beforeJournal = postSegs.slice(0, firstPostItalicIdx).map(s => s.text).join('');
+    // The article title is the content between (Year). and the journal name — strip leading/trailing punctuation/spaces
+    const articleTitle = beforeJournal.replace(/^\s+|\.\s*$/g, '').trim();
+    if (articleTitle) {
       R.push(pass('Article title does not appear to be italicized'));
       const suspects = isSentenceCase(articleTitle);
       if (suspects.length > 2)
