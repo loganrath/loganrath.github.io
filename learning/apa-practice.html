@@ -26,8 +26,8 @@ layout: tool
   .editor-area:empty:before { content: attr(data-placeholder); color: #9ca3af; }
 
   .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-  .btn-check { background: linear-gradient(135deg,#ff7a18 0%,#ff3d81 100%); font-size: 16px; font-weight: 700; color: #fff; padding: 10px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,.25); cursor: pointer; box-shadow: 0 6px 18px rgba(255,61,129,.24); transition: transform .15s,box-shadow .2s; }
-  .btn-check:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(255,61,129,.3); }
+  .btn-apa-check { background: linear-gradient(135deg,#ff7a18 0%,#ff3d81 100%); font-size: 16px; font-weight: 700; color: #fff; padding: 10px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,.25); cursor: pointer; box-shadow: 0 6px 18px rgba(255,61,129,.24); transition: transform .15s,box-shadow .2s; }
+  .btn-apa-check:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(255,61,129,.3); }
   .btn-good { background: linear-gradient(135deg,#14b8a6 0%,#0ea5e9 100%); color: #fff; font-size: 15px; font-weight: 600; padding: 9px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,.18); cursor: pointer; }
   .btn-broken { background: linear-gradient(135deg,#f59e0b 0%,#ef4444 100%); color: #fff; font-size: 15px; font-weight: 600; padding: 9px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,.18); cursor: pointer; }
   .btn-clear { background: #e5e7eb; color: #374151; font-size: 15px; font-weight: 500; padding: 9px 14px; border-radius: 10px; border: 1px solid #d1d5db; cursor: pointer; }
@@ -75,8 +75,8 @@ layout: tool
       <label>Your Reference</label>
       <div class="hint" style="margin-bottom:8px">Select text, then click <strong>Italic</strong> or press <kbd>Ctrl+I</kbd> / <kbd>⌘I</kbd> to italicize.</div>
       <div class="toolbar" role="toolbar" aria-label="Formatting toolbar">
-        <button type="button" id="btnItalic" class="tb-italic" onclick="doItalic()" title="Toggle italic on selected text">I  Italic</button>
-        <button type="button" onclick="stripFormatting()" title="Remove all italic/bold formatting">Clear Formatting</button>
+        <button type="button" id="btnItalic" class="tb-italic" onmousedown="event.preventDefault(); doItalic()" title="Toggle italic on selected text (or press Ctrl+I / ⌘I)">I  Italic</button>
+        <button type="button" onmousedown="event.preventDefault(); stripFormatting()" title="Remove all italic/bold formatting">Clear Formatting</button>
       </div>
       <div
         id="editor"
@@ -91,7 +91,7 @@ layout: tool
     </div>
 
     <div class="controls">
-      <button class="btn-check" onclick="checkAPA()">Check Format</button>
+      <button class="btn-apa-check" onclick="checkAPA()">Check Format</button>
       <button class="btn-good"   onclick="loadCorrectExample()" title="Load a correctly formatted example">✓ Correct Example</button>
       <button class="btn-broken" onclick="loadBrokenExample()"  title="Load an example with errors to fix">⚠ Example with Errors</button>
       <button class="btn-clear"  onclick="clearAll()">Clear</button>
