@@ -319,8 +319,9 @@ function chkJournal(segments, R) {
   // Walk through segments accumulating character offsets until we pass the "). " boundary.
   const yearDotMatch = full.match(/\(\d{4}[a-z]?\)\.\s*/);
   let postYearSegIdx = 0;
+  let yearDotEnd = 0;
   if (yearDotMatch) {
-    const yearDotEnd = yearDotMatch.index + yearDotMatch[0].length;
+    yearDotEnd = yearDotMatch.index + yearDotMatch[0].length;
     let offset = 0;
     for (let i = 0; i < segments.length; i++) {
       offset += segments[i].text.length;
@@ -365,25 +366,34 @@ function chkJournal(segments, R) {
   else
     R.push(warn('Issue number not detected', 'If applicable, the issue number goes in parentheses right after the volume (not italicized): Journal Name, 12(3), pages.'));
 
-  // ── Article title: should NOT be italicized, should be between (Year). and first italic ──
-  const firstPostItalicIdx = postSegs.findIndex(s => s.italic);
-  if (firstPostItalicIdx === 0) {
-    R.push(warn('Text immediately after the year is italic', 'The article title should not be italicized — only the journal name and volume number are italic.'));
-  } else if (firstPostItalicIdx > 0) {
-    const beforeJournal = postSegs.slice(0, firstPostItalicIdx).map(s => s.text).join('');
-    // The article title is the content between (Year). and the journal name — strip leading/trailing punctuation/spaces
-    const articleTitle = beforeJournal.replace(/^\s+|\.\s*$/g, '').trim();
-    if (articleTitle) {
-      R.push(pass('Article title does not appear to be italicized'));
-      const suspects = isSentenceCase(articleTitle);
-      if (suspects.length > 2)
-        R.push(fail('Article title may not be in sentence case',
-          `APA uses sentence case for article titles: capitalize only the first word, proper nouns, and the first word after a colon. Possible issue with: "${suspects.slice(0,3).join('", "')}" (unless proper nouns).`));
-      else if (suspects.length > 0)
-        R.push(warn('Check article title capitalization',
-          `Only capitalize proper nouns and first words in article titles. Possible issue: "${suspects.join('", "')}" — OK if these are proper nouns.`));
-      else
-        R.push(pass('Article title appears to be in sentence case'));
+  // ── Article title: use char positions so it works even when title shares a segment with the year ──
+  // Find where the first italic text starts in the full string
+  let firstItalicCharPos = -1;
+  let _charOff = 0;
+  for (const s of segments) {
+    if (s.italic) { firstItalicCharPos = _charOff; break; }
+    _charOff += s.text.length;
+  }
+
+  if (firstItalicCharPos >= 0) {
+    if (firstItalicCharPos <= yearDotEnd) {
+      // Italic starts at or before the end of (Year). — article title is italic
+      R.push(fail('Article title appears to be italicized', 'The article title should not be italicized. Only the journal name and volume number should be italic.'));
+    } else {
+      // Text between (Year). and first italic = the article title
+      const articleTitle = full.slice(yearDotEnd, firstItalicCharPos).replace(/\.\s*$/, '').trim();
+      if (articleTitle) {
+        R.push(pass('Article title does not appear to be italicized'));
+        const suspects = isSentenceCase(articleTitle);
+        if (suspects.length > 2)
+          R.push(fail('Article title may not be in sentence case',
+            `APA uses sentence case for article titles: capitalize only the first word, proper nouns, and the first word after a colon. Possible issue with: "${suspects.slice(0,3).join('", "')}" (unless proper nouns).`));
+        else if (suspects.length > 0)
+          R.push(warn('Check article title capitalization',
+            `Only capitalize proper nouns and first words in article titles. Possible issue: "${suspects.join('", "')}" — OK if these are proper nouns.`));
+        else
+          R.push(pass('Article title appears to be in sentence case'));
+      }
     }
   }
 
