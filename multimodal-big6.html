@@ -462,7 +462,7 @@ layout: tool
 
     <section class="usage-box" aria-labelledby="usage-title">
         <h2 id="usage-title">How to use this planner</h2>
-        <p>Use the grade-band selector first, then choose a literacy square. Every linked idea opens the <a href="/crisp/">CRISP builder</a> with the context, request, intent, style, and parameters already filled in.</p>
+        <p>Use the grade-band selector first, then choose a literacy square. Every linked idea opens the <a href="/crisp/">CRISP builder</a> with the context, role, instruction, specification, and performance criteria already filled in.</p>
         <ul>
             <li>Swap in your own text, unit topic, lab, problem set, performance task, or essential question before using the prompt.</li>
             <li>Review every AI output for accuracy, accessibility, cultural responsiveness, and fit with local curriculum and student data.</li>
@@ -747,10 +747,10 @@ layout: tool
         function buildCrispUrl(prompt) {
             const params = new URLSearchParams({
                 context: prompt.context,
-                request: prompt.request,
-                intent: prompt.intent,
-                style: prompt.style,
-                parameters: prompt.parameters,
+                role: prompt.role,
+                instruction: prompt.instruction,
+                specification: prompt.specification,
+                performance: prompt.performance,
                 format: "compact"
             });
 
@@ -762,11 +762,11 @@ layout: tool
             const skill = band.skills[skillName];
 
             return {
-                context: "Act as a literacy coach helping a " + band.label + " NYS teacher plan a multimodal literacy activity for " + skillName.toLowerCase() + ".",
-                request: modality.requestLead + " " + band.label + " students focused on " + skill.focus + ". Align it to broad NYS curriculum expectations for this band.",
-                intent: modality.intent + " Keep the work tightly connected to " + skill.alignment + ".",
-                style: sharedStyle,
-                parameters: band.parameters + " " + modality.parameterTail + " Keep the activity aligned to " + skill.alignment + "."
+                context: "I am a " + band.label + " NYS teacher planning a multimodal literacy activity for " + skillName.toLowerCase() + ". My goal is for students to develop " + skill.focus + " skills.",
+                role: "Act as a literacy coach who specializes in " + band.label + " multimodal literacy instruction.",
+                instruction: modality.requestLead + " " + band.label + " students focused on " + skill.focus + ". Align it to broad NYS curriculum expectations for this band. " + modality.intent + " Keep the work tightly connected to " + skill.alignment + ". Success means the activity is classroom-ready and directly supports " + skillName.toLowerCase() + " development.",
+                specification: sharedStyle,
+                performance: band.parameters + " " + modality.parameterTail + " Keep the activity aligned to " + skill.alignment + "."
             };
         }
 

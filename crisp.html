@@ -1,5 +1,5 @@
 ---
-title: CRISP Prompt Builder for Generative AI Tools
+title: CRISP(E) Prompt Builder for Generative AI Tools
 layout: tool
 ---
   <style>
@@ -267,6 +267,18 @@ layout: tool
             hasPrefill = true;
           }
         });
+
+        // Backward-compat: accept old CRISP param names (request, intent, style, parameters)
+        const oldRequest = params.get('request');
+        const oldIntent = params.get('intent');
+        if(oldRequest !== null || oldIntent !== null){
+          const combined = [oldRequest, oldIntent].filter(Boolean).join(' ');
+          if(combined && !elems.instruction.value){ elems.instruction.value = combined; hasPrefill = true; }
+        }
+        const oldStyle = params.get('style');
+        if(oldStyle !== null && !elems.specification.value){ elems.specification.value = oldStyle; hasPrefill = true; }
+        const oldParameters = params.get('parameters');
+        if(oldParameters !== null && !elems.performance.value){ elems.performance.value = oldParameters; hasPrefill = true; }
 
         const format = params.get('format');
         if(format && ['detailed', 'compact', 'bullet'].includes(format)){

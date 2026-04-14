@@ -773,28 +773,30 @@ layout: post
 
         function buildFullPrompt(entry, skill) {
             const context = buildContext(skill, entry.modality);
-            const parameters = sharedParameters + " " + entry.parameters;
+            const role = "Act as a K-1 literacy coach who specializes in " + entry.modality.toLowerCase() + " multimodal literacy instruction.";
+            const instruction = entry.request + " " + entry.intent + " Success means the activity is classroom-ready and directly supports " + skill.toLowerCase() + " development in K-1 learners.";
+            const performance = sharedParameters + " " + entry.parameters;
             return {
                 context: context,
-                request: entry.request,
-                intent: entry.intent,
-                style: sharedStyle,
-                parameters: parameters,
+                role: role,
+                instruction: instruction,
+                specification: sharedStyle,
+                performance: performance,
                 fullText: [
                     "Context",
                     context,
                     "",
-                    "Request",
-                    entry.request,
+                    "Role",
+                    role,
                     "",
-                    "Intent",
-                    entry.intent,
+                    "Instruction",
+                    instruction,
                     "",
-                    "Style",
+                    "Specification",
                     sharedStyle,
                     "",
-                    "Parameters",
-                    parameters,
+                    "Performance & Example",
+                    performance,
                     "",
                     "Please produce the requested product now."
                 ].join("\n")
@@ -813,10 +815,10 @@ layout: post
         function buildBuilderUrl(prompt) {
             const params = new URLSearchParams({
                 context: prompt.context,
-                request: prompt.request,
-                intent: prompt.intent,
-                style: prompt.style,
-                parameters: prompt.parameters,
+                role: prompt.role,
+                instruction: prompt.instruction,
+                specification: prompt.specification,
+                performance: prompt.performance,
                 format: "detailed"
             });
 

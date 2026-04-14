@@ -748,10 +748,10 @@ layout: tool
         function buildCrispUrl(prompt) {
             const params = new URLSearchParams({
                 context: prompt.context,
-                request: prompt.request,
-                intent: prompt.intent,
-                style: prompt.style,
-                parameters: prompt.parameters,
+                role: prompt.role,
+                instruction: prompt.instruction,
+                specification: prompt.specification,
+                performance: prompt.performance,
                 format: "compact"
             });
 
@@ -762,11 +762,11 @@ layout: tool
             const band = gradeBands[bandKey];
 
             return {
-                context: "Act as a literacy coach helping a " + band.label + " NYS " + subjectName + " teacher plan a disciplinary literacy routine.",
-                request: row.move(band),
-                intent: row.intent,
-                style: sharedStyle,
-                parameters: band.parameters + " Use " + band.sourceTypes + ", " + band.subjectTalk + ", and " + band.outputs + " as appropriate. " + row.parameters
+                context: "I am a " + band.label + " NYS " + subjectName + " teacher planning a disciplinary literacy routine for my class.",
+                role: "Act as a literacy coach who specializes in " + band.label + " disciplinary literacy instruction.",
+                instruction: row.move(band) + " " + row.intent + " Success means the routine is classroom-ready and directly supports disciplinary reading and writing in " + subjectName + ".",
+                specification: sharedStyle,
+                performance: band.parameters + " Use " + band.sourceTypes + ", " + band.subjectTalk + ", and " + band.outputs + " as appropriate. " + row.parameters
             };
         }
 
