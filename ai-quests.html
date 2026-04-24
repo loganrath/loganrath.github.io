@@ -424,10 +424,10 @@ layout: tool
         function buildCrispUrl(prompt) {
             const params = new URLSearchParams({
                 context: prompt.context,
-                request: prompt.request,
-                intent: prompt.intent,
-                style: prompt.style,
-                parameters: prompt.parameters,
+                role: prompt.role,
+                instruction: prompt.instruction,
+                specification: prompt.specification,
+                performance: prompt.performance,
                 format: "compact"
             });
 
@@ -453,11 +453,11 @@ layout: tool
             const request = getRequestValue();
 
             return {
-                context: "Act as an instructional coach helping a " + band.label + " " + subject + " teacher design a " + quest.name + " for their current unit.",
-                request: request + " Use the " + quest.name + " structure.",
-                intent: "Deliver a practical, New York State standards-aware classroom quest structure that improves student thinking and participation.",
-                style: sharedStyle,
-                parameters: "Audience profile: " + band.learnerProfile + ". Expected student outputs: " + band.outputs + ". Scaffolds: " + band.scaffolds + ". Also incorporate this quest purpose: " + quest.purpose + ". Ask any clarifying questions you have before proceeding."
+                context: "I am a " + band.label + " " + subject + " teacher designing a " + quest.name + " for my current unit.",
+                role: "Act as an instructional coach who specializes in " + band.label + " " + subject + " learning design.",
+                instruction: request + " Use the " + quest.name + " structure. Deliver a practical, New York State standards-aware classroom quest structure that improves student thinking and participation. Success means a classroom-ready plan with clear steps and measurable outcomes.",
+                specification: sharedStyle,
+                performance: "Audience profile: " + band.learnerProfile + ". Expected student outputs: " + band.outputs + ". Scaffolds: " + band.scaffolds + ". Also incorporate this quest purpose: " + quest.purpose + ". Ask any clarifying questions you have before proceeding."
             };
         }
 
