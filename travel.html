@@ -352,6 +352,24 @@ layout: tool
     }
   }
 
+  function formatRate(value) {
+    return value.toFixed(3).replace(/0+$/, "").replace(/\.$/, "");
+  }
+
+  function getMileageRateFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const rawValue = params.get("milage") || params.get("mileage");
+    const parsedValue = Number(rawValue);
+
+    if (!Number.isFinite(parsedValue) || parsedValue < 0) {
+      return 0.70;
+    }
+
+    return parsedValue;
+  }
+
+  const defaultMileageRate = getMileageRateFromUrl();
+
   async function fetchNationalGasPrice() {
     const source = "https://www.fueleconomy.gov/ws/rest/fuelprices";
     let text;
@@ -461,7 +479,7 @@ layout: tool
     document.getElementById("milesOneWay").value = 60;
     document.getElementById("personalMpg").value = 29;
     document.getElementById("gasPrice").value = 3.65;
-    document.getElementById("mileageRate").value = 0.70;
+    document.getElementById("mileageRate").value = formatRate(defaultMileageRate);
     document.getElementById("rentalPeriods").value = 2;
     setStatus("fuelStatus", "Not requested", true);
 
@@ -480,6 +498,8 @@ layout: tool
   document.getElementById("fuelBtn").addEventListener("click", handleFuelLookup);
   document.getElementById("compareBtn").addEventListener("click", compareCosts);
   document.getElementById("resetBtn").addEventListener("click", resetDefaults);
+
+  document.getElementById("mileageRate").value = formatRate(defaultMileageRate);
 
   compareCosts();
 </script>
