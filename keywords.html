@@ -18,7 +18,7 @@ layout: tool
         .instructions{background:#f8f9fa;font-size:18px;padding:18px;border-radius:8px;border-left:4px solid #3498db;margin-bottom:18px}
         .instructions h4{margin-bottom:8px;color:#233140}
         .instructions ul{margin-left:18px}
-        input[type="text"],textarea{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:15px}
+        input[type="text"],textarea{width:100%;padding:12px;border:2px solid #555;border-radius:8px;font-size:15px}
         input[type="text"]:focus,textarea:focus{outline:none;border-color:#3498db;box-shadow:0 0 0 4px rgba(52,152,219,.06)}
         textarea{min-height:100px;resize:vertical}
         .keyword-item{background:#f8f9fa;padding:16px;border-radius:8px;border:1px solid #e3e7eb;margin-bottom:12px}
@@ -210,6 +210,7 @@ layout: tool
     function showStep(n) {
       document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
       document.getElementById('step'+n).classList.add('active');
+      window.scrollTo({top: 0, behavior: 'smooth'});
       // show question at step 2
       if (n>=2 && searchData.question) {
         const disp = document.getElementById('step2QuestionDisplay');
