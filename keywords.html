@@ -18,7 +18,7 @@ layout: tool
         .instructions{background:#f8f9fa;font-size:18px;padding:18px;border-radius:8px;border-left:4px solid #3498db;margin-bottom:18px}
         .instructions h4{margin-bottom:8px;color:#233140}
         .instructions ul{margin-left:18px}
-        input[type="text"],textarea{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:15px}
+        input[type="text"],textarea{width:100%;padding:12px;border:2px solid #555;border-radius:8px;font-size:15px}
         input[type="text"]:focus,textarea:focus{outline:none;border-color:#3498db;box-shadow:0 0 0 4px rgba(52,152,219,.06)}
         textarea{min-height:100px;resize:vertical}
         .keyword-item{background:#f8f9fa;padding:16px;border-radius:8px;border:1px solid #e3e7eb;margin-bottom:12px}
@@ -38,9 +38,17 @@ layout: tool
         .btn.red:hover{background:#a61b12}
         .boolean-output{background:#2c3e50;color:#fff;padding:18px;border-radius:8px;font-family:Courier,monospace;font-size:24px;font-weight:bold;min-height:64px;word-break:break-word;field-sizing:content}
         .database-section{margin-top:18px;padding:18px;background:#f8f9fa;border-radius:10px}
-        .database-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
         .database-btn{background:#8e44ad;color:#fff;padding:10px 16px;border-radius:8px;font-weight:700;border:0;cursor:pointer}
         .database-btn:disabled{background:#bfc6cc;cursor:not-allowed}
+        .database-btn:hover:not(:disabled){background:#7d3c98}
+        .db-group-row{display:flex;align-items:flex-start;padding:10px 12px;gap:14px}
+        .db-group-row:nth-child(odd){background:#eef2f7}
+        .db-group-row:nth-child(even){background:#fff}
+        .db-group-header{display:flex;align-items:center;padding:7px 12px;background:#233140;border-radius:6px 6px 0 0;gap:14px}
+        .db-group-header span{font-weight:700;color:#fff;font-size:.9rem;text-transform:uppercase;letter-spacing:.05em}
+        .db-group-label{font-weight:700;color:#233140;min-width:130px;flex-shrink:0;padding-top:8px;font-size:.95rem}
+        .db-group-btns{display:flex;flex-wrap:wrap;gap:8px}
+        @media(max-width:720px){.db-group-row{flex-direction:column;gap:6px}.db-group-label{padding-top:0}}
         .navigation{display:flex;justify-content:space-between;align-items:center;padding:18px;border-top:1px solid #eef2f5}
         .navigation .center{display:flex;gap:12px;align-items:center}
         .summary-section{background:#f8f9fa;padding:14px;border-radius:8px;margin-bottom:12px}
@@ -196,6 +204,18 @@ layout: tool
       'TESOL Databases' : 'https://research.ebsco.com/c/mhyfef/search/results?q=SEARCH_QUERY&autocorrect=y&db=mlf&db=eue&db=eric&expanders=concept&limiters=RV%3AY%2CDT1%3A2016-01-01%2F2026-12-31&searchMode=all&searchSegment=all-results&skipResultsFetch=true',
     };
 
+    const databaseGroups = [
+      { label: 'SUNY Brockport', dbs: ['Library Search'] },
+      { label: 'All Subjects',   dbs: ['Academic Search Complete', 'All EBSCO Databases', 'Google Scholar', 'JSTOR'] },
+      { label: 'Business',       dbs: ['Business Source'] },
+      { label: 'Education',      dbs: ['Education Source + ERIC', 'PsycINFO (APA)', 'TESOL Databases'] },
+      { label: 'English',        dbs: ['Humanities Source + MLA', 'JSTOR', 'Literature Resource Center', 'Project MUSE'] },
+      { label: 'KSSPE',          dbs: ['SportDISCUS + Academic Search'] },
+      { label: 'Psychology',     dbs: ['PsycINFO (APA)'] },
+      { label: 'Social Work',    dbs: ['Academic Search Complete'] },
+      { label: 'TESOL',          dbs: ['TESOL Databases'] },
+    ];
+
     const feedbackBaseUrl = 'https://forms.brockport.edu/view.php?id=9744858&element_1=';
 
     function getKeywordInputId(keywordId) {
@@ -212,6 +232,7 @@ layout: tool
     function showStep(n) {
       document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
       document.getElementById('step'+n).classList.add('active');
+      window.scrollTo({top: 0, behavior: 'smooth'});
       // show question at step 2
       if (n>=2 && searchData.question) {
         const disp = document.getElementById('step2QuestionDisplay');
@@ -414,17 +435,33 @@ layout: tool
         container.innerHTML = '<button class="database-btn" disabled>Complete previous steps</button>';
         return;
       }
-      Object.keys(databases).forEach(name=>{
-        const btn = document.createElement('button');
-        btn.className = 'database-btn';
-        btn.textContent = name;
-        btn.onclick = ()=> {
-          // Read the current value from textarea at click time
-          const currentQuery = document.getElementById('booleanOutput').value.trim();
-          const url = databases[name].replace('SEARCH_QUERY', encodeURIComponent(currentQuery));
-          window.open(url, '_blank');
-        };
-        container.appendChild(btn);
+      const header = document.createElement('div');
+      header.className = 'db-group-header';
+      header.innerHTML = `<span style="min-width:130px;flex-shrink:0">Subject</span><span>Databases</span>`;
+      container.appendChild(header);
+      databaseGroups.forEach(group => {
+        const row = document.createElement('div');
+        row.className = 'db-group-row';
+        const label = document.createElement('span');
+        label.className = 'db-group-label';
+        label.textContent = group.label;
+        const btns = document.createElement('div');
+        btns.className = 'db-group-btns';
+        group.dbs.forEach(name => {
+          if (!databases[name]) return;
+          const btn = document.createElement('button');
+          btn.className = 'database-btn';
+          btn.textContent = name;
+          btn.onclick = () => {
+            const currentQuery = document.getElementById('booleanOutput').value.trim();
+            const url = databases[name].replace('SEARCH_QUERY', encodeURIComponent(currentQuery));
+            window.open(url, '_blank');
+          };
+          btns.appendChild(btn);
+        });
+        row.appendChild(label);
+        row.appendChild(btns);
+        container.appendChild(row);
       });
     }
 
