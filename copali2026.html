@@ -596,6 +596,78 @@
                 gap: 30px;
             }
         }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 30px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(3, 105, 161, 0.2);
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2em;
+            color: white;
+            font-weight: 700;
+            overflow: hidden;
+        }
+
+        .profile-card:nth-child(1) .profile-photo { background: linear-gradient(135deg, #E11D48 0%, #BE123C 100%); }
+        .profile-card:nth-child(2) .profile-photo { background: linear-gradient(135deg, #0369A1 0%, #0E7490 100%); }
+        .profile-card:nth-child(3) .profile-photo { background: linear-gradient(135deg, #0F766E 0%, #059669 100%); }
+        .profile-card:nth-child(4) .profile-photo { background: linear-gradient(135deg, #B45309 0%, #C2410C 100%); }
+        .profile-card:nth-child(5) .profile-photo { background: linear-gradient(135deg, #8B5CF6 0%, #D946EF 100%); }
+        .profile-card:nth-child(6) .profile-photo { background: linear-gradient(135deg, #EC4899 0%, #F43F5E 100%); }
+
+        .profile-card h3 {
+            color: #1a1a1a;
+            font-size: 1.2em;
+            margin-bottom: 6px;
+        }
+
+        .profile-title {
+            color: #555;
+            font-size: 0.95em;
+            margin-bottom: 4px;
+        }
+
+        .profile-institution {
+            color: #0369A1;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .profile-module-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(3,105,161,0.1), rgba(14,116,144,0.1));
+            color: #0369A1;
+            font-size: 0.85em;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(3,105,161,0.2);
+        }
     </style>
 </head>
 <body>
@@ -607,8 +679,8 @@
     <nav>
         <ul>
             <li><a href="#overview">Overview</a></li>
-            <li><a href="#facilitators">For Facilitators</a></li>
             <li><a href="#modules">Modules</a></li>
+            <li><a href="#facilitators">Meet the Facilitators</a></li>
             <li><a href="#participants">For Participants</a></li>
             <li><a href="#apply">Get Started</a></li>
         </ul>
@@ -640,47 +712,6 @@
                 <div class="flex-item">
                     <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=600&auto=format&fit=crop&q=80" alt="College students studying together in a library" style="border-radius: 20px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
                     <p style="font-size: 0.85em; color: #666; margin-top: 12px;">Photo by <a href="https://unsplash.com/@element5digital">Element5 Digital</a> on <a href="https://unsplash.com">Unsplash</a></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="facilitators" class="facilitator-section">
-        <div class="container">
-            <h2>We Need Volunteer Facilitators!</h2>
-            <div class="flex-container">
-                <div class="flex-item">
-                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&auto=format&fit=crop&q=80" alt="Teacher leading a professional development workshop with adults" style="border-radius: 20px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
-                    <p style="font-size: 0.85em; color: #666; margin-top: 12px;">Photo by <a href="https://unsplash.com/@campophotography">Headway</a> on <a href="https://unsplash.com">Unsplash</a></p>
-                </div>
-                <div class="flex-item">
-                    <p>Are you passionate about library instruction and want to share your expertise? We're seeking energetic volunteers to facilitate one of our six modules this summer!</p>
-
-                    <div class="deadline">
-                        <h3>📅 Facilitator Timeline</h3>
-                        <ul>
-                            <li><strong>April 20, 2026:</strong> Facilitator proposals due</li>
-                            <li><strong>May 4:</strong> Facilitators selected</li>
-                            <li><strong>Mid-May:</strong> Synchronous facilitator meeting</li>
-                            <li><strong>June 10:</strong> Asynchronous module due (4 hours max)</li>
-                        </ul>
-                    </div>
-
-                    <h3 style="color: #0369A1; margin-top: 40px; font-size: 1.3em;">Your Commitment as a Facilitator</h3>
-                    <div class="commitment-list">
-                        <ol>
-                            <li>Develop an asynchronous module for participants (4 hours maximum)</li>
-                            <li>Facilitate your module asynchronously during its designated week</li>
-                            <li>Attend three synchronous meetings:
-                                <ul style="margin-top: 12px; margin-left: 30px; list-style-position: inside;">
-                                    <li>Mid-May facilitator meeting</li>
-                                    <li>June 24 (Kick-off)</li>
-                                    <li>Week of August 17 (Wrap-up)</li>
-                                </ul>
-                            </li>
-                            <li>Participate in the late fall showcase event</li>
-                        </ol>
-                    </div>
                 </div>
             </div>
         </div>
@@ -749,6 +780,63 @@
         </div>
     </section>
 
+    <section id="facilitators" class="facilitator-section">
+        <div class="container">
+            <h2>Meet the Facilitators</h2>
+            <p style="text-align: center; font-size: 1.1em; margin-bottom: 50px; color: #555;">Our six expert facilitators bring diverse perspectives and deep expertise in library pedagogy.</p>
+
+            <div class="profile-grid">
+                <div class="profile-card">
+                    <div class="profile-photo">👤</div>
+                    <h3>Facilitator Name</h3>
+                    <p class="profile-title">Title</p>
+                    <p class="profile-institution">Institution</p>
+                    <span class="profile-module-tag">Module 1: Foundations of Instruction</span>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-photo">👤</div>
+                    <h3>Facilitator Name</h3>
+                    <p class="profile-title">Title</p>
+                    <p class="profile-institution">Institution</p>
+                    <span class="profile-module-tag">Module 2: Unpacking the ACRL Framework</span>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-photo">👤</div>
+                    <h3>Facilitator Name</h3>
+                    <p class="profile-title">Title</p>
+                    <p class="profile-institution">Institution</p>
+                    <span class="profile-module-tag">Module 3: Working Within the One Shot</span>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-photo">👤</div>
+                    <h3>Facilitator Name</h3>
+                    <p class="profile-title">Title</p>
+                    <p class="profile-institution">Institution</p>
+                    <span class="profile-module-tag">Module 4: Active Learning & Classroom Management</span>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-photo">👤</div>
+                    <h3>Facilitator Name</h3>
+                    <p class="profile-title">Title</p>
+                    <p class="profile-institution">Institution</p>
+                    <span class="profile-module-tag">Module 5: Collaboration with Faculty</span>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-photo">👤</div>
+                    <h3>Facilitator Name</h3>
+                    <p class="profile-title">Title</p>
+                    <p class="profile-institution">Institution</p>
+                    <span class="profile-module-tag">Module 6: Assessment of Library Instruction</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="participants" class="participants-section">
         <div class="container">
             <h2>Participant Experience</h2>
@@ -797,12 +885,12 @@
             <div class="deadline" style="margin-top: 35px; max-width: 100%; background: linear-gradient(135deg, #E8F8FF 0%, #E0F7F4 100%); border-left-color: #0369A1; box-shadow: 0 5px 20px rgba(3, 105, 161, 0.12);">
                 <h3 style="color: #0369A1;">📝 Application Process</h3>
                 <ul>
-                    <li>Fill out our application form</li>
+                    <li>Fill out our application form (linked below)</li>
                     <li>Combine the following materials into ONE PDF file:
-                    <ol>
+                    <ol style="padding-left: 2em;">
                         <li>Your CV or resume</li>
                         <li>A letter from your supervisor approving your participation during working hours</li>
-                        <li>A short essay on why you want to join COPALI Pedagogy</li>
+                        <li>A short essay on why you want to join COPALI Pedagogy - See Application form for more information</li>
                     </ol></li>
                     <li>Submit your application by midnight (Eastern Time) on June 4, 2026</li>
                 </ul>
