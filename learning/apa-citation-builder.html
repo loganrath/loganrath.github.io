@@ -248,7 +248,8 @@ input.invalid { border-color: #ef4444; }
         <li>Volume number in italics, immediately after the comma.</li>
         <li>Issue number in parentheses immediately after the volume — no space, <strong>not</strong> italicized: <code>42(3)</code></li>
         <li>Comma after the issue number, then the page range: <code>100–115</code></li>
-        <li>End with a period after the page range.</li>
+        <li>If the journal uses an article number instead of pages, write <code>Article e12345</code> in place of the page range.</li>
+        <li>End with a period after the page range or article number.</li>
       </ul>
     </div>
 
@@ -274,6 +275,11 @@ input.invalid { border-color: #ef4444; }
         <label for="inputPageEnd">Last Page</label>
         <input type="text" id="inputPageEnd" placeholder="e.g., 115" oninput="updatePreview(); validateJournal()">
       </div>
+      <div class="field-group" style="grid-column:1/-1">
+        <label for="inputArticleNum">Article Number <span style="font-weight:400;text-transform:none;letter-spacing:0">(use instead of page range if the journal assigns one)</span></label>
+        <input type="text" id="inputArticleNum" placeholder="e.g., e12345" oninput="updatePreview(); validateJournal()">
+        <div class="small-note">Leave blank if the journal uses page numbers. If filled, the page fields above are ignored.</div>
+      </div>
     </div>
 
     <div class="vmsgs" id="journalMsgs"></div>
@@ -298,11 +304,20 @@ input.invalid { border-color: #ef4444; }
       <ul>
         <li>Format as a full URL: <code>https://doi.org/10.xxxx/xxxxx</code></li>
         <li>Do <strong>not</strong> add a period after the DOI — it ends the citation.</li>
-        <li>If no DOI exists, use the journal's home page URL instead.</li>
+        <li>If the article has no DOI and you found it through a <strong>library database</strong>, no URL is needed — the citation ends after the page range or article number.</li>
+        <li>If the article has no DOI and is <strong>not</strong> from a database, use the journal's home page URL instead.</li>
       </ul>
     </div>
 
-    <div class="field-group">
+    <div style="margin-bottom:14px; padding:10px 14px; background:#f0f9ff; border:1.5px solid #7dd3fc; border-radius:10px; font-size:14px;">
+      <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-weight:600; color:#0c4a6e;">
+        <input type="checkbox" id="chkDatabase" onchange="updatePreview(); validateDOI()" style="width:18px;height:18px;accent-color:#0369a1;flex-shrink:0;">
+        I retrieved this article from a library database (e.g., EBSCO, ProQuest, JSTOR)
+      </label>
+      <div class="small-note" style="margin-top:6px; margin-left:28px;">When checked and no DOI exists, no URL is needed — the citation ends after the page range.</div>
+    </div>
+
+    <div class="field-group" id="doiFieldWrap">
       <label for="inputDOI">DOI</label>
       <input type="url" id="inputDOI" placeholder="e.g., https://doi.org/10.1037/edu0000123"
              oninput="updatePreview(); validateDOI()">
@@ -419,8 +434,10 @@ function getJournal()   { return (document.getElementById('inputJournal').value 
 function getVolume()    { return (document.getElementById('inputVolume').value || '').trim(); }
 function getIssue()     { return (document.getElementById('inputIssue').value || '').trim(); }
 function getPageStart() { return (document.getElementById('inputPageStart').value || '').trim(); }
-function getPageEnd()   { return (document.getElementById('inputPageEnd').value || '').trim(); }
-function getDOI()       { return (document.getElementById('inputDOI').value || '').trim(); }
+function getPageEnd()     { return (document.getElementById('inputPageEnd').value || '').trim(); }
+function getArticleNum()  { return (document.getElementById('inputArticleNum').value || '').trim(); }
+function getDOI()         { return (document.getElementById('inputDOI').value || '').trim(); }
+function isDatabase()     { return document.getElementById('chkDatabase').checked; }
 
 // ─────────────────────────────────────────────────────────────
 // LIVE PREVIEW
@@ -434,7 +451,9 @@ function updatePreview() {
   const issue     = getIssue();
   const pgStart   = getPageStart();
   const pgEnd     = getPageEnd();
+  const articleNum = getArticleNum();
   const doi       = getDOI();
+  const fromDB    = isDatabase();
 
   const gray = function(s){ return '<span class="seg-gray">' + escAttr(s) + '</span>'; };
 
@@ -466,7 +485,9 @@ function updatePreview() {
   if (journal)  sourceStr += '<em>' + escAttr(journal) + '</em>';
   if (volume)   sourceStr += (journal ? ', ' : '') + '<em>' + escAttr(volume) + '</em>';
   if (issue)    sourceStr += '(' + escAttr(issue) + ')';
-  if (pgStart || pgEnd) {
+  if (articleNum) {
+    sourceStr += ', Article ' + escAttr(articleNum);
+  } else if (pgStart || pgEnd) {
     sourceStr += ', ';
     if (pgStart && pgEnd) sourceStr += escAttr(pgStart) + '&#8211;' + escAttr(pgEnd);
     else if (pgStart)     sourceStr += escAttr(pgStart);
@@ -475,12 +496,14 @@ function updatePreview() {
   if (sourceStr) {
     parts.push(sourceStr + '.');
   } else {
-    parts.push(gray('[Journal Name, Volume(Issue), Pages].'));
+    parts.push(gray('[Journal Name, Volume(Issue), Pages or Article number].'));
   }
 
   // DOI
   if (doi) {
     parts.push('<a href="' + escAttr(doi) + '" target="_blank" rel="noopener noreferrer">' + escAttr(doi) + '</a>');
+  } else if (fromDB) {
+    // no URL needed for database articles without a DOI — citation ends at page range
   } else {
     parts.push(gray('[https://doi.org/xxxxx]'));
   }
@@ -587,11 +610,26 @@ function validateJournal() {
   const issue    = getIssue();
   const pgStart  = getPageStart();
   const pgEnd    = getPageEnd();
+  const articleNum = getArticleNum();
   const msgs = [];
   let ok = true;
 
   if (!journal) { msgs.push({ type:'fail', text: 'Journal name is required.' }); ok=false; }
-  else          { msgs.push({ type:'pass', text: 'Journal: <em>' + escAttr(journal) + '</em> ✓ (will be italicized)' }); }
+  else {
+    msgs.push({ type:'pass', text: 'Journal: <em>' + escAttr(journal) + '</em> ✓ (will be italicized)' });
+    // Check title case: major words should be capitalized
+    var minorWords = new Set(['a','an','the','and','but','or','nor','for','so','yet','at','by','in','of','on','to','up','as','vs','via']);
+    var journalWords = journal.split(/\s+/);
+    var lowercaseMajor = [];
+    journalWords.forEach(function(w, i) {
+      if (!w) return;
+      if (i > 0 && minorWords.has(w.toLowerCase())) return;
+      if (/^[a-z]/.test(w)) lowercaseMajor.push(w);
+    });
+    if (lowercaseMajor.length > 0) {
+      msgs.push({ type:'warn', text: 'Journal name should use title case — capitalize major words. Possibly lowercase: <strong>' + lowercaseMajor.map(escAttr).join(', ') + '</strong>' });
+    }
+  }
 
   if (!volume)  { msgs.push({ type:'fail', text: 'Volume number is required.' }); ok=false; }
   else if (isNaN(Number(volume))) { msgs.push({ type:'fail', text: 'Volume should be a number.' }); ok=false; }
@@ -601,14 +639,18 @@ function validateJournal() {
   else if (isNaN(Number(issue)))  { msgs.push({ type:'fail', text: 'Issue should be a number.' }); ok=false; }
   else          { msgs.push({ type:'pass', text: 'Issue: (' + escAttr(issue) + ') ✓ — in parentheses, not italicized, no space after volume.' }); }
 
-  if (!pgStart) { msgs.push({ type:'fail', text: 'First page is required.' }); ok=false; }
-  if (!pgEnd)   { msgs.push({ type:'fail', text: 'Last page is required.' }); ok=false; }
-  if (pgStart && pgEnd) {
-    const ps = parseInt(pgStart), pe = parseInt(pgEnd);
-    if (!isNaN(ps) && !isNaN(pe) && pe <= ps) {
-      msgs.push({ type:'fail', text: 'Last page must be greater than first page.' }); ok=false;
-    } else {
-      msgs.push({ type:'pass', text: 'Pages: ' + escAttr(pgStart) + '&#8211;' + escAttr(pgEnd) + ' ✓ (en dash, not hyphen, separates page numbers)' });
+  if (articleNum) {
+    msgs.push({ type:'pass', text: 'Article number: Article ' + escAttr(articleNum) + ' ✓ (page fields ignored)' });
+  } else {
+    if (!pgStart) { msgs.push({ type:'fail', text: 'First page is required (or enter an article number above).' }); ok=false; }
+    if (!pgEnd)   { msgs.push({ type:'fail', text: 'Last page is required (or enter an article number above).' }); ok=false; }
+    if (pgStart && pgEnd) {
+      const ps = parseInt(pgStart), pe = parseInt(pgEnd);
+      if (!isNaN(ps) && !isNaN(pe) && pe <= ps) {
+        msgs.push({ type:'fail', text: 'Last page must be greater than first page.' }); ok=false;
+      } else {
+        msgs.push({ type:'pass', text: 'Pages: ' + escAttr(pgStart) + '&#8211;' + escAttr(pgEnd) + ' ✓ (en dash, not hyphen, separates page numbers)' });
+      }
     }
   }
 
@@ -618,8 +660,18 @@ function validateJournal() {
 
 function validateDOI() {
   const doi = getDOI();
+  const fromDB = isDatabase();
   const msgs = [];
-  if (!doi) { msgs.push({ type:'fail', text: 'DOI is required. If none exists, enter the journal homepage URL.' }); showMsgs('doiMsgs', msgs); return false; }
+
+  // Show/hide DOI field based on checkbox
+  const wrap = document.getElementById('doiFieldWrap');
+  if (wrap) wrap.style.display = fromDB && !doi ? 'none' : 'block';
+
+  if (fromDB && !doi) {
+    msgs.push({ type:'pass', text: 'Library database source ✓ — no URL needed. Citation ends after the page range.' });
+    showMsgs('doiMsgs', msgs); return true;
+  }
+  if (!doi) { msgs.push({ type:'fail', text: 'DOI is required. If none exists and you found this in a library database, check the box above. Otherwise enter the journal homepage URL.' }); showMsgs('doiMsgs', msgs); return false; }
   if (!doi.startsWith('https://doi.org/')) {
     msgs.push({ type:'fail', text: 'DOI must start with <strong>https://doi.org/</strong> — e.g., https://doi.org/10.1037/edu0000123' });
     if (doi.startsWith('doi:') || doi.startsWith('http://doi.org/') || doi.startsWith('doi.org/')) {
@@ -686,19 +738,25 @@ function buildFinalReview() {
   const issue      = getIssue();
   const pgStart    = getPageStart();
   const pgEnd      = getPageEnd();
+  const articleNum = getArticleNum();
   const doi        = getDOI();
+  const fromDB     = isDatabase();
 
-  const pageRange = pgStart && pgEnd ? pgStart + '&#8211;' + pgEnd : (pgStart || pgEnd);
+  const pageRange = articleNum
+    ? 'Article ' + articleNum
+    : (pgStart && pgEnd ? pgStart + '&#8211;' + pgEnd : (pgStart || pgEnd));
 
-  const citHtml =
+  let citHtml =
     authorStr + '. ' +
     '(' + escAttr(year) + '). ' +
     escAttr(title) + '. ' +
     '<em>' + escAttr(journal) + '</em>, ' +
     '<em>' + escAttr(volume) + '</em>' +
     '(' + escAttr(issue) + '), ' +
-    escAttr(pgStart) + '&#8211;' + escAttr(pgEnd) + '. ' +
-    '<a href="' + escAttr(doi) + '" target="_blank" rel="noopener noreferrer">' + escAttr(doi) + '</a>';
+    escAttr(pageRange) + '.';
+  if (doi) {
+    citHtml += ' <a href="' + escAttr(doi) + '" target="_blank" rel="noopener noreferrer">' + escAttr(doi) + '</a>';
+  }
 
   document.getElementById('finalCitation').innerHTML = citHtml;
 
@@ -763,6 +821,22 @@ function buildFinalReview() {
     icon: journal ? '✅' : '⚠️',
     text: 'Journal name in italics, followed by a comma'
   });
+  var jMinorWords = new Set(['a','an','the','and','but','or','nor','for','so','yet','at','by','in','of','on','to','up','as','vs','via']);
+  var jWords = journal.split(/\s+/);
+  var jLowerMajor = [];
+  jWords.forEach(function(w, i) {
+    if (!w) return;
+    if (i > 0 && jMinorWords.has(w.toLowerCase())) return;
+    if (/^[a-z]/.test(w)) jLowerMajor.push(w);
+  });
+  var journalTitleCaseOk = jLowerMajor.length === 0;
+  checks.push({
+    pass: journalTitleCaseOk,
+    icon: journalTitleCaseOk ? '✅' : '⚠️',
+    text: journalTitleCaseOk
+      ? 'Journal name uses title case (major words capitalized) ✓'
+      : 'Journal name should use title case — possibly lowercase: <strong>' + jLowerMajor.map(escAttr).join(', ') + '</strong>'
+  });
   checks.push({
     pass: !!volume,
     icon: volume ? '✅' : '⚠️',
@@ -773,24 +847,41 @@ function buildFinalReview() {
     icon: issue ? '✅' : '⚠️',
     text: 'Issue number in parentheses, no space, not italicized: ' + (volume||'?') + '(' + (issue||'?') + ')'
   });
-  checks.push({
-    pass: !!(pgStart && pgEnd),
-    icon: (pgStart && pgEnd) ? '✅' : '⚠️',
-    text: 'Page range with en dash: ' + (pgStart||'?') + '–' + (pgEnd||'?')
-  });
+  if (articleNum) {
+    checks.push({
+      pass: true,
+      icon: '✅',
+      text: 'Article number formatted as: Article ' + escAttr(articleNum)
+    });
+  } else {
+    checks.push({
+      pass: !!(pgStart && pgEnd),
+      icon: (pgStart && pgEnd) ? '✅' : '⚠️',
+      text: 'Page range with en dash: ' + (pgStart||'?') + '\u2013' + (pgEnd||'?')
+    });
+  }
   checks.push({
     pass: true,
     icon: '✅',
-    text: 'Period after the page range — added automatically'
+    text: 'Period after the page range or article number — added automatically'
   });
 
   // DOI
-  const doiOk = doi.startsWith('https://doi.org/') && !doi.endsWith('.');
-  checks.push({
-    pass: doiOk,
-    icon: doiOk ? '✅' : '⚠️',
-    text: 'DOI formatted as https://doi.org/… with no trailing period'
-  });
+  const fromDB = isDatabase();
+  if (fromDB && !doi) {
+    checks.push({
+      pass: true,
+      icon: '✅',
+      text: 'Retrieved from a library database — no URL needed ✓'
+    });
+  } else {
+    const doiOk = doi.startsWith('https://doi.org/') && !doi.endsWith('.');
+    checks.push({
+      pass: doiOk,
+      icon: doiOk ? '✅' : '⚠️',
+      text: 'DOI formatted as https://doi.org/… with no trailing period'
+    });
+  }
 
   const passCount = checks.filter(function(c){ return c.pass; }).length;
   const total = checks.length;
@@ -830,11 +921,18 @@ function copyCitation() {
   const issue      = getIssue();
   const pgStart    = getPageStart();
   const pgEnd      = getPageEnd();
+  const articleNum = getArticleNum();
   const doi        = getDOI().replace(/\.$/, '');
+  const fromDB     = isDatabase();
 
-  const plain = authorPlain + '. (' + year + '). ' + title + '. ' +
+  const pageRangePlain = articleNum
+    ? 'Article ' + articleNum
+    : pgStart + '\u2013' + pgEnd;
+
+  let plain = authorPlain + '. (' + year + '). ' + title + '. ' +
     journal + ', ' + volume + '(' + issue + '), ' +
-    pgStart + '\u2013' + pgEnd + '. ' + doi;
+    pageRangePlain + '.';
+  if (doi) plain += ' ' + doi;
 
   if (navigator.clipboard) {
     navigator.clipboard.writeText(plain).then(function() {
@@ -850,8 +948,11 @@ function copyCitation() {
 // ─────────────────────────────────────────────────────────────
 function restart() {
   authors = [{ last: '', initials: '' }];
-  ['inputYear','inputTitle','inputJournal','inputVolume','inputIssue','inputPageStart','inputPageEnd','inputDOI']
+  ['inputYear','inputTitle','inputJournal','inputVolume','inputIssue','inputPageStart','inputPageEnd','inputArticleNum','inputDOI']
     .forEach(function(id){ document.getElementById(id).value = ''; });
+  document.getElementById('chkDatabase').checked = false;
+  var wrap = document.getElementById('doiFieldWrap');
+  if (wrap) wrap.style.display = 'block';
   ['authorMsgs','yearMsgs','titleMsgs','journalMsgs','doiMsgs']
     .forEach(function(id){ document.getElementById(id).innerHTML = ''; });
   renderAuthors();
