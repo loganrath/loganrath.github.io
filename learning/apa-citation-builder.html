@@ -1,0 +1,867 @@
+---
+title: "APA 7 Citation Builder"
+layout: tool
+---
+<style>
+/* ── Layout ─────────────────────────────────────────── */
+p.lead { color: #374151; margin-top: 0; }
+
+.progress-bar-wrap { display: flex; gap: 6px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
+.prog-step {
+  flex: 1; min-width: 60px; text-align: center;
+  padding: 6px 4px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  border: 2px solid #d1d5db; color: #9ca3af; background: #f9fafb;
+  transition: all .2s;
+}
+.prog-step.done   { background: #dcfce7; border-color: #86efac; color: #166534; }
+.prog-step.active { background: #dbeafe; border-color: #93c5fd; color: #1e40af; }
+
+/* ── Steps ────────────────────────────────────────────── */
+.step-panel { display: none; }
+.step-panel.visible { display: block; }
+
+.step-card {
+  border: 1px solid #d6e3f2; border-radius: 14px;
+  padding: 20px 22px; background: linear-gradient(180deg,#fbfcff 0%,#f5f9ff 100%);
+  margin-bottom: 14px;
+}
+.step-card h2 { font-size: 1.15rem; margin: 0 0 4px; color: #1e3a5f; }
+.step-card .step-desc { font-size: 14px; color: #64748b; margin: 0 0 14px; }
+
+/* ── Author rows ─────────────────────────────────────── */
+.author-row {
+  display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px;
+  align-items: end; margin-bottom: 8px;
+}
+@media (max-width: 600px) {
+  .author-row { grid-template-columns: 1fr; }
+}
+.field-group { display: flex; flex-direction: column; gap: 3px; }
+.field-group label { font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: .05em; }
+
+/* ── Inputs ──────────────────────────────────────────── */
+input[type="text"], input[type="number"], input[type="url"] {
+  width: 100%; box-sizing: border-box; padding: 9px 12px;
+  border-radius: 9px; border: 2px solid #8fb3d9; font-size: 16px;
+  font-family: Georgia, serif; background: #fff;
+  transition: border-color .2s, box-shadow .2s;
+}
+input:focus { outline: none; border-color: #0b5fff; box-shadow: 0 0 0 3px rgba(11,95,255,.15); }
+input.valid   { border-color: #22c55e; }
+input.invalid { border-color: #ef4444; }
+
+/* ── Validation messages ────────────────────────────── */
+.vmsgs { margin-top: 10px; }
+.vm { border-radius: 7px; padding: 6px 11px; margin: 4px 0; font-size: 14px; line-height: 1.5; }
+.vm.pass { background: #dcfce7; color: #166534; }
+.vm.fail { background: #fee2e2; color: #991b1b; }
+.vm.info { background: #dbeafe; color: #1e3a5f; }
+
+/* ── Checklist rules box ─────────────────────────────── */
+.rules-box {
+  background: #f0f5ff; border: 1px dashed #a0b8e0; border-radius: 10px;
+  padding: 11px 15px; margin-bottom: 14px; font-size: 13.5px; color: #334155;
+}
+.rules-box ul { margin: 6px 0 0; padding-left: 18px; }
+.rules-box li { margin-bottom: 3px; }
+.rules-box code { background: #e0e7ff; border-radius: 4px; padding: 0 4px; font-size: 13px; }
+
+/* ── Live preview ───────────────────────────────────── */
+.preview-wrap {
+  background: #f8faff; border: 2px solid #d0dff4; border-radius: 12px;
+  padding: 14px 18px; margin: 16px 0;
+}
+.preview-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #94a3b8; margin-bottom: 6px; }
+.preview-text {
+  font-family: Georgia, serif; font-size: 16px; line-height: 1.9;
+  color: #1e293b; word-break: break-word;
+  min-height: 1.8em;
+}
+.preview-text .seg-gray { color: #94a3b8; }
+
+/* ── Navigation buttons ─────────────────────────────── */
+.nav-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.btn-prev { background: #e5e7eb; color: #374151; font-size: 15px; font-weight: 600; padding: 10px 18px; border-radius: 10px; border: 1px solid #d1d5db; cursor: pointer; }
+.btn-next { background: linear-gradient(135deg,#0b5fff 0%,#6366f1 100%); color: #fff; font-size: 15px; font-weight: 700; padding: 10px 22px; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(11,95,255,.25); transition: transform .15s, box-shadow .2s; }
+.btn-next:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(11,95,255,.32); }
+.btn-add { background: #e0f2fe; color: #0369a1; font-size: 14px; font-weight: 600; padding: 7px 14px; border-radius: 8px; border: 1.5px solid #7dd3fc; cursor: pointer; }
+.btn-del { background: #fee2e2; color: #991b1b; font-size: 18px; font-weight: 700; padding: 6px 10px; border-radius: 8px; border: 1.5px solid #fca5a5; cursor: pointer; line-height: 1; }
+
+/* ── Final review ───────────────────────────────────── */
+.final-citation {
+  font-family: Georgia, serif; font-size: 17px; line-height: 2;
+  background: #fff; border: 2px solid #86efac; border-radius: 12px;
+  padding: 16px 20px; margin-bottom: 20px;
+}
+.checklist-grid { display: grid; gap: 8px; margin-bottom: 20px; }
+.cl-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 12px; border-radius: 9px; font-size: 14px;
+  background: #f8faff; border: 1px solid #e2e8f0;
+}
+.cl-item .cl-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.cl-item .cl-text { line-height: 1.5; }
+.cl-item.pass { background: #dcfce7; border-color: #86efac; color: #166534; }
+.cl-item.warn { background: #fef3c7; border-color: #fbbf24; color: #78350f; }
+
+.btn-copy {
+  background: linear-gradient(135deg,#14b8a6 0%,#0ea5e9 100%);
+  color: #fff; font-size: 15px; font-weight: 700; padding: 11px 22px;
+  border-radius: 10px; border: none; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(14,165,233,.28); margin-right: 8px;
+}
+.btn-restart {
+  background: #f3f4f6; color: #374151; font-size: 15px; font-weight: 600;
+  padding: 11px 22px; border-radius: 10px; border: 1px solid #d1d5db; cursor: pointer;
+}
+
+.score-bar { font-size: 1.15rem; font-weight: 700; text-align: center; padding: 10px 14px; border-radius: 9px; margin-bottom: 16px; }
+.score-great { background: #dcfce7; color: #166534; }
+.score-ok    { background: #fef3c7; color: #92400e; }
+.score-poor  { background: #fee2e2; color: #991b1b; }
+
+/* ── Helpers ─────────────────────────────────────────── */
+.small-note { font-size: 13px; color: #6b7280; margin-top: 5px; }
+</style>
+
+<p class="lead">Build a journal article citation in APA 7th edition, one step at a time. Fill in each section and get instant feedback before moving on.</p>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap" id="progressBar">
+  <div class="prog-step active" id="prog0">1. Authors</div>
+  <div class="prog-step"        id="prog1">2. Date</div>
+  <div class="prog-step"        id="prog2">3. Article Title</div>
+  <div class="prog-step"        id="prog3">4. Journal &amp; Pages</div>
+  <div class="prog-step"        id="prog4">5. DOI</div>
+  <div class="prog-step"        id="prog5">6. Review</div>
+</div>
+
+<!-- LIVE PREVIEW (always visible) -->
+<div class="preview-wrap">
+  <div class="preview-label">Your citation so far</div>
+  <div class="preview-text" id="livePreview"><span class="seg-gray">Your citation will appear here as you complete each step.</span></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STEP 1 — AUTHORS
+══════════════════════════════════════════ -->
+<div class="step-panel visible" id="step0">
+  <div class="step-card">
+    <h2>Step 1: Authors</h2>
+    <p class="step-desc">Add each author of the article. Click <strong>+ Add Author</strong> for multiple authors.</p>
+
+    <div class="rules-box">
+      <strong>APA 7 rules for authors:</strong>
+      <ul>
+        <li>Format each author as: <code>Last, F. M.</code> — last name, comma, then initials with periods.</li>
+        <li>Separate multiple authors with a comma and a space.</li>
+        <li>Add an ampersand (<code>&amp;</code>) before the final author.</li>
+        <li>End the entire author section with a period.</li>
+      </ul>
+    </div>
+
+    <div id="authorRows"></div>
+    <button class="btn-add" onclick="addAuthor()">+ Add Author</button>
+
+    <div class="vmsgs" id="authorMsgs"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-next" onclick="goNext(0)">Next: Date &rarr;</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STEP 2 — DATE
+══════════════════════════════════════════ -->
+<div class="step-panel" id="step1">
+  <div class="step-card">
+    <h2>Step 2: Publication Year</h2>
+    <p class="step-desc">Enter the year the article was published.</p>
+
+    <div class="rules-box">
+      <strong>APA 7 rule for date:</strong>
+      <ul>
+        <li>The year goes in parentheses followed by a period: <code>(2023).</code></li>
+      </ul>
+    </div>
+
+    <div class="field-group" style="max-width:200px">
+      <label for="inputYear">Year</label>
+      <input type="number" id="inputYear" placeholder="e.g., 2023" min="1900" max="2099" oninput="updatePreview(); validateYear()">
+    </div>
+
+    <div class="vmsgs" id="yearMsgs"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-prev" onclick="goPrev(1)">&larr; Back</button>
+    <button class="btn-next" onclick="goNext(1)">Next: Article Title &rarr;</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STEP 3 — ARTICLE TITLE
+══════════════════════════════════════════ -->
+<div class="step-panel" id="step2">
+  <div class="step-card">
+    <h2>Step 3: Article Title</h2>
+    <p class="step-desc">Enter the full title of the article exactly as it appears, then use the guidance below to apply sentence case.</p>
+
+    <div class="rules-box">
+      <strong>APA 7 rules for article titles:</strong>
+      <ul>
+        <li>Use <strong>sentence case</strong>: capitalize only the first word of the title, the first word after a colon, and any proper nouns.</li>
+        <li>Do <strong>not</strong> italicize the article title.</li>
+        <li>End the title with a period: <code>Title of article: Subtitle here.</code></li>
+      </ul>
+    </div>
+
+    <div class="field-group">
+      <label for="inputTitle">Article Title (in sentence case, without a trailing period)</label>
+      <input type="text" id="inputTitle" placeholder="e.g., Effects of mindfulness on student performance: A meta-analysis"
+             oninput="updatePreview(); validateTitle()">
+      <div class="small-note">The tool will add the required period for you in the preview.</div>
+    </div>
+
+    <div class="vmsgs" id="titleMsgs"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-prev" onclick="goPrev(2)">&larr; Back</button>
+    <button class="btn-next" onclick="goNext(2)">Next: Journal &amp; Pages &rarr;</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STEP 4 — JOURNAL / SOURCE
+══════════════════════════════════════════ -->
+<div class="step-panel" id="step3">
+  <div class="step-card">
+    <h2>Step 4: Journal Name &amp; Pages</h2>
+    <p class="step-desc">Enter the journal information. The tool handles italics in the final citation.</p>
+
+    <div class="rules-box">
+      <strong>APA 7 rules for journal / source:</strong>
+      <ul>
+        <li>Journal name in italics, followed by a comma.</li>
+        <li>Volume number in italics, immediately after the comma.</li>
+        <li>Issue number in parentheses immediately after the volume — no space, <strong>not</strong> italicized: <code>42(3)</code></li>
+        <li>Comma after the issue number, then the page range: <code>100–115</code></li>
+        <li>End with a period after the page range.</li>
+      </ul>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+      <div class="field-group" style="grid-column:1/-1">
+        <label for="inputJournal">Journal Name (use title case — capitalize major words)</label>
+        <input type="text" id="inputJournal" placeholder="e.g., Journal of Educational Psychology"
+               oninput="updatePreview(); validateJournal()">
+      </div>
+      <div class="field-group">
+        <label for="inputVolume">Volume Number</label>
+        <input type="text" id="inputVolume" placeholder="e.g., 42" oninput="updatePreview(); validateJournal()">
+      </div>
+      <div class="field-group">
+        <label for="inputIssue">Issue Number</label>
+        <input type="text" id="inputIssue" placeholder="e.g., 3" oninput="updatePreview(); validateJournal()">
+      </div>
+      <div class="field-group">
+        <label for="inputPageStart">First Page</label>
+        <input type="text" id="inputPageStart" placeholder="e.g., 100" oninput="updatePreview(); validateJournal()">
+      </div>
+      <div class="field-group">
+        <label for="inputPageEnd">Last Page</label>
+        <input type="text" id="inputPageEnd" placeholder="e.g., 115" oninput="updatePreview(); validateJournal()">
+      </div>
+    </div>
+
+    <div class="vmsgs" id="journalMsgs"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-prev" onclick="goPrev(3)">&larr; Back</button>
+    <button class="btn-next" onclick="goNext(3)">Next: DOI &rarr;</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STEP 5 — DOI
+══════════════════════════════════════════ -->
+<div class="step-panel" id="step4">
+  <div class="step-card">
+    <h2>Step 5: DOI</h2>
+    <p class="step-desc">Enter the article's Digital Object Identifier (DOI).</p>
+
+    <div class="rules-box">
+      <strong>APA 7 rules for DOI:</strong>
+      <ul>
+        <li>Format as a full URL: <code>https://doi.org/10.xxxx/xxxxx</code></li>
+        <li>Do <strong>not</strong> add a period after the DOI — it ends the citation.</li>
+        <li>If no DOI exists, use the journal's home page URL instead.</li>
+      </ul>
+    </div>
+
+    <div class="field-group">
+      <label for="inputDOI">DOI</label>
+      <input type="url" id="inputDOI" placeholder="e.g., https://doi.org/10.1037/edu0000123"
+             oninput="updatePreview(); validateDOI()">
+      <div class="small-note">Paste the DOI link exactly as it appears. It should start with <code>https://doi.org/</code></div>
+    </div>
+
+    <div class="vmsgs" id="doiMsgs"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-prev" onclick="goPrev(4)">&larr; Back</button>
+    <button class="btn-next" onclick="goNext(4)">Review My Citation &rarr;</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STEP 6 — FINAL REVIEW
+══════════════════════════════════════════ -->
+<div class="step-panel" id="step5">
+  <div class="step-card">
+    <h2>Step 6: Review Your Citation</h2>
+    <p class="step-desc">Here is your completed APA 7th edition journal article citation. Check each item in the checklist below.</p>
+
+    <div class="final-citation" id="finalCitation"></div>
+
+    <div id="scoreBar" class="score-bar"></div>
+
+    <div class="checklist-grid" id="checklistGrid"></div>
+
+    <div class="nav-btns">
+      <button class="btn-copy" onclick="copyCitation()">Copy Plain Text</button>
+      <button class="btn-prev" onclick="goPrev(5)">&larr; Edit</button>
+      <button class="btn-restart" onclick="restart()">Start Over</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────
+let authors = [{ last: '', initials: '' }];
+let currentStep = 0;
+const TOTAL_STEPS = 6;
+
+// ─────────────────────────────────────────────────────────────
+// AUTHOR MANAGEMENT
+// ─────────────────────────────────────────────────────────────
+function addAuthor() {
+  authors.push({ last: '', initials: '' });
+  renderAuthors();
+}
+
+function removeAuthor(i) {
+  if (authors.length <= 1) return;
+  authors.splice(i, 1);
+  renderAuthors();
+}
+
+function renderAuthors() {
+  const container = document.getElementById('authorRows');
+  container.innerHTML = '';
+  authors.forEach(function(a, i) {
+    const row = document.createElement('div');
+    row.className = 'author-row';
+    row.innerHTML =
+      '<div class="field-group">' +
+        '<label>Last Name</label>' +
+        '<input type="text" value="' + escAttr(a.last) + '" placeholder="e.g., Smith"' +
+          ' oninput="authors[' + i + '].last=this.value.trim(); updatePreview(); validateAuthors()">' +
+      '</div>' +
+      '<div class="field-group">' +
+        '<label>Initials (with periods)</label>' +
+        '<input type="text" value="' + escAttr(a.initials) + '" placeholder="e.g., J. D."' +
+          ' oninput="authors[' + i + '].initials=this.value.trim(); updatePreview(); validateAuthors()">' +
+      '</div>' +
+      '<button class="btn-del" onclick="removeAuthor(' + i + ')" title="Remove author" ' +
+        (authors.length === 1 ? 'disabled style="opacity:.4;cursor:not-allowed"' : '') +
+      '>&times;</button>';
+    container.appendChild(row);
+  });
+  updatePreview();
+  validateAuthors();
+}
+
+// ─────────────────────────────────────────────────────────────
+// FORMATTERS
+// ─────────────────────────────────────────────────────────────
+function escAttr(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function buildAuthorString() {
+  const valid = authors.filter(function(a){ return a.last || a.initials; });
+  if (!valid.length) return '';
+  if (valid.length === 1) return valid[0].last + ', ' + valid[0].initials;
+  const parts = valid.map(function(a){ return a.last + ', ' + a.initials; });
+  const allButLast = parts.slice(0, -1).join(', ');
+  return allButLast + ', &amp; ' + parts[parts.length - 1];
+}
+
+function buildAuthorPlain() {
+  const valid = authors.filter(function(a){ return a.last || a.initials; });
+  if (!valid.length) return '';
+  if (valid.length === 1) return valid[0].last + ', ' + valid[0].initials;
+  const parts = valid.map(function(a){ return a.last + ', ' + a.initials; });
+  const allButLast = parts.slice(0, -1).join(', ');
+  return allButLast + ', & ' + parts[parts.length - 1];
+}
+
+function getYear()      { return (document.getElementById('inputYear').value || '').trim(); }
+function getTitle()     { return (document.getElementById('inputTitle').value || '').trim(); }
+function getJournal()   { return (document.getElementById('inputJournal').value || '').trim(); }
+function getVolume()    { return (document.getElementById('inputVolume').value || '').trim(); }
+function getIssue()     { return (document.getElementById('inputIssue').value || '').trim(); }
+function getPageStart() { return (document.getElementById('inputPageStart').value || '').trim(); }
+function getPageEnd()   { return (document.getElementById('inputPageEnd').value || '').trim(); }
+function getDOI()       { return (document.getElementById('inputDOI').value || '').trim(); }
+
+// ─────────────────────────────────────────────────────────────
+// LIVE PREVIEW
+// ─────────────────────────────────────────────────────────────
+function updatePreview() {
+  const authorStr = buildAuthorString();
+  const year      = getYear();
+  const title     = getTitle();
+  const journal   = getJournal();
+  const volume    = getVolume();
+  const issue     = getIssue();
+  const pgStart   = getPageStart();
+  const pgEnd     = getPageEnd();
+  const doi       = getDOI();
+
+  const gray = function(s){ return '<span class="seg-gray">' + escAttr(s) + '</span>'; };
+
+  let parts = [];
+
+  // Authors
+  if (authorStr) {
+    parts.push(authorStr + '.');
+  } else {
+    parts.push(gray('[Authors].'));
+  }
+
+  // Year
+  if (year) {
+    parts.push('(' + escAttr(year) + ').');
+  } else {
+    parts.push(gray('(Year).'));
+  }
+
+  // Title
+  if (title) {
+    parts.push(escAttr(title) + '.');
+  } else {
+    parts.push(gray('[Article title].'));
+  }
+
+  // Journal / Source
+  let sourceStr = '';
+  if (journal)  sourceStr += '<em>' + escAttr(journal) + '</em>';
+  if (volume)   sourceStr += (journal ? ', ' : '') + '<em>' + escAttr(volume) + '</em>';
+  if (issue)    sourceStr += '(' + escAttr(issue) + ')';
+  if (pgStart || pgEnd) {
+    sourceStr += ', ';
+    if (pgStart && pgEnd) sourceStr += escAttr(pgStart) + '&#8211;' + escAttr(pgEnd);
+    else if (pgStart)     sourceStr += escAttr(pgStart);
+    else                  sourceStr += escAttr(pgEnd);
+  }
+  if (sourceStr) {
+    parts.push(sourceStr + '.');
+  } else {
+    parts.push(gray('[Journal Name, Volume(Issue), Pages].'));
+  }
+
+  // DOI
+  if (doi) {
+    parts.push('<a href="' + escAttr(doi) + '" target="_blank" rel="noopener noreferrer">' + escAttr(doi) + '</a>');
+  } else {
+    parts.push(gray('[https://doi.org/xxxxx]'));
+  }
+
+  document.getElementById('livePreview').innerHTML = parts.join(' ');
+}
+
+// ─────────────────────────────────────────────────────────────
+// VALIDATORS
+// ─────────────────────────────────────────────────────────────
+function showMsgs(containerId, msgs) {
+  const el = document.getElementById(containerId);
+  if (!msgs.length) { el.innerHTML = ''; return; }
+  el.innerHTML = msgs.map(function(m){
+    return '<div class="vm ' + m.type + '">' + m.text + '</div>';
+  }).join('');
+}
+
+function validateAuthors() {
+  const msgs = [];
+  let allOk = true;
+  authors.forEach(function(a, i) {
+    const label = authors.length > 1 ? 'Author ' + (i+1) + ': ' : '';
+    if (!a.last) { msgs.push({ type:'fail', text: label + 'Missing last name.' }); allOk=false; return; }
+    if (!a.initials) { msgs.push({ type:'fail', text: label + 'Missing initials.' }); allOk=false; return; }
+
+    // Check period after each initial: must match pattern like "J." or "J. D." or "A. B. C."
+    if (!/^([A-Z]\.\s?)+[A-Z]\.$|^[A-Z]\.$/.test(a.initials)) {
+      msgs.push({ type:'fail', text: label + 'Initials should have a period after each letter, e.g., <strong>J. D.</strong> — not "JD" or "J.D"' });
+      allOk = false;
+    } else {
+      msgs.push({ type:'pass', text: label + a.last + ', ' + a.initials + ' ✓' });
+    }
+  });
+  if (allOk && authors.length > 1) {
+    msgs.push({ type:'info', text: 'Multiple authors: the last author will be preceded by <strong>&amp;</strong> automatically.' });
+  }
+  showMsgs('authorMsgs', msgs);
+  return allOk;
+}
+
+function validateYear() {
+  const year = getYear();
+  const msgs = [];
+  if (!year) { msgs.push({ type:'fail', text: 'Year is required.' }); showMsgs('yearMsgs', msgs); return false; }
+  const y = parseInt(year);
+  if (isNaN(y) || y < 1900 || y > 2099) {
+    msgs.push({ type:'fail', text: 'Enter a valid 4-digit year.' });
+    showMsgs('yearMsgs', msgs); return false;
+  }
+  msgs.push({ type:'pass', text: '(' + year + '). ✓ — year in parentheses, followed by a period.' });
+  showMsgs('yearMsgs', msgs); return true;
+}
+
+function validateTitle() {
+  const title = getTitle();
+  const msgs = [];
+  if (!title) { msgs.push({ type:'fail', text: 'Article title is required.' }); showMsgs('titleMsgs', msgs); return false; }
+
+  // Check: first character should be capitalized
+  if (title[0] !== title[0].toUpperCase()) {
+    msgs.push({ type:'fail', text: 'The first word of the title should be capitalized.' });
+  }
+
+  // Check: title should NOT end with a period (we add it)
+  if (title.endsWith('.')) {
+    msgs.push({ type:'warn', text: 'Remove the trailing period — the tool adds it automatically.' });
+  }
+
+  // Check sentence case: flag if many non-first words are capitalized
+  const words = title.split(' ');
+  let suspiciousWords = [];
+  let inSubtitle = false;
+  words.forEach(function(w, i) {
+    if (i === 0) return; // first word is fine
+    if (/[:]\s*$/.test(words[i-1])) { inSubtitle = true; return; } // word after colon is fine
+    if (inSubtitle) { inSubtitle = false; return; }
+    if (w.length > 1 && w[0] === w[0].toUpperCase() && /^[A-Za-z]/.test(w)) {
+      suspiciousWords.push(w);
+    }
+  });
+
+  if (suspiciousWords.length > 0) {
+    msgs.push({
+      type: 'warn',
+      text: 'Possible title-case issue: <strong>' + suspiciousWords.slice(0,4).map(escAttr).join(', ') + '</strong>' +
+            (suspiciousWords.length > 4 ? ', …' : '') +
+            ' — only capitalize the first word, the first word after a colon, and proper nouns (sentence case).'
+    });
+  }
+
+  if (!msgs.length || (msgs.length === 1 && !msgs[0].text.includes('capitalize'))) {
+    const noEndPeriod = title.replace(/\.$/, '');
+    msgs.push({ type:'pass', text: '"' + escAttr(noEndPeriod.substring(0,60)) + (noEndPeriod.length>60?'…':'') + '." ✓' });
+  }
+
+  showMsgs('titleMsgs', msgs);
+  return !msgs.some(function(m){ return m.type === 'fail'; });
+}
+
+function validateJournal() {
+  const journal  = getJournal();
+  const volume   = getVolume();
+  const issue    = getIssue();
+  const pgStart  = getPageStart();
+  const pgEnd    = getPageEnd();
+  const msgs = [];
+  let ok = true;
+
+  if (!journal) { msgs.push({ type:'fail', text: 'Journal name is required.' }); ok=false; }
+  else          { msgs.push({ type:'pass', text: 'Journal: <em>' + escAttr(journal) + '</em> ✓ (will be italicized)' }); }
+
+  if (!volume)  { msgs.push({ type:'fail', text: 'Volume number is required.' }); ok=false; }
+  else if (isNaN(Number(volume))) { msgs.push({ type:'fail', text: 'Volume should be a number.' }); ok=false; }
+  else          { msgs.push({ type:'pass', text: 'Volume: <em>' + escAttr(volume) + '</em> ✓ (will be italicized)' }); }
+
+  if (!issue)   { msgs.push({ type:'fail', text: 'Issue number is required.' }); ok=false; }
+  else if (isNaN(Number(issue)))  { msgs.push({ type:'fail', text: 'Issue should be a number.' }); ok=false; }
+  else          { msgs.push({ type:'pass', text: 'Issue: (' + escAttr(issue) + ') ✓ — in parentheses, not italicized, no space after volume.' }); }
+
+  if (!pgStart) { msgs.push({ type:'fail', text: 'First page is required.' }); ok=false; }
+  if (!pgEnd)   { msgs.push({ type:'fail', text: 'Last page is required.' }); ok=false; }
+  if (pgStart && pgEnd) {
+    const ps = parseInt(pgStart), pe = parseInt(pgEnd);
+    if (!isNaN(ps) && !isNaN(pe) && pe <= ps) {
+      msgs.push({ type:'fail', text: 'Last page must be greater than first page.' }); ok=false;
+    } else {
+      msgs.push({ type:'pass', text: 'Pages: ' + escAttr(pgStart) + '&#8211;' + escAttr(pgEnd) + ' ✓ (en dash, not hyphen, separates page numbers)' });
+    }
+  }
+
+  showMsgs('journalMsgs', msgs);
+  return ok;
+}
+
+function validateDOI() {
+  const doi = getDOI();
+  const msgs = [];
+  if (!doi) { msgs.push({ type:'fail', text: 'DOI is required. If none exists, enter the journal homepage URL.' }); showMsgs('doiMsgs', msgs); return false; }
+  if (!doi.startsWith('https://doi.org/')) {
+    msgs.push({ type:'fail', text: 'DOI must start with <strong>https://doi.org/</strong> — e.g., https://doi.org/10.1037/edu0000123' });
+    if (doi.startsWith('doi:') || doi.startsWith('http://doi.org/') || doi.startsWith('doi.org/')) {
+      msgs.push({ type:'info', text: 'Tip: convert your DOI to the full URL format by replacing any "doi:" or "http://doi.org/" prefix with "https://doi.org/"' });
+    }
+    showMsgs('doiMsgs', msgs); return false;
+  }
+  if (doi.endsWith('.')) {
+    msgs.push({ type:'fail', text: 'Remove the period at the end of the DOI. APA 7 does not add a period after the DOI.' });
+    showMsgs('doiMsgs', msgs); return false;
+  }
+  msgs.push({ type:'pass', text: escAttr(doi) + ' ✓' });
+  showMsgs('doiMsgs', msgs); return true;
+}
+
+// ─────────────────────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────────────────────
+function goNext(fromStep) {
+  let ok = true;
+  if (fromStep === 0) ok = validateAuthors();
+  if (fromStep === 1) ok = validateYear();
+  if (fromStep === 2) ok = validateTitle();
+  if (fromStep === 3) ok = validateJournal();
+  if (fromStep === 4) ok = validateDOI();
+
+  if (!ok) {
+    // Scroll to first error
+    const firstFail = document.querySelector('#step' + fromStep + ' .vm.fail');
+    if (firstFail) firstFail.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  showStep(fromStep + 1);
+  if (fromStep + 1 === 5) buildFinalReview();
+}
+
+function goPrev(fromStep) {
+  showStep(fromStep - 1);
+}
+
+function showStep(n) {
+  for (let i = 0; i < TOTAL_STEPS; i++) {
+    document.getElementById('step' + i).classList.remove('visible');
+    const prog = document.getElementById('prog' + i);
+    if (prog) prog.className = 'prog-step' + (i < n ? ' done' : i === n ? ' active' : '');
+  }
+  document.getElementById('step' + n).classList.add('visible');
+  currentStep = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─────────────────────────────────────────────────────────────
+// FINAL REVIEW
+// ─────────────────────────────────────────────────────────────
+function buildFinalReview() {
+  // Build final citation HTML
+  const authorStr  = buildAuthorString();
+  const authorPlain = buildAuthorPlain();
+  const year       = getYear();
+  const title      = getTitle();
+  const journal    = getJournal();
+  const volume     = getVolume();
+  const issue      = getIssue();
+  const pgStart    = getPageStart();
+  const pgEnd      = getPageEnd();
+  const doi        = getDOI();
+
+  const pageRange = pgStart && pgEnd ? pgStart + '&#8211;' + pgEnd : (pgStart || pgEnd);
+
+  const citHtml =
+    authorStr + '. ' +
+    '(' + escAttr(year) + '). ' +
+    escAttr(title) + '. ' +
+    '<em>' + escAttr(journal) + '</em>, ' +
+    '<em>' + escAttr(volume) + '</em>' +
+    '(' + escAttr(issue) + '), ' +
+    escAttr(pgStart) + '&#8211;' + escAttr(pgEnd) + '. ' +
+    '<a href="' + escAttr(doi) + '" target="_blank" rel="noopener noreferrer">' + escAttr(doi) + '</a>';
+
+  document.getElementById('finalCitation').innerHTML = citHtml;
+
+  // ── Checklist ──────────────────────────────────────────────
+  const checks = [];
+
+  // Authors
+  const hasCommaAfterLast = authors.every(function(a){ return a.last && a.initials; });
+  checks.push({
+    pass: hasCommaAfterLast,
+    icon: hasCommaAfterLast ? '✅' : '⚠️',
+    text: 'Comma between each author\'s last name and their initials (e.g., Smith, J. D.)'
+  });
+
+  const hasPeriodsOnInitials = authors.every(function(a){
+    return /^([A-Z]\.\s?)+[A-Z]\.$|^[A-Z]\.$/.test(a.initials);
+  });
+  checks.push({
+    pass: hasPeriodsOnInitials,
+    icon: hasPeriodsOnInitials ? '✅' : '⚠️',
+    text: 'Period after each initial (J. D. — not JD)'
+  });
+
+  if (authors.length > 1) {
+    checks.push({
+      pass: true,
+      icon: '✅',
+      text: 'Comma between authors and ampersand (&) before the final author — added automatically'
+    });
+  }
+
+  checks.push({
+    pass: true,
+    icon: '✅',
+    text: 'Period after the entire author section — added automatically'
+  });
+
+  // Date
+  checks.push({
+    pass: !!year,
+    icon: year ? '✅' : '⚠️',
+    text: 'Year enclosed in parentheses followed by a period: (' + (year||'?') + ').'
+  });
+
+  // Title
+  const titleNoTrail = title.replace(/\.$/, '');
+  const firstCharOk = title && title[0] === title[0].toUpperCase();
+  checks.push({
+    pass: firstCharOk,
+    icon: firstCharOk ? '✅' : '⚠️',
+    text: 'First word of the article title is capitalized (sentence case)'
+  });
+  checks.push({
+    pass: true,
+    icon: '✅',
+    text: 'Period at the end of the article title — added automatically'
+  });
+
+  // Journal
+  checks.push({
+    pass: !!journal,
+    icon: journal ? '✅' : '⚠️',
+    text: 'Journal name in italics, followed by a comma'
+  });
+  checks.push({
+    pass: !!volume,
+    icon: volume ? '✅' : '⚠️',
+    text: 'Volume number in italics immediately after the journal name: ' + (volume ? '<em>' + escAttr(volume) + '</em>' : '?')
+  });
+  checks.push({
+    pass: !!issue,
+    icon: issue ? '✅' : '⚠️',
+    text: 'Issue number in parentheses, no space, not italicized: ' + (volume||'?') + '(' + (issue||'?') + ')'
+  });
+  checks.push({
+    pass: !!(pgStart && pgEnd),
+    icon: (pgStart && pgEnd) ? '✅' : '⚠️',
+    text: 'Page range with en dash: ' + (pgStart||'?') + '–' + (pgEnd||'?')
+  });
+  checks.push({
+    pass: true,
+    icon: '✅',
+    text: 'Period after the page range — added automatically'
+  });
+
+  // DOI
+  const doiOk = doi.startsWith('https://doi.org/') && !doi.endsWith('.');
+  checks.push({
+    pass: doiOk,
+    icon: doiOk ? '✅' : '⚠️',
+    text: 'DOI formatted as https://doi.org/… with no trailing period'
+  });
+
+  const passCount = checks.filter(function(c){ return c.pass; }).length;
+  const total = checks.length;
+
+  // Score bar
+  const scoreEl = document.getElementById('scoreBar');
+  const pct = Math.round((passCount / total) * 100);
+  if (pct === 100) {
+    scoreEl.className = 'score-bar score-great';
+    scoreEl.textContent = '🎉 All ' + total + ' checklist items verified!';
+  } else if (pct >= 70) {
+    scoreEl.className = 'score-bar score-ok';
+    scoreEl.textContent = passCount + ' / ' + total + ' items verified — review the warnings below.';
+  } else {
+    scoreEl.className = 'score-bar score-poor';
+    scoreEl.textContent = passCount + ' / ' + total + ' items verified — please go back and fix errors.';
+  }
+
+  // Render checklist
+  const grid = document.getElementById('checklistGrid');
+  grid.innerHTML = checks.map(function(c){
+    return '<div class="cl-item ' + (c.pass ? 'pass' : 'warn') + '">' +
+      '<span class="cl-icon">' + c.icon + '</span>' +
+      '<span class="cl-text">' + c.text + '</span></div>';
+  }).join('');
+}
+
+// ─────────────────────────────────────────────────────────────
+// COPY PLAIN TEXT
+// ─────────────────────────────────────────────────────────────
+function copyCitation() {
+  const authorPlain = buildAuthorPlain();
+  const year       = getYear();
+  const title      = getTitle().replace(/\.$/, '');
+  const journal    = getJournal();
+  const volume     = getVolume();
+  const issue      = getIssue();
+  const pgStart    = getPageStart();
+  const pgEnd      = getPageEnd();
+  const doi        = getDOI().replace(/\.$/, '');
+
+  const plain = authorPlain + '. (' + year + '). ' + title + '. ' +
+    journal + ', ' + volume + '(' + issue + '), ' +
+    pgStart + '\u2013' + pgEnd + '. ' + doi;
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(plain).then(function() {
+      alert('Citation copied to clipboard!\n\nNote: Italics cannot be copied as plain text. Apply italics manually to the journal name and volume number when pasting into your document.');
+    });
+  } else {
+    prompt('Copy this text:', plain);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// RESTART
+// ─────────────────────────────────────────────────────────────
+function restart() {
+  authors = [{ last: '', initials: '' }];
+  ['inputYear','inputTitle','inputJournal','inputVolume','inputIssue','inputPageStart','inputPageEnd','inputDOI']
+    .forEach(function(id){ document.getElementById(id).value = ''; });
+  ['authorMsgs','yearMsgs','titleMsgs','journalMsgs','doiMsgs']
+    .forEach(function(id){ document.getElementById(id).innerHTML = ''; });
+  renderAuthors();
+  updatePreview();
+  showStep(0);
+}
+
+// ─────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────
+renderAuthors();
+updatePreview();
+</script>
