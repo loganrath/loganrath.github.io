@@ -1,5 +1,5 @@
 ---
-title: "APA 7 Citation Builder"
+title: "APA 7 Citation Builder for Journal Articles"
 layout: tool
 ---
 <style>
@@ -626,15 +626,13 @@ function validateTitle() {
     msgs.push({ type:'warn', text: 'Remove the trailing period — the tool adds it automatically.' });
   }
 
-  // Check sentence case: flag if many non-first words are capitalized
+  // Check sentence case: flag non-first words that are unexpectedly capitalized
   const words = title.split(' ');
   let suspiciousWords = [];
-  let inSubtitle = false;
   words.forEach(function(w, i) {
-    if (i === 0) return; // first word is fine
-    if (/[:]\s*$/.test(words[i-1])) { inSubtitle = true; return; } // word after colon is fine
-    if (inSubtitle) { inSubtitle = false; return; }
-    if (w.length > 1 && w[0] === w[0].toUpperCase() && /^[A-Za-z]/.test(w)) {
+    if (i === 0) return; // first word of title is always fine
+    if (i > 0 && /:\s*$/.test(words[i - 1])) return; // first word after a colon is fine
+    if (w.length > 1 && /^[A-Z]/.test(w)) {
       suspiciousWords.push(w);
     }
   });
@@ -965,23 +963,27 @@ function buildFinalReview() {
 // COPY PLAIN TEXT
 // ─────────────────────────────────────────────────────────────
 function copyCitation() {
+  // Strip non-breaking spaces and other lookalike whitespace from any field value
+  function clean(s) { return (s || '').replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ').trim(); }
+
   const authorPlain = buildAuthorPlain();
-  const year       = getYear();
-  const title      = getTitle().replace(/\.$/, '');
-  const journal    = getJournal();
-  const volume     = getVolume();
-  const issue      = getIssue();
-  const pgStart    = getPageStart();
-  const pgEnd      = getPageEnd();
-  const articleNum = getArticleNum();
-  const doi        = getDOI().replace(/\.$/, '');
+  const year       = clean(getYear());
+  const title      = clean(getTitle()).replace(/\.$/, '');
+  const journal    = clean(getJournal());
+  const volume     = clean(getVolume());
+  const issue      = clean(getIssue());
+  const pgStart    = clean(getPageStart());
+  const pgEnd      = clean(getPageEnd());
+  const articleNum = clean(getArticleNum());
+  const doi        = clean(getDOI()).replace(/\.$/, '');
   const fromDB     = isDatabase();
 
   const pageRangePlain = articleNum
     ? 'Article ' + articleNum
     : pgStart + '\u2013' + pgEnd;
 
-  let plain = authorPlain + '. (' + year + '). ' + title + '. ' +
+  // Clean non-breaking spaces from author string too
+  let plain = authorPlain.replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ') + '. (' + year + '). ' + title + '. ' +
     journal + ', ' + volume + '(' + issue + '), ' +
     pageRangePlain + '.';
   if (doi) plain += ' ' + doi;
