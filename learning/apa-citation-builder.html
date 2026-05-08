@@ -122,6 +122,27 @@ input.invalid { border-color: #ef4444; }
 
 /* ── Helpers ─────────────────────────────────────────── */
 .small-note { font-size: 13px; color: #6b7280; margin-top: 5px; }
+
+/* ── OR divider ──────────────────────────────────────── */
+.or-divider {
+  display: flex; align-items: center; gap: 10px;
+  margin: 10px 0; color: #94a3b8; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+}
+.or-divider::before, .or-divider::after {
+  content: ''; flex: 1; height: 1px; background: #d1d5db;
+}
+
+/* ── Page/Article option blocks ─────────────────────── */
+.page-option {
+  border: 2px solid #d1d5db; border-radius: 10px;
+  padding: 12px 14px; transition: border-color .2s, opacity .2s;
+}
+.page-option.active   { border-color: #93c5fd; background: #f0f7ff; }
+.page-option.inactive { opacity: .45; }
+.page-option-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+  color: #64748b; margin-bottom: 8px;
+}
 </style>
 
 <p class="lead">Build a journal article citation in APA 7th edition, one step at a time. Fill in each section and get instant feedback before moving on.</p>
@@ -267,18 +288,29 @@ input.invalid { border-color: #ef4444; }
         <label for="inputIssue">Issue Number</label>
         <input type="text" id="inputIssue" placeholder="e.g., 3" oninput="updatePreview(); validateJournal()">
       </div>
-      <div class="field-group">
-        <label for="inputPageStart">First Page</label>
-        <input type="text" id="inputPageStart" placeholder="e.g., 100" oninput="updatePreview(); validateJournal()">
+    </div>
+
+    <div class="page-option" id="pageOpt">
+      <div class="page-option-label">Option A &mdash; Page Numbers</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div class="field-group">
+          <label for="inputPageStart">First Page</label>
+          <input type="text" id="inputPageStart" placeholder="e.g., 100" oninput="updatePreview(); validateJournal(); togglePageOption()">
+        </div>
+        <div class="field-group">
+          <label for="inputPageEnd">Last Page</label>
+          <input type="text" id="inputPageEnd" placeholder="e.g., 115" oninput="updatePreview(); validateJournal(); togglePageOption()">
+        </div>
       </div>
+    </div>
+
+    <div class="or-divider">or</div>
+
+    <div class="page-option" id="articleOpt">
+      <div class="page-option-label">Option B &mdash; Article Number</div>
       <div class="field-group">
-        <label for="inputPageEnd">Last Page</label>
-        <input type="text" id="inputPageEnd" placeholder="e.g., 115" oninput="updatePreview(); validateJournal()">
-      </div>
-      <div class="field-group" style="grid-column:1/-1">
-        <label for="inputArticleNum">Article Number <span style="font-weight:400;text-transform:none;letter-spacing:0">(use instead of page range if the journal assigns one)</span></label>
-        <input type="text" id="inputArticleNum" placeholder="e.g., e12345" oninput="updatePreview(); validateJournal()">
-        <div class="small-note">Leave blank if the journal uses page numbers. If filled, the page fields above are ignored.</div>
+        <label for="inputArticleNum">Article Number</label>
+        <input type="text" id="inputArticleNum" placeholder="e.g., e12345" oninput="updatePreview(); validateJournal(); togglePageOption()">
       </div>
     </div>
 
@@ -438,6 +470,27 @@ function getPageEnd()     { return (document.getElementById('inputPageEnd').valu
 function getArticleNum()  { return (document.getElementById('inputArticleNum').value || '').trim(); }
 function getDOI()         { return (document.getElementById('inputDOI').value || '').trim(); }
 function isDatabase()     { return document.getElementById('chkDatabase').checked; }
+
+function togglePageOption() {
+  var pgStart    = getPageStart();
+  var pgEnd      = getPageEnd();
+  var articleNum = getArticleNum();
+  var pageOpt    = document.getElementById('pageOpt');
+  var articleOpt = document.getElementById('articleOpt');
+  if (!pageOpt || !articleOpt) return;
+  var hasPages   = pgStart || pgEnd;
+  var hasArticle = !!articleNum;
+  if (!hasPages && !hasArticle) {
+    pageOpt.className    = 'page-option';
+    articleOpt.className = 'page-option';
+  } else if (hasArticle) {
+    pageOpt.className    = 'page-option inactive';
+    articleOpt.className = 'page-option active';
+  } else {
+    pageOpt.className    = 'page-option active';
+    articleOpt.className = 'page-option inactive';
+  }
+}
 
 // ─────────────────────────────────────────────────────────────
 // LIVE PREVIEW
@@ -966,6 +1019,7 @@ function restart() {
   document.getElementById('chkDatabase').checked = false;
   var wrap = document.getElementById('doiFieldWrap');
   if (wrap) wrap.style.display = 'block';
+  togglePageOption();
   ['authorMsgs','yearMsgs','titleMsgs','journalMsgs','doiMsgs']
     .forEach(function(id){ document.getElementById(id).innerHTML = ''; });
   renderAuthors();
