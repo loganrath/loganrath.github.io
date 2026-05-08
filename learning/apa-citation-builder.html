@@ -867,7 +867,6 @@ function buildFinalReview() {
   });
 
   // DOI
-  const fromDB = isDatabase();
   if (fromDB && !doi) {
     checks.push({
       pass: true,
@@ -934,13 +933,27 @@ function copyCitation() {
     pageRangePlain + '.';
   if (doi) plain += ' ' + doi;
 
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(plain).then(function() {
-      alert('Citation copied to clipboard!\n\nNote: Italics cannot be copied as plain text. Apply italics manually to the journal name and volume number when pasting into your document.');
-    });
-  } else {
-    prompt('Copy this text:', plain);
+  // Use a hidden textarea to force plain-text-only onto the clipboard.
+  // This prevents Word from seeing an HTML version and rendering entities literally.
+  var ta = document.createElement('textarea');
+  ta.value = plain;
+  ta.setAttribute('readonly', '');
+  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
+  document.body.appendChild(ta);
+  ta.select();
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+
+  if (!ok && navigator.clipboard) {
+    // Fallback: writeText also writes plain text, but some browsers may still
+    // add an HTML format. Better than nothing.
+    navigator.clipboard.writeText(plain).catch(function(){});
   }
+
+  var btn = document.querySelector('.btn-copy');
+  var orig = btn ? btn.textContent : '';
+  if (btn) { btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = orig; }, 2000); }
 }
 
 // ─────────────────────────────────────────────────────────────
