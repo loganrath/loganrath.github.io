@@ -341,19 +341,19 @@ input.invalid { border-color: #ef4444; }
       </ul>
     </div>
 
-    <div style="margin-bottom:14px; padding:10px 14px; background:#f0f9ff; border:1.5px solid #7dd3fc; border-radius:10px; font-size:14px;">
-      <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-weight:600; color:#0c4a6e;">
-        <input type="checkbox" id="chkDatabase" onchange="updatePreview(); validateDOI()" style="width:18px;height:18px;accent-color:#0369a1;flex-shrink:0;">
-        I retrieved this article from a library database (e.g., EBSCO, ProQuest, JSTOR)
-      </label>
-      <div class="small-note" style="margin-top:6px; margin-left:28px;">When checked and no DOI exists, no URL is needed — the citation ends after the page range.</div>
-    </div>
-
     <div class="field-group" id="doiFieldWrap">
       <label for="inputDOI">DOI</label>
       <input type="url" id="inputDOI" placeholder="e.g., https://doi.org/10.1037/edu0000123"
              oninput="updatePreview(); validateDOI()">
       <div class="small-note">Paste the DOI link exactly as it appears. It should start with <code>https://doi.org/</code></div>
+    </div>
+
+    <div style="margin-top:14px; padding:10px 14px; background:#f0f9ff; border:1.5px solid #7dd3fc; border-radius:10px; font-size:14px;">
+      <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-weight:600; color:#0c4a6e;">
+        <input type="checkbox" id="chkDatabase" onchange="updatePreview(); validateDOI()" style="width:18px;height:18px;accent-color:#0369a1;flex-shrink:0;">
+        I retrieved this article from a library database (e.g., EBSCO, ProQuest, JSTOR)
+      </label>
+      <div class="small-note" style="margin-top:6px; margin-left:28px;">When checked and no DOI exists, no URL is needed — the citation ends after the page range.</div>
     </div>
 
     <div class="vmsgs" id="doiMsgs"></div>
