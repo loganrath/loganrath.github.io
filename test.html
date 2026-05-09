@@ -1,0 +1,151 @@
+---
+title: "ESiLS Banner Gradient Options"
+layout: tool
+---
+<style>
+  .banner {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 22px;
+    text-decoration: none;
+    color: white;
+    margin-bottom: 20px;
+  }
+  .banner:visited, .banner:link { color: white; text-decoration: none; }
+  .banner p { color: white; margin-bottom: 0; }
+  .banner:hover { text-decoration: none; }
+  .banner:focus-visible { outline: 3px solid rgba(255,255,255,0.85); outline-offset: 3px; }
+  .banner img {
+    background: rgba(255,255,255,0.94);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.22);
+    max-width: 72px;
+    padding: 6px;
+    width: 100%;
+    flex-shrink: 0;
+  }
+  .banner p + p { margin-top: 4px; font-size: 1.05rem; line-height: 1.4; }
+  .option-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #4b5563;
+    margin-bottom: 6px;
+  }
+  .option-wrapper { margin-bottom: 32px; }
+  h2 { margin-top: 32px; }
+
+  /* ── Option A: Near-black abyss → deep ocean teal, gold left bar */
+  .opt-a {
+    background: linear-gradient(135deg, #07181e 0%, #0e4a57 100%);
+    border-left: 6px solid #c9913d;
+    box-shadow: 0 2px 10px rgba(7, 24, 30, 0.5);
+  }
+
+  /* ── Option B: Warm ivory/parchment — light banner, dark text */
+  .opt-b {
+    background: linear-gradient(135deg, #fdf6e3 0%, #f5e8c8 100%);
+    border-left: 6px solid #857251;
+    box-shadow: 0 2px 10px rgba(133, 114, 81, 0.25);
+    color: #2c1f0e !important;
+  }
+  .opt-b, .opt-b p { color: #2c1f0e !important; }
+
+  /* ── Option C: Three-stop — near-black → deep teal → gold shimmer */
+  .opt-c {
+    background: linear-gradient(160deg, #0d1f1a 0%, #0e5c4a 60%, #7a5c1e 100%);
+    border-left: 6px solid #e8c97a;
+    box-shadow: 0 2px 10px rgba(13, 31, 26, 0.45);
+  }
+
+  /* ── Option D: Horizontal (90deg) slate → dark indigo */
+  .opt-d {
+    background: linear-gradient(90deg, #1a1a2e 0%, #2d2b5e 50%, #1a1a2e 100%);
+    border-left: 6px solid #9b8fcf;
+    box-shadow: 0 2px 10px rgba(26, 26, 46, 0.45);
+  }
+
+  /* ── Option E: Merlot → deep wine, silver accent */
+  .opt-e {
+    background: linear-gradient(135deg, #2e0a14 0%, #5c1a2e 100%);
+    border-left: 6px solid #d4b8c0;
+    box-shadow: 0 2px 10px rgba(46, 10, 20, 0.4);
+  }
+
+  /* ── Option F: Dark moss → warm ochre three-stop */
+  .opt-f {
+    background: linear-gradient(135deg, #1e2410 0%, #3a4a1a 50%, #5c4a10 100%);
+    border-left: 6px solid #c8b560;
+    box-shadow: 0 2px 10px rgba(30, 36, 16, 0.4);
+  }
+</style>
+
+<p>Six new directions — different angles, 3-stop gradients, and a light option.</p>
+
+<div class="option-wrapper">
+  <p class="option-label">Option A — Near-black → deep ocean teal, gold border</p>
+  <a class="banner opt-a" href="#">
+    <img src="/assets/img/esils.png" alt="ESiLS logo">
+    <div>
+      <p class="h2">Empirical Studies in Libraries Summit</p>
+      <p>Showcasing and discussing the latest research in and about libraries</p>
+    </div>
+  </a>
+</div>
+
+<div class="option-wrapper">
+  <p class="option-label">Option B — Light parchment / ivory (inverted, dark text)</p>
+  <a class="banner opt-b" href="#">
+    <img src="/assets/img/esils.png" alt="ESiLS logo">
+    <div>
+      <p class="h2">Empirical Studies in Libraries Summit</p>
+      <p>Showcasing and discussing the latest research in and about libraries</p>
+    </div>
+  </a>
+</div>
+
+<div class="option-wrapper">
+  <p class="option-label">Option C — Three-stop: black → deep teal → gold shimmer</p>
+  <a class="banner opt-c" href="#">
+    <img src="/assets/img/esils.png" alt="ESiLS logo">
+    <div>
+      <p class="h2">Empirical Studies in Libraries Summit</p>
+      <p>Showcasing and discussing the latest research in and about libraries</p>
+    </div>
+  </a>
+</div>
+
+<div class="option-wrapper">
+  <p class="option-label">Option D — Horizontal symmetrical: slate → deep indigo → slate</p>
+  <a class="banner opt-d" href="#">
+    <img src="/assets/img/esils.png" alt="ESiLS logo">
+    <div>
+      <p class="h2">Empirical Studies in Libraries Summit</p>
+      <p>Showcasing and discussing the latest research in and about libraries</p>
+    </div>
+  </a>
+</div>
+
+<div class="option-wrapper">
+  <p class="option-label">Option E — Merlot → deep wine, silver-pink border</p>
+  <a class="banner opt-e" href="#">
+    <img src="/assets/img/esils.png" alt="ESiLS logo">
+    <div>
+      <p class="h2">Empirical Studies in Libraries Summit</p>
+      <p>Showcasing and discussing the latest research in and about libraries</p>
+    </div>
+  </a>
+</div>
+
+<div class="option-wrapper">
+  <p class="option-label">Option F — Three-stop: dark moss → olive → warm ochre</p>
+  <a class="banner opt-f" href="#">
+    <img src="/assets/img/esils.png" alt="ESiLS logo">
+    <div>
+      <p class="h2">Empirical Studies in Libraries Summit</p>
+      <p>Showcasing and discussing the latest research in and about libraries</p>
+    </div>
+  </a>
+</div>
