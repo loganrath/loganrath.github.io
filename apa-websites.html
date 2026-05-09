@@ -1,0 +1,1118 @@
+---
+title: "APA 7 Citation Builder for Websites"
+layout: tool
+---
+<style>
+/* ── Layout ─────────────────────────────────────────── */
+p.lead { color: #374151; margin-top: 0; }
+
+.progress-bar-wrap { display: flex; gap: 6px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
+.prog-step {
+  flex: 1; min-width: 60px; text-align: center;
+  padding: 6px 4px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  border: 2px solid #d1d5db; color: #4b5563; background: #f9fafb;
+  transition: all .2s;
+}
+.prog-step.done   { background: #dcfce7; border-color: #86efac; color: #166534; }
+.prog-step.active { background: #dbeafe; border-color: #93c5fd; color: #1e40af; }
+
+/* ── Steps ────────────────────────────────────────────── */
+.step-panel { display: none; }
+.step-panel.visible { display: block; }
+
+.step-card {
+  border: 1px solid #d6e3f2; border-radius: 14px;
+  padding: 20px 22px; background: linear-gradient(180deg,#fbfcff 0%,#f5f9ff 100%);
+  margin-bottom: 14px;
+}
+.step-card h2 { font-size: 1.15rem; margin: 0 0 4px; color: #1e3a5f; }
+.step-card .step-desc { font-size: 14px; color: #4b5563; margin: 0 0 14px; }
+
+/* ── Author rows ─────────────────────────────────────── */
+.author-row {
+  display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px;
+  align-items: end; margin-bottom: 8px;
+}
+@media (max-width: 600px) {
+  .author-row { grid-template-columns: 1fr; }
+}
+.field-group { display: flex; flex-direction: column; gap: 3px; }
+.field-group label { font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: .05em; }
+
+/* ── Inputs ──────────────────────────────────────────── */
+input[type="text"], input[type="number"], input[type="url"], select {
+  width: 100%; box-sizing: border-box; padding: 9px 12px;
+  border-radius: 9px; border: 2px solid #4d7fc1; font-size: 16px;
+  font-family: Georgia, serif; background: #fff;
+  transition: border-color .2s, box-shadow .2s;
+}
+input:focus, select:focus { outline: 3px solid #0b5fff; outline-offset: 2px; border-color: #0b5fff; box-shadow: 0 0 0 3px rgba(11,95,255,.15); }
+button:focus-visible { outline: 3px solid #0b5fff; outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+input.valid   { border-color: #15803d; }
+input.invalid { border-color: #ef4444; }
+
+/* ── Validation messages ────────────────────────────── */
+.vmsgs { margin-top: 10px; }
+.vm { border-radius: 7px; padding: 6px 11px; margin: 4px 0; font-size: 14px; line-height: 1.5; }
+.vm.pass { background: #dcfce7; color: #166534; }
+.vm.fail { background: #fee2e2; color: #CC0000; }
+.vm.warn { background: #fef3c7; color: #78350f; }
+.vm.info { background: #dbeafe; color: #1e3a5f; }
+
+/* ── Rules box ──────────────────────────────────────── */
+.rules-box {
+  background: #f0f5ff; border: 1px dashed #a0b8e0; border-radius: 10px;
+  padding: 11px 15px; margin-bottom: 14px; font-size: 13.5px; color: #334155;
+}
+.rules-box ul { margin: 6px 0 0; padding-left: 18px; }
+.rules-box li { margin-bottom: 3px; }
+.rules-box code { background: #e0e7ff; border-radius: 4px; padding: 0 4px; font-size: 13px; }
+
+/* ── Live preview ───────────────────────────────────── */
+.preview-wrap {
+  background: #f8faff; border: 2px solid #d0dff4; border-radius: 12px;
+  padding: 14px 18px; margin: 16px 0;
+}
+.preview-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #4b5563; margin-bottom: 6px; }
+.preview-text {
+  font-family: Georgia, serif; font-size: 16px; line-height: 1.9;
+  color: #1e293b; word-break: break-word;
+  min-height: 1.8em;
+}
+.preview-text .seg-gray { color: #4b5563; }
+
+/* ── Navigation buttons ─────────────────────────────── */
+.nav-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.btn-prev { background: #e5e7eb; color: #374151; font-size: 15px; font-weight: 600; padding: 10px 18px; border-radius: 10px; border: 1px solid #767d8a; cursor: pointer; }
+.btn-next { background: linear-gradient(135deg,#0b5fff 0%,#6366f1 100%); color: #fff; font-size: 15px; font-weight: 700; padding: 10px 22px; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(11,95,255,.25); transition: transform .15s, box-shadow .2s; }
+.btn-next:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(11,95,255,.32); }
+.btn-add { background: #e0f2fe; color: #0369a1; font-size: 14px; font-weight: 600; padding: 7px 14px; border-radius: 8px; border: 1.5px solid #0284c7; cursor: pointer; }
+.btn-del { background: #fee2e2; color: #991b1b; font-size: 18px; font-weight: 700; padding: 6px 10px; border-radius: 8px; border: 1.5px solid #dc2626; cursor: pointer; line-height: 1; }
+
+/* ── Final review ───────────────────────────────────── */
+.final-citation {
+  font-family: Georgia, serif; font-size: 17px; line-height: 2;
+  background: #fff; border: 2px solid #86efac; border-radius: 12px;
+  padding: 16px 20px; margin-bottom: 20px; word-break: break-word;
+}
+.checklist-grid { display: grid; gap: 8px; margin-bottom: 20px; }
+.cl-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 12px; border-radius: 9px; font-size: 14px;
+  background: #f8faff; border: 1px solid #e2e8f0;
+}
+.cl-item .cl-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.cl-item .cl-text { line-height: 1.5; }
+.cl-item.pass { background: #dcfce7; border-color: #86efac; color: #166534; }
+.cl-item.warn { background: #fef3c7; border-color: #fbbf24; color: #78350f; }
+
+.btn-copy {
+  background: linear-gradient(135deg,#14b8a6 0%,#0ea5e9 100%);
+  color: #fff; font-size: 15px; font-weight: 700; padding: 11px 22px;
+  border-radius: 10px; border: none; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(14,165,233,.28); margin-right: 8px;
+}
+.btn-restart {
+  background: #f3f4f6; color: #374151; font-size: 15px; font-weight: 600;
+  padding: 11px 22px; border-radius: 10px; border: 1px solid #767d8a; cursor: pointer;
+}
+
+.score-bar { font-size: 1.15rem; font-weight: 700; text-align: center; padding: 10px 14px; border-radius: 9px; margin-bottom: 16px; }
+.score-great { background: #dcfce7; color: #166534; }
+.score-ok    { background: #fef3c7; color: #92400e; }
+.score-poor  { background: #fee2e2; color: #991b1b; }
+
+/* ── Helpers ─────────────────────────────────────────── */
+.small-note { font-size: 13px; color: #4b5563; margin-top: 5px; }
+
+/* ── Author type radio buttons ───────────────────────── */
+.author-type-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.author-type-option {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 10px;
+  cursor: pointer; font-size: 15px; font-weight: 600; color: #374151;
+  transition: border-color .2s, background .2s;
+}
+.author-type-option:has(input:checked) { border-color: #2563eb; background: #f0f7ff; color: #1e40af; }
+.author-type-option input[type="radio"] { width: 18px; height: 18px; accent-color: #0369a1; flex-shrink: 0; }
+.author-type-fields { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; }
+
+/* ── Responsive two-column grid ──────────────────────── */
+.two-col-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 400px) {
+  .two-col-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<p class="lead">Build a website or webpage citation in APA 7th edition, one step at a time. Fill in each section and get instant feedback before moving on.</p>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap" id="progressBar" role="list" aria-label="Citation building progress">
+  <div class="prog-step active" id="prog0" role="listitem" aria-current="step">1. Author</div>
+  <div class="prog-step"        id="prog1" role="listitem">2. Date</div>
+  <div class="prog-step"        id="prog2" role="listitem">3. Page Title</div>
+  <div class="prog-step"        id="prog3" role="listitem">4. Site Name</div>
+  <div class="prog-step"        id="prog4" role="listitem">5. URL</div>
+  <div class="prog-step"        id="prog5" role="listitem">6. Review</div>
+</div>
+
+<!-- LIVE PREVIEW (always visible) -->
+<div class="preview-wrap" aria-label="Citation preview">
+  <div class="preview-label" id="previewLabel">Your citation so far</div>
+  <div class="preview-text" id="livePreview" aria-live="polite" aria-atomic="true" aria-labelledby="previewLabel"><span class="seg-gray">Your citation will appear here as you complete each step.</span></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STEP 1 — AUTHOR
+══════════════════════════════════════════ -->
+<div class="step-panel visible" id="step0" role="region" aria-labelledby="step0-heading">
+  <div class="step-card">
+    <h2 id="step0-heading">Step 1: Author</h2>
+    <p class="step-desc">Who created this page? Choose the type of author below.</p>
+
+    <div class="rules-box">
+      <strong>APA 7 rules for authors:</strong>
+      <ul>
+        <li><strong>Individual:</strong> Format as <code>Last, F. M.</code> — last name, comma, then initials with periods.</li>
+        <li><strong>Group or organization:</strong> Use the full name. If the group name is the same as the website name, the website name is omitted from the citation.</li>
+        <li><strong>No author:</strong> The citation will begin with the page title instead.</li>
+      </ul>
+    </div>
+
+    <fieldset style="border:none;padding:0;margin:0 0 4px;">
+      <legend class="sr-only">Type of author</legend>
+      <div class="author-type-group">
+        <label class="author-type-option">
+          <input type="radio" name="authorType" value="individual" checked onchange="setAuthorType('individual')">
+          Individual author(s)
+        </label>
+        <label class="author-type-option">
+          <input type="radio" name="authorType" value="group" onchange="setAuthorType('group')">
+          Group or organization
+        </label>
+        <label class="author-type-option">
+          <input type="radio" name="authorType" value="none" onchange="setAuthorType('none')">
+          No author listed
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- Individual author rows -->
+    <div id="authorRowsWrap" class="author-type-fields">
+      <div id="authorRows"></div>
+      <button class="btn-add" onclick="addAuthor()">+ Add Author</button>
+    </div>
+
+    <!-- Group author -->
+    <div id="groupAuthorWrap" class="author-type-fields" hidden>
+      <div class="field-group">
+        <label for="inputGroupAuthor">Organization or Group Name</label>
+        <input type="text" id="inputGroupAuthor" placeholder="e.g., American Psychological Association"
+               aria-describedby="groupAuthorNote"
+               oninput="groupAuthor=this.value.trim(); updatePreview(); validateAuthor()">
+        <div class="small-note" id="groupAuthorNote">Enter the full name as it appears on the page. Do not abbreviate.</div>
+      </div>
+    </div>
+
+    <!-- No author message -->
+    <div id="noAuthorWrap" class="author-type-fields" hidden>
+      <div class="rules-box" style="background:#f0fdf4;border-color:#86efac;color:#14532d;">
+        The citation will begin with the page title instead of an author. Continue to the next step.
+      </div>
+    </div>
+
+    <div class="vmsgs" id="authorMsgs" role="status" aria-live="polite" aria-atomic="true"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-next" onclick="goNext(0)">Next: Date &rarr;</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STEP 2 — DATE
+══════════════════════════════════════════ -->
+<div class="step-panel" id="step1" role="region" aria-labelledby="step1-heading">
+  <div class="step-card">
+    <h2 id="step1-heading">Step 2: Date</h2>
+    <p class="step-desc">Enter the date the page was published or last updated.</p>
+
+    <div class="rules-box">
+      <strong>APA 7 rules for the date:</strong>
+      <ul>
+        <li>Use the most specific date available — year only, year &amp; month, or year, month, and day.</li>
+        <li>The date goes in parentheses, followed by a period: <code>(2023, May 9).</code></li>
+        <li>If no date is listed anywhere on the page, use <code>(n.d.)</code></li>
+      </ul>
+    </div>
+
+    <div style="margin-bottom:14px;padding:10px 14px;background:#f0f9ff;border:1.5px solid #0284c7;border-radius:10px;font-size:14px;">
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600;color:#0c4a6e;">
+        <input type="checkbox" id="chkND" onchange="onDateChange()" aria-describedby="ndNote" style="width:18px;height:18px;accent-color:#0369a1;flex-shrink:0;">
+        No date available — use (n.d.)
+      </label>
+      <div class="small-note" id="ndNote" style="margin-top:6px;margin-left:28px;">Check this if the page does not show a publication or update date.</div>
+    </div>
+
+    <div id="dateFieldsWrap">
+      <div class="two-col-grid" style="margin-bottom:10px;">
+        <div class="field-group">
+          <label for="inputYear">Year <span aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+          <input type="number" id="inputYear" placeholder="e.g., 2023" min="1900" max="2099"
+                 oninput="dateYear=this.value.trim(); updatePreview(); validateDate()">
+        </div>
+        <div class="field-group">
+          <label for="inputMonth">Month (optional)</label>
+          <select id="inputMonth" onchange="onMonthChange()" aria-describedby="monthNote">
+            <option value="">— Select month (optional) —</option>
+            <option>January</option><option>February</option><option>March</option>
+            <option>April</option><option>May</option><option>June</option>
+            <option>July</option><option>August</option><option>September</option>
+            <option>October</option><option>November</option><option>December</option>
+          </select>
+          <div class="small-note" id="monthNote">Select a month to unlock the day field.</div>
+        </div>
+      </div>
+      <div id="dayFieldWrap" hidden>
+        <div class="field-group" style="max-width:200px;">
+          <label for="inputDay">Day (optional)</label>
+          <input type="number" id="inputDay" placeholder="e.g., 9" min="1" max="31"
+                 oninput="dateDay=this.value.trim(); updatePreview(); validateDate()">
+        </div>
+      </div>
+    </div>
+
+    <div class="vmsgs" id="dateMsgs" role="status" aria-live="polite" aria-atomic="true"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-prev" onclick="goPrev(1)">&larr; Back</button>
+    <button class="btn-next" onclick="goNext(1)">Next: Page Title &rarr;</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STEP 3 — PAGE TITLE
+══════════════════════════════════════════ -->
+<div class="step-panel" id="step2" role="region" aria-labelledby="step2-heading">
+  <div class="step-card">
+    <h2 id="step2-heading">Step 3: Page Title</h2>
+    <p class="step-desc">Enter the title of the specific webpage you are citing.</p>
+
+    <div class="rules-box">
+      <strong>APA 7 rules for the page title:</strong>
+      <ul>
+        <li>Use <strong>sentence case</strong>: capitalize only the first word, the first word after a colon, and proper nouns.</li>
+        <li>The page title is <strong>italicized</strong> — this tool applies italics automatically in the preview.</li>
+        <li>End the title with a period: <code>Mental health conditions.</code></li>
+        <li>Unlike a journal article title, a <em>webpage</em> title is italicized.</li>
+      </ul>
+    </div>
+
+    <div class="field-group">
+      <label for="inputPageTitle">Page Title (in sentence case, ending with a period)</label>
+      <input type="text" id="inputPageTitle" placeholder="e.g., Mental health conditions."
+             aria-describedby="titleNote"
+             oninput="pageTitle=this.value.trim(); updatePreview(); validateTitle()">
+      <div class="small-note" id="titleNote">End the title with a period. The tool will italicize it in the preview and final citation.</div>
+    </div>
+
+    <div class="vmsgs" id="titleMsgs" role="status" aria-live="polite" aria-atomic="true"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-prev" onclick="goPrev(2)">&larr; Back</button>
+    <button class="btn-next" onclick="goNext(2)">Next: Site Name &rarr;</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STEP 4 — SITE NAME
+══════════════════════════════════════════ -->
+<div class="step-panel" id="step3" role="region" aria-labelledby="step3-heading">
+  <div class="step-card">
+    <h2 id="step3-heading">Step 4: Website Name</h2>
+    <p class="step-desc">Enter the name of the website or platform that hosts the page.</p>
+
+    <div class="rules-box">
+      <strong>APA 7 rules for the website name:</strong>
+      <ul>
+        <li>Include the website name as it appears on the site — not the URL.</li>
+        <li>The website name is <strong>not</strong> italicized, and is followed by a period.</li>
+        <li>If the <strong>group/organization author</strong> is the same as the website name, <strong>omit</strong> the website name to avoid repetition.</li>
+        <li>Example: <em>National Alliance on Mental Illness.</em> (n.d.). <em>Mental health conditions.</em> https://www.nami.org/…<br>
+            (site name omitted because it matches the group author)</li>
+      </ul>
+    </div>
+
+    <div style="margin-bottom:14px;padding:10px 14px;background:#f0f9ff;border:1.5px solid #0284c7;border-radius:10px;font-size:14px;">
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600;color:#0c4a6e;">
+        <input type="checkbox" id="chkOmitSite" onchange="onOmitSiteChange()" aria-describedby="omitSiteNote" style="width:18px;height:18px;accent-color:#0369a1;flex-shrink:0;">
+        Omit site name — it is the same as the group/organization author
+      </label>
+      <div class="small-note" id="omitSiteNote" style="margin-top:6px;margin-left:28px;">Check this when the website name and the group author name are the same.</div>
+    </div>
+
+    <div id="siteNameFieldWrap">
+      <div class="field-group">
+        <label for="inputSiteName">Website Name</label>
+        <input type="text" id="inputSiteName" placeholder="e.g., National Alliance on Mental Illness"
+               oninput="siteName=this.value.trim(); updatePreview(); validateSiteName()">
+      </div>
+    </div>
+
+    <div class="vmsgs" id="siteNameMsgs" role="status" aria-live="polite" aria-atomic="true"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-prev" onclick="goPrev(3)">&larr; Back</button>
+    <button class="btn-next" onclick="goNext(3)">Next: URL &rarr;</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STEP 5 — URL
+══════════════════════════════════════════ -->
+<div class="step-panel" id="step4" role="region" aria-labelledby="step4-heading">
+  <div class="step-card">
+    <h2 id="step4-heading">Step 5: URL</h2>
+    <p class="step-desc">Enter the full web address of the page.</p>
+
+    <div class="rules-box">
+      <strong>APA 7 rules for the URL:</strong>
+      <ul>
+        <li>Paste the full URL starting with <code>https://</code></li>
+        <li>Do <strong>not</strong> add a period after the URL — it ends the citation.</li>
+        <li>If the page content is likely to change over time (e.g., a wiki, live database, or social media page), include a retrieval date: <code>Retrieved May 9, 2023, from https://…</code></li>
+      </ul>
+    </div>
+
+    <div class="field-group" style="margin-bottom:14px;">
+      <label for="inputURL">URL</label>
+      <input type="url" id="inputURL" placeholder="e.g., https://www.nami.org/Learn-More/Mental-Health-Conditions"
+             aria-describedby="urlNote"
+             oninput="pageURL=this.value.trim(); updatePreview(); validateURL()">
+      <div class="small-note" id="urlNote">Paste the URL exactly as it appears in your browser. Do not add a period at the end.</div>
+    </div>
+
+    <div style="margin-bottom:14px;padding:10px 14px;background:#f0f9ff;border:1.5px solid #0284c7;border-radius:10px;font-size:14px;">
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:600;color:#0c4a6e;">
+        <input type="checkbox" id="chkRetrievalDate" onchange="onRetrievalDateChange()" aria-describedby="retrievalNote" style="width:18px;height:18px;accent-color:#0369a1;flex-shrink:0;">
+        This page's content may change over time — add a retrieval date
+      </label>
+      <div class="small-note" id="retrievalNote" style="margin-top:6px;margin-left:28px;">Check for wikis, news feeds, live databases, or any page without a stable archived version.</div>
+    </div>
+
+    <div id="retrievalDateWrap" hidden>
+      <p style="font-size:14px;font-weight:600;color:#1e3a5f;margin:0 0 10px;">Retrieval date — the date you accessed the page:</p>
+      <div class="two-col-grid" style="margin-bottom:10px;">
+        <div class="field-group">
+          <label for="inputRetrievalMonth">Retrieval Month</label>
+          <select id="inputRetrievalMonth" onchange="retrievalMonth=this.value; updatePreview(); validateURL()">
+            <option value="">— Month —</option>
+            <option>January</option><option>February</option><option>March</option>
+            <option>April</option><option>May</option><option>June</option>
+            <option>July</option><option>August</option><option>September</option>
+            <option>October</option><option>November</option><option>December</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="inputRetrievalDay">Retrieval Day</label>
+          <input type="number" id="inputRetrievalDay" placeholder="e.g., 9" min="1" max="31"
+                 oninput="retrievalDay=this.value.trim(); updatePreview(); validateURL()">
+        </div>
+      </div>
+      <div class="field-group" style="max-width:200px;">
+        <label for="inputRetrievalYear">Retrieval Year</label>
+        <input type="number" id="inputRetrievalYear" placeholder="e.g., 2024" min="1900" max="2099"
+               oninput="retrievalYear=this.value.trim(); updatePreview(); validateURL()">
+      </div>
+    </div>
+
+    <div class="vmsgs" id="urlMsgs" role="status" aria-live="polite" aria-atomic="true"></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-prev" onclick="goPrev(4)">&larr; Back</button>
+    <button class="btn-next" onclick="goNext(4)">Review My Citation &rarr;</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STEP 6 — FINAL REVIEW
+══════════════════════════════════════════ -->
+<div class="step-panel" id="step5" role="region" aria-labelledby="step5-heading">
+  <div class="step-card">
+    <h2 id="step5-heading">Step 6: Review Your Citation</h2>
+    <p class="step-desc">Here is your completed APA 7th edition website citation. Check each item in the checklist below.</p>
+
+    <div class="final-citation" id="finalCitation"></div>
+
+    <div id="scoreBar" class="score-bar"></div>
+
+    <div class="checklist-grid" id="checklistGrid"></div>
+
+    <div class="nav-btns">
+      <button class="btn-copy" onclick="copyCitation()">Copy Plain Text</button>
+      <button class="btn-prev" onclick="goPrev(5)">&larr; Edit</button>
+      <button class="btn-restart" onclick="restart()">Start Over</button>
+    </div>
+  </div>
+</div>
+
+<div id="copyAnnounce" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────
+let authorType = 'individual'; // 'individual' | 'group' | 'none'
+let authors = [{ last: '', initials: '' }];
+let groupAuthor = '';
+let isND = false;
+let dateYear = '', dateMonth = '', dateDay = '';
+let pageTitle = '';
+let omitSiteName = false;
+let siteName = '';
+let pageURL = '';
+let needsRetrievalDate = false;
+let retrievalMonth = '', retrievalDay = '', retrievalYear = '';
+let currentStep = 0;
+const TOTAL_STEPS = 6;
+
+// ─────────────────────────────────────────────────────────────
+// AUTHOR TYPE SWITCHING
+// ─────────────────────────────────────────────────────────────
+function setAuthorType(type) {
+  authorType = type;
+  document.getElementById('authorRowsWrap').hidden = (type !== 'individual');
+  document.getElementById('groupAuthorWrap').hidden = (type !== 'group');
+  document.getElementById('noAuthorWrap').hidden    = (type !== 'none');
+  updatePreview();
+  validateAuthor();
+}
+
+// ─────────────────────────────────────────────────────────────
+// INDIVIDUAL AUTHOR MANAGEMENT
+// ─────────────────────────────────────────────────────────────
+function addAuthor() {
+  authors.push({ last: '', initials: '' });
+  renderAuthors();
+}
+
+function removeAuthor(i) {
+  if (authors.length <= 1) return;
+  authors.splice(i, 1);
+  renderAuthors();
+}
+
+function renderAuthors() {
+  const container = document.getElementById('authorRows');
+  container.innerHTML = '';
+  authors.forEach(function(a, i) {
+    const row = document.createElement('div');
+    row.className = 'author-row';
+    row.innerHTML =
+      '<div class="field-group">' +
+        '<label for="authorLast' + i + '">Last Name</label>' +
+        '<input type="text" id="authorLast' + i + '" value="' + escAttr(a.last) + '" placeholder="e.g., Smith"' +
+          ' oninput="authors[' + i + '].last=this.value.trim(); updatePreview(); validateAuthor()">' +
+      '</div>' +
+      '<div class="field-group">' +
+        '<label for="authorInitials' + i + '">Initials (with periods)</label>' +
+        '<input type="text" id="authorInitials' + i + '" value="' + escAttr(a.initials) + '" placeholder="e.g., J. D."' +
+          ' oninput="authors[' + i + '].initials=this.value.trim(); updatePreview(); validateAuthor()">' +
+      '</div>' +
+      '<button class="btn-del" onclick="removeAuthor(' + i + ')" aria-label="Remove author ' + (i + 1) + '" ' +
+        (authors.length === 1 ? 'disabled style="opacity:.4;cursor:not-allowed"' : '') +
+      '>&times;</button>';
+    container.appendChild(row);
+  });
+  updatePreview();
+}
+
+// ─────────────────────────────────────────────────────────────
+// DATE MANAGEMENT
+// ─────────────────────────────────────────────────────────────
+function onDateChange() {
+  isND = document.getElementById('chkND').checked;
+  const wrap = document.getElementById('dateFieldsWrap');
+  if (wrap) wrap.hidden = isND;
+  if (isND) {
+    dateYear = ''; dateMonth = ''; dateDay = '';
+  } else {
+    dateYear  = (document.getElementById('inputYear').value  || '').trim();
+    dateMonth =  document.getElementById('inputMonth').value  || '';
+    dateDay   = (document.getElementById('inputDay').value   || '').trim();
+  }
+  updatePreview();
+  validateDate();
+}
+
+function onMonthChange() {
+  dateMonth = document.getElementById('inputMonth').value || '';
+  if (!dateMonth) {
+    dateDay = '';
+    const dayInput = document.getElementById('inputDay');
+    if (dayInput) dayInput.value = '';
+  }
+  const dayWrap = document.getElementById('dayFieldWrap');
+  if (dayWrap) dayWrap.hidden = !dateMonth;
+  updatePreview();
+  validateDate();
+}
+
+// ─────────────────────────────────────────────────────────────
+// SITE NAME MANAGEMENT
+// ─────────────────────────────────────────────────────────────
+function onOmitSiteChange() {
+  omitSiteName = document.getElementById('chkOmitSite').checked;
+  const siteWrap = document.getElementById('siteNameFieldWrap');
+  if (siteWrap) siteWrap.hidden = omitSiteName;
+  updatePreview();
+  validateSiteName();
+}
+
+// ─────────────────────────────────────────────────────────────
+// RETRIEVAL DATE MANAGEMENT
+// ─────────────────────────────────────────────────────────────
+function onRetrievalDateChange() {
+  needsRetrievalDate = document.getElementById('chkRetrievalDate').checked;
+  const wrap = document.getElementById('retrievalDateWrap');
+  if (wrap) wrap.hidden = !needsRetrievalDate;
+  updatePreview();
+}
+
+// ─────────────────────────────────────────────────────────────
+// FORMATTERS
+// ─────────────────────────────────────────────────────────────
+function escAttr(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function buildAuthorHTML() {
+  const valid = authors.filter(function(a){ return a.last || a.initials; });
+  if (!valid.length) return '';
+  if (valid.length === 1) return escAttr(valid[0].last) + ', ' + escAttr(valid[0].initials);
+  const parts = valid.map(function(a){ return escAttr(a.last) + ', ' + escAttr(a.initials); });
+  return parts.slice(0, -1).join(', ') + ', &amp; ' + parts[parts.length - 1];
+}
+
+function buildAuthorPlain() {
+  const valid = authors.filter(function(a){ return a.last || a.initials; });
+  if (!valid.length) return '';
+  if (valid.length === 1) return valid[0].last + ', ' + valid[0].initials;
+  const parts = valid.map(function(a){ return a.last + ', ' + a.initials; });
+  return parts.slice(0, -1).join(', ') + ', & ' + parts[parts.length - 1];
+}
+
+function buildDateStr() {
+  if (isND) return '(n.d.)';
+  if (!dateYear) return '';
+  if (dateMonth && dateDay) return '(' + dateYear + ', ' + dateMonth + ' ' + dateDay + ')';
+  if (dateMonth) return '(' + dateYear + ', ' + dateMonth + ')';
+  return '(' + dateYear + ')';
+}
+
+// ─────────────────────────────────────────────────────────────
+// LIVE PREVIEW
+// ─────────────────────────────────────────────────────────────
+function updatePreview() {
+  const gray = function(s){ return '<span class="seg-gray">' + s + '</span>'; };
+  const parts = [];
+  const ds = buildDateStr();
+
+  let retrStr = '';
+  if (needsRetrievalDate && retrievalMonth && retrievalDay && retrievalYear) {
+    retrStr = 'Retrieved ' + escAttr(retrievalMonth) + ' ' + escAttr(retrievalDay) + ', ' + escAttr(retrievalYear) + ', from ';
+  }
+
+  const urlPart = pageURL
+    ? retrStr + '<a href="' + escAttr(pageURL) + '" target="_blank" rel="noopener noreferrer">' + escAttr(pageURL) + '</a>'
+    : gray('[https://example.com/page]');
+
+  const titlePart = pageTitle
+    ? '<em>' + escAttr(pageTitle) + '</em>'
+    : gray('[<em>Title of page.</em>]');
+
+  if (authorType === 'none') {
+    // No author: title comes first
+    parts.push(titlePart);
+    parts.push(ds ? (escAttr(ds) + '.') : gray('(Year).'));
+    if (!omitSiteName) {
+      parts.push(siteName ? (escAttr(siteName) + '.') : gray('[Site Name].'));
+    }
+    parts.push(urlPart);
+  } else {
+    let authorHTML = '';
+    if (authorType === 'individual') {
+      authorHTML = buildAuthorHTML();
+    } else {
+      authorHTML = groupAuthor ? escAttr(groupAuthor.replace(/[.,\s]+$/, '')) : '';
+    }
+    parts.push(authorHTML ? (authorHTML + '.') : gray('[Author(s)].'));
+    parts.push(ds ? (escAttr(ds) + '.') : gray('(Year).'));
+    parts.push(titlePart);
+    if (!omitSiteName) {
+      parts.push(siteName ? (escAttr(siteName) + '.') : gray('[Site Name].'));
+    }
+    parts.push(urlPart);
+  }
+
+  document.getElementById('livePreview').innerHTML = parts.join(' ');
+}
+
+// ─────────────────────────────────────────────────────────────
+// VALIDATION HELPERS
+// ─────────────────────────────────────────────────────────────
+function showMsgs(containerId, msgs) {
+  const el = document.getElementById(containerId);
+  if (!msgs.length) { el.innerHTML = ''; return; }
+  el.innerHTML = msgs.map(function(m){
+    return '<div class="vm ' + m.type + '">' + m.text + '</div>';
+  }).join('');
+}
+
+// ─────────────────────────────────────────────────────────────
+// VALIDATORS
+// ─────────────────────────────────────────────────────────────
+function validateAuthor() {
+  const msgs = [];
+
+  if (authorType === 'none') {
+    msgs.push({ type:'info', text: 'No author — the citation will begin with the page title.' });
+    showMsgs('authorMsgs', msgs); return true;
+  }
+
+  if (authorType === 'group') {
+    const grpInp = document.getElementById('inputGroupAuthor');
+    if (!groupAuthor) {
+      msgs.push({ type:'fail', text: 'Organization or group name is required.' });
+      if (grpInp) grpInp.setAttribute('aria-invalid', 'true');
+      showMsgs('authorMsgs', msgs); return false;
+    }
+    if (grpInp) grpInp.setAttribute('aria-invalid', 'false');
+    msgs.push({ type:'pass', text: escAttr(groupAuthor.replace(/[.,\s]+$/, '')) + '. \u2713' });
+    showMsgs('authorMsgs', msgs); return true;
+  }
+
+  // Individual
+  let allOk = true;
+  authors.forEach(function(a, i) {
+    const label = authors.length > 1 ? 'Author ' + (i + 1) + ': ' : '';
+    if (!a.last)     { msgs.push({ type:'fail', text: label + 'Missing last name.' });    allOk = false; return; }
+    if (!a.initials) { msgs.push({ type:'fail', text: label + 'Missing initials.' });     allOk = false; return; }
+    if (!/^([A-Z]\.\s?)+[A-Z]\.$|^[A-Z]\.$/.test(a.initials)) {
+      msgs.push({ type:'fail', text: label + 'Initials must have a period after each letter, e.g., <strong>J. D.</strong>' });
+      allOk = false;
+    } else {
+      msgs.push({ type:'pass', text: label + escAttr(a.last) + ', ' + escAttr(a.initials) + ' \u2713' });
+    }
+  });
+  if (allOk && authors.length > 1) {
+    msgs.push({ type:'info', text: 'Multiple authors: ampersand (&amp;) before the final author will be added automatically.' });
+  }
+  showMsgs('authorMsgs', msgs);
+  return allOk;
+}
+
+function validateDate() {
+  const msgs = [];
+  if (isND) {
+    msgs.push({ type:'pass', text: '(n.d.). \u2713 — no date will be used.' });
+    showMsgs('dateMsgs', msgs); return true;
+  }
+  const yearInp = document.getElementById('inputYear');
+  if (!dateYear) {
+    msgs.push({ type:'fail', text: 'Year is required, or check "No date available" above.' });
+    if (yearInp) yearInp.setAttribute('aria-invalid', 'true');
+    showMsgs('dateMsgs', msgs); return false;
+  }
+  const y = parseInt(dateYear);
+  if (isNaN(y) || y < 1900 || y > 2099) {
+    msgs.push({ type:'fail', text: 'Enter a valid 4-digit year (1900\u20132099).' });
+    if (yearInp) yearInp.setAttribute('aria-invalid', 'true');
+    showMsgs('dateMsgs', msgs); return false;
+  }
+  if (yearInp) yearInp.setAttribute('aria-invalid', 'false');
+  if (dateDay && !dateMonth) {
+    msgs.push({ type:'warn', text: 'You entered a day without selecting a month. Please select a month too.' });
+  }
+  if (dateDay) {
+    const d = parseInt(dateDay);
+    if (isNaN(d) || d < 1 || d > 31) {
+      msgs.push({ type:'fail', text: 'Day must be a number between 1 and 31.' });
+      showMsgs('dateMsgs', msgs); return false;
+    }
+  }
+  msgs.push({ type:'pass', text: escAttr(buildDateStr()) + '. \u2713' });
+  showMsgs('dateMsgs', msgs); return true;
+}
+
+function validateTitle() {
+  const msgs = [];
+  const inp = document.getElementById('inputPageTitle');
+  if (!pageTitle) {
+    msgs.push({ type:'fail', text: 'Page title is required.' });
+    if (inp) inp.setAttribute('aria-invalid', 'true');
+    showMsgs('titleMsgs', msgs); return false;
+  }
+  let ok = true;
+  if (pageTitle[0] !== pageTitle[0].toUpperCase()) {
+    msgs.push({ type:'fail', text: 'The first word of the title should be capitalized.' });
+    ok = false;
+  }
+  if (!pageTitle.endsWith('.')) {
+    msgs.push({ type:'fail', text: 'The title must end with a period.' });
+    ok = false;
+  }
+  // Sentence-case check
+  const words = pageTitle.replace(/\.\s*$/, '').split(' ');
+  const suspicious = [];
+  words.forEach(function(w, i) {
+    if (i === 0) return;
+    if (i > 0 && /:\s*$/.test(words[i - 1])) return; // first word after colon is OK
+    if (w.length > 1 && /^[A-Z]/.test(w)) suspicious.push(w);
+  });
+  if (suspicious.length > 0) {
+    msgs.push({ type:'warn', text: 'Possible title-case issue: <strong>' + suspicious.slice(0, 4).map(escAttr).join(', ') + '</strong>' + (suspicious.length > 4 ? ', \u2026' : '') + ' \u2014 use sentence case (capitalize only the first word and proper nouns).' });
+  }
+  if (inp) inp.setAttribute('aria-invalid', ok ? 'false' : 'true');
+  if (ok) msgs.push({ type:'pass', text: '\u201c' + escAttr(pageTitle.substring(0, 63)) + (pageTitle.length > 63 ? '\u2026' : '') + '\u201d \u2713' });
+  showMsgs('titleMsgs', msgs);
+  return ok;
+}
+
+function validateSiteName() {
+  const msgs = [];
+  const siteInp = document.getElementById('inputSiteName');
+  if (omitSiteName) {
+    if (siteInp) siteInp.setAttribute('aria-invalid', 'false');
+    if (authorType === 'group' && groupAuthor) {
+      msgs.push({ type:'pass', text: 'Site name omitted \u2014 same as group author. \u2713' });
+    } else {
+      msgs.push({ type:'info', text: 'Site name omitted from citation.' });
+    }
+    showMsgs('siteNameMsgs', msgs); return true;
+  }
+  if (!siteName) {
+    msgs.push({ type:'fail', text: 'Website name is required. If the website name is the same as the group/organization author, check \u201cOmit site name\u201d above.' });
+    if (siteInp) siteInp.setAttribute('aria-invalid', 'true');
+    showMsgs('siteNameMsgs', msgs); return false;
+  }
+  if (siteInp) siteInp.setAttribute('aria-invalid', 'false');
+  // Warn if group author matches site name
+  if (authorType === 'group' && groupAuthor) {
+    const normGroup = groupAuthor.replace(/[.,\s]+$/, '').trim().toLowerCase();
+    const normSite  = siteName.replace(/[.,\s]+$/, '').trim().toLowerCase();
+    if (normGroup === normSite) {
+      msgs.push({ type:'warn', text: 'The website name matches your group author. Per APA 7, the website name should be omitted \u2014 check \u201cOmit site name\u201d above.' });
+    }
+  }
+  msgs.push({ type:'pass', text: escAttr(siteName) + '. \u2713' });
+  showMsgs('siteNameMsgs', msgs);
+  return true;
+}
+
+function validateURL() {
+  const msgs = [];
+  const urlInp = document.getElementById('inputURL');
+  if (!pageURL) {
+    msgs.push({ type:'fail', text: 'URL is required.' });
+    if (urlInp) urlInp.setAttribute('aria-invalid', 'true');
+    showMsgs('urlMsgs', msgs); return false;
+  }
+  if (!pageURL.startsWith('http://') && !pageURL.startsWith('https://')) {
+    msgs.push({ type:'fail', text: 'URL must start with <strong>https://</strong> or <strong>http://</strong>' });
+    if (urlInp) urlInp.setAttribute('aria-invalid', 'true');
+    showMsgs('urlMsgs', msgs); return false;
+  }
+  if (pageURL.endsWith('.')) {
+    msgs.push({ type:'fail', text: 'Remove the period at the end of the URL.' });
+    if (urlInp) urlInp.setAttribute('aria-invalid', 'true');
+    showMsgs('urlMsgs', msgs); return false;
+  }
+  if (urlInp) urlInp.setAttribute('aria-invalid', 'false');
+  if (needsRetrievalDate) {
+    if (!retrievalMonth || !retrievalDay || !retrievalYear) {
+      msgs.push({ type:'fail', text: 'Please complete the retrieval date \u2014 month, day, and year are all required.' });
+      showMsgs('urlMsgs', msgs); return false;
+    }
+    const ry = parseInt(retrievalYear);
+    if (isNaN(ry) || ry < 1900 || ry > 2099) {
+      msgs.push({ type:'fail', text: 'Retrieval year must be a valid 4-digit year.' });
+      showMsgs('urlMsgs', msgs); return false;
+    }
+    msgs.push({ type:'pass', text: 'Retrieved ' + escAttr(retrievalMonth) + ' ' + escAttr(retrievalDay) + ', ' + escAttr(retrievalYear) + ', from ' + escAttr(pageURL) + ' \u2713' });
+  } else {
+    msgs.push({ type:'pass', text: escAttr(pageURL) + ' \u2713' });
+  }
+  showMsgs('urlMsgs', msgs); return true;
+}
+
+// ─────────────────────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────────────────────
+function goNext(fromStep) {
+  let ok = true;
+  if (fromStep === 0) ok = validateAuthor();
+  if (fromStep === 1) ok = validateDate();
+  if (fromStep === 2) ok = validateTitle();
+  if (fromStep === 3) ok = validateSiteName();
+  if (fromStep === 4) ok = validateURL();
+
+  if (!ok) {
+    const firstFail = document.querySelector('#step' + fromStep + ' .vm.fail');
+    if (firstFail) firstFail.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  showStep(fromStep + 1);
+  if (fromStep + 1 === 5) buildFinalReview();
+}
+
+function goPrev(fromStep) {
+  showStep(fromStep - 1);
+}
+
+function showStep(n) {
+  for (let i = 0; i < TOTAL_STEPS; i++) {
+    document.getElementById('step' + i).classList.remove('visible');
+    const prog = document.getElementById('prog' + i);
+    if (prog) {
+      prog.className = 'prog-step' + (i < n ? ' done' : i === n ? ' active' : '');
+      if (i === n) prog.setAttribute('aria-current', 'step');
+      else prog.removeAttribute('aria-current');
+    }
+  }
+  document.getElementById('step' + n).classList.add('visible');
+  currentStep = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─────────────────────────────────────────────────────────────
+// FINAL REVIEW
+// ─────────────────────────────────────────────────────────────
+function buildFinalReview() {
+  const ds = buildDateStr();
+  let retrStr = '';
+  if (needsRetrievalDate && retrievalMonth && retrievalDay && retrievalYear) {
+    retrStr = 'Retrieved ' + escAttr(retrievalMonth) + ' ' + escAttr(retrievalDay) + ', ' + escAttr(retrievalYear) + ', from ';
+  }
+  const urlLink = '<a href="' + escAttr(pageURL) + '" target="_blank" rel="noopener noreferrer">' + escAttr(pageURL) + '</a>';
+
+  // Build citation HTML
+  const citParts = [];
+  if (authorType === 'none') {
+    citParts.push('<em>' + escAttr(pageTitle) + '</em>');
+    citParts.push(escAttr(ds) + '.');
+    if (!omitSiteName && siteName) citParts.push(escAttr(siteName) + '.');
+    citParts.push(retrStr + urlLink);
+  } else {
+    const authHTML = authorType === 'individual'
+      ? buildAuthorHTML()
+      : escAttr(groupAuthor.replace(/[.,\s]+$/, ''));
+    citParts.push(authHTML + '.');
+    citParts.push(escAttr(ds) + '.');
+    citParts.push('<em>' + escAttr(pageTitle) + '</em>');
+    if (!omitSiteName && siteName) citParts.push(escAttr(siteName) + '.');
+    citParts.push(retrStr + urlLink);
+  }
+  document.getElementById('finalCitation').innerHTML = citParts.join(' ');
+
+  // ── Checklist ───────────────────────────────────────────────
+  const checks = [];
+
+  // Author
+  if (authorType === 'individual') {
+    const hasComma = authors.every(function(a){ return a.last && a.initials; });
+    checks.push({ pass: hasComma, icon: hasComma ? '✅' : '⚠️', text: 'Comma between last name and initials (e.g., Smith, J. D.)' });
+    const hasPeriods = authors.every(function(a){ return /^([A-Z]\.\s?)+[A-Z]\.$|^[A-Z]\.$/.test(a.initials); });
+    checks.push({ pass: hasPeriods, icon: hasPeriods ? '✅' : '⚠️', text: 'Period after each initial (J. D. \u2014 not JD)' });
+    if (authors.length > 1) {
+      checks.push({ pass: true, icon: '✅', text: 'Ampersand (&) before the final author \u2014 added automatically' });
+    }
+    checks.push({ pass: true, icon: '✅', text: 'Period after the entire author section \u2014 added automatically' });
+  } else if (authorType === 'group') {
+    checks.push({ pass: !!groupAuthor, icon: groupAuthor ? '✅' : '⚠️', text: 'Group/organization name present: ' + escAttr(groupAuthor || '?') });
+    checks.push({ pass: true, icon: '✅', text: 'Period after group author \u2014 added automatically' });
+    if (omitSiteName) {
+      checks.push({ pass: true, icon: '✅', text: 'Site name correctly omitted (same as group author per APA 7) \u2713' });
+    }
+  } else {
+    checks.push({ pass: true, icon: '✅', text: 'No author \u2014 citation begins with the italicized page title \u2713' });
+  }
+
+  // Date
+  const dateOk = isND || (!!dateYear && parseInt(dateYear) >= 1900 && parseInt(dateYear) <= 2099);
+  checks.push({ pass: dateOk, icon: dateOk ? '✅' : '⚠️', text: 'Date formatted as ' + (ds || '?') + '.' });
+
+  // Title
+  const firstCapOk = pageTitle && pageTitle[0] === pageTitle[0].toUpperCase();
+  checks.push({ pass: firstCapOk, icon: firstCapOk ? '✅' : '⚠️', text: 'First word of the page title is capitalized (sentence case)' });
+  const titlePeriodOk = pageTitle.endsWith('.');
+  checks.push({ pass: titlePeriodOk, icon: titlePeriodOk ? '✅' : '⚠️', text: 'Page title ends with a period' });
+  checks.push({ pass: true, icon: '✅', text: 'Page title italicized \u2014 applied automatically in this preview' });
+
+  // Site name
+  if (omitSiteName) {
+    if (authorType === 'group') {
+      checks.push({ pass: true, icon: '✅', text: 'Site name omitted (group author = site name per APA 7) \u2713' });
+    }
+  } else {
+    checks.push({ pass: !!siteName, icon: siteName ? '✅' : '⚠️', text: 'Website name present: ' + escAttr(siteName || '?') });
+    checks.push({ pass: true, icon: '✅', text: 'Website name not italicized \u2014 formatted correctly' });
+  }
+
+  // URL
+  const urlOk = pageURL.startsWith('http://') || pageURL.startsWith('https://');
+  checks.push({ pass: urlOk, icon: urlOk ? '✅' : '⚠️', text: 'URL starts with https://' });
+  const noPeriodURL = !pageURL.endsWith('.');
+  checks.push({ pass: noPeriodURL, icon: noPeriodURL ? '✅' : '⚠️', text: 'No period at the end of the URL' });
+
+  // Retrieval date
+  if (needsRetrievalDate) {
+    const hasRetr = !!(retrievalMonth && retrievalDay && retrievalYear);
+    checks.push({ pass: hasRetr, icon: hasRetr ? '✅' : '⚠️', text: 'Retrieval date included \u2014 content may change over time' });
+  }
+
+  // Score
+  const passCount = checks.filter(function(c){ return c.pass; }).length;
+  const total = checks.length;
+  const pct = Math.round((passCount / total) * 100);
+  const scoreEl = document.getElementById('scoreBar');
+  if (pct === 100) {
+    scoreEl.className = 'score-bar score-great';
+    scoreEl.textContent = '\uD83C\uDF89 All ' + total + ' checklist items verified!';
+  } else if (pct >= 70) {
+    scoreEl.className = 'score-bar score-ok';
+    scoreEl.textContent = passCount + ' / ' + total + ' items verified \u2014 review the warnings below.';
+  } else {
+    scoreEl.className = 'score-bar score-poor';
+    scoreEl.textContent = passCount + ' / ' + total + ' items verified \u2014 please go back and fix errors.';
+  }
+
+  document.getElementById('checklistGrid').innerHTML = checks.map(function(c){
+    return '<div class="cl-item ' + (c.pass ? 'pass' : 'warn') + '">' +
+      '<span class="cl-icon" aria-hidden="true">' + c.icon + '</span>' +
+      '<span class="sr-only">' + (c.pass ? 'Pass: ' : 'Warning: ') + '</span>' +
+      '<span class="cl-text">' + c.text + '</span></div>';
+  }).join('');
+}
+
+// ─────────────────────────────────────────────────────────────
+// COPY PLAIN TEXT
+// ─────────────────────────────────────────────────────────────
+function copyCitation() {
+  function clean(s) { return (s || '').replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ').trim(); }
+
+  const ds   = buildDateStr();
+  const site = omitSiteName ? '' : clean(siteName);
+  const url  = clean(pageURL);
+  let retr = '';
+  if (needsRetrievalDate && retrievalMonth && retrievalDay && retrievalYear) {
+    retr = 'Retrieved ' + retrievalMonth + ' ' + retrievalDay + ', ' + retrievalYear + ', from ';
+  }
+
+  let plain;
+  if (authorType === 'none') {
+    plain = clean(pageTitle) + ' ' + ds + '.';
+    if (site) plain += ' ' + site + '.';
+    plain += ' ' + retr + url;
+  } else {
+    let authorStr = '';
+    if (authorType === 'individual') {
+      authorStr = buildAuthorPlain().replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ');
+    } else {
+      authorStr = clean(groupAuthor).replace(/[.,\s]+$/, '');
+    }
+    plain = authorStr + '. ' + ds + '. ' + clean(pageTitle);
+    if (site) plain += ' ' + site + '.';
+    plain += ' ' + retr + url;
+  }
+
+  const ta = document.createElement('textarea');
+  ta.value = plain.trim();
+  ta.setAttribute('readonly', '');
+  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
+  document.body.appendChild(ta);
+  ta.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+  if (!ok && navigator.clipboard) {
+    navigator.clipboard.writeText(plain.trim()).catch(function(){});
+  }
+
+  const btn = document.querySelector('.btn-copy');
+  const orig = btn ? btn.textContent : '';
+  if (btn) { btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = orig; }, 2000); }
+  const announce = document.getElementById('copyAnnounce');
+  if (announce) {
+    announce.textContent = 'Citation copied to clipboard.';
+    setTimeout(function(){ announce.textContent = ''; }, 3000);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// RESTART
+// ─────────────────────────────────────────────────────────────
+function restart() {
+  authorType = 'individual';
+  authors = [{ last: '', initials: '' }];
+  groupAuthor = '';
+  isND = false;
+  dateYear = ''; dateMonth = ''; dateDay = '';
+  pageTitle = '';
+  omitSiteName = false; siteName = '';
+  pageURL = '';
+  needsRetrievalDate = false;
+  retrievalMonth = ''; retrievalDay = ''; retrievalYear = '';
+
+  // Reset radio buttons and show/hide author type sections
+  document.querySelectorAll('input[name="authorType"]').forEach(function(r){
+    r.checked = (r.value === 'individual');
+  });
+  setAuthorType('individual');
+
+  const groupInp = document.getElementById('inputGroupAuthor');
+  if (groupInp) groupInp.value = '';
+
+  document.getElementById('chkND').checked = false;
+  document.getElementById('dateFieldsWrap').hidden = false;
+  document.getElementById('inputYear').value = '';
+  document.getElementById('inputMonth').value = '';
+  document.getElementById('inputDay').value = '';
+  document.getElementById('dayFieldWrap').hidden = true;
+
+  document.getElementById('inputPageTitle').value = '';
+
+  document.getElementById('chkOmitSite').checked = false;
+  omitSiteName = false;
+  document.getElementById('siteNameFieldWrap').hidden = false;
+  document.getElementById('inputSiteName').value = '';
+
+  document.getElementById('inputURL').value = '';
+  document.getElementById('chkRetrievalDate').checked = false;
+  needsRetrievalDate = false;
+  document.getElementById('retrievalDateWrap').hidden = true;
+  document.getElementById('inputRetrievalMonth').value = '';
+  document.getElementById('inputRetrievalDay').value = '';
+  document.getElementById('inputRetrievalYear').value = '';
+
+  ['authorMsgs','dateMsgs','titleMsgs','siteNameMsgs','urlMsgs'].forEach(function(id){
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = '';
+  });
+
+  renderAuthors();
+  updatePreview();
+  showStep(0);
+}
+
+// ─────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────
+renderAuthors();
+updatePreview();
+</script>
