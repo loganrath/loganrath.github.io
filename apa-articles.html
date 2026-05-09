@@ -248,11 +248,11 @@ input.invalid { border-color: #ef4444; }
     </div>
 
     <div class="field-group">
-      <label for="inputTitle">Article Title (in sentence case, without a trailing period)</label>
-      <input type="text" id="inputTitle" placeholder="e.g., Effects of mindfulness on student performance: A meta-analysis"
+      <label for="inputTitle">Article Title (in sentence case, ending with a period)</label>
+      <input type="text" id="inputTitle" placeholder="e.g., Effects of mindfulness on student performance: A meta-analysis."
              aria-describedby="titleNote"
              oninput="updatePreview(); validateTitle()">
-      <div class="small-note" id="titleNote">The tool will add the required period for you in the preview.</div>
+      <div class="small-note" id="titleNote">End the title with a period.</div>
     </div>
 
     <div class="vmsgs" id="titleMsgs" role="status" aria-live="polite" aria-atomic="true"></div>
@@ -286,8 +286,8 @@ input.invalid { border-color: #ef4444; }
 
     <div class="two-col-grid" style="margin-bottom:12px;">
       <div class="field-group" style="grid-column:1/-1">
-        <label for="inputJournal">Journal Name (use title case — capitalize major words)</label>
-        <input type="text" id="inputJournal" placeholder="e.g., Journal of Educational Psychology"
+        <label for="inputJournal">Journal Name (use title case, followed by a comma)</label>
+        <input type="text" id="inputJournal" placeholder="e.g., Journal of Educational Psychology,"
                oninput="updatePreview(); validateJournal()">
       </div>
       <div class="field-group">
@@ -555,14 +555,14 @@ function updatePreview() {
 
   // Title
   if (title) {
-    parts.push(escAttr(title) + '.');
+    parts.push(escAttr(title));
   } else {
     parts.push(gray('[Article title].'));
   }
 
   // Journal / Source
   let sourceStr = '';
-  if (journal)  sourceStr += '<em>' + escAttr(journal) + '</em>';
+  if (journal)  sourceStr += '<em>' + escAttr(journal.replace(/,\s*$/, '')) + '</em>';
   if (volume)   sourceStr += (journal ? ', ' : '') + '<em>' + escAttr(volume) + '</em>';
   if (issue)    sourceStr += '(' + escAttr(issue) + ')';
   if (articleNum) {
@@ -655,13 +655,13 @@ function validateTitle() {
     msgs.push({ type:'fail', text: 'The first word of the title should be capitalized.' });
   }
 
-  // Check: title should NOT end with a period (we add it)
-  if (title.endsWith('.')) {
-    msgs.push({ type:'warn', text: 'Remove the trailing period — the tool adds it automatically.' });
+  // Check: title MUST end with a period
+  if (!title.endsWith('.')) {
+    msgs.push({ type:'fail', text: 'The title must end with a period.' });
   }
 
   // Check sentence case: flag non-first words that are unexpectedly capitalized
-  const words = title.split(' ');
+  const words = title.replace(/\.\s*$/, '').split(' ');
   let suspiciousWords = [];
   words.forEach(function(w, i) {
     if (i === 0) return; // first word of title is always fine
@@ -680,9 +680,8 @@ function validateTitle() {
     });
   }
 
-  if (!msgs.length || (msgs.length === 1 && !msgs[0].text.includes('capitalize'))) {
-    const noEndPeriod = title.replace(/\.$/, '');
-    msgs.push({ type:'pass', text: '"' + escAttr(noEndPeriod.substring(0,60)) + (noEndPeriod.length>60?'…':'') + '." ✓' });
+  if (!msgs.some(function(m){ return m.type === 'fail'; }) && !msgs.some(function(m){ return m.text.includes('capitalize'); })) {
+    msgs.push({ type:'pass', text: '"' + escAttr(title.substring(0,63)) + (title.length>63?'\u2026':'') + ' \u2713' });
   }
 
   showMsgs('titleMsgs', msgs);
@@ -713,11 +712,17 @@ function validateJournal() {
     msgs.push({ type:'fail', text: 'Journal name is required.' }); ok=false;
     if (journalInput) journalInput.setAttribute('aria-invalid', 'true');
   } else {
-    if (journalInput) journalInput.setAttribute('aria-invalid', 'false');
-    msgs.push({ type:'pass', text: 'Journal: <em>' + escAttr(journal) + '</em> ✓ (will be italicized)' });
+    var journalBase = journal.replace(/,\s*$/, '');
+    if (!journal.trimEnd().endsWith(',')) {
+      msgs.push({ type:'fail', text: 'Journal name must end with a comma, e.g., <em>Journal of Educational Psychology,</em>' }); ok=false;
+      if (journalInput) journalInput.setAttribute('aria-invalid', 'true');
+    } else {
+      if (journalInput) journalInput.setAttribute('aria-invalid', 'false');
+      msgs.push({ type:'pass', text: 'Journal: <em>' + escAttr(journalBase) + ',</em> \u2713 (name italicized, comma not italicized)' });
+    }
     // Check title case: major words should be capitalized
     var minorWords = new Set(['a','an','the','and','but','or','nor','for','so','yet','at','by','in','of','on','to','up','as','vs','via']);
-    var journalWords = journal.split(/\s+/);
+    var journalWords = journalBase.split(/\s+/);
     var lowercaseMajor = [];
     journalWords.forEach(function(w, i) {
       if (!w) return;
@@ -871,8 +876,8 @@ function buildFinalReview() {
   let citHtml =
     authorStr + '. ' +
     '(' + escAttr(year) + '). ' +
-    escAttr(title) + '. ' +
-    '<em>' + escAttr(journal) + '</em>, ' +
+    escAttr(title) + ' ' +
+    '<em>' + escAttr(journal.replace(/,\s*$/, '')) + '</em>, ' +
     '<em>' + escAttr(volume) + '</em>' +
     '(' + escAttr(issue) + '), ' +
     escAttr(pageRange) + '.';
@@ -931,20 +936,23 @@ function buildFinalReview() {
     icon: firstCharOk ? '✅' : '⚠️',
     text: 'First word of the article title is capitalized (sentence case)'
   });
+  const titleHasPeriod = title.endsWith('.');
   checks.push({
-    pass: true,
-    icon: '✅',
-    text: 'Period at the end of the article title — added automatically'
+    pass: titleHasPeriod,
+    icon: titleHasPeriod ? '✅' : '⚠️',
+    text: 'Period at the end of the article title'
   });
 
   // Journal
+  const journalHasComma = journal.trimEnd().endsWith(',');
+  const journalBase = journal.replace(/,\s*$/, '');
   checks.push({
-    pass: !!journal,
-    icon: journal ? '✅' : '⚠️',
-    text: 'Journal name in italics, followed by a comma'
+    pass: journalHasComma,
+    icon: journalHasComma ? '✅' : '⚠️',
+    text: 'Journal name followed by a comma (comma is not italicized)'
   });
   var jMinorWords = new Set(['a','an','the','and','but','or','nor','for','so','yet','at','by','in','of','on','to','up','as','vs','via']);
-  var jWords = journal.split(/\s+/);
+  var jWords = journalBase.split(/\s+/);
   var jLowerMajor = [];
   jWords.forEach(function(w, i) {
     if (!w) return;
@@ -1055,8 +1063,8 @@ function copyCitation() {
     : pgStart + '\u2013' + pgEnd;
 
   // Clean non-breaking spaces from author string too
-  let plain = authorPlain.replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ') + '. (' + year + '). ' + title + '. ' +
-    journal + ', ' + volume + '(' + issue + '), ' +
+  let plain = authorPlain.replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ') + '. (' + year + '). ' + title + ' ' +
+    journal.replace(/,\s*$/, '') + ', ' + volume + '(' + issue + '), ' +
     pageRangePlain + '.';
   if (doi) plain += ' ' + doi;
 
