@@ -104,11 +104,69 @@ layout: home
     max-width: 120px;
   }
   }
+  .esils-banner {
+  background: linear-gradient(135deg, #857251 0%, #a8926a 100%);
+  border-left: 6px solid #c9913d;
+  box-shadow: 0 2px 10px rgba(133, 114, 81, 0.35);
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 22px;
+  text-decoration: none;
+}
+  .esils-banner:visited, .esils-banner:link {
+  color: white;
+  text-decoration: none;
+}
+  .esils-banner,
+  .esils-banner p,
+  .esils-banner .h1 {
+  color: white;
+  margin-bottom: 0;
+}
+  .esils-banner:hover {
+  text-decoration: none;
+}
+  .esils-banner:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 3px;
+}
+  .esils-banner img {
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+  max-width: 72px;
+  padding: 6px;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  flex-shrink: 0;
+}
+  .esils-banner-copy {
+  position: relative;
+  z-index: 1;
+}
+  .esils-banner-copy p + p {
+  margin-top: 4px;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+  @media (max-width: 575.98px) {
+  .esils-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .esils-banner img {
+    max-width: 100px;
+  }
+  }
 </style>
 <div class="container-fluid mt-1">
   <div class="row">
   <div class="col-sm-12 offset-sm-0 col-md-6 offset-md-3 col-lg-6 offset-lg-0 col-xl-5 text-center">
     <img src="/assets/img/logan2023.jpg" alt="Photo of Logan Rath" class="w-100" />
+    <p class="mt-2"><a href="/about/">Read my bio</a></p>
   </div>
   <div class="col-12 col-sm-12 col-lg-6 col-xl-7">
       <h2 class="mt-3">About Me</h2>
@@ -118,17 +176,6 @@ layout: home
         teacher-librarian collaboration. I'm also interested in multimodality and literacy 
         practices.
       </p>
-      <div class="col-12 row">
-        <div class="col-4 d-inline-block text-center">
-          <a href="/rath_cv_web.pdf" title="CV"><i class="fa fa-4x d-block fa-file-pdf"></i>Read my CV</a>
-        </div>
-        <div class="col-4 d-inline-block text-center">
-          <a href="/about/"><i class="fa fa-4x d-block fa-id-card"></i>Read my bio</a>
-        </div>
-        <div class="col-4 d-inline-block text-center">
-          <a href="/teaching/"><i class="fa fa-4x d-block fa-person-chalkboard"></i>My Classes</a>
-        </div>
-      </div>
       <a class="copali-summer mt-3" href="/copali2026" aria-label="COPALI Pedagogy Summer Community of Practice">
         <p class="h2">COPALI Pedagogy</p>
         <p>A Summer Community of Practice for Academic Librarians</p>
@@ -138,6 +185,13 @@ layout: home
         <div class="mtp-banner-copy">
           <p class="h2">Master Teacher Program</p>
           <p>Links to Resources Presented at SUNY Geneseo</p>
+        </div>
+      </a>
+      <a class="esils-banner mt-3" href="https://www.esils.org" aria-label="Empirical Studies in Libraries Summit (ESiLS)">
+        <img src="/assets/img/esils.png" alt="ESiLS logo">
+        <div class="esils-banner-copy">
+          <p class="h2">Empirical Studies in Libraries Summit</p>
+          <p>Showcasing and discussing the latest research in and about libraries</p>
         </div>
       </a>
   </div>
