@@ -457,7 +457,7 @@ code { color: #C02673; }
     <div class="checklist-grid" id="checklistGrid"></div>
 
     <div class="nav-btns">
-      <button class="btn-copy" onclick="copyCitation()">Copy Plain Text</button>
+      <button class="btn-copy" onclick="copyCitation()">Copy Citation</button>
       <button class="btn-prev" onclick="goPrev(5)">&larr; Edit</button>
       <button class="btn-restart" onclick="restart()">Start Over</button>
     </div>
@@ -1012,50 +1012,57 @@ function buildFinalReview() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// COPY PLAIN TEXT
+// COPY CITATION (RICH + PLAIN TEXT)
 // ─────────────────────────────────────────────────────────────
 function copyCitation() {
-  const ds   = buildDateStr();
-  const site = omitSiteName ? '' : cleanText(siteName);
-  const url  = cleanText(pageURL);
-  let retr = '';
-  if (needsRetrievalDate && retrievalMonth && retrievalDay && retrievalYear) {
-    retr = 'Retrieved ' + retrievalMonth + ' ' + retrievalDay + ', ' + retrievalYear + ', from ';
+  var citationEl = document.getElementById('finalCitation');
+  if (!citationEl) return;
+
+  var html = citationEl.innerHTML.trim();
+  var plain = (citationEl.textContent || '')
+    .replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  var done = function() {
+    var btn = document.querySelector('.btn-copy');
+    var orig = btn ? btn.textContent : '';
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = orig; }, 2000); }
+    var announce = document.getElementById('copyAnnounce');
+    if (announce) {
+      announce.textContent = 'Citation copied to clipboard with formatting.';
+      setTimeout(function(){ announce.textContent = ''; }, 3000);
+    }
+  };
+
+  var fallbackCopySelection = function() {
+    var sel = window.getSelection();
+    var range = document.createRange();
+    range.selectNodeContents(citationEl);
+    sel.removeAllRanges();
+    sel.addRange(range);
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch(e) {}
+    sel.removeAllRanges();
+    if (!ok && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(plain).then(done).catch(function(){});
+      return;
+    }
+    done();
+  };
+
+  if (navigator.clipboard && navigator.clipboard.write && window.ClipboardItem) {
+    var item = new ClipboardItem({
+      'text/html': new Blob([html], { type: 'text/html' }),
+      'text/plain': new Blob([plain], { type: 'text/plain' })
+    });
+    navigator.clipboard.write([item]).then(done).catch(function(){
+      fallbackCopySelection();
+    });
+    return;
   }
 
-  let plain;
-  if (authorType === 'none') {
-    plain = cleanText(pageTitle) + ' ' + ds + '.';
-    if (site) plain += ' ' + site + '.';
-    plain += ' ' + retr + url;
-  } else {
-    const authorStr = buildAuthorCitationPlain().replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ');
-    plain = authorStr + ' ' + ds + '. ' + cleanText(pageTitle);
-    if (site) plain += ' ' + site + '.';
-    plain += ' ' + retr + url;
-  }
-
-  const ta = document.createElement('textarea');
-  ta.value = plain.trim();
-  ta.setAttribute('readonly', '');
-  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
-  document.body.appendChild(ta);
-  ta.select();
-  let ok = false;
-  try { ok = document.execCommand('copy'); } catch(e) {}
-  document.body.removeChild(ta);
-  if (!ok && navigator.clipboard) {
-    navigator.clipboard.writeText(plain.trim()).catch(function(){});
-  }
-
-  const btn = document.querySelector('.btn-copy');
-  const orig = btn ? btn.textContent : '';
-  if (btn) { btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = orig; }, 2000); }
-  const announce = document.getElementById('copyAnnounce');
-  if (announce) {
-    announce.textContent = 'Citation copied to clipboard.';
-    setTimeout(function(){ announce.textContent = ''; }, 3000);
-  }
+  fallbackCopySelection();
 }
 
 // ─────────────────────────────────────────────────────────────

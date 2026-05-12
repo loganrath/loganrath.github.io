@@ -394,7 +394,7 @@ code { color: #C02673; }
     <div class="checklist-grid" id="checklistGrid"></div>
 
     <div class="nav-btns">
-      <button class="btn-copy" onclick="copyCitation()">Copy Plain Text</button>
+      <button class="btn-copy" onclick="copyCitation()">Copy Citation</button>
       <button class="btn-prev" onclick="goPrev(5)">&larr; Edit</button>
       <button class="btn-restart" onclick="restart()">Start Over</button>
     </div>
@@ -1043,60 +1043,57 @@ function buildFinalReview() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// COPY PLAIN TEXT
+// COPY CITATION (RICH + PLAIN TEXT)
 // ─────────────────────────────────────────────────────────────
 function copyCitation() {
-  // Strip non-breaking spaces and other lookalike whitespace from any field value
-  function clean(s) { return (s || '').replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ').trim(); }
+  var citationEl = document.getElementById('finalCitation');
+  if (!citationEl) return;
 
-  const authorPlain = buildAuthorPlain();
-  const year       = clean(getYear());
-  const title      = clean(getTitle()).replace(/\.$/, '');
-  const journal    = clean(getJournal());
-  const volume     = clean(getVolume());
-  const issue      = clean(getIssue());
-  const pgStart    = clean(getPageStart());
-  const pgEnd      = clean(getPageEnd());
-  const articleNum = clean(getArticleNum());
-  const doi        = clean(getDOI()).replace(/\.$/, '');
-  const fromDB     = isDatabase();
+  var html = citationEl.innerHTML.trim();
+  var plain = (citationEl.textContent || '')
+    .replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 
-  const pageRangePlain = articleNum
-    ? 'Article ' + articleNum
-    : pgStart + '\u2013' + pgEnd;
+  var done = function() {
+    var btn = document.querySelector('.btn-copy');
+    var orig = btn ? btn.textContent : '';
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = orig; }, 2000); }
+    var announce = document.getElementById('copyAnnounce');
+    if (announce) {
+      announce.textContent = 'Citation copied to clipboard with formatting.';
+      setTimeout(function(){ announce.textContent = ''; }, 3000);
+    }
+  };
 
-  // Clean non-breaking spaces from author string too
-  let plain = authorPlain.replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ') + ' (' + year + '). ' + title + ' ' +
-    journal.replace(/,\s*$/, '') + ', ' + volume + '(' + issue + '), ' +
-    pageRangePlain + '.';
-  if (doi) plain += ' ' + doi;
+  var fallbackCopySelection = function() {
+    var sel = window.getSelection();
+    var range = document.createRange();
+    range.selectNodeContents(citationEl);
+    sel.removeAllRanges();
+    sel.addRange(range);
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch(e) {}
+    sel.removeAllRanges();
+    if (!ok && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(plain).then(done).catch(function(){});
+      return;
+    }
+    done();
+  };
 
-  // Use a hidden textarea to force plain-text-only onto the clipboard.
-  // This prevents Word from seeing an HTML version and rendering entities literally.
-  var ta = document.createElement('textarea');
-  ta.value = plain;
-  ta.setAttribute('readonly', '');
-  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
-  document.body.appendChild(ta);
-  ta.select();
-  var ok = false;
-  try { ok = document.execCommand('copy'); } catch(e) {}
-  document.body.removeChild(ta);
-
-  if (!ok && navigator.clipboard) {
-    // Fallback: writeText also writes plain text, but some browsers may still
-    // add an HTML format. Better than nothing.
-    navigator.clipboard.writeText(plain).catch(function(){});
+  if (navigator.clipboard && navigator.clipboard.write && window.ClipboardItem) {
+    var item = new ClipboardItem({
+      'text/html': new Blob([html], { type: 'text/html' }),
+      'text/plain': new Blob([plain], { type: 'text/plain' })
+    });
+    navigator.clipboard.write([item]).then(done).catch(function(){
+      fallbackCopySelection();
+    });
+    return;
   }
 
-  var btn = document.querySelector('.btn-copy');
-  var orig = btn ? btn.textContent : '';
-  if (btn) { btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = orig; }, 2000); }
-  var announce = document.getElementById('copyAnnounce');
-  if (announce) {
-    announce.textContent = 'Citation copied to clipboard.';
-    setTimeout(function(){ announce.textContent = ''; }, 3000);
-  }
+  fallbackCopySelection();
 }
 
 // ─────────────────────────────────────────────────────────────
