@@ -5,9 +5,12 @@ layout: home
 <style>
   .copali-summer {
 	background: linear-gradient(45deg, #FF6B6B 0%, #FFD93D 50%, #0F766E 100%);
-	display: block;
-	padding: 16px 4px;
-	text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 18px 22px;
+  text-align: left;
 	position: relative;
 	overflow: hidden;
 	box-shadow: 0 2px 8px rgba(3, 105, 161, 0.3);
@@ -28,16 +31,6 @@ layout: home
 	outline: 3px solid rgba(255, 255, 255, 0.8);
 	outline-offset: 3px;
   }
-  .copali-summer::before {
-	content: '';
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	height: 60px;
-	background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 60"><defs><pattern id="wave" x="0" y="0" width="120" height="60" patternUnits="userSpaceOnUse"><path d="M0,30 Q30,10 60,30 T120,30" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/></pattern></defs><rect width="1200" height="60" fill="url(%23wave)"/></svg>') no-repeat bottom;
-	background-size: contain;
-}
   .mtp-banner {
   background: linear-gradient(135deg, #003b70 0%, #005792 55%, #eab63f 100%);
   border-left: 6px solid #f4d27a;
