@@ -594,6 +594,10 @@ function escAttr(s) {
   return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+function cleanText(s) {
+  return (s || '').replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ').trim();
+}
+
 function buildAuthorHTML() {
   const valid = authors.filter(function(a){ return a.last || a.initials; });
   if (!valid.length) return '';
@@ -608,6 +612,18 @@ function buildAuthorPlain() {
   if (valid.length === 1) return valid[0].last + ', ' + valid[0].initials;
   const parts = valid.map(function(a){ return a.last + ', ' + a.initials; });
   return parts.slice(0, -1).join(', ') + ', & ' + parts[parts.length - 1];
+}
+
+function buildAuthorCitationHTML() {
+  if (authorType === 'individual') return buildAuthorHTML();
+  if (authorType === 'group' && groupAuthor) return escAttr(groupAuthor.replace(/[.,\s]+$/, '')) + '.';
+  return '';
+}
+
+function buildAuthorCitationPlain() {
+  if (authorType === 'individual') return buildAuthorPlain();
+  if (authorType === 'group' && groupAuthor) return cleanText(groupAuthor).replace(/[.,\s]+$/, '') + '.';
+  return '';
 }
 
 function buildDateStr() {
@@ -648,13 +664,8 @@ function updatePreview() {
     }
     parts.push(urlPart);
   } else {
-    let authorHTML = '';
-    if (authorType === 'individual') {
-      authorHTML = buildAuthorHTML();
-    } else {
-      authorHTML = groupAuthor ? escAttr(groupAuthor.replace(/[.,\s]+$/, '')) : '';
-    }
-    parts.push(authorHTML ? (authorHTML + '.') : gray('[Author(s)].'));
+    const authorHTML = buildAuthorCitationHTML();
+    parts.push(authorHTML || gray('[Author(s)].'));
     parts.push(ds ? (escAttr(ds) + '.') : gray('(Year).'));
     parts.push(titlePart);
     if (!omitSiteName) {
@@ -912,10 +923,7 @@ function buildFinalReview() {
     if (!omitSiteName && siteName) citParts.push(escAttr(siteName) + '.');
     citParts.push(retrStr + urlLink);
   } else {
-    const authHTML = authorType === 'individual'
-      ? buildAuthorHTML()
-      : escAttr(groupAuthor.replace(/[.,\s]+$/, ''));
-    citParts.push(authHTML + '.');
+    citParts.push(buildAuthorCitationHTML() || '[Author(s)].');
     citParts.push(escAttr(ds) + '.');
     citParts.push('<em>' + escAttr(pageTitle) + '</em>');
     if (!omitSiteName && siteName) citParts.push(escAttr(siteName) + '.');
@@ -1007,11 +1015,9 @@ function buildFinalReview() {
 // COPY PLAIN TEXT
 // ─────────────────────────────────────────────────────────────
 function copyCitation() {
-  function clean(s) { return (s || '').replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ').trim(); }
-
   const ds   = buildDateStr();
-  const site = omitSiteName ? '' : clean(siteName);
-  const url  = clean(pageURL);
+  const site = omitSiteName ? '' : cleanText(siteName);
+  const url  = cleanText(pageURL);
   let retr = '';
   if (needsRetrievalDate && retrievalMonth && retrievalDay && retrievalYear) {
     retr = 'Retrieved ' + retrievalMonth + ' ' + retrievalDay + ', ' + retrievalYear + ', from ';
@@ -1019,17 +1025,12 @@ function copyCitation() {
 
   let plain;
   if (authorType === 'none') {
-    plain = clean(pageTitle) + ' ' + ds + '.';
+    plain = cleanText(pageTitle) + ' ' + ds + '.';
     if (site) plain += ' ' + site + '.';
     plain += ' ' + retr + url;
   } else {
-    let authorStr = '';
-    if (authorType === 'individual') {
-      authorStr = buildAuthorPlain().replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ');
-    } else {
-      authorStr = clean(groupAuthor).replace(/[.,\s]+$/, '');
-    }
-    plain = authorStr + '. ' + ds + '. ' + clean(pageTitle);
+    const authorStr = buildAuthorCitationPlain().replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ');
+    plain = authorStr + ' ' + ds + '. ' + cleanText(pageTitle);
     if (site) plain += ' ' + site + '.';
     plain += ' ' + retr + url;
   }

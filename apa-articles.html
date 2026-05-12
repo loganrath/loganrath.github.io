@@ -544,7 +544,7 @@ function updatePreview() {
 
   // Authors
   if (authorStr) {
-    parts.push(authorStr + '.');
+    parts.push(authorStr);
   } else {
     parts.push(gray('[Authors].'));
   }
@@ -877,7 +877,7 @@ function buildFinalReview() {
     : (pgStart && pgEnd ? pgStart + '&#8211;' + pgEnd : (pgStart || pgEnd));
 
   let citHtml =
-    authorStr + '. ' +
+    authorStr + ' ' +
     '(' + escAttr(year) + '). ' +
     escAttr(title) + ' ' +
     '<em>' + escAttr(journal.replace(/,\s*$/, '')) + '</em>, ' +
@@ -1066,7 +1066,7 @@ function copyCitation() {
     : pgStart + '\u2013' + pgEnd;
 
   // Clean non-breaking spaces from author string too
-  let plain = authorPlain.replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ') + '. (' + year + '). ' + title + ' ' +
+  let plain = authorPlain.replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ') + ' (' + year + '). ' + title + ' ' +
     journal.replace(/,\s*$/, '') + ', ' + volume + '(' + issue + '), ' +
     pageRangePlain + '.';
   if (doi) plain += ' ' + doi;
