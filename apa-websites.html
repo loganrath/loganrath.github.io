@@ -161,7 +161,7 @@ code { color: #C02673; }
 </div>
 
 <!-- LIVE PREVIEW (always visible) -->
-<div class="preview-wrap" aria-label="Citation preview">
+<div class="preview-wrap" id="previewWrap" aria-label="Citation preview">
   <div class="preview-label" id="previewLabel">Your citation so far</div>
   <div class="preview-text" id="livePreview" aria-live="polite" aria-atomic="true" aria-labelledby="previewLabel"><span class="seg-gray">Your citation will appear here as you complete each step.</span></div>
 </div>
@@ -900,8 +900,21 @@ function showStep(n) {
     }
   }
   document.getElementById('step' + n).classList.add('visible');
+  movePreviewToStep(n);
   currentStep = n;
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function movePreviewToStep(n) {
+  var preview = document.getElementById('previewWrap');
+  var stepPanel = document.getElementById('step' + n);
+  if (!preview || !stepPanel) return;
+  var nav = stepPanel.querySelector('.nav-btns');
+  if (nav) {
+    stepPanel.insertBefore(preview, nav);
+  } else {
+    stepPanel.appendChild(preview);
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -1018,9 +1031,10 @@ function copyCitation() {
   var citationEl = document.getElementById('finalCitation');
   if (!citationEl) return;
 
-  var html = citationEl.innerHTML.trim();
+  var html = citationEl.innerHTML.trim().replace(/&#8211;|&ndash;|\u2013/g, '-');
   var plain = (citationEl.textContent || '')
     .replace(/[\u00a0\u202f\u2007\u2060\ufeff]/g, ' ')
+    .replace(/\u2013/g, '-')
     .replace(/\s+/g, ' ')
     .trim();
 
@@ -1126,4 +1140,5 @@ function restart() {
 // ─────────────────────────────────────────────────────────────
 renderAuthors();
 updatePreview();
+movePreviewToStep(0);
 </script>
