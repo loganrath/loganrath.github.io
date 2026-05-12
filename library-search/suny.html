@@ -499,11 +499,43 @@ layout: tool
   // Update this list to change campus names, search tool names, default discovery URLs, and button colors.
   const campusConfigs = [
     {
+      id: 'adirondack',
+      campusName: 'SUNY Adirondack',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-adi.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_ADI%3A01SUNY_ADI&lang=en',
+      buttonColor: '#0E5E2E',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
       id: 'albany',
       campusName: 'University at Albany',
-      searchName: 'Library Search',
-      defaultSearchUrl: 'https://search.library.albany.edu/discovery/search?vid=01SUNY_ALB%3A01SUNY_ALB&lang=en',
+      searchName: 'Search Everything',
+      defaultSearchUrl: 'https://suny-alb.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_ALB%3A01SUNY_ALB&lang=en',
       buttonColor: '#46166B',
+      buttonTextColor: '#EEB211'
+    },
+    {
+      id: 'alfredstate',
+      campusName: 'Alfred State College',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-alf.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_ALF%3A01SUNY_ALF&lang=en',
+      buttonColor: '#003C68',
+      buttonTextColor: '#FFC72C'
+    },
+    {
+      id: 'alfreduniversity',
+      campusName: 'Alfred University',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-aua.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_AUA%3A01SUNY_AUA&lang=en',
+      buttonColor: '#3C1361',
+      buttonTextColor: '#FFD200'
+    },
+    {
+      id: 'binghamton',
+      campusName: 'Binghamton University',
+      searchName: 'Find It!',
+      defaultSearchUrl: 'https://suny-bin.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BIN%3A01SUNY_BIN&lang=en',
+      buttonColor: '#005A43',
       buttonTextColor: '#FFFFFF'
     },
     {
@@ -515,59 +547,435 @@ layout: tool
       buttonTextColor: '#FFC726'
     },
     {
+      id: 'downstate',
+      campusName: 'SUNY Downstate Health Sciences University',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-brh.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BRH%3A01SUNY_BRH&lang=en',
+      buttonColor: '#003DA5',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'broome',
+      campusName: 'SUNY Broome',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-bcc.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BCC%3A01SUNY_BCC&lang=en',
+      buttonColor: '#006341',
+      buttonTextColor: '#FFC72C'
+    },
+    {
+      id: 'buffalostate',
+      campusName: 'Buffalo State University',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-bsc.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_BSC%3A01SUNY_BSC&lang=en',
+      buttonColor: '#FF6900',
+      buttonTextColor: '#000000'
+    },
+    {
       id: 'buffalo',
       campusName: 'University at Buffalo',
-      searchName: 'Library Search',
-      defaultSearchUrl: 'https://search.lib.buffalo.edu/discovery/search?vid=01SUNY_BUF%3Aeverything&tab=EverythingUBSUNY&search_scope=UBSUNY&query=any%2Ccontains%2C&pcAvailabilty=true',
+      searchName: 'OneSearch',
+      defaultSearchUrl: 'https://search.lib.buffalo.edu/discovery/search?vid=01SUNY_BUF%3Aeverything&lang=en',
       buttonColor: '#005BBB',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'canton',
+      campusName: 'SUNY Canton',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-can.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_CAN%3A01SUNY_CAN&lang=en',
+      buttonColor: '#006A4D',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'cayuga',
+      campusName: 'Cayuga',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-cay.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_CAY%3A01SUNY_CAY&lang=en',
+      buttonColor: '#8C0000',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'clinton',
+      campusName: 'Clinton',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-pla.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_PLA%3AClinton&lang=en',
+      buttonColor: '#00204E',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'cobleskill',
+      campusName: 'SUNY Cobleskill',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-cob.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_COB%3A01SUNY_COB&lang=en',
+      buttonColor: '#F3611B',
+      buttonTextColor: '#231F20'
+    },
+    {
+      id: 'columbiagreene',
+      campusName: 'Columbia-Greene',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-col.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_COL%3A01SUNY_COL&lang=en',
+      buttonColor: '#2b5970',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'corning',
+      campusName: 'Corning',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-cng.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_CNG%3A01SUNY_CNG&lang=en',
+      buttonColor: '#cb2026',
       buttonTextColor: '#FFFFFF'
     },
     {
       id: 'cortland',
       campusName: 'SUNY Cortland',
-      searchName: 'One Search',
+      searchName: 'Library Search',
       defaultSearchUrl: 'https://suny-cor.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_COR%3A01SUNY_COR&lang=en',
-      buttonColor: '#8a2a2b',
+      buttonColor: '#B00B00',
       buttonTextColor: '#FFFFFF'
     },
     {
       id: 'delhi',
       campusName: 'SUNY Delhi',
-      searchName: 'Milo',
-      defaultSearchUrl: 'https://suny-del.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_DEL:01SUNY_DEL&tab=Everything&search_scope=MyInst_and_CI&mode=Basic&query=&scopeSelecter=LibraryCatalog&pcAvailabiltyMode=true',
-      buttonColor: '#0d280b',
+      searchName: 'MILO',
+      defaultSearchUrl: 'https://suny-del.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_DEL%3A01SUNY_DEL&lang=en',
+      buttonColor: '#024712',
       buttonTextColor: '#FFFFFF'
     },
     {
-      id: 'empire',
-      campusName: 'SUNY Empire State University',
+      id: 'dutchess',
+      campusName: 'Dutchess',
+      searchName: 'RitzDiscovery',
+      defaultSearchUrl: 'https://suny-dut.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_DUT%3A01SUNY_DUT&lang=en',
+      buttonColor: '#00395d',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'empirestate',
+      campusName: 'SUNY Empire',
       searchName: 'OneSearch',
       defaultSearchUrl: 'https://onesearch.sunyempire.edu/discovery/search?vid=01SUNY_ESC%3A01SUNY_ESC&lang=en',
-      buttonColor: '#FF9800',
-      buttonTextColor: '#16366F'
+      buttonColor: '#F2A900',
+      buttonTextColor: '#000000'
+    },
+    {
+      id: 'erie',
+      campusName: 'Erie',
+      searchName: 'Primo Library Search',
+      defaultSearchUrl: 'https://suny-eri.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_ERI%3A01SUNY_ERI&lang=en',
+      buttonColor: '#ac1a2f',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'esf',
+      campusName: 'College of Environmental Science & Forestry',
+      searchName: 'Moon Library Discovery',
+      defaultSearchUrl: 'https://suny-esf.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_ESF%3A01SUNY_ESF&lang=en',
+      buttonColor: '#006e3f',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'farmingdale',
+      campusName: 'Farmingdale State College',
+      searchName: 'Library Catalog',
+      defaultSearchUrl: 'https://suny-far.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_FAR%3A01SUNY_FAR&lang=en',
+      buttonColor: '#006f71',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'fit',
+      campusName: 'Fashion Institute of Technology',
+      searchName: 'OneSearch',
+      defaultSearchUrl: 'https://onesearch.fitnyc.edu/discovery/search?vid=01SUNY_FIT%3A01SUNY_FIT&lang=en',
+      buttonColor: '#0f6bac',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'fingerlakes',
+      campusName: 'Finger Lakes',
+      searchName: 'Everything',
+      defaultSearchUrl: 'https://suny-fin.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_FIN%3A01SUNY_FIN&lang=en',
+      buttonColor: '#478316',
+      buttonTextColor: '#FFFFFF'
     },
     {
       id: 'fredonia',
       campusName: 'SUNY Fredonia',
       searchName: 'ReedSearch',
       defaultSearchUrl: 'https://suny-fre.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_FRE%3A01SUNY_FRE&lang=en',
-      buttonColor: '#0033A0',
+      buttonColor: '#0038a8',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'fultonmontgomery',
+      campusName: 'Fulton-Montgomery',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-ful.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_FUL%3A01SUNY_FUL&lang=en',
+      buttonColor: '#0d1c45',
+      buttonTextColor: '#FFC72C'
+    },
+    {
+      id: 'genesee',
+      campusName: 'Genesee',
+      searchName: 'Library Resources',
+      defaultSearchUrl: 'https://suny-gcc.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_GCC%3A01SUNY_GCC&lang=en',
+      buttonColor: '#0d4471',
       buttonTextColor: '#FFFFFF'
     },
     {
       id: 'geneseo',
       campusName: 'SUNY Geneseo',
-      searchName: 'Glocat',
-      defaultSearchUrl: 'https://glocat.geneseo.edu/discovery/search?vid=01SUNY_GEN%3A01SUNY_GEN&lang=en',
+      searchName: 'GLOCAT',
+      defaultSearchUrl: 'https://suny-gen.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_GEN%3A01SUNY_GEN&lang=en',
       buttonColor: '#345290',
       buttonTextColor: '#FFFFFF'
     },
-     {
+    {
+      id: 'herkimer',
+      campusName: 'Herkimer',
+      searchName: 'Everything',
+      defaultSearchUrl: 'https://suny-her.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_HER%3A01SUNY_HER&lang=en',
+      buttonColor: '#957013',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'hvcc',
+      campusName: 'Hudson Valley',
+      searchName: 'One Search',
+      defaultSearchUrl: 'https://suny-hvc.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_HVC%3A01SUNY_HVC&lang=en',
+      buttonColor: '#007b20',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'sunypoly',
+      campusName: 'SUNY Poly',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-ins.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_INS%3A01SUNY_INS&lang=en',
+      buttonColor: '#003DA5',
+      buttonTextColor: '#FFC72C'
+    },
+    {
+      id: 'jamestown',
+      campusName: 'Jamestown',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-jam.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_JAM%3A01SUNY_JAM&lang=en',
+      buttonColor: '#A6192E',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'jefferson',
+      campusName: 'Jefferson',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-jef.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_JEF%3A01SUNY_JEF&lang=en',
+      buttonColor: '#003594',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'maritime',
+      campusName: 'Maritime College',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-mar.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_MAR%3A01SUNY_MAR&lang=en',
+      buttonColor: '#003478',
+      buttonTextColor: '#FFC72C'
+    },
+    {
+      id: 'mohawkvalley',
+      campusName: 'Mohawk Valley',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-mvc.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_MVC%3A01SUNY_MVC&lang=en',
+      buttonColor: '#005A8B',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
       id: 'monroe',
-      campusName: 'Monroe Community College',
-      searchName: 'OneSearch',
+      campusName: 'Monroe',
+      searchName: 'Library Search',
       defaultSearchUrl: 'https://suny-mon.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_MON%3A01SUNY_MON&lang=en',
+      buttonColor: '#9C1B30',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'morrisville',
+      campusName: 'Morrisville State University',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-mor.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_MOR%3A01SUNY_MOR&lang=en',
+      buttonColor: '#005028',
+      buttonTextColor: '#FFC72C'
+    },
+    {
+      id: 'nassau',
+      campusName: 'Nassau',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-nas.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_NAS%3A01SUNY_NAS&lang=en',
+      buttonColor: '#C8102E',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'newpaltz',
+      campusName: 'SUNY New Paltz',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-new.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_NEW%3A01SUNY_NEW&lang=en',
+      buttonColor: '#F1592A',
+      buttonTextColor: '#003594'
+    },
+    {
+      id: 'niagara',
+      campusName: 'Niagara',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-nia.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_NIA%3A01SUNY_NIA&lang=en',
       buttonColor: '#000000',
+      buttonTextColor: '#FF8200'
+    },
+    {
+      id: 'northcountry',
+      campusName: 'North Country',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-nor.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_NOR%3A01SUNY_NOR&lang=en',
+      buttonColor: '#006747',
+      buttonTextColor: '#FFC72C'
+    },
+    {
+      id: 'oldwestbury',
+      campusName: 'SUNY Old Westbury',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-old.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_OLD%3A01SUNY_OLD&lang=en',
+      buttonColor: '#006633',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'oneonta',
+      campusName: 'SUNY Oneonta',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-one.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_ONE%3A01SUNY_ONE&lang=en',
+      buttonColor: '#C8102E',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'onondaga',
+      campusName: 'Onondaga',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-ono.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_ONO%3A01SUNY_ONO&lang=en',
+      buttonColor: '#A6192E',
+      buttonTextColor: '#B7B9BC'
+    },
+    {
+      id: 'optometry',
+      campusName: 'College of Optometry',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-opt.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_OPT%3A01SUNY_OPT&lang=en',
+      buttonColor: '#005BBB',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'orange',
+      campusName: 'Orange',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-orn.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_ORN%3A01SUNY_ORN&lang=en',
+      buttonColor: '#004225',
+      buttonTextColor: '#FF8200'
+    },
+    {
+      id: 'oswego',
+      campusName: 'SUNY Oswego',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-osw.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_OSW%3A01SUNY_OSW&lang=en',
+      buttonColor: '#006633',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'plattsburgh',
+      campusName: 'SUNY Plattsburgh',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-pla.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_PLA%3A01SUNY_PLA&lang=en',
+      buttonColor: '#C8102E',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'potsdam',
+      campusName: 'SUNY Potsdam',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-pot.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_POT%3A01SUNY_POT&lang=en',
+      buttonColor: '#820000',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'purchase',
+      campusName: 'Purchase College',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-pur.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_PUR%3A01SUNY_PUR&lang=en',
+      buttonColor: '#582C83',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'rockland',
+      campusName: 'Rockland',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-rcc.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_RCC%3A01SUNY_RCC&lang=en',
+      buttonColor: '#003594',
+      buttonTextColor: '#FFC72C'
+    },
+    {
+      id: 'schenectady',
+      campusName: 'Schenectady',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-sch.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_SCH%3A01SUNY_SCH&lang=en',
+      buttonColor: '#003594',
+      buttonTextColor: '#FFC72C'
+    },
+    {
+      id: 'stonybrook',
+      campusName: 'Stony Brook University',
+      searchName: 'SEARCH',
+      defaultSearchUrl: 'https://suny-stb.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_STB%3A01SUNY_STB&lang=en',
+      buttonColor: '#990000',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'suffolk',
+      campusName: 'Suffolk',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-suf.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_SUF%3A01SUNY_SUF&lang=en',
+      buttonColor: '#003594',
+      buttonTextColor: '#FFC72C'
+    },
+    {
+      id: 'sullivan',
+      campusName: 'Sullivan',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-sul.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_SUL%3A01SUNY_SUL&lang=en',
+      buttonColor: '#003594',
+      buttonTextColor: '#FFC72C'
+    },
+    {
+      id: 'tompkinscortland',
+      campusName: 'Tompkins Cortland',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-tcc.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_TCC%3A01SUNY_TCC&lang=en',
+      buttonColor: '#1A5638',
+      buttonTextColor: '#FFFFFF'
+    },
+    {
+      id: 'ulster',
+      campusName: 'SUNY Ulster',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-uls.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_ULS%3A01SUNY_ULS&lang=en',
+      buttonColor: '#003594',
+      buttonTextColor: '#FFC72C'
+    },
+    {
+      id: 'upstate',
+      campusName: 'Upstate Medical University',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-ups.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_UPS%3A01SUNY_UPS&lang=en',
+      buttonColor: '#F47C20',
+      buttonTextColor: '#003DA5'
+    },
+    {
+      id: 'westchester',
+      campusName: 'Westchester',
+      searchName: 'Library Search',
+      defaultSearchUrl: 'https://suny-wes.primo.exlibrisgroup.com/discovery/search?vid=01SUNY_WES%3A01SUNY_WES&lang=en',
+      buttonColor: '#003B71',
       buttonTextColor: '#FFFFFF'
     },
   ];
