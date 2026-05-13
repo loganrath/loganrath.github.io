@@ -861,7 +861,7 @@ function movePreviewToStep(n) {
   if (!preview || !stepPanel) return;
   var nav = stepPanel.querySelector('.nav-btns');
   if (nav) {
-    stepPanel.insertBefore(preview, nav);
+    nav.parentNode.insertBefore(preview, nav);
   } else {
     stepPanel.appendChild(preview);
   }
