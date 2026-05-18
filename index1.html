@@ -1,0 +1,387 @@
+---
+title: "Logan Rath, PhD"
+layout: home
+---
+<style>
+  /* ── Profile ── */
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.5rem 0 1rem;
+  }
+  .profile-img-wrap {
+    flex-shrink: 0;
+  }
+  .profile-img-wrap img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #e5e7eb;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  }
+  .profile-bio {
+    font-size: 1rem;
+    color: #374151;
+    line-height: 1.6;
+  }
+  .profile-bio a {
+    color: #0369a1;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .profile-bio a:hover { text-decoration: underline; }
+  @media (max-width: 575.98px) {
+    .profile-section {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  /* ── Section headers ── */
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin: 2rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: #e5e7eb;
+    border-radius: 2px;
+  }
+
+  /* ── Event cards ── */
+  .event-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .event-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    border-radius: 14px;
+    padding: 1.1rem 1.4rem;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .event-card:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+  .event-card:focus-visible {
+    outline: 3px solid rgba(255,255,255,0.8);
+    outline-offset: 3px;
+  }
+  .event-card-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(4px);
+  }
+  .event-card-img {
+    background: rgba(255,255,255,0.94);
+    border-radius: 10px;
+    padding: 6px;
+    max-width: 72px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    flex-shrink: 0;
+  }
+  .event-card-body { flex: 1; }
+  .event-card-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 2px;
+  }
+  .event-card-sub {
+    font-size: 0.9rem;
+    opacity: 0.88;
+    margin: 0;
+  }
+  /* card colour themes */
+  .ec-copali {
+    background: linear-gradient(120deg, #FF6B6B 0%, #FFD93D 55%, #0F766E 100%);
+    color: #1a1a1a;
+    box-shadow: 0 4px 16px rgba(255,107,107,0.3);
+  }
+  .ec-copali:visited, .ec-copali:link { color: #1a1a1a; }
+  .ec-mtp {
+    background: linear-gradient(135deg, #003b70 0%, #005792 60%, #eab63f 100%);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0,59,112,0.3);
+  }
+  .ec-mtp:visited, .ec-mtp:link { color: #fff; }
+  .ec-esils {
+    background: linear-gradient(135deg, #7c5c2e 0%, #b88a4a 100%);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(133,114,81,0.35);
+  }
+  .ec-esils:visited, .ec-esils:link { color: #fff; }
+  @media (max-width: 575.98px) {
+    .event-card { flex-direction: column; text-align: center; }
+  }
+
+  /* ── Tool grid ── */
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+  }
+  .tool-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    text-decoration: none;
+    color: #1e293b;
+    font-weight: 500;
+    font-size: 0.93rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    transition: background 0.12s, box-shadow 0.12s, transform 0.12s;
+    line-height: 1.35;
+  }
+  .tool-card:hover {
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+    transform: translateY(-1px);
+    text-decoration: none;
+    color: #0369a1;
+  }
+  .tool-card .tc-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* ── OER books ── */
+  .oer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+  @media (max-width: 575.98px) { .oer-grid { grid-template-columns: 1fr; } }
+  .oer-card {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    text-decoration: none;
+    color: #1e293b;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.15s, transform 0.15s;
+    background: #fff;
+  }
+  .oer-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+    transform: translateY(-3px);
+    text-decoration: none;
+  }
+  .oer-card img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: top;
+  }
+  .oer-card-caption {
+    padding: 0.75rem 1rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #374151;
+    line-height: 1.4;
+    background: #f8fafc;
+    border-top: 1px solid #e5e7eb;
+    flex: 1;
+  }
+
+  /* ── Research chips ── */
+  .research-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .research-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    background: linear-gradient(90deg, #f0f9ff, #f8fafc);
+    border-left: 4px solid #0ea5e9;
+    border-radius: 0 10px 10px 0;
+    padding: 0.65rem 1rem;
+    font-size: 0.94rem;
+    color: #1e293b;
+    line-height: 1.45;
+  }
+  .research-item::before {
+    content: '🔬';
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* ── Misc tools ── */
+  .misc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.65rem;
+  }
+  .misc-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9rem;
+    color: #334155;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.12s, box-shadow 0.12s;
+  }
+  .misc-card:hover {
+    background: #fff;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    color: #0369a1;
+    text-decoration: none;
+  }
+  .switcher-group {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9rem;
+    color: #334155;
+  }
+  .switcher-group a {
+    color: #0369a1;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .switcher-group a:hover { text-decoration: underline; }
+  .switcher-label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .sep { color: #9ca3af; margin: 0 0.25rem; }
+</style>
+
+<div class="container-fluid px-3 pb-4">
+
+  <!-- Profile -->
+  <div class="profile-section">
+    <div class="profile-img-wrap">
+      <img src="/assets/img/logan2023.jpg" alt="Photo of Logan Rath" />
+    </div>
+    <p class="profile-bio mb-0">
+      I'm a librarian and adjunct professor. My research areas are information literacy, effective library instruction, and teacher-librarian collaboration.
+      <a href="/about/">Read my full bio.</a>
+    </p>
+  </div>
+
+  <!-- Featured Events -->
+  <p class="section-title">Featured</p>
+  <div class="event-cards">
+    <a class="event-card ec-copali" href="/copali2026" aria-label="COPALI Pedagogy Summer Community of Practice">
+      <div class="event-card-icon">🌞</div>
+      <div class="event-card-body">
+        <p class="event-card-title">COPALI Pedagogy</p>
+        <p class="event-card-sub">A Summer Community of Practice for Academic Librarians</p>
+      </div>
+    </a>
+    <a class="event-card ec-mtp" href="/mtp" aria-label="Master Teacher Program resources presented at SUNY Geneseo">
+      <img class="event-card-img" src="https://www.suny.edu/media/suny/content-assets/images/education/Master-Teacher-Program-logo.jpg" alt="Master Teacher Program Logo">
+      <div class="event-card-body">
+        <p class="event-card-title">Master Teacher Program</p>
+        <p class="event-card-sub">Links to Resources Presented at SUNY Geneseo</p>
+      </div>
+    </a>
+    <a class="event-card ec-esils" href="https://www.esils.org" aria-label="Empirical Studies in Libraries Summit (ESiLS)">
+      <img class="event-card-img" src="/assets/img/esils.png" alt="ESiLS logo">
+      <div class="event-card-body">
+        <p class="event-card-title">Empirical Studies in Libraries Summit</p>
+        <p class="event-card-sub">Showcasing and discussing the latest research in and about libraries</p>
+      </div>
+    </a>
+  </div>
+
+  <div class="row mt-2">
+
+    <!-- Left column: Tools -->
+    <div class="col-12 col-md-5">
+
+      <p class="section-title">✨ Interactive Worksheets</p>
+      <div class="tool-grid">
+        <a class="tool-card" href="/pico/"><span class="tc-icon">🔍</span>Dr. Rath's PICO Search Tool</a>
+        <a class="tool-card" href="/keywords/"><span class="tc-icon">🔑</span>Dr. Rath's Search Term Generator</a>
+        <a class="tool-card" href="/apa-articles/"><span class="tc-icon">📄</span>APA 7th: Articles</a>
+        <a class="tool-card" href="/apa-websites/"><span class="tc-icon">🌐</span>APA 7th: Websites</a>
+      </div>
+
+      <p class="section-title">🤖 Prompt Engineering</p>
+      <div class="tool-grid">
+        <a class="tool-card" href="/crisp"><span class="tc-icon">💡</span>CRISP Prompt Builder for Generative AI</a>
+        <a class="tool-card" href="/multimodal-big6"><span class="tc-icon">🎨</span>Multimodal Big 6: AI Activity Ideas for Literacy K–12</a>
+        <a class="tool-card" href="/disciplinary-literacy-with-ai"><span class="tc-icon">📚</span>AI-Powered Disciplinary Literacy for K–12</a>
+        <a class="tool-card" href="/ai-quests"><span class="tc-icon">🗺️</span>Quest Planner: AI-Powered Quest Types for K–12</a>
+      </div>
+
+    </div>
+
+    <!-- Right column: OERs -->
+    <div class="col-12 col-md-7">
+
+      <p class="section-title">📖 My OERs</p>
+      <div class="oer-grid">
+        <a class="oer-card" href="https://copali.pressbooks.suny.edu">
+          <img src="https://copali.pressbooks.sunycreate.cloud/wp-content/uploads/sites/175/2025/05/COPALI-cover-768x960.jpg" alt="COPALI OER book cover">
+          <div class="oer-card-caption">Communities of Practice for the Advancement of Library Instruction: An OER Curriculum</div>
+        </a>
+        <a class="oer-card" href="https://big6literacy.pressbooks.sunycreate.cloud">
+          <img src="https://big6literacy.pressbooks.sunycreate.cloud/wp-content/uploads/sites/154/2025/01/Big-6-Handbook-Literacy-Activities-768x1024.jpg" alt="Book Cover for Big 6 Handbook">
+          <div class="oer-card-caption">Big 6 Handbook: Activities to Support Literacy in New York State</div>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Research -->
+  <p class="section-title">Current Research Projects</p>
+  <div class="research-list">
+    <div class="research-item">Perceptions of Generative Artificial Intelligence Among Pre-Service Teachers</div>
+    <div class="research-item">Academic Librarians' Use of the Knowledge Practices and Dispositions in the ACRL <em>Framework for Information Literacy in Higher Education</em></div>
+    <div class="research-item">Longitudinal Study of Undergraduate Students' Library Use</div>
+  </div>
+
+  <!-- Other Tools -->
+  <p class="section-title">Other Tools &amp; Projects</p>
+  <div class="misc-grid">
+    <a class="misc-card" href="/qr">🔲 QR Code Generator</a>
+    <a class="misc-card" href="/kaltura">🎬 Kaltura Link Generator</a>
+    <a class="misc-card" href="/ebsco/">🔗 EBSCO New UI Permalink Generator</a>
+    <a class="misc-card" href="/xlh/">📁 XLH Research Links</a>
+    <div class="switcher-group">
+      <span class="switcher-label">🔄 SUNY Primo Switcher</span>
+      <a href="bpt2alb/">Brockport↔Albany</a><span class="sep">|</span><a href="bpt2buf/">Brockport↔Buffalo</a><span class="sep">|</span><a href="bpt2esc/">Brockport↔Empire</a>
+    </div>
+  </div>
+
+</div>
