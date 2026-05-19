@@ -461,6 +461,11 @@ code { color: #C02673; }
       <button class="btn-prev" onclick="goPrev(5)">&larr; Edit</button>
       <button class="btn-restart" onclick="restart()">Start Over</button>
     </div>
+
+    <hr style="margin:20px 0; border-color:#e2e8f0;">
+    <h2 style="font-size:1.15rem; color:#1e3a5f; margin-bottom:6px;">Provide Feedback on This Tool</h2>
+    <p style="font-size:15px; color:#374151; margin-bottom:6px;">You are being asked to provide some brief, anonymous feedback on your use of this tool. There is no way to connect your responses to you and your individual responses will not be shared beyond the study team. Participation in this research is voluntary, and you may skip any question. Questions? Please contact <a href="mailto:lrath@brockport.edu" target="_blank">Dr. Rath</a> or the <a href="mailto:irb@brockport.edu" target="_blank">Brockport IRB</a>.</p>
+    <p style="font-size:15px; color:#374151;">If you are over 18 and would like to participate, please <a id="feedbackLink" href="https://forms.brockport.edu/view.php?id=9870470&element_1=" target="_blank">provide your feedback to Dr. Rath</a>.</p>
   </div>
 </div>
 
@@ -1022,6 +1027,14 @@ function buildFinalReview() {
       '<span class="sr-only">' + (c.pass ? 'Pass: ' : 'Warning: ') + '</span>' +
       '<span class="cl-text">' + c.text + '</span></div>';
   }).join('');
+
+  // ── Feedback link ──────────────────────────────────────────
+  var citEl = document.getElementById('finalCitation');
+  var feedbackLink = document.getElementById('feedbackLink');
+  if (feedbackLink && citEl) {
+    var plainCitation = (citEl.textContent || '').replace(/\s+/g, ' ').trim();
+    feedbackLink.href = 'https://forms.brockport.edu/view.php?id=9870470&element_1=' + encodeURIComponent(plainCitation);
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
