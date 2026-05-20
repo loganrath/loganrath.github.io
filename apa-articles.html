@@ -690,7 +690,7 @@ function validateTitle() {
   }
 
   if (!msgs.some(function(m){ return m.type === 'fail'; }) && !msgs.some(function(m){ return m.text.includes('capitalize'); })) {
-    msgs.push({ type:'pass', text: '"' + escAttr(title.substring(0,63)) + (title.length>63?'\u2026':'') + ' \u2713' });
+    msgs.push({ type:'pass', text: '\u201c' + escAttr(title.substring(0,63)) + (title.length>63?'\u2026':'\u201d') + ' \u2713' });
   }
 
   showMsgs('titleMsgs', msgs);
