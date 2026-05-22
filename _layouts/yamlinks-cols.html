@@ -20,7 +20,7 @@
   <div class="{{ col_class }}">
     {% if col.title %}<h2 style="text-align: center;">{{ col.title }}</h2>{% endif %}
     {% for block in col.links %}
-      <p><a class="button" href="{{ block.url }}">{{ block.name }}</a></p>
+      <p><a class="button-sm" href="{{ block.url }}">{{ block.name }}</a></p>
     {% endfor %}
   </div>
   {% endfor %}
