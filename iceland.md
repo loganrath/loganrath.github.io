@@ -2,7 +2,7 @@
 title: Iceland Links from Dr. Rath
 layout: yamlinks-cols
 columns:
-  - title: Reykavik Tourism
+  - title: Reykavík
     links:
       - name: Trip Advisor Restaurants
         url: https://www.tripadvisor.com/FindRestaurants?geo=189970&sort=POPULARITY&establishmentTypes=10591%2C16556%2C9900%2C9901%2C9909&broadened=false
@@ -20,7 +20,7 @@ columns:
         url: https://guidetoiceland.is/about-iceland
   - title: Húsavík
     links:
-      - name: Visit Husavik
+      - name: Visit Húsavík
         url: https://www.visithusavik.is/discover-husavik
       - name: The Eurovision Adventure
         url: https://www.visithusavik.is/stories-and-articles/the-eurovision-adventure
