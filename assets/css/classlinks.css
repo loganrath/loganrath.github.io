@@ -1,13 +1,13 @@
 /* CSS Document */
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
-body {margin: 0; font-family: "Open Sans"; background-color: #fff}
+body {margin: 0; font-family: "Noto Sans"; background-color: #fff}
 
 header {background-color: #00533e; color: white; border-bottom: 0.5em solid #FFC726; margin-bottom: 0.5em; padding-top: 0.2em;}
 header h1 {line-height: 1em;}
 
-header h1 {font-family: "Open Sans", sans-serif;  }
+header h1 {font-family: "Noto Sans", sans-serif;  }
 
 #content-wrapper {background-color: #fff; min-width: 960px; padding: 0 1em; line-height: 1.5em;}
 #content {width: 95%; margin-left: auto; margin-right: auto; padding-left: 1em; padding-right: 1em;}
