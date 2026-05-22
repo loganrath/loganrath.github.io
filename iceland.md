@@ -10,18 +10,22 @@ columns:
         url: https://www.instagram.com/p/DFX3JNat2sP 
       - name: Visit Reykavík
         url: https://visitreykjavik.is/
-  - title: Buses
+  - title: Buses & General Iceland
     links:
       - name: Bus Route Planner
         url: https://www.straeto.is/en
       - name: Guide to Buses
         url: https://guidetoiceland.is/reykjavik-guide/a-guide-to-reykjavik-city-buses
-  - title: Húsavík & Iceland in General
-    links:
-      - name: Trip Advisor Húsavík
-        url: https://www.tripadvisor.com/Tourism-g189963-Husavik_Northeast_Region-Vacations.html
       - name: Guide to Iceland
         url: https://guidetoiceland.is/about-iceland
+  - title: Húsavík
+    links:
+      - name: Visit Husavik
+        url: https://www.visithusavik.is/discover-husavik
+      - name: The Eurovision Adventure
+        url: https://www.visithusavik.is/stories-and-articles/the-eurovision-adventure
+      - name: Trip Advisor Húsavík
+        url: https://www.tripadvisor.com/Tourism-g189963-Husavik_Northeast_Region-Vacations.html
 
 ---
 # Weather
@@ -32,7 +36,6 @@ columns:
 !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
 </script>
 
-# Weather Húsavík
 
 # Calling and Texting the US from Iceland
 Calling with your cell phone can be expensive. Apps like [TextNow](https://www.textnow.com/), [TextFree](https://textfree.us/) and [Google Voice](https://voice.google.com) give you a US number and you can call and text other US numbers. For Google Voice, make sure you [read this article about app set up](https://support.google.com/voice/thread/226058928/make-and-receive-calls-using-data-and-wifi-only?hl=en) so that it uses data and not your voice plan.
