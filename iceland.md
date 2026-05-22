@@ -24,6 +24,11 @@ columns:
         url: https://guidetoiceland.is/about-iceland
 
 ---
+<a class="weatherwidget-io" href="https://forecast7.com/en/64d13n21d82/reykjavik/?unit=us" data-label_1="REYKJAVÍK" data-label_2="WEATHER" data-theme="original" >REYKJAVÍK WEATHER</a>
+<script>
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+</script>
+
 # Calling and Texting the US from Iceland
 Calling with your cell phone can be expensive. Apps like [TextNow](https://www.textnow.com/), [TextFree](https://textfree.us/) and [Google Voice](https://voice.google.com) give you a US number and you can call and text other US numbers. For Google Voice, make sure you [read this article about app set up](https://support.google.com/voice/thread/226058928/make-and-receive-calls-using-data-and-wifi-only?hl=en) so that it uses data and not your voice plan.
 
