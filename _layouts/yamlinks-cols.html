@@ -1,0 +1,32 @@
+<html lang="en">
+<head><meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+	<title>{{ page.title }}</title>
+	<link href="/assets/css/classlinks.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<header>
+<h1 style="text-align: center;">Links for {{ page.title }}</h1>
+</header>
+<div id="content-wrapper"><div id="content">
+{% assign col_count = page.columns | size %}
+{% if col_count == 2 %}{% assign col_class = "c2" %}
+{% elsif col_count == 3 %}{% assign col_class = "c3" %}
+{% elsif col_count >= 4 %}{% assign col_class = "c4" %}
+{% else %}{% assign col_class = "c2" %}
+{% endif %}
+<div>
+  {% for col in page.columns %}
+  <div class="{{ col_class }}">
+    {% if col.title %}<h2 style="text-align: center;">{{ col.title }}</h2>{% endif %}
+    {% for block in col.links %}
+      <p><a class="button" href="{{ block.url }}">{{ block.name }}</a></p>
+    {% endfor %}
+  </div>
+  {% endfor %}
+  <div class="clear"></div>
+</div>
+{{ content }}
+</div></div>
+</body>
+</html>
