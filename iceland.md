@@ -1,5 +1,5 @@
 ---
-title: Iceland
+title: Iceland Links from Dr. Rath
 layout: yamlinks-cols
 columns:
   - title: Reykavik Tourism
@@ -16,14 +16,16 @@ columns:
         url: https://www.straeto.is/en
       - name: Guide to Buses
         url: https://guidetoiceland.is/reykjavik-guide/a-guide-to-reykjavik-city-buses
-  - title: Húsavík Tourism
+  - title: Húsavík & Iceland in General
     links:
       - name: Trip Advisor Húsavík
         url: https://www.tripadvisor.com/Tourism-g189963-Husavik_Northeast_Region-Vacations.html
+      - name: Guide to Iceland
+        url: https://guidetoiceland.is/about-iceland
 
 ---
 # Calling and Texting the US from Iceland
-Calling with your cell phone can be expensive. Apps like [TextNow](https://www.textnow.com/), [TextFree](https://textfree.us/) and [Google Voice](https://voice.google.com) give you a US number and you can call and text other US numbers. For Google Voice, make sure you [read this article about app set up](https://support.google.com/voice/thread/226058928/make-and-receive-calls-using-data-and-wifi-only?hl=en).
+Calling with your cell phone can be expensive. Apps like [TextNow](https://www.textnow.com/), [TextFree](https://textfree.us/) and [Google Voice](https://voice.google.com) give you a US number and you can call and text other US numbers. For Google Voice, make sure you [read this article about app set up](https://support.google.com/voice/thread/226058928/make-and-receive-calls-using-data-and-wifi-only?hl=en) so that it uses data and not your voice plan.
 
 # eBooks & Audio Books
 You can add more than [your local public library](https://www.nysl.nysed.gov/find-your-public-library) to the [Libby App](https://www.overdrive.com/apps/libby)! Everyone in NY state can get a free library card at the following libraries: [Brooklyn](https://www.bklynlibrary.org/card/), [Buffalo & Erie County](https://buffalolib.org/library-cards), [New York Public](https://www.nypl.org/library-card/new), and [Queens](https://queenslibrary.org/get-a-card). 
