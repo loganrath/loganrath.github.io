@@ -2,14 +2,16 @@
 title: Iceland
 layout: yamlinks-cols
 columns:
-  - title: Reykavík Links
+  - title: Tourism
     links:
       - name: Restaurants
         url: https://www.tripadvisor.com/FindRestaurants?geo=189970&sort=POPULARITY&establishmentTypes=10591%2C16556%2C9900%2C9901%2C9909&broadened=false
-      - name: Bus Route Planner
-        url: https://www.straeto.is/en
       - name: Visit Reykavík
         url: https://visitreykjavik.is/
+  - title: Buses
+    links:
+      - name: Bus Route Planner
+        url: https://www.straeto.is/en
       - name: Guide to Buses
         url: https://guidetoiceland.is/reykjavik-guide/a-guide-to-reykjavik-city-buses
 ---
