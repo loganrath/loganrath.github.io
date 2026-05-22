@@ -1,11 +1,13 @@
 ---
-title: Iceland
+title: Iceland from Dr. Rath
 layout: yamlinks-cols
 columns:
   - title: Tourism
     links:
-      - name: Restaurants
+      - name: Trip Adivsor Restaurants
         url: https://www.tripadvisor.com/FindRestaurants?geo=189970&sort=POPULARITY&establishmentTypes=10591%2C16556%2C9900%2C9901%2C9909&broadened=false
+      - name: Plant-Based Restaurants
+        url: https://www.instagram.com/p/DFX3JNat2sP 
       - name: Visit Reykavík
         url: https://visitreykjavik.is/
   - title: Buses
