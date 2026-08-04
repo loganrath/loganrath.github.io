@@ -1,0 +1,163 @@
+---
+title: Dive QR Generator
+layout: page
+---
+
+<div class="container">
+  <h2>Dive QR Data</h2>
+  <div class="row g-3">
+    <div class="col-sm-4">
+      <label for="diveType">Dive Type</label>
+      <select id="diveType" class="w-100" required>
+        <option value="0" selected>0 = Scuba</option>
+        <option value="6">6 = Freediving</option>
+      </select>
+    </div>
+
+    <div class="col-sm-4">
+      <label for="site">Site</label>
+      <select id="site" class="w-100" required>
+        <option value="559202" selected>Douglass Pool (559202)</option>
+        <option value="317026">Quarry (317026)</option>
+        <option value="896821">CCK Pool (896821)</option>
+      </select>
+    </div>
+
+    <div class="col-sm-4">
+      <label for="diveTime">Dive Time (minutes)</label>
+      <input type="number" id="diveTime" class="w-100" min="0" step="0.1" value="45.0" required>
+    </div>
+
+    <div class="col-sm-4">
+      <label for="date">Date</label>
+      <input type="date" id="date" class="w-100" required>
+    </div>
+
+    <div class="col-sm-4">
+      <label for="time">Time</label>
+      <input type="time" id="time" class="w-100" value="10:00" required>
+    </div>
+
+    <div class="col-sm-4 d-flex align-items-end">
+      <button id="generate">Generate Dive QR</button>
+    </div>
+  </div>
+
+  <h3 class="mt-3">Payload</h3>
+  <textarea id="payload" class="w-100" rows="4" readonly></textarea>
+
+  <h3 class="mt-3">Generated QR Code</h3>
+  <img id="qrCode" alt="Dive QR Code will appear here">
+</div>
+
+<script>
+  // Constants shared across site payload variants.
+  const diveDefaults = {
+    varDiveTypeId: 24,
+    userMasterId: 2882320,
+    userFirstname: 'Logan',
+    userLastname: 'Rath',
+    userLeaderId: 100883
+  };
+
+  // Site-specific fields based on provided examples.
+  const siteConfig = {
+    '559202': {
+      depthM: 2.7,
+      extraFields: []
+    },
+    '317026': {
+      depthM: 6.5,
+      extraFields: [
+        'var_watertype_id:4',
+        'watertemp_c:24.0',
+        'watertemp_max_c:28.0'
+      ]
+    },
+    '896821': {
+      depthM: 1,
+      extraFields: []
+    }
+  };
+
+  function formatDateTime(dateValue, timeValue) {
+    const normalizedDate = (dateValue || '').replace(/-/g, '');
+    const normalizedTime = (timeValue || '00:00').replace(':', '');
+    return `${normalizedDate}${normalizedTime}`;
+  }
+
+  function toOneDecimal(value) {
+    const number = Number(value);
+    if (Number.isNaN(number)) {
+      return '0.0';
+    }
+    return number.toFixed(1);
+  }
+
+  function setDefaultDate() {
+    const today = new Date();
+    const year = String(today.getFullYear());
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    document.getElementById('date').value = `${year}-${month}-${day}`;
+  }
+
+  setDefaultDate();
+
+  function applySiteDefaults(site) {
+    if (site === '559202') {
+      document.getElementById('diveTime').value = '105.0';
+    } else if (site === '317026') {
+      document.getElementById('diveTime').value = '51.0';
+    } else if (site === '896821') {
+      document.getElementById('diveTime').value = '45.0';
+    }
+  }
+
+  document.getElementById('site').addEventListener('change', function(event) {
+    applySiteDefaults(event.target.value);
+  });
+
+  document.getElementById('generate').addEventListener('click', function() {
+    const diveType = document.getElementById('diveType').value;
+    const site = document.getElementById('site').value;
+    const diveTime = document.getElementById('diveTime').value;
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
+
+    if (!diveType || !site || !date || !time) {
+      alert('Please select dive type, site, date, and time.');
+      return;
+    }
+
+    const selectedSiteConfig = siteConfig[site];
+    if (!selectedSiteConfig) {
+      alert('Unsupported site selected.');
+      return;
+    }
+
+    const payloadParts = [
+      'dive',
+      'noid',
+      `dive_type:${diveType}`,
+      `divetime:${toOneDecimal(diveTime)}`,
+      `datetime:${formatDateTime(date, time)}`,
+      `depth_m:${selectedSiteConfig.depthM.toFixed(1)}`,
+      `site:${site}`,
+      ...selectedSiteConfig.extraFields,
+      `var_divetype_id:${diveDefaults.varDiveTypeId}`,
+      `var_divetype_id:${diveDefaults.varDiveTypeId}`,
+      `user_master_id:${diveDefaults.userMasterId}`,
+      `user_firstname:${diveDefaults.userFirstname}`,
+      `user_lastname:${diveDefaults.userLastname}`,
+      `user_leader_id:${diveDefaults.userLeaderId}`
+    ];
+
+    const payload = payloadParts.join(';');
+
+    document.getElementById('payload').value = payload;
+
+    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(payload)}&color=000000`;
+    document.getElementById('qrCode').src = qrCodeUrl;
+  });
+</script>
