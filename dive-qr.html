@@ -43,21 +43,19 @@ layout: page
     </div>
   </div>
 
-  <h3 class="mt-3">Payload</h3>
-  <textarea id="payload" class="w-100" rows="4" readonly></textarea>
-
   <h3 class="mt-3">Generated QR Code</h3>
   <img id="qrCode" alt="Dive QR Code will appear here">
+
+  <h3 class="mt-3">Payload</h3>
+  <textarea id="payload" class="w-100" rows="4" readonly></textarea>
 </div>
 
 <script>
   // Constants shared across site payload variants.
   const diveDefaults = {
     varDiveTypeId: 24,
-    userMasterId: 2882320,
     userFirstname: 'Logan',
-    userLastname: 'Rath',
-    userLeaderId: 100883
+    userLastname: 'Rath'
   };
 
   // Site-specific fields based on provided examples.
@@ -147,10 +145,8 @@ layout: page
       ...selectedSiteConfig.extraFields,
       `var_divetype_id:${diveDefaults.varDiveTypeId}`,
       `var_divetype_id:${diveDefaults.varDiveTypeId}`,
-      `user_master_id:${diveDefaults.userMasterId}`,
       `user_firstname:${diveDefaults.userFirstname}`,
-      `user_lastname:${diveDefaults.userLastname}`,
-      `user_leader_id:${diveDefaults.userLeaderId}`
+      `user_lastname:${diveDefaults.userLastname}`
     ];
 
     const payload = payloadParts.join(';');
