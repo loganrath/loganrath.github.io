@@ -1008,6 +1008,14 @@ layout: tool
     return `keyword-${keywordId}`;
   }
 
+  function normalizeTerm(value) {
+    if (value === null || value === undefined) return '';
+    let cleaned = String(value).trim();
+    if (!cleaned) return '';
+    cleaned = cleaned.replace(/^["'“”‘’]+|["'“”‘’]+$/g, '').trim();
+    return cleaned;
+  }
+
   function buildCampusSearchUrl(campus, query) {
     const url = new URL(campus.defaultSearchUrl);
     url.searchParams.set('query', `any,contains,${query}`);
@@ -1129,7 +1137,7 @@ layout: tool
       searchData.keywords = {};
 
       keywordInputs.forEach(input => {
-        const value = input.value.trim();
+        const value = normalizeTerm(input.value);
         if (value) {
           hasKeyword = true;
           searchData.keywords[input.dataset.keywordId] = { main: value, synonyms: [] };
@@ -1148,7 +1156,7 @@ layout: tool
       Object.keys(searchData.keywords).forEach(id => {
         const synonymInputs = document.querySelectorAll(`.synonym-container[data-keyword-id="${id}"] .synonym-input`);
         searchData.keywords[id].synonyms = Array.from(synonymInputs)
-          .map(input => input.value.trim())
+          .map(input => normalizeTerm(input.value))
           .filter(Boolean);
       });
     }
@@ -1268,14 +1276,13 @@ layout: tool
   function buildBoolean() {
     Object.keys(searchData.keywords).forEach(id => {
       const synonymInputs = Array.from(document.querySelectorAll(`.synonym-container[data-keyword-id="${id}"] .synonym-input`));
-      searchData.keywords[id].synonyms = synonymInputs.map(input => input.value.trim()).filter(Boolean);
+      searchData.keywords[id].synonyms = synonymInputs.map(input => normalizeTerm(input.value)).filter(Boolean);
     });
 
     const parts = Object.keys(searchData.keywords).map(id => {
       const keyword = searchData.keywords[id];
-      const terms = [keyword.main].concat(keyword.synonyms || []);
-      const quotedTerms = terms.map(term => term.includes(' ') ? `"${term}"` : term);
-      return quotedTerms.length > 1 ? `(${quotedTerms.join(' OR ')})` : quotedTerms[0];
+      const terms = [keyword.main].concat(keyword.synonyms || []).map(normalizeTerm).filter(Boolean);
+      return terms.length > 1 ? `(${terms.join(' OR ')})` : terms[0];
     });
 
     searchData.booleanString = parts.join(' AND ');

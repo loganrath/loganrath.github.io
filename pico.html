@@ -251,7 +251,9 @@ layout: ccbyncsa
       // helpers
       function normalizeTerm(t){
         if(!t) return null;
-        const v = t.trim();
+        let v = t.trim();
+        if(!v) return null;
+        v = v.replace(/^["'“”‘’]+|["'“”‘’]+$/g, '').trim();
         if(!v) return null;
         const lowered = v.toLowerCase();
         if(lowered === 'none' || lowered === 'n/a' || lowered === 'na' || lowered === 'none.') return null;

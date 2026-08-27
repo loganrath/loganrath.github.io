@@ -142,7 +142,7 @@ layout: ccbyncsa
           <ul>
             <li><strong>OR</strong> means ANY and connects synonyms: (A OR B)</li>
             <li><strong>AND</strong> means BOTH and connects concepts: (A) AND (B)</li>
-            <li>Use quotes for keywords that are more than one word: "social media"</li>
+            <li>Consider using quotes for keywords that are more than one word: "social media"</li>
             <li>Use a * to truncate a word and find multiple endings: adolescen* (finds adolescent, adolescence, adolescents)</li>
           </ul>
         </div>
@@ -236,6 +236,14 @@ layout: ccbyncsa
     let synonymCount = {1:1,2:1};
     let searchData = { question:'', keywords:{}, booleanString:'' };
 
+    function normalizeTerm(value) {
+      if (value === null || value === undefined) return '';
+      let cleaned = String(value).trim();
+      if (!cleaned) return '';
+      cleaned = cleaned.replace(/^["'“”‘’]+|["'“”‘’]+$/g, '').trim();
+      return cleaned;
+    }
+
     // Helpers
     function showStep(n) {
       document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
@@ -273,14 +281,22 @@ layout: ccbyncsa
         const kws = document.querySelectorAll('.keyword-input');
         let any=false;
         searchData.keywords = {};
-        kws.forEach(k=>{ if(k.value.trim()){ any=true; searchData.keywords[k.dataset.keywordId] = { main: k.value.trim(), synonyms: [] }; }});
+        kws.forEach(k=>{
+          const main = normalizeTerm(k.value);
+          if (main) {
+            any=true;
+            searchData.keywords[k.dataset.keywordId] = { main, synonyms: [] };
+          }
+        });
         if (!any){ showAlert('Please enter at least one keyword or concept.','warn'); return false; }
         return true;
       }
       if (currentStep===3) {
         // gather synonyms into searchData
         Object.keys(searchData.keywords).forEach(id=>{
-          const syns = Array.from(document.querySelectorAll(`.synonym-container[data-keyword-id="${id}"] .synonym-input`)).map(i=>i.value.trim()).filter(Boolean);
+          const syns = Array.from(document.querySelectorAll(`.synonym-container[data-keyword-id="${id}"] .synonym-input`))
+            .map(i => normalizeTerm(i.value))
+            .filter(Boolean);
           searchData.keywords[id].synonyms = syns;
         });
         return true;
@@ -416,9 +432,8 @@ layout: ccbyncsa
 
       const parts = Object.keys(searchData.keywords).map(id=>{
         const kd = searchData.keywords[id];
-        const terms = [kd.main].concat(kd.synonyms || []);
-        const quoted = terms.map(t => (t.includes(' ') ? `"${t}"` : t));
-        return quoted.length > 1 ? `(${quoted.join(' OR ')})` : quoted[0];
+        const terms = [kd.main].concat(kd.synonyms || []).map(normalizeTerm).filter(Boolean);
+        return terms.length > 1 ? `(${terms.join(' OR ')})` : terms[0];
       });
 
       searchData.booleanString = parts.join(' AND ');
