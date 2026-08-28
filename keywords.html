@@ -21,6 +21,14 @@ layout: ccbyncsa
         input[type="text"],textarea{width:100%;padding:12px;border:2px solid #555;border-radius:8px;font-size:15px}
         input[type="text"]:focus,textarea:focus{outline:none;border-color:#3498db;box-shadow:0 0 0 4px rgba(52,152,219,.06)}
         textarea{min-height:100px;resize:vertical}
+        .quote-toggle-row{display:flex;align-items:center;gap:10px;margin-top:12px;font-weight:700;color:#233140}
+        .quote-toggle{position:relative;display:inline-block;width:48px;height:26px;flex-shrink:0}
+        .quote-toggle input{position:absolute;width:1px;height:1px;opacity:0}
+        .quote-toggle .slider{position:absolute;inset:0;background:#9aa5ad;border-radius:26px;cursor:pointer;transition:background .2s ease}
+        .quote-toggle .slider::before{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s ease}
+        .quote-toggle input:checked + .slider{background:#0d75de}
+        .quote-toggle input:checked + .slider::before{transform:translateX(22px)}
+        .quote-toggle input:focus-visible + .slider{outline:3px solid rgba(52,152,219,.35);outline-offset:2px}
         .keyword-item{background:#f8f9fa;padding:16px;border-radius:8px;border:1px solid #e3e7eb;margin-bottom:12px}
         .keyword-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
         .keyword-title{font-weight:700;color:#233140}
@@ -156,6 +164,13 @@ layout: ccbyncsa
           <h2 id="booleanOutputLabel" style="margin:0 0 8px 0">Your Boolean search</h2>
           <p>You can edit these terms using the text-box below:</p>
           <textarea id="booleanOutput" class="boolean-output" aria-labelledby="booleanOutputLabel">Your search will appear here</textarea>
+          <div class="quote-toggle-row">
+            <label class="quote-toggle" for="quoteMultiwordTerms">
+              <input type="checkbox" id="quoteMultiwordTerms">
+              <span class="slider" aria-hidden="true"></span>
+            </label>
+            <span>Use quotation marks for multiword keywords</span>
+          </div>
         </div>
 
         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
@@ -422,22 +437,36 @@ layout: ccbyncsa
       });
     }
 
+    function formatSearchTerm(term, quoteMultiwordTerms) {
+      const normalized = normalizeTerm(term);
+      if (!normalized) return '';
+
+      return quoteMultiwordTerms && /\s/.test(normalized)
+        ? `"${normalized}"`
+        : normalized;
+    }
+
     function buildBoolean(){
       // ensure searchData.keywords updated (synonyms collected from fields)
       Object.keys(searchData.keywords).forEach(id=>{
         const synInputs = Array.from(document.querySelectorAll(`.synonym-container[data-keyword-id="${id}"] .synonym-input`));
-        const syns = synInputs.map(i=>i.value.trim()).filter(Boolean);
+        const syns = synInputs.map(i=>normalizeTerm(i.value)).filter(Boolean);
         searchData.keywords[id].synonyms = syns;
       });
 
+      const quoteMultiwordTerms = document.getElementById('quoteMultiwordTerms').checked;
+
       const parts = Object.keys(searchData.keywords).map(id=>{
         const kd = searchData.keywords[id];
-        const terms = [kd.main].concat(kd.synonyms || []).map(normalizeTerm).filter(Boolean);
+        const terms = [kd.main]
+          .concat(kd.synonyms || [])
+          .map(term => formatSearchTerm(term, quoteMultiwordTerms))
+          .filter(Boolean);
         return terms.length > 1 ? `(${terms.join(' OR ')})` : terms[0];
       });
 
       searchData.booleanString = parts.join(' AND ');
-      document.getElementById('booleanOutput').textContent = searchData.booleanString || 'No search terms entered';
+      document.getElementById('booleanOutput').value = searchData.booleanString || 'No search terms entered';
       updateFeedbackLink();
       document.getElementById('booleanOutput').scrollIntoView({behavior:'smooth', block:'center'});
     }
@@ -532,8 +561,10 @@ layout: ccbyncsa
         </div>`;
       document.getElementById('synonymContainer').innerHTML = '';
       document.getElementById('searchSummary').innerHTML = '';
-      document.getElementById('booleanOutput').textContent = 'Your search will appear here';
+      document.getElementById('booleanOutput').value = 'Your search will appear here';
+      document.getElementById('quoteMultiwordTerms').checked = false;
       updateDatabaseButtons();
+      updateFeedbackLink();
       showStep(1);
     }
 
@@ -558,6 +589,10 @@ layout: ccbyncsa
     document.getElementById('booleanOutput').addEventListener('input', function(){
       updateDatabaseButtons();
       updateFeedbackLink();
+    });
+
+    document.getElementById('quoteMultiwordTerms').addEventListener('change', function(){
+      buildBoolean();
     });
 
     // Enable Enter key to add keywords and synonyms

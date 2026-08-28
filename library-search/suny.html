@@ -105,6 +105,64 @@ layout: tool
     resize: vertical;
   }
 
+  .quote-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    font-weight: 700;
+    color: #233140;
+  }
+
+  .quote-toggle {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+
+  .quote-toggle input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .quote-toggle .slider {
+    position: absolute;
+    inset: 0;
+    background: #9aa5ad;
+    border-radius: 26px;
+    cursor: pointer;
+    transition: background .2s ease;
+  }
+
+  .quote-toggle .slider::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 3px;
+    top: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .2s ease;
+  }
+
+  .quote-toggle input:checked + .slider {
+    background: #0d75de;
+  }
+
+  .quote-toggle input:checked + .slider::before {
+    transform: translateX(22px);
+  }
+
+  .quote-toggle input:focus-visible + .slider {
+    outline: 3px solid rgba(52, 152, 219, .35);
+    outline-offset: 2px;
+  }
+
   .keyword-item,
   .summary-section {
     background: #f8f9fa;
@@ -464,6 +522,13 @@ layout: tool
         <h2 id="booleanOutputLabel" style="margin:0 0 8px 0">Your Boolean search</h2>
         <p>You can edit these terms in the text box below before launching your campus search.</p>
         <textarea id="booleanOutput" class="boolean-output" aria-labelledby="booleanOutputLabel">Your search will appear here</textarea>
+        <div class="quote-toggle-row">
+          <label class="quote-toggle" for="quoteMultiwordTerms">
+            <input type="checkbox" id="quoteMultiwordTerms">
+            <span class="slider" aria-hidden="true"></span>
+          </label>
+          <span>Use quotation marks for multiword keywords</span>
+        </div>
       </div>
 
       <div class="action-row">
@@ -1279,15 +1344,22 @@ layout: tool
       searchData.keywords[id].synonyms = synonymInputs.map(input => normalizeTerm(input.value)).filter(Boolean);
     });
 
+    const quoteMultiwordTerms = document.getElementById('quoteMultiwordTerms').checked;
+
     const parts = Object.keys(searchData.keywords).map(id => {
       const keyword = searchData.keywords[id];
-      const terms = [keyword.main].concat(keyword.synonyms || []).map(normalizeTerm).filter(Boolean);
+      const terms = [keyword.main]
+        .concat(keyword.synonyms || [])
+        .map(normalizeTerm)
+        .filter(Boolean)
+        .map(term => quoteMultiwordTerms && /\s/.test(term) ? `"${term}"` : term);
       return terms.length > 1 ? `(${terms.join(' OR ')})` : terms[0];
     });
 
     searchData.booleanString = parts.join(' AND ');
     document.getElementById('booleanOutput').value = searchData.booleanString || 'No search terms entered';
     updateFeedbackLink();
+    updateLibrarySearchButton();
   }
 
   function updateLibrarySearchButton() {
@@ -1369,6 +1441,7 @@ layout: tool
     document.getElementById('searchSummary').innerHTML = '';
     document.getElementById('displayedQuestion').textContent = '';
     document.getElementById('booleanOutput').value = 'Your search will appear here';
+    document.getElementById('quoteMultiwordTerms').checked = false;
     document.getElementById('globalAlert').innerHTML = '';
     updateKeywordRemoveVisibility();
     updateFeedbackLink();
@@ -1426,6 +1499,10 @@ layout: tool
     searchData.booleanString = this.value.trim();
     updateFeedbackLink();
     updateLibrarySearchButton();
+  });
+
+  document.getElementById('quoteMultiwordTerms').addEventListener('change', function() {
+    buildBoolean();
   });
 
   document.addEventListener('keydown', function(event) {
