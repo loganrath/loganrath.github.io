@@ -1,0 +1,356 @@
+---
+title: "Email Your Professor: Template Generator"
+layout: tool
+---
+<style>
+  p.lead { color: #374151; margin-top: 0; }
+  .step { border: 1px solid #d6e3f2; border-radius: 12px; padding: 14px; margin: 12px 0; background: linear-gradient(180deg,#fbfcff 0%,#f5f9ff 100%); }
+  label { display: block; font-weight: 600; margin-bottom: 6px; }
+  select, input[type="text"], textarea {
+    width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px;
+    border: 2px solid #8fb3d9; font-size: 16px; background: #fff; font-family: inherit;
+    transition: border-color .2s;
+  }
+  select:focus, input[type="text"]:focus, textarea:focus {
+    outline: none; border-color: #0b5fff; box-shadow: 0 0 0 4px rgba(11,95,255,0.16);
+  }
+  textarea { min-height: 70px; resize: vertical; }
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; margin-top: 4px; }
+  @media (max-width: 780px) { .two-col { grid-template-columns: 1fr; } }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 560px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .hint { font-size: 14px; color: #6b7280; margin-top: 4px; }
+
+  .radio-group { display: flex; flex-direction: column; gap: 8px; }
+  .radio-option { display: flex; align-items: center; gap: 8px; font-weight: 400; cursor: pointer; }
+  .radio-option input[type="radio"] { width: auto; flex-shrink: 0; }
+
+  .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .btn-generate { background: linear-gradient(135deg,#ff7a18 0%,#ff3d81 100%); font-size: 16px; font-weight: 700; color: #fff; padding: 10px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,.25); cursor: pointer; box-shadow: 0 6px 18px rgba(255,61,129,.24); transition: transform .15s,box-shadow .2s; }
+  .btn-generate:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(255,61,129,.3); }
+  .btn-copy { background: linear-gradient(135deg,#14b8a6 0%,#0ea5e9 100%); color: #fff; font-size: 15px; font-weight: 600; padding: 9px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,.18); cursor: pointer; }
+  .btn-clear { background: #e5e7eb; color: #374151; font-size: 15px; font-weight: 500; padding: 9px 14px; border-radius: 10px; border: 1px solid #d1d5db; cursor: pointer; }
+
+  .preview-panel { background: #f8faff; border: 2px solid #d0dff4; border-radius: 12px; padding: 16px; min-height: 260px; }
+  .preview-panel .pp-empty { color: #9ca3af; font-style: italic; }
+  #emailSubject { font-weight: 700; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed #c5d5e8; }
+  #emailBody { white-space: pre-wrap; font-family: Georgia, serif; font-size: 16px; line-height: 1.6; color: #1f2937; }
+
+  .tips-panel { background: #f0f5ff; border: 1px dashed #a0b8e0; border-radius: 10px; padding: 14px 16px; margin: 16px 0; }
+  .tips-panel h3 { margin-top: 0; font-size: 17px; }
+  .tips-panel ul { margin: 6px 0 0; padding-left: 22px; }
+  .tips-panel li { margin-bottom: 6px; font-size: 15px; }
+  .copied-msg { color: #166534; font-weight: 600; font-size: 14px; margin-left: 8px; display: none; }
+</style>
+
+<p class="lead">
+  Choose a reason for emailing your professor, fill in a few details, and this tool will draft a polite,
+  professional email for you to review, personalize, and send from your own email account.
+</p>
+
+<div class="tips-panel">
+  <h3>Before you send: quick etiquette checklist</h3>
+  <ul>
+    <li>Check the syllabus and course site first &mdash; your question may already be answered there.</li>
+    <li>Use a professional greeting: "Dear Professor Last-Name," and the honorific they use (Professor or Dr.), not "Hey" or first names unless invited to.</li>
+    <li>Use your official school email address and a clear subject line that includes your course name/number.</li>
+    <li>Keep it concise: state who you are, why you're writing, and what you'd like them to do.</li>
+    <li>Proofread before sending, and always end with a thank you.</li>
+    <li>If you don't hear back in about a week, a brief, polite follow-up is okay.</li>
+  </ul>
+</div>
+
+<div class="step">
+  <div class="field">
+    <label>What do you need to email your professor about?</label>
+    <div class="radio-group" role="radiogroup" aria-label="What do you need to email your professor about?">
+      <label class="radio-option"><input type="radio" name="scenario" value="lateAdd" checked onchange="updateFields()" /> I added the class late and need to get caught up</label>
+      <label class="radio-option"><input type="radio" name="scenario" value="absence" onchange="updateFields()" /> I missed / will miss class</label>
+      <label class="radio-option"><input type="radio" name="scenario" value="assignment" onchange="updateFields()" /> I have a question about an assignment</label>
+      <label class="radio-option"><input type="radio" name="scenario" value="research" onchange="updateFields()" /> I want to ask about joining a research lab</label>
+      <label class="radio-option"><input type="radio" name="scenario" value="somethingElse" onchange="updateFields()" /> Something else</label>
+    </div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="grid-2">
+    <div class="field">
+      <label for="studentName">Your full name</label>
+      <input type="text" id="studentName" placeholder="e.g., Jamie Rivera" />
+    </div>
+    <div class="field">
+      <label for="professorName">Professor's last name</label>
+      <input type="text" id="professorName" placeholder="e.g., Nguyen" />
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="field">
+      <label for="honorific">Preferred title</label>
+      <select id="honorific">
+        <option value="Professor">Professor</option>
+        <option value="Dr.">Dr.</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="courseName">Course name and number</label>
+      <input type="text" id="courseName" placeholder="e.g., Introduction to Psychology (PSY 101)" />
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="field">
+      <label for="sectionInfo">Section / meeting days &amp; time <span style="font-weight:400;color:#6b7280;">(optional)</span></label>
+      <input type="text" id="sectionInfo" placeholder="e.g., Section 3, Tues/Thurs 10:00am" />
+    </div>
+    <div class="field">
+      <label for="studentId">Student ID <span style="font-weight:400;color:#6b7280;">(optional)</span></label>
+      <input type="text" id="studentId" placeholder="e.g., 12345678" />
+    </div>
+  </div>
+</div>
+
+<!-- SCENARIO-SPECIFIC FIELDS -->
+<div class="step" id="fields-lateAdd">
+  <div class="field">
+    <label for="lateAdd_date">Date you added / will start the class</label>
+    <input type="text" id="lateAdd_date" placeholder="e.g., today, or September 22" />
+  </div>
+  <div class="field">
+    <label for="lateAdd_reason">Reason for the late add <span style="font-weight:400;color:#6b7280;">(optional)</span></label>
+    <input type="text" id="lateAdd_reason" placeholder="e.g., a scheduling conflict was just resolved" />
+  </div>
+  <div class="field">
+    <label for="lateAdd_ask">What you'd like from the professor</label>
+    <textarea id="lateAdd_ask" placeholder="e.g., copies of the syllabus/notes so far, and any advice on how to catch up quickly">a copy of the syllabus and notes from the classes I've missed, and any advice on how best to catch up</textarea>
+  </div>
+</div>
+
+<div class="step" id="fields-absence">
+  <div class="field">
+    <label for="absence_date">Date(s) of the absence</label>
+    <input type="text" id="absence_date" placeholder="e.g., Monday, September 15" />
+  </div>
+  <div class="field">
+    <label for="absence_reason">Reason for the absence</label>
+    <select id="absence_reason">
+      <option value="illness">Illness</option>
+      <option value="emergency">Family or personal emergency</option>
+      <option value="other">Other commitment</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="absence_ask">What you'd like from the professor</label>
+    <textarea id="absence_ask">any notes or materials I missed, and whether there's anything I need to submit or make up</textarea>
+  </div>
+</div>
+
+<div class="step" id="fields-assignment">
+  <div class="field">
+    <label for="assignment_name">Assignment name</label>
+    <input type="text" id="assignment_name" placeholder="e.g., Essay #2: Literary Analysis" />
+  </div>
+  <div class="field">
+    <label for="assignment_checked">I have already checked the syllabus / assignment instructions</label>
+    <select id="assignment_checked">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="assignment_question">Your specific question</label>
+    <textarea id="assignment_question" placeholder="e.g., whether we're allowed to use a secondary source not on the reading list"></textarea>
+  </div>
+</div>
+
+<div class="step" id="fields-research">
+  <div class="field">
+    <label for="research_year">Your year and major</label>
+    <input type="text" id="research_year" placeholder="e.g., junior majoring in Biology" />
+  </div>
+  <div class="field">
+    <label for="research_interest">Why you're interested in their research <span style="font-weight:400;color:#6b7280;">(mention a specific article, topic, or lecture)</span></label>
+    <textarea id="research_interest" placeholder="e.g., I read your article on muscle hypertrophy and it connected with my interest in..."></textarea>
+  </div>
+  <div class="field">
+    <label for="research_experience">Relevant coursework or experience <span style="font-weight:400;color:#6b7280;">(optional)</span></label>
+    <textarea id="research_experience" placeholder="e.g., I've taken BIO 210 and worked in a lab shadowing role last summer"></textarea>
+  </div>
+  <div class="field">
+    <label for="research_availability">Your availability to meet or start</label>
+    <input type="text" id="research_availability" placeholder="e.g., Tuesdays and Thursdays after 2pm, available starting next semester" />
+  </div>
+</div>
+
+<div class="step" id="fields-somethingElse">
+  <div class="field">
+    <label for="somethingElse_reason">What would you like to say to your professor?</label>
+    <textarea id="somethingElse_reason" placeholder="e.g., I'd like to request a letter of recommendation"></textarea>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn-generate" onclick="generateEmail()">Generate Email</button>
+  <button class="btn-copy" onclick="copyEmail()">Copy to Clipboard</button>
+  <button class="btn-clear" onclick="clearForm()">Clear</button>
+  <span class="copied-msg" id="copiedMsg">Copied!</span>
+</div>
+
+<h3 style="margin-top: 22px;">Preview</h3>
+<div class="preview-panel" id="preview">
+  <p class="pp-empty">Fill in the fields above and click <strong>Generate Email</strong> to see your draft here.</p>
+</div>
+
+<script>
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function scenarioVal() {
+  const el = document.querySelector('input[name="scenario"]:checked');
+  return el ? el.value : '';
+}
+
+function updateFields() {
+  const scenario = scenarioVal();
+  ['lateAdd', 'absence', 'assignment', 'research', 'somethingElse'].forEach(function (s) {
+    document.getElementById('fields-' + s).style.display = (s === scenario) ? 'block' : 'none';
+  });
+}
+
+function fallback(value, placeholderText) {
+  return value || placeholderText;
+}
+
+function buildSubject(scenario, courseName) {
+  const course = fallback(courseName, 'Your Course');
+  const subjects = {
+    lateAdd: 'Question about catching up in ' + course,
+    absence: 'Absence from ' + course,
+    assignment: 'Question about an assignment in ' + course,
+    research: 'Interest in joining your research lab',
+    somethingElse: 'Question about ' + course
+  };
+  return subjects[scenario] || ('Question about ' + course);
+}
+
+function buildBody(scenario, data) {
+  const greeting = 'Dear ' + data.honorific + ' ' + fallback(data.professorName, '[Professor\u2019s Last Name]') + ',';
+  const closing = 'Thank you for your time and consideration.\n\nSincerely,\n' + fallback(data.studentName, '[Your Name]') +
+    (data.sectionInfo ? '\n' + data.sectionInfo : '') +
+    (data.studentId ? '\nStudent ID: ' + data.studentId : '');
+
+  const courseLine = 'I am a student in your ' + fallback(data.courseName, '[Course Name]') + ' class' +
+    (data.sectionInfo ? ' (' + data.sectionInfo + ')' : '') + '.';
+
+  let body = '';
+
+  if (scenario === 'lateAdd') {
+    body = courseLine + ' I added the course on ' + fallback(data.lateAdd_date, '[date]') + '.' +
+      (data.lateAdd_reason ? ' This was due to ' + data.lateAdd_reason + '.' : '') +
+      '\n\nSince I joined a bit later than the rest of the class, I want to make sure I catch up as quickly as possible. Would it be possible to get ' +
+      fallback(data.lateAdd_ask, 'a copy of the syllabus and notes from the classes I\u2019ve missed, and any advice on how best to catch up') + '?';
+  } else if (scenario === 'absence') {
+    const reasonText = { illness: 'I was feeling unwell', emergency: 'I had a family/personal emergency', other: 'I had a conflicting commitment' }[data.absence_reason] || 'I was unable to attend';
+    body = courseLine + ' I was unable to attend class on ' + fallback(data.absence_date, '[date]') + ' because ' + reasonText + '.' +
+      '\n\nI wanted to let you know and ask if I could get ' + fallback(data.absence_ask, 'any notes or materials I missed, and whether there\u2019s anything I need to submit or make up') + '.';
+  } else if (scenario === 'assignment') {
+    body = courseLine + ' I have a question about ' + fallback(data.assignment_name, '[assignment name]') + '.' +
+      (data.assignment_checked === 'yes'
+        ? ' I\u2019ve already reviewed the syllabus and assignment instructions, but I still have a question.'
+        : '') +
+      '\n\nSpecifically, I was wondering ' + fallback(data.assignment_question, '[your specific question]') + '. ' +
+      'If you could let me know at your earliest convenience, I\u2019d really appreciate it.';
+  } else if (scenario === 'research') {
+    body = 'My name is ' + fallback(data.studentName, '[Your Name]') + ', and I am a ' + fallback(data.research_year, '[year and major]') + '.' +
+      (data.research_interest ? ' ' + data.research_interest : ' I am very interested in the research being done in your lab.') +
+      (data.research_experience ? '\n\n' + data.research_experience : '') +
+      '\n\nI would greatly appreciate the opportunity to discuss the possibility of joining your research lab. ' +
+      (data.research_availability ? 'My availability is ' + data.research_availability + '. ' : '') +
+      'Please let me know if we could set up a time to talk further.';
+  } else if (scenario === 'somethingElse') {
+    body = courseLine + ' ' + fallback(data.somethingElse_reason, '[explain what you\u2019d like to discuss]');
+  }
+
+  return greeting + '\n\n' + body + '\n\n' + closing;
+}
+
+function generateEmail() {
+  const scenario = scenarioVal();
+  const data = {
+    studentName: val('studentName'),
+    professorName: val('professorName'),
+    honorific: val('honorific'),
+    courseName: val('courseName'),
+    sectionInfo: val('sectionInfo'),
+    studentId: val('studentId'),
+    lateAdd_date: val('lateAdd_date'),
+    lateAdd_reason: val('lateAdd_reason'),
+    lateAdd_ask: val('lateAdd_ask'),
+    absence_date: val('absence_date'),
+    absence_reason: val('absence_reason'),
+    absence_ask: val('absence_ask'),
+    assignment_name: val('assignment_name'),
+    assignment_checked: val('assignment_checked'),
+    assignment_question: val('assignment_question'),
+    research_year: val('research_year'),
+    research_interest: val('research_interest'),
+    research_experience: val('research_experience'),
+    research_availability: val('research_availability'),
+    somethingElse_reason: val('somethingElse_reason')
+  };
+
+  const subject = buildSubject(scenario, data.courseName);
+  const body = buildBody(scenario, data);
+
+  const preview = document.getElementById('preview');
+  preview.innerHTML = '';
+
+  const subjectDiv = document.createElement('div');
+  subjectDiv.id = 'emailSubject';
+  subjectDiv.textContent = 'Subject: ' + subject;
+
+  const bodyDiv = document.createElement('div');
+  bodyDiv.id = 'emailBody';
+  bodyDiv.textContent = body;
+
+  preview.appendChild(subjectDiv);
+  preview.appendChild(bodyDiv);
+}
+
+function copyEmail() {
+  const subjectEl = document.getElementById('emailSubject');
+  const bodyEl = document.getElementById('emailBody');
+  if (!subjectEl || !bodyEl) {
+    generateEmail();
+  }
+  const text = document.getElementById('emailSubject').textContent + '\n\n' + document.getElementById('emailBody').textContent;
+  navigator.clipboard.writeText(text).then(function () {
+    const msg = document.getElementById('copiedMsg');
+    msg.style.display = 'inline';
+    setTimeout(function () { msg.style.display = 'none'; }, 2000);
+  });
+}
+
+function clearForm() {
+  document.querySelectorAll('input[type="text"]').forEach(function (el) { el.value = ''; });
+  document.getElementById('lateAdd_ask').value = 'a copy of the syllabus and notes from the classes I\u2019ve missed, and any advice on how best to catch up';
+  document.getElementById('absence_ask').value = 'any notes or materials I missed, and whether there\u2019s anything I need to submit or make up';
+  document.getElementById('assignment_question').value = '';
+  document.getElementById('research_interest').value = '';
+  document.getElementById('research_experience').value = '';
+  document.getElementById('somethingElse_reason').value = '';
+  document.querySelector('input[name="scenario"][value="lateAdd"]').checked = true;
+  document.getElementById('honorific').value = 'Professor';
+  document.getElementById('absence_reason').value = 'illness';
+  document.getElementById('assignment_checked').value = 'yes';
+  updateFields();
+  const preview = document.getElementById('preview');
+  preview.innerHTML = '<p class="pp-empty">Fill in the fields above and click <strong>Generate Email</strong> to see your draft here.</p>';
+}
+
+updateFields();
+</script>

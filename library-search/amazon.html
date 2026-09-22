@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Amazon to WorldCat Link Generator</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; }
+  h1 { font-size: 1.4em; }
+  label { display: block; margin-top: 15px; font-weight: bold; }
+  input[type="text"], input[type="url"], select { width: 100%; padding: 8px; box-sizing: border-box; margin-top: 4px; }
+  textarea { width: 100%; padding: 8px; box-sizing: border-box; margin-top: 4px; font-family: inherit; resize: vertical; }
+  button { margin-top: 20px; padding: 10px 20px; cursor: pointer; }
+  button.secondary { margin-top: 8px; padding: 6px 14px; font-size: 13px; }
+  #result { margin-top: 25px; padding: 15px; background: #f4f4f4; border: 1px solid #ccc; word-break: break-all; display: none; }
+  #result a { color: #0645AD; }
+  .error { color: #b00020; margin-top: 10px; }
+  #lookupStatus { font-size: 13px; color: #555; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<h1>Amazon Book Link &rarr; WorldCat Lookup</h1>
+
+<p>Paste a copy of the text from an Amazon.com book page below (select all the page text and paste it in), or just paste the page's URL. This tool finds the ISBN, looks up the book, and fills in the fields below, then builds a WorldCat link for that ISBN.</p>
+
+<form id="converterForm">
+  <label for="pageContent">Paste Amazon Page Content or URL</label>
+  <textarea id="pageContent" name="pageContent" rows="8" placeholder="Paste the full text of the Amazon book page here (or just the page URL), e.g.&#10;&#10;The Great Gatsby Paperback&#10;by F. Scott Fitzgerald&#10;Publisher : Scribner (April 10, 1925)&#10;ISBN-10 : 0743273567&#10;ISBN-13 : 978-0743273565"></textarea>
+  <button type="button" class="secondary" id="extractBtn">Extract ISBN &amp; Look Up Book Details</button>
+  <div id="lookupStatus"></div>
+
+  <input type="hidden" id="manualIsbn">
+
+  <label for="bookTitle">Title</label>
+  <input type="text" id="bookTitle" name="bookTitle" placeholder="e.g. The Great Gatsby">
+
+  <label for="bookAuthor">Author</label>
+  <input type="text" id="bookAuthor" name="bookAuthor" placeholder="e.g. F. Scott Fitzgerald">
+
+  <label for="bookPublisher">Publisher</label>
+  <input type="text" id="bookPublisher" name="bookPublisher" placeholder="e.g. Scribner">
+
+  <label for="bookYear">Year</label>
+  <input type="text" id="bookYear" name="bookYear" placeholder="e.g. 1925">
+
+  <button type="submit">Generate WorldCat Link</button>
+</form>
+
+<div class="error" id="errorMsg"></div>
+
+<div id="result">
+  <strong>Generated WorldCat Link:</strong><br>
+  <a id="resultLink" href="#" target="_blank"></a>
+</div>
+
+<script>
+function extractIsbn(text) {
+  var isbn13 = extractLabeledIsbn(text, /ISBN-13/i, 13) || extractLabeledIsbn(text, /ISBN/i, 13);
+  if (isbn13) return isbn13;
+
+  var isbn10 = extractLabeledIsbn(text, /ISBN-10/i, 10) || extractLabeledIsbn(text, /ISBN/i, 10);
+  if (isbn10) return isbn10;
+
+  var urlPatterns = [
+    /\/dp\/([0-9A-Za-z]{10,13})/,
+    /\/gp\/product\/([0-9A-Za-z]{10,13})/,
+    /\/product\/([0-9A-Za-z]{10,13})/,
+    /\/e\/([0-9A-Za-z]{10,13})/
+  ];
+  for (var i = 0; i < urlPatterns.length; i++) {
+    var match = text.match(urlPatterns[i]);
+    if (match && match[1]) {
+      return normalizeIsbn(match[1]);
+    }
+  }
+
+  var bareMatch = text.match(/\b([0-9]{9}[0-9Xx]|[0-9]{13})\b/);
+  return bareMatch ? normalizeIsbn(bareMatch[1]) : null;
+}
+
+// Amazon often separates a label like "ISBN-13" from its digits with hyphens, colons,
+// spaces, or invisible bidi marks, so pull the digits out by position rather than punctuation.
+function extractLabeledIsbn(text, labelPattern, digitCount) {
+  var labelMatch = text.match(labelPattern);
+  if (!labelMatch) return null;
+
+  var afterLabel = text.slice(labelMatch.index + labelMatch[0].length, labelMatch.index + labelMatch[0].length + 40);
+  var digitsOnly = afterLabel.replace(/[^\dXx]/g, '');
+  if (digitsOnly.length < digitCount) return null;
+
+  return digitsOnly.slice(0, digitCount);
+}
+
+// Amazon and Open Library both display ISBNs with hyphens; OpenURL params need them stripped.
+function normalizeIsbn(value) {
+  return (value || '').replace(/[\s-]/g, '');
+}
+
+function fillFieldsFromPastedText(text) {
+  var filled = [];
+
+  var publisherMatch = text.match(/Publisher\s*[:\-]\s*([^\n\r(]+?)\s*(?:\(([^)]+)\))?\s*(?:\n|\r|$)/i);
+  if (publisherMatch) {
+    var publisherName = publisherMatch[1].replace(/;.*$/, '').trim();
+    if (publisherName) {
+      document.getElementById('bookPublisher').value = publisherName;
+      filled.push('publisher');
+    }
+    if (publisherMatch[2]) {
+      var yearFromPublisher = publisherMatch[2].match(/\d{4}/);
+      if (yearFromPublisher) {
+        document.getElementById('bookYear').value = yearFromPublisher[0];
+        filled.push('year');
+      }
+    }
+  }
+
+  if (!document.getElementById('bookYear').value) {
+    var yearFallback = text.match(/\b(19|20)\d{2}\b/);
+    if (yearFallback) {
+      document.getElementById('bookYear').value = yearFallback[0];
+      filled.push('year');
+    }
+  }
+
+  var authorMatch = text.match(/^\s*by\s+([^\n\r]+)/im);
+  if (authorMatch && !document.getElementById('bookAuthor').value) {
+    document.getElementById('bookAuthor').value = authorMatch[1].trim();
+    filled.push('author');
+  }
+
+  return filled;
+}
+
+// Kindle-only ASINs look like B0 followed by 8 more letters/digits and aren't valid ISBNs.
+function isKindleAsin(code) {
+  return /^B[0-9A-Z]{9}$/i.test(code);
+}
+
+function guessTitleFromText(text) {
+  var lines = text.split(/\r?\n/).map(function (line) { return line.trim(); }).filter(Boolean);
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i];
+    if (/^by\s+/i.test(line)) continue;
+    if (/^(Publisher|Language|ISBN|Print length|File size|Word Wise|Sticky notes|Screen Reader|Enhanced typesetting|Page Flip|https?:)/i.test(line)) continue;
+    return line;
+  }
+  return '';
+}
+
+function lookupBookDetails(isbn) {
+  var errorEl = document.getElementById('errorMsg');
+  var statusEl = document.getElementById('lookupStatus');
+
+  statusEl.textContent = 'Looking up ISBN ' + isbn + '...';
+
+  // Open Library's book API is free and CORS-enabled, so it can be called directly from the browser.
+  fetch('https://openlibrary.org/api/books?bibkeys=ISBN:' + encodeURIComponent(isbn) + '&format=json&jscmd=data')
+    .then(function (response) { return response.json(); })
+    .then(function (data) {
+      var book = data['ISBN:' + isbn];
+      if (!book) {
+        statusEl.textContent = 'Found ISBN ' + isbn + ', but no details from the lookup. Please review the fields below.';
+        return;
+      }
+
+      if (book.title) {
+        document.getElementById('bookTitle').value = book.title;
+      }
+      if (book.authors && book.authors.length) {
+        document.getElementById('bookAuthor').value = book.authors.map(function (a) { return a.name; }).join('; ');
+      }
+      if (book.publishers && book.publishers.length) {
+        document.getElementById('bookPublisher').value = book.publishers.map(function (p) { return p.name; }).join('; ');
+      }
+      if (book.publish_date) {
+        var yearMatch = book.publish_date.match(/\d{4}/);
+        document.getElementById('bookYear').value = yearMatch ? yearMatch[0] : book.publish_date;
+      }
+
+      statusEl.textContent = 'Book details filled in below. Please review before generating the link.';
+    })
+    .catch(function () {
+      statusEl.textContent = 'Lookup failed for ISBN ' + isbn + '. Please fill in the remaining fields manually.';
+    });
+}
+
+function extractAndLookup() {
+  var errorEl = document.getElementById('errorMsg');
+  var statusEl = document.getElementById('lookupStatus');
+  errorEl.textContent = '';
+  statusEl.textContent = '';
+
+  var text = document.getElementById('pageContent').value;
+  if (!text.trim()) {
+    errorEl.textContent = 'Please paste the Amazon page content or URL first.';
+    return;
+  }
+
+  var code = extractIsbn(text);
+  if (!code) {
+    errorEl.textContent = 'Could not find an ISBN or ASIN in the pasted content. Please fill in the fields manually.';
+    return;
+  }
+
+  fillFieldsFromPastedText(text);
+
+  if (isKindleAsin(code)) {
+    var titleGuess = document.getElementById('bookTitle').value.trim() || guessTitleFromText(text);
+    resolveAsinToIsbn(code, titleGuess);
+  } else {
+    document.getElementById('manualIsbn').value = code;
+    lookupBookDetails(code);
+  }
+}
+
+function resolveAsinToIsbn(asin, titleGuess) {
+  var errorEl = document.getElementById('errorMsg');
+  var statusEl = document.getElementById('lookupStatus');
+
+  if (!titleGuess) {
+    errorEl.textContent = 'That looks like a Kindle ASIN (' + asin + '), not an ISBN. Amazon does not offer a free ASIN-to-ISBN lookup, so please add a Title above and try again, or enter the ISBN manually.';
+    return;
+  }
+
+  statusEl.textContent = 'That looks like a Kindle ASIN (' + asin + '). Searching Open Library by title "' + titleGuess + '" for a matching print ISBN...';
+
+  // Open Library's search API can find a print edition's ISBN by title when only a Kindle ASIN is available.
+  fetch('https://openlibrary.org/search.json?q=' + encodeURIComponent(titleGuess) + '&fields=isbn,title,author_name,publisher,first_publish_year&limit=1')
+    .then(function (response) { return response.json(); })
+    .then(function (data) {
+      var doc = data.docs && data.docs[0];
+      var isbn = doc && doc.isbn && doc.isbn[0];
+      if (!isbn) {
+        statusEl.textContent = 'Could not find a matching print ISBN for "' + titleGuess + '". Please enter the ISBN manually if you have it.';
+        return;
+      }
+      isbn = normalizeIsbn(isbn);
+      document.getElementById('manualIsbn').value = isbn;
+      lookupBookDetails(isbn);
+    })
+    .catch(function () {
+      statusEl.textContent = 'ASIN-to-ISBN search failed. Please enter the ISBN manually if you have it.';
+    });
+}
+
+document.getElementById('extractBtn').addEventListener('click', extractAndLookup);
+
+document.getElementById('converterForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  var errorEl = document.getElementById('errorMsg');
+  var resultEl = document.getElementById('result');
+  var resultLink = document.getElementById('resultLink');
+
+  errorEl.textContent = '';
+  resultEl.style.display = 'none';
+
+  var manualIsbn = document.getElementById('manualIsbn').value.trim();
+  var pageContent = document.getElementById('pageContent').value.trim();
+  var bookTitle = document.getElementById('bookTitle').value.trim();
+  var bookAuthor = document.getElementById('bookAuthor').value.trim();
+  var bookPublisher = document.getElementById('bookPublisher').value.trim();
+  var bookYear = document.getElementById('bookYear').value.trim();
+
+  var isbn = normalizeIsbn(manualIsbn) || (pageContent && extractIsbn(pageContent));
+
+  if (!isbn) {
+    errorEl.textContent = 'Could not find an ISBN. Please paste the Amazon page content or URL and click "Extract ISBN & Look Up Book Details".';
+    return;
+  }
+
+  if (isKindleAsin(isbn)) {
+    errorEl.textContent = 'That looks like a Kindle ASIN (' + isbn + '), not an ISBN. Please use the "Extract ISBN & Look Up Book Details" button to resolve it, or enter the print ISBN manually.';
+    return;
+  }
+
+  var finalUrl = 'https://www.worldcat.org/isbn/' + encodeURIComponent(isbn);
+
+  resultLink.href = finalUrl;
+  resultLink.textContent = finalUrl;
+  resultEl.style.display = 'block';
+});
+</script>
+
+</body>
+</html>
