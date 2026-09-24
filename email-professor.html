@@ -17,6 +17,13 @@ layout: tool
   textarea { min-height: 70px; resize: vertical; }
   .field { margin-bottom: 14px; }
   .field:last-child { margin-bottom: 0; }
+  .step { display: none; }
+  .step.active-step { display: block; }
+  .step .field { display: none; }
+  .step .field.active-question { display: block; }
+  .stepper-status { color: #4b5563; font-size: 14px; font-weight: 600; margin: 0 0 10px; }
+  .btn-back, .btn-next { background: #2563eb; color: #fff; font-size: 15px; font-weight: 600; padding: 9px 14px; border-radius: 10px; border: 1px solid #1d4ed8; cursor: pointer; }
+  .btn-back[hidden], .btn-next[hidden], .btn-generate[hidden] { display: none; }
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; margin-top: 4px; }
   @media (max-width: 780px) { .two-col { grid-template-columns: 1fr; } }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -191,8 +198,11 @@ layout: tool
   </div>
 </div>
 
+<p class="stepper-status" id="stepperStatus" aria-live="polite"></p>
 <div class="controls">
-  <button class="btn-generate" onclick="generateEmail()">Generate Email</button>
+  <button class="btn-back" id="backButton" type="button" onclick="previousStep()">Back</button>
+  <button class="btn-next" id="nextButton" type="button" onclick="nextStep()">Next</button>
+  <button class="btn-generate" id="generateButton" onclick="generateEmail()" hidden>Generate Email</button>
   <button class="btn-copy" onclick="copyEmail()">Copy to Clipboard</button>
   <button class="btn-clear" onclick="clearForm()">Clear</button>
   <span class="copied-msg" id="copiedMsg">Copied!</span>
@@ -214,11 +224,58 @@ function scenarioVal() {
   return el ? el.value : '';
 }
 
-function updateFields() {
+let currentStep = 0;
+
+function questionFields() {
+  const sharedFields = Array.from(document.querySelectorAll('.step:not([id^="fields-"]) .field'));
   const scenario = scenarioVal();
-  ['lateAdd', 'absence', 'assignment', 'research', 'somethingElse'].forEach(function (s) {
-    document.getElementById('fields-' + s).style.display = (s === scenario) ? 'block' : 'none';
+  const scenarioFields = Array.from(document.querySelectorAll('#fields-' + scenario + ' .field'));
+  return sharedFields.concat(scenarioFields);
+}
+
+function renderStep() {
+  const fields = questionFields();
+  if (currentStep >= fields.length) currentStep = fields.length - 1;
+
+  document.querySelectorAll('.step').forEach(function (step) {
+    step.classList.remove('active-step');
   });
+  document.querySelectorAll('.step .field').forEach(function (field) {
+    field.classList.remove('active-question');
+  });
+
+  const activeField = fields[currentStep];
+  if (!activeField) return;
+  activeField.parentElement.closest('.step').classList.add('active-step');
+  activeField.classList.add('active-question');
+
+  const isFirst = currentStep === 0;
+  const isLast = currentStep === fields.length - 1;
+  document.getElementById('backButton').hidden = isFirst;
+  document.getElementById('nextButton').hidden = isLast;
+  document.getElementById('generateButton').hidden = !isLast;
+  document.getElementById('stepperStatus').textContent = 'Question ' + (currentStep + 1) + ' of ' + fields.length;
+}
+
+function nextStep() {
+  const fields = questionFields();
+  if (currentStep < fields.length - 1) {
+    currentStep += 1;
+    renderStep();
+  }
+}
+
+function previousStep() {
+  if (currentStep > 0) {
+    currentStep -= 1;
+    renderStep();
+  }
+}
+
+function updateFields() {
+  const fields = questionFields();
+  if (currentStep >= fields.length) currentStep = fields.length - 1;
+  renderStep();
 }
 
 function fallback(value, placeholderText) {
