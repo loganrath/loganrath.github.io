@@ -566,7 +566,7 @@ color: #262626;}
         </div>
         <div class="col-sm-8">
           <!-- Customizable Parameters -->
-          <input name="institution" type="hidden" value="01SUNY_BRO" /> <input name="vid" type="hidden" value="01SUNY_BRO:01SUNY_BRO" /> <input id="primoTab" name="tab" type="hidden" value="Everything" /> <input id="primoScope" name="search_scope" type="hidden" value="everythingSLS" /> <input name="mode" type="hidden" value="Basic" /> <!-- Fixed parameters -->
+          <input name="institution" type="hidden" value="01SUNY_BRO" /> <input id="primoVid" name="vid" type="hidden" value="01SUNY_BRO:01SUNY_BRO" /> <input id="primoTab" name="tab" type="hidden" value="Everything" /> <input id="primoScope" name="search_scope" type="hidden" value="everythingSLS" /> <input name="mode" type="hidden" value="Basic" /> <!-- Fixed parameters -->
            <input name="displayMode" type="hidden" value="full" /> <input name="bulkSize" type="hidden" value="10" /> <input name="highlight" type="hidden" value="true" /> <input name="dum" type="hidden" value="true" /> <input id="primoQuery" name="query" type="hidden" /> <input name="displayField" type="hidden" value="all" /> <!-- Enable this if "Expand My Results" is enabled by default in Views Wizard -->
            <input name="pcAvailabiltyMode" type="hidden" value="true" />
           <div class="input-group">
@@ -593,9 +593,26 @@ color: #262626;}
         </div>
       </div>
     </form>
+    <fieldset class="nopad nomargin" style="border:0; color:#fff; padding-bottom:1em">
+      <legend class="show-for-screenreaders">Search interface</legend>
+      <label style="display:inline-block; margin-right:1.5em; cursor:pointer"><input type="radio" name="searchInterface" value="classic" checked="checked" /> Classic</label>
+      <label style="display:inline-block; cursor:pointer"><input type="radio" name="searchInterface" value="nde" /> NDE</label>
+    </fieldset>
   </div>
 </div>
 <script>/*<![CDATA[*/
+                        document.addEventListener("DOMContentLoaded", function() {
+                                var form = document.getElementById("libSearchForm");
+                                var vid = document.getElementById("primoVid");
+                                var ifaceRadios = document.getElementsByName("searchInterface");
+                                for (var i = 0; i < ifaceRadios.length; i++) {
+                                        ifaceRadios[i].addEventListener("change", function() {
+                                                var nde = this.value === "nde";
+                                                form.action = nde ? "https://suny-bro.primo.exlibrisgroup.com/nde/search" : "https://suny-bro.primo.exlibrisgroup.com/discovery/search";
+                                                vid.value = nde ? "01SUNY_BRO:NDE" : "01SUNY_BRO:01SUNY_BRO";
+                                        });
+                                }
+                        });
                         document.addEventListener("DOMContentLoaded", function() {
                                 // Attach event listener to form submission
                                 document.getElementById("libSearchForm").addEventListener("submit", searchPrimo);
@@ -621,16 +638,16 @@ color: #262626;}
                                 var selectedOption = document.querySelector('input[name="searchOptionsRadio"]:checked').value;
                                 switch(selectedOption) {
                                         case "prart10":
-                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed,lk" />';
-                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles,lk" />';
-                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + ',lk" />';
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed" />';
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles" />';
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + '" />';
                                                 break;
                                         case "books":
-                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books" />';
                                                 break;
                                         case "ebooks":
-                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books,lk" />';
-                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources,lk" />';
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books" />';
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,online_resources" />';
                                                 break;
                                         case "reserves":
                                                 document.getElementById('primoScope').value = 'CourseReserves';
@@ -642,7 +659,9 @@ color: #262626;}
                         function searchPrimo(event)
                         {
                                 event.preventDefault(); // Prevent default form submission
-                                document.getElementById("primoQuery").value = "any,contains," + document.getElementById("libSearch").value;
+                                var nde = document.querySelector('input[name="searchInterface"]:checked').value === "nde";
+                                var term = document.getElementById("libSearch").value;
+                                document.getElementById("primoQuery").value = nde ? term : "any,contains," + term;
                                 document.getElementById("libSearchForm").submit(); // Manually submit the form
                         }
 
