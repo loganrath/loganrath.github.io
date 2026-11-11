@@ -643,9 +643,10 @@ color: #262626;}
                                         case "prart10":
                                                 facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed" />';
                                                 facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles" />';
-                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + '" />';
                                                 if (document.querySelector('input[name="searchInterface"]:checked').value === "nde") {
                                                         facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="creationdate,include,%5B' + yearTenYearsAgo + '%20TO%20' + yearCurrent + '%5D" />';
+                                                } else {
+                                                        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + '" />';
                                                 }
                                                 break;
                                         case "books":
