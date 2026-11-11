@@ -641,11 +641,12 @@ color: #262626;}
                                 var selectedOption = document.querySelector('input[name="searchOptionsRadio"]:checked').value;
                                 switch(selectedOption) {
                                         case "prart10":
-                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed" />';
+                                                if (document.querySelector('input[name="searchInterface"]:checked').value !== "nde") {
+                                                        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed" />';
+                                                }
                                                 facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles" />';
-                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + '" />';
-                                                if (document.querySelector('input[name="searchInterface"]:checked').value === "nde") {
-                                                        facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="creationdate,include,%5B2017%20TO%202027%5D" />';
+                                                if (document.querySelector('input[name="searchInterface"]:checked').value !== "nde") {
+                                                        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + '" />';
                                                 }
                                                 break;
                                         case "books":
@@ -667,7 +668,20 @@ color: #262626;}
                                 event.preventDefault(); // Prevent default form submission
                                 var nde = document.querySelector('input[name="searchInterface"]:checked').value === "nde";
                                 var term = document.getElementById("libSearch").value;
-                                document.getElementById("primoQuery").value = nde ? term : "any,contains," + term;
+                                if (nde) {
+                                        var url = "https://suny-bro.primo.exlibrisgroup.com/nde/search?query=" + encodeURIComponent(term)
+                                                + "&tab=" + encodeURIComponent(document.getElementById("primoTab").value)
+                                                + "&search_scope=" + encodeURIComponent(document.getElementById("primoScope").value)
+                                                + "&classify=true";
+                                        var facets = document.querySelectorAll('#extrafacets input[name="facet"]');
+                                        for (var i = 0; i < facets.length; i++) {
+                                                url += "&facet=" + facets[i].value;
+                                        }
+                                        url += "&offset=0&lang=en&vid=01SUNY_BRO:NDE";
+                                        window.location.href = url;
+                                        return;
+                                }
+                                document.getElementById("primoQuery").value = "any,contains," + term;
                                 document.getElementById("libSearchForm").submit(); // Manually submit the form
                         }
 
