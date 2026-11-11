@@ -594,9 +594,9 @@ color: #262626;}
       </div>
     </form>
     <fieldset class="nopad nomargin" style="border:0; color:#fff; padding-bottom:1em">
-      <legend class="show-for-screenreaders">Search interface</legend>
+      <legend style="border-top: 1px solid white; padding-top: 0.5em;">Choose your interface:</legend>
       <label style="display:inline-block; margin-right:1.5em; cursor:pointer"><input type="radio" name="searchInterface" value="classic" checked="checked" /> Classic</label>
-      <label style="display:inline-block; cursor:pointer"><input type="radio" name="searchInterface" value="nde" /> NDE</label>
+      <label style="display:inline-block; cursor:pointer"><input type="radio" name="searchInterface" value="nde" /> New</label>
     </fieldset>
   </div>
 </div>
@@ -610,6 +610,9 @@ color: #262626;}
                                                 var nde = this.value === "nde";
                                                 form.action = nde ? "https://suny-bro.primo.exlibrisgroup.com/nde/search" : "https://suny-bro.primo.exlibrisgroup.com/discovery/search";
                                                 vid.value = nde ? "01SUNY_BRO:NDE" : "01SUNY_BRO:01SUNY_BRO";
+                                                if (document.querySelector('input[name="searchOptionsRadio"]:checked').value === "prart10") {
+                                                        setFacets();
+                                                }
                                         });
                                 }
                         });
@@ -641,6 +644,9 @@ color: #262626;}
                                                 facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed" />';
                                                 facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles" />';
                                                 facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + '" />';
+                                                if (document.querySelector('input[name="searchInterface"]:checked').value === "nde") {
+                                                        facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="creationdate,include,%5B2017%20TO%202027%5D" />';
+                                                }
                                                 break;
                                         case "books":
                                                 facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,books" />';
