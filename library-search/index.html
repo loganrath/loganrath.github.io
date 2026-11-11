@@ -641,12 +641,11 @@ color: #262626;}
                                 var selectedOption = document.querySelector('input[name="searchOptionsRadio"]:checked').value;
                                 switch(selectedOption) {
                                         case "prart10":
-                                                if (document.querySelector('input[name="searchInterface"]:checked').value !== "nde") {
-                                                        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed" />';
-                                                }
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="tlevel,include,peer_reviewed" />';
                                                 facetsDiv.innerHTML += '<input type="hidden" name="facet" value="rtype,include,articles" />';
-                                                if (document.querySelector('input[name="searchInterface"]:checked').value !== "nde") {
-                                                        facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + '" />';
+                                                facetsDiv.innerHTML += '<input type="hidden" name="facet" value="searchcreationdate,include,' + yearTenYearsAgo + '|,|' + yearCurrent + '" />';
+                                                if (document.querySelector('input[name="searchInterface"]:checked').value === "nde") {
+                                                        facetsDiv.innerHTML += '<input type="hidden" name="mfacet" value="creationdate,include,%5B' + yearTenYearsAgo + '%20TO%20' + yearCurrent + '%5D" />';
                                                 }
                                                 break;
                                         case "books":
@@ -673,9 +672,9 @@ color: #262626;}
                                                 + "&tab=" + encodeURIComponent(document.getElementById("primoTab").value)
                                                 + "&search_scope=" + encodeURIComponent(document.getElementById("primoScope").value)
                                                 + "&classify=true";
-                                        var facets = document.querySelectorAll('#extrafacets input[name="facet"]');
+                                        var facets = document.querySelectorAll('#extrafacets input');
                                         for (var i = 0; i < facets.length; i++) {
-                                                url += "&facet=" + facets[i].value;
+                                                url += "&" + facets[i].name + "=" + facets[i].value;
                                         }
                                         url += "&offset=0&lang=en&vid=01SUNY_BRO:NDE";
                                         window.location.href = url;
